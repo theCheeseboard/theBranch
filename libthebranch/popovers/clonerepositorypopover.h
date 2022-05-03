@@ -1,6 +1,7 @@
 #ifndef CLONEREPOSITORYPOPOVER_H
 #define CLONEREPOSITORYPOPOVER_H
 
+#include "objects/forward_declares.h"
 #include <QWidget>
 
 namespace Ui {
@@ -17,7 +18,7 @@ class CloneRepositoryPopover : public QWidget {
 
     signals:
         void done();
-        void openRepository(Repository* repository);
+        void openRepository(RepositoryPtr repository);
 
     private slots:
         void on_titleLabel_backButtonClicked();

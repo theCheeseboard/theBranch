@@ -9,7 +9,7 @@
 #include <tpopover.h>
 
 struct RepositoryBrowserPrivate {
-        Repository* repository;
+        RepositoryPtr repository;
 };
 
 RepositoryBrowser::RepositoryBrowser(QWidget* parent) :
@@ -28,18 +28,22 @@ RepositoryBrowser::~RepositoryBrowser() {
     delete d;
 }
 
-void RepositoryBrowser::setRepository(Repository* repository) {
-    repository->disconnect(this);
+void RepositoryBrowser::setRepository(RepositoryPtr repository) {
+    if (d->repository) d->repository->disconnect(this);
     d->repository = repository;
 
-    connect(d->repository, &Repository::stateChanged, this, &RepositoryBrowser::updateRepositoryState);
-    connect(d->repository, &Repository::stateDescriptionChanged, this, [=] {
+    ui->commitsView->setRepository(repository);
+    ui->branchesView->setRepository(repository);
+    ui->repositoryStatus->setRepository(repository);
+
+    connect(d->repository.data(), &Repository::stateChanged, this, &RepositoryBrowser::updateRepositoryState);
+    connect(d->repository.data(), &Repository::stateDescriptionChanged, this, [=] {
         ui->stateDescription->setText(d->repository->stateDescription());
     });
-    connect(d->repository, &Repository::stateInformationalTextChanged, this, [=] {
+    connect(d->repository.data(), &Repository::stateInformationalTextChanged, this, [=] {
         ui->stateInformationalText->setText(d->repository->stateInformationalText());
     });
-    connect(d->repository, &Repository::stateProgressChanged, this, [=] {
+    connect(d->repository.data(), &Repository::stateProgressChanged, this, [=] {
         ui->stateProgress->setVisible(d->repository->stateProvidesProgress());
         ui->stateProgress->setValue(d->repository->stateProgress());
         ui->stateProgress->setMaximum(d->repository->stateTotalProgress());
@@ -53,7 +57,7 @@ void RepositoryBrowser::setRepository(Repository* repository) {
     ui->stateProgress->setMaximum(d->repository->stateTotalProgress());
 }
 
-Repository* RepositoryBrowser::repository() {
+RepositoryPtr RepositoryBrowser::repository() {
     return d->repository;
 }
 
@@ -76,7 +80,7 @@ void RepositoryBrowser::on_cloneButton_clicked() {
     popover->setPopoverWidth(SC_DPI_W(-200, this));
     popover->setPopoverSide(tPopover::Bottom);
     connect(jp, &CloneRepositoryPopover::done, popover, &tPopover::dismiss);
-    connect(jp, &CloneRepositoryPopover::openRepository, this, [=](Repository* repository) {
+    connect(jp, &CloneRepositoryPopover::openRepository, this, [=](RepositoryPtr repository) {
         this->setRepository(repository);
     });
     connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
@@ -95,7 +99,7 @@ void RepositoryBrowser::updateRepositoryState() {
 }
 
 void RepositoryBrowser::on_openRepositoryButton_clicked() {
-    Repository::repositoryForDirectoryUi(this)->then([=](Repository* repo) {
+    Repository::repositoryForDirectoryUi(this)->then([=](RepositoryPtr repo) {
         this->setRepository(repo);
     });
 }

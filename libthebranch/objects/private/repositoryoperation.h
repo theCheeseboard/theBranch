@@ -23,6 +23,7 @@ class RepositoryOperation : public QObject {
         void progressChanged();
         void done();
 
+        void putRepository(LGRepositoryPtr repository);
         void reloadRepository();
 };
 

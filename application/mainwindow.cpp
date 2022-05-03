@@ -87,7 +87,7 @@ void MainWindow::on_actionClone_Repository_triggered() {
     popover->setPopoverWidth(SC_DPI_W(-200, this));
     popover->setPopoverSide(tPopover::Bottom);
     connect(jp, &CloneRepositoryPopover::done, popover, &tPopover::dismiss);
-    connect(jp, &CloneRepositoryPopover::openRepository, this, [=](Repository* repository) {
+    connect(jp, &CloneRepositoryPopover::openRepository, this, [=](RepositoryPtr repository) {
         RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
         if (browser->repository() == nullptr) {
             browser->setRepository(repository);
@@ -108,7 +108,7 @@ void MainWindow::on_actionClone_Repository_triggered() {
 }
 
 void MainWindow::on_actionOpen_Repository_triggered() {
-    Repository::repositoryForDirectoryUi(this)->then([=](Repository* repo) {
+    Repository::repositoryForDirectoryUi(this)->then([=](RepositoryPtr repo) {
         RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
         if (browser->repository() == nullptr) {
             browser->setRepository(repo);

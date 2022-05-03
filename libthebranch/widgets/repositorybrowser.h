@@ -1,13 +1,13 @@
 #ifndef REPOSITORYBROWSER_H
 #define REPOSITORYBROWSER_H
 
+#include "objects/forward_declares.h"
 #include <QWidget>
 
 namespace Ui {
     class RepositoryBrowser;
 }
 
-class Repository;
 struct RepositoryBrowserPrivate;
 class RepositoryBrowser : public QWidget {
         Q_OBJECT
@@ -16,8 +16,8 @@ class RepositoryBrowser : public QWidget {
         explicit RepositoryBrowser(QWidget* parent = nullptr);
         ~RepositoryBrowser();
 
-        void setRepository(Repository* repository);
-        Repository* repository();
+        void setRepository(RepositoryPtr repository);
+        RepositoryPtr repository();
 
         QString title();
 

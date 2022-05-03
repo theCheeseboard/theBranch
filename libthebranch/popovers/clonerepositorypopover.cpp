@@ -46,12 +46,12 @@ void CloneRepositoryPopover::on_cloneButton_clicked() {
         return;
     }
 
-    if (!dir.entryList(QDir::NoDotAndDotDot).isEmpty()) {
+    if (!dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs | QDir::Hidden | QDir::System).isEmpty()) {
         tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory is not empty"));
         return;
     }
 
-    Repository* repo = Repository::cloneRepository(ui->cloneUrlEdit->text(), ui->cloneDirectoryEdit->text(), {});
+    RepositoryPtr repo = Repository::cloneRepository(ui->cloneUrlEdit->text(), ui->cloneDirectoryEdit->text(), {});
     emit openRepository(repo);
     emit done();
 }

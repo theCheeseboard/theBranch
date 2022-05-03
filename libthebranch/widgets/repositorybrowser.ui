@@ -240,6 +240,22 @@
             </item>
            </widget>
           </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>1</height>
+             </size>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="RepositoryStatusBar" name="repositoryStatus" native="true"/>
+          </item>
          </layout>
         </widget>
        </item>
@@ -258,8 +274,64 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="stackedWidget_2">
-         <widget class="QWidget" name="commitsPage"/>
-         <widget class="QWidget" name="branchesPage"/>
+         <widget class="QWidget" name="commitsPage">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="tTitleLabel" name="label_2">
+             <property name="text">
+              <string>Commits</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="CommitBrowser" name="commitsView"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="branchesPage">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="tTitleLabel" name="label_3">
+             <property name="text">
+              <string>Branches</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="BranchBrowser" name="branchesView"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -277,6 +349,27 @@
    <slots>
     <signal>switchingFrame(int)</signal>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>tTitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ttitlelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CommitBrowser</class>
+   <extends>QListView</extends>
+   <header>widgets/commitbrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BranchBrowser</class>
+   <extends>QListView</extends>
+   <header>widgets/branchbrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RepositoryStatusBar</class>
+   <extends>QWidget</extends>
+   <header>widgets/repositorystatusbar.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

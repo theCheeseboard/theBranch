@@ -12,23 +12,65 @@ cntp_find_pkgconfig(lgit libgit2 REQUIRED)
 
 set(SOURCES
     libthebranch_global.cpp
+
     objects/repository.cpp
+    objects/commitmodel.cpp
+    objects/branchmodel.cpp
+    objects/commit.cpp
+    objects/branch.cpp
+    objects/reference.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
+    popovers/snapinpopover.cpp popovers/snapinpopover.ui
+    popovers/snapin.cpp
+
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
+    widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
+    widgets/commitbrowser.cpp
+    widgets/branchbrowser.cpp
 
     objects/private/repositoryoperation.cpp
-    objects/private/repositorycloneoperation.cpp)
+    objects/private/repositorycloneoperation.cpp
+
+    objects/libgit/lgrepository.cpp
+    objects/libgit/lgreference.cpp
+    objects/libgit/lgrevwalk.cpp
+    objects/libgit/lgoid.cpp
+    objects/libgit/lgcommit.cpp
+    objects/libgit/lgsignature.cpp
+    objects/libgit/lgclone.cpp
+    objects/libgit/lgbranch.cpp
+)
 
 set(HEADERS
     libthebranch_global.h
     objects/repository.h
+    objects/commitmodel.h
+    objects/commit.h
+    objects/branch.h
+    objects/branchmodel.h
+    objects/reference.h
     popovers/clonerepositorypopover.h
-    widgets/repositorybrowser.h)
+    widgets/repositorybrowser.h
+    widgets/commitbrowser.h
+    widgets/branchbrowser.h
+    widgets/repositorystatusbar.h
+    objects/forward_declares.h
+    popovers/snapinpopover.h
+    popovers/snapin.h
+)
 
 set(PRIVATE_HEADERS
     objects/private/repositoryoperation.h
     objects/private/repositorycloneoperation.h
+    objects/libgit/lgrepository.h
+    objects/libgit/lgreference.h
+    objects/libgit/lgrevwalk.h
+    objects/libgit/lgoid.h
+    objects/libgit/lgcommit.h
+    objects/libgit/lgsignature.h
+    objects/libgit/lgclone.h
+    objects/libgit/lgbranch.h
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})

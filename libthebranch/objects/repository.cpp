@@ -1,20 +1,31 @@
 #include "repository.h"
 
+#include "branch.h"
+#include "libgit/lgrepository.h"
 #include "private/repositorycloneoperation.h"
+#include "reference.h"
+#include <QDirIterator>
 #include <QFileDialog>
+#include <QFileSystemWatcher>
 #include <git2.h>
 #include <tmessagebox.h>
 
 struct RepositoryPrivate {
-        git_repository* gitRepo = nullptr;
+        LGRepositoryPtr gitRepo;
         Repository::RepositoryState state = Repository::Invalid;
 
         QList<RepositoryOperation*> operations;
+        QFileSystemWatcher* watcher;
 };
 
 Repository::Repository(QObject* parent) :
     QObject{parent} {
     d = new RepositoryPrivate;
+    d->watcher = new QFileSystemWatcher();
+    connect(d->watcher, &QFileSystemWatcher::directoryChanged, this, [=] {
+        updateWatchedDirectories();
+        emit repositoryUpdated();
+    });
 }
 
 void Repository::putRepositoryOperation(RepositoryOperation* operation) {
@@ -25,12 +36,26 @@ void Repository::putRepositoryOperation(RepositoryOperation* operation) {
         emit stateInformationalTextChanged();
         emit stateProgressChanged();
         d->operations.removeAll(operation);
+
+        reloadRepositoryState();
     });
     connect(operation, &RepositoryOperation::stateChanged, this, &Repository::stateChanged);
     connect(operation, &RepositoryOperation::stateDescriptionChanged, this, &Repository::stateDescriptionChanged);
     connect(operation, &RepositoryOperation::stateInformationalTextChanged, this, &Repository::stateInformationalTextChanged);
     connect(operation, &RepositoryOperation::progressChanged, this, &Repository::stateProgressChanged);
+    connect(operation, &RepositoryOperation::putRepository, this, [=](LGRepositoryPtr repository) {
+        d->gitRepo = repository;
+        reloadRepositoryState();
+    });
     connect(operation, &RepositoryOperation::reloadRepository, this, &Repository::reloadRepositoryState);
+}
+
+void Repository::updateWatchedDirectories() {
+    QDirIterator iterator(d->gitRepo->path(), QDirIterator::Subdirectories);
+    while (iterator.hasNext()) {
+        iterator.next();
+        if (iterator.fileInfo().isDir()) d->watcher->addPath(iterator.filePath());
+    }
 }
 
 Repository::~Repository() {
@@ -67,23 +92,37 @@ bool Repository::stateProvidesProgress() {
     return false;
 }
 
-Repository* Repository::cloneRepository(QString cloneUrl, QString directory, QVariantMap options) {
+ReferencePtr Repository::head() {
+    LGReferencePtr ref = d->gitRepo->head();
+    if (!ref) return nullptr;
+    return Reference::referenceForLgReference(ref);
+}
+
+QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
+    QList<BranchPtr> branches;
+    for (LGBranchPtr branch : d->gitRepo->branches(flags)) {
+        branches.append(BranchPtr(Branch::branchForLgBranch(branch)));
+    }
+    return branches;
+}
+
+RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, QVariantMap options) {
     RepositoryOperation* operation = new RepositoryCloneOperation(cloneUrl, directory, options);
 
     Repository* repo = new Repository();
     repo->putRepositoryOperation(operation);
-    git_repository_open(&repo->d->gitRepo, directory.toUtf8().data());
-    return repo;
+    return RepositoryPtr(repo);
 }
 
-tPromise<Repository*>* Repository::repositoryForDirectoryUi(QWidget* parent) {
-    return TPROMISE_CREATE_SAME_THREAD(Repository*, {
+tPromise<RepositoryPtr>* Repository::repositoryForDirectoryUi(QWidget* parent) {
+    return TPROMISE_CREATE_SAME_THREAD(RepositoryPtr, {
         QFileDialog* dialog = new QFileDialog(parent);
         dialog->setAcceptMode(QFileDialog::AcceptOpen);
         dialog->setFileMode(QFileDialog::Directory);
+        dialog->setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
         connect(
             dialog, &QFileDialog::accepted, parent, [=] {
-                Repository* repo = Repository::repositoryForDirectory(dialog->selectedFiles().first());
+                RepositoryPtr repo = Repository::repositoryForDirectory(dialog->selectedFiles().first());
                 if (repo) {
                     res(repo);
                 } else {
@@ -110,7 +149,7 @@ tPromise<Repository*>* Repository::repositoryForDirectoryUi(QWidget* parent) {
     });
 }
 
-Repository* Repository::repositoryForDirectory(QString directory) {
+RepositoryPtr Repository::repositoryForDirectory(QString directory) {
     git_buf buf = GIT_BUF_INIT;
     int retval = git_repository_discover(&buf, directory.toUtf8().data(), false, nullptr);
 
@@ -120,9 +159,9 @@ Repository* Repository::repositoryForDirectory(QString directory) {
     git_buf_dispose(&buf);
 
     Repository* repo = new Repository();
-    git_repository_open(&repo->d->gitRepo, path.toUtf8().data());
+    repo->d->gitRepo.reset(LGRepository::open(path));
     repo->reloadRepositoryState();
-    return repo;
+    return RepositoryPtr(repo);
 }
 
 QString Repository::gitRepositoryRootForDirectory(QString directory) {
@@ -138,9 +177,14 @@ void Repository::reloadRepositoryState() {
 
     d->state = Idle;
     emit stateChanged();
+    updateWatchedDirectories();
+    emit repositoryUpdated();
 }
 
 QString Repository::repositoryPath() {
-    QString gitFolder = QString::fromUtf8(git_repository_path(d->gitRepo));
-    return QDir::cleanPath(QDir(gitFolder).absoluteFilePath(".."));
+    return QDir::cleanPath(QDir(d->gitRepo->path()).absoluteFilePath(".."));
+}
+
+LGRepositoryPtr Repository::git_repository() {
+    return d->gitRepo;
 }
