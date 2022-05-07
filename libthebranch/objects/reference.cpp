@@ -19,9 +19,13 @@ Reference::~Reference() {
 
 BranchPtr Reference::asBranch() {
     if (d->reference->isBranch()) {
-        return Branch::branchForLgBranch(LGBranchPtr(new LGBranch(d->reference->git_reference())));
+        return Branch::branchForLgBranch(LGBranchPtr(new LGBranch(d->reference->dup()->take_git_refernce())));
     }
     return nullptr;
+}
+
+LGReferencePtr Reference::git_reference() {
+    return d->reference;
 }
 
 QString Reference::name() {

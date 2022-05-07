@@ -37,6 +37,8 @@ QVariant BranchModel::data(const QModelIndex& index, int role) const {
     switch (role) {
         case Qt::DisplayRole:
             return branch->name();
+        case Branch:
+            return QVariant::fromValue(branch);
     }
 
     return QVariant();

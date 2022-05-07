@@ -2,6 +2,7 @@
 #define REPOSITORY_H
 
 #include "branch.h"
+#include "errorresponse.h"
 #include "forward_declares.h"
 #include "libthebranch_global.h"
 #include <QObject>
@@ -37,6 +38,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         ReferencePtr head();
         QList<BranchPtr> branches(THEBRANCH::ListBranchFlags flags);
 
+        ErrorResponse setHeadAndCheckout(ReferencePtr reference);
+
         void reloadRepositoryState();
 
         QString repositoryPath();
@@ -51,6 +54,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
     protected:
         friend CommitModel;
         friend BranchModel;
+        friend Merge;
         LGRepositoryPtr git_repository();
 
     private:

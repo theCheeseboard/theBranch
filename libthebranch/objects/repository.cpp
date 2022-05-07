@@ -1,6 +1,7 @@
 #include "repository.h"
 
 #include "branch.h"
+#include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
 #include "private/repositorycloneoperation.h"
 #include "reference.h"
@@ -104,6 +105,15 @@ QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
         branches.append(BranchPtr(Branch::branchForLgBranch(branch)));
     }
     return branches;
+}
+
+ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {
+    if (CHK_ERR(d->gitRepo->checkoutTree(reference->git_reference(), {}))) return error;
+    if (BranchPtr branch = reference->asBranch()) {
+        // TODO: Create local branch (or switch to local branch)
+    }
+    d->gitRepo->setHead(reference->name());
+    return ErrorResponse();
 }
 
 RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, QVariantMap options) {

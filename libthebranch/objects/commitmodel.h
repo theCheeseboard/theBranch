@@ -17,7 +17,8 @@ class CommitModel : public QAbstractListModel {
         enum CommitModelRole {
             CommitHash = Qt::UserRole,
             CommitMessage,
-            AuthorName
+            AuthorName,
+            Commit
         };
 
         void setStartPoint(QString startPoint);

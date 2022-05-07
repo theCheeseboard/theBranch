@@ -1,6 +1,7 @@
 #ifndef LGREPOSITORY_H
 #define LGREPOSITORY_H
 
+#include "../errorresponse.h"
 #include "../forward_declares.h"
 #include <QObject>
 
@@ -14,9 +15,15 @@ class LGRepository : public QObject {
 
         static LGRepository* open(QString path);
 
-        QString path();
         LGReferencePtr head();
+        void setHead(QString head);
+
+        QString path();
         QList<LGBranchPtr> branches(THEBRANCH::ListBranchFlags flags);
+
+        LGIndexPtr index();
+
+        ErrorResponse checkoutTree(LGReferencePtr revision, QVariantMap options);
 
         git_repository* git_repository();
 

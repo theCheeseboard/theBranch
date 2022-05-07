@@ -1,7 +1,7 @@
 #include "snapinpopover.h"
 #include "ui_snapinpopover.h"
 
-#include "snapin.h"
+#include "snapins/snapin.h"
 
 struct SnapInPopoverPrivate {
 };
@@ -23,4 +23,8 @@ SnapInPopover::~SnapInPopover() {
 void SnapInPopover::pushSnapIn(SnapIn* snapin) {
     ui->stackedWidget->addWidget(snapin);
     ui->stackedWidget->setCurrentWidget(snapin);
+
+    connect(snapin, &SnapIn::done, this, [=] {
+        emit done();
+    });
 }

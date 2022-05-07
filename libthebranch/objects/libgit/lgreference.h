@@ -1,6 +1,7 @@
 #ifndef LGREFERENCE_H
 #define LGREFERENCE_H
 
+#include "../errorresponse.h"
 #include "../forward_declares.h"
 #include <QObject>
 
@@ -12,11 +13,17 @@ class LGReference : public QObject {
         LGReference(git_reference* git_reference);
         ~LGReference();
 
-        git_reference* git_reference();
+        struct git_reference* git_reference();
+        LGReferencePtr dup();
+        struct git_reference* take_git_refernce();
+
+        ErrorResponse setTarget(LGOidPtr oid, QString reflogMessage);
 
         bool isBranch();
         QString name();
         QString shorthand();
+
+        LGAnnotatedCommitPtr toAnnotatedCommit(LGRepositoryPtr repository);
 
         LGReferencePtr resolve();
         static LGOidPtr nameToId(LGRepositoryPtr repository, QString name);

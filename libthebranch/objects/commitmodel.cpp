@@ -77,6 +77,8 @@ QVariant CommitModel::data(const QModelIndex& index, int role) const {
             return commit->commitHash();
         case AuthorName:
             return commit->authorName();
+        case Commit:
+            return QVariant::fromValue(commit);
     }
 
     return QVariant();

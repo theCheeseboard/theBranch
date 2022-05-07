@@ -11,6 +11,8 @@ class Branch : public QObject {
     public:
         ~Branch();
 
+        ReferencePtr toReference();
+
         QString name();
 
     signals:

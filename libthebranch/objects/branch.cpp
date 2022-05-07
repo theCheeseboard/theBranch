@@ -1,6 +1,10 @@
 #include "branch.h"
 
 #include "libgit/lgbranch.h"
+#include "libgit/lgreference.h"
+#include "reference.h"
+
+#include <git2.h>
 
 struct BranchPrivate {
         LGBranchPtr branch;
@@ -8,6 +12,10 @@ struct BranchPrivate {
 
 Branch::~Branch() {
     delete d;
+}
+
+ReferencePtr Branch::toReference() {
+    return Reference::referenceForLgReference(LGReferencePtr(new LGReference(d->branch->dup()->take_git_reference())));
 }
 
 QString Branch::name() {

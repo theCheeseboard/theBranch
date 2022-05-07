@@ -13,12 +13,26 @@ LGBranch::LGBranch(struct git_reference* git_branch) :
 }
 
 LGBranch::~LGBranch() {
-    git_reference_free(d->git_reference);
-    delete d;
+    if (d->git_reference) {
+        git_reference_free(d->git_reference);
+        delete d;
+    }
 }
 
 git_reference* LGBranch::git_reference() {
     return d->git_reference;
+}
+
+git_reference* LGBranch::take_git_reference() {
+    struct git_reference* ref = d->git_reference;
+    d->git_reference = nullptr;
+    return ref;
+}
+
+LGBranchPtr LGBranch::dup() {
+    struct git_reference* ref;
+    ::git_reference_dup(&ref, d->git_reference);
+    return LGBranchPtr(new LGBranch(ref));
 }
 
 QString LGBranch::name() {

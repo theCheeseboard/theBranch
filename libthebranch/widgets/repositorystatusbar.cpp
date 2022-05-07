@@ -3,6 +3,10 @@
 
 #include "objects/reference.h"
 #include "objects/repository.h"
+#include "popovers/snapinpopover.h"
+#include "popovers/snapins/checkoutsnapin.h"
+#include <tmessagebox.h>
+#include <tpopover.h>
 
 struct RepositoryStatusBarPrivate {
         RepositoryPtr repository;
@@ -32,8 +36,21 @@ void RepositoryStatusBar::setRepository(RepositoryPtr repository) {
 void RepositoryStatusBar::updateRepository() {
     ReferencePtr ref = d->repository->head();
     if (ref) {
-        ui->headLabel->setText(ref->shorthand());
+        ui->checkoutButton->setText(ref->shorthand());
     } else {
-        ui->headLabel->setText(tr("(no HEAD)"));
+        ui->checkoutButton->setText(tr("(no HEAD)"));
     }
+}
+
+void RepositoryStatusBar::on_checkoutButton_clicked() {
+    SnapInPopover* jp = new SnapInPopover();
+    jp->pushSnapIn(new CheckoutSnapIn(d->repository));
+
+    tPopover* popover = new tPopover(jp);
+    popover->setPopoverWidth(SC_DPI_W(-200, this));
+    popover->setPopoverSide(tPopover::Bottom);
+    connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
+    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+    connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
+    popover->show(this->window());
 }

@@ -12,6 +12,10 @@ class BranchModel : public QAbstractListModel {
         explicit BranchModel(QObject* parent = nullptr);
         ~BranchModel();
 
+        enum BranchModelRole {
+            Branch = Qt::UserRole
+        };
+
         // Basic functionality:
         int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 

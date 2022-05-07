@@ -19,10 +19,15 @@ set(SOURCES
     objects/commit.cpp
     objects/branch.cpp
     objects/reference.cpp
+    objects/errorresponse.cpp
+    objects/merge.cpp
+    objects/gitoperation.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
-    popovers/snapin.cpp
+
+    popovers/snapins/snapin.cpp
+    popovers/snapins/checkoutsnapin.cpp popovers/snapins/checkoutsnapin.ui
 
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
@@ -40,6 +45,8 @@ set(SOURCES
     objects/libgit/lgsignature.cpp
     objects/libgit/lgclone.cpp
     objects/libgit/lgbranch.cpp
+    objects/libgit/lgannotatedcommit.cpp
+    objects/libgit/lgindex.cpp
 )
 
 set(HEADERS
@@ -50,14 +57,18 @@ set(HEADERS
     objects/branch.h
     objects/branchmodel.h
     objects/reference.h
+    objects/errorresponse.h
+    objects/merge.h
+    objects/gitoperation.h
     popovers/clonerepositorypopover.h
+    popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
     widgets/commitbrowser.h
     widgets/branchbrowser.h
     widgets/repositorystatusbar.h
     objects/forward_declares.h
     popovers/snapinpopover.h
-    popovers/snapin.h
+    popovers/snapins/snapin.h
 )
 
 set(PRIVATE_HEADERS
@@ -71,6 +82,8 @@ set(PRIVATE_HEADERS
     objects/libgit/lgsignature.h
     objects/libgit/lgclone.h
     objects/libgit/lgbranch.h
+    objects/libgit/lgannotatedcommit.h
+    objects/libgit/lgindex.h
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})

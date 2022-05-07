@@ -12,12 +12,15 @@ class Reference : public QObject {
 
         BranchPtr asBranch();
 
+        LGReferencePtr git_reference();
+
         QString name();
         QString shorthand();
 
     signals:
 
     protected:
+        friend Branch;
         friend Repository;
         static ReferencePtr referenceForLgReference(LGReferencePtr reference);
 
