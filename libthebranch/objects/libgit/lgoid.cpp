@@ -3,7 +3,7 @@
 #include <git2.h>
 
 struct LGOidPrivate {
-        git_oid git_oid;
+        ::git_oid git_oid;
 };
 
 LGOid::LGOid(struct git_oid git_oid) :
@@ -16,7 +16,7 @@ LGOid::~LGOid() {
     delete d;
 }
 
-git_oid& LGOid::git_oid() {
+git_oid& LGOid::gitOid() {
     return d->git_oid;
 }
 

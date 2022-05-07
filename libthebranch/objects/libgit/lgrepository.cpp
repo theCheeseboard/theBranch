@@ -7,13 +7,13 @@
 #include <git2.h>
 
 struct LGRepositoryPrivate {
-        git_repository* git_repository;
+        git_repository* gitRepository;
 };
 
 LGRepository::LGRepository(struct git_repository* git_repository) :
     QObject{nullptr} {
     d = new LGRepositoryPrivate();
-    d->git_repository = git_repository;
+    d->gitRepository = git_repository;
 }
 
 LGRepository* LGRepository::open(QString path) {
@@ -23,17 +23,17 @@ LGRepository* LGRepository::open(QString path) {
 }
 
 QString LGRepository::path() {
-    return QString::fromUtf8(git_repository_path(d->git_repository));
+    return QString::fromUtf8(git_repository_path(d->gitRepository));
 }
 
 LGReferencePtr LGRepository::head() {
     git_reference* head;
-    if (git_repository_head(&head, d->git_repository) != 0) return nullptr;
+    if (git_repository_head(&head, d->gitRepository) != 0) return nullptr;
     return LGReferencePtr(new LGReference(head));
 }
 
 void LGRepository::setHead(QString head) {
-    git_repository_set_head(d->git_repository, head.toUtf8().data());
+    git_repository_set_head(d->gitRepository, head.toUtf8().data());
 }
 
 QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
@@ -44,7 +44,7 @@ QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
     if (flags == THEBRANCH::LocalBranches) gitFlags = GIT_BRANCH_LOCAL;
 
     git_branch_iterator* iterator;
-    if (git_branch_iterator_new(&iterator, d->git_repository, gitFlags) != 0) return {};
+    if (git_branch_iterator_new(&iterator, d->gitRepository, gitFlags) != 0) return {};
 
     git_reference* reference;
     git_branch_t type;
@@ -57,7 +57,7 @@ QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
 
 LGIndexPtr LGRepository::index() {
     git_index* index;
-    if (git_repository_index(&index, d->git_repository) != 0) {
+    if (git_repository_index(&index, d->gitRepository) != 0) {
         return nullptr;
     }
     return LGIndexPtr(new LGIndex(index));
@@ -65,13 +65,13 @@ LGIndexPtr LGRepository::index() {
 
 ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap options) {
     git_object* obj;
-    if (git_revparse_single(&obj, d->git_repository, revision->name().toUtf8().data()) != 0) {
+    if (git_revparse_single(&obj, d->gitRepository, revision->name().toUtf8().data()) != 0) {
         const git_error* err = git_error_last();
         return ErrorResponse(ErrorResponse::UnspecifiedError, err->message);
     }
 
     ErrorResponse response = performCheckout([=](git_checkout_options* checkoutOptions) {
-        return git_checkout_tree(d->git_repository, obj, checkoutOptions);
+        return git_checkout_tree(d->gitRepository, obj, checkoutOptions);
     },
         options);
 
@@ -82,13 +82,13 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
 
 ErrorResponse LGRepository::checkoutIndex(LGIndexPtr index, QVariantMap options) {
     return performCheckout([=](git_checkout_options* checkoutOptions) {
-        return git_checkout_index(d->git_repository, index->git_index(), checkoutOptions);
+        return git_checkout_index(d->gitRepository, index->gitIndex(), checkoutOptions);
     },
         options);
 }
 
 LGRepository::RepositoryState LGRepository::state() {
-    git_repository_state_t state = static_cast<git_repository_state_t>(git_repository_state(d->git_repository));
+    git_repository_state_t state = static_cast<git_repository_state_t>(git_repository_state(d->gitRepository));
     switch (state) {
         case GIT_REPOSITORY_STATE_NONE:
             return IdleRepositoryState;
@@ -99,16 +99,16 @@ LGRepository::RepositoryState LGRepository::state() {
 }
 
 void LGRepository::cleanupState() {
-    git_repository_state_cleanup(d->git_repository);
+    git_repository_state_cleanup(d->gitRepository);
 }
 
 LGRepository::~LGRepository() {
-    git_repository_free(d->git_repository);
+    git_repository_free(d->gitRepository);
     delete d;
 }
 
-git_repository* LGRepository::git_repository() {
-    return d->git_repository;
+git_repository* LGRepository::gitRepository() {
+    return d->gitRepository;
 }
 
 ErrorResponse LGRepository::performCheckout(std::function<int(git_checkout_options*)> specificCheckout, QVariantMap options) {

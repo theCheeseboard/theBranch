@@ -6,7 +6,7 @@
 #include <git2.h>
 
 struct LGCommitPrivate {
-        git_commit* git_commit;
+        ::git_commit* git_commit;
 };
 
 LGCommit::LGCommit(struct git_commit* git_commit) :
@@ -22,11 +22,11 @@ LGCommit::~LGCommit() {
 
 LGCommitPtr LGCommit::lookup(LGRepositoryPtr repo, LGOidPtr oid) {
     struct git_commit* commit;
-    if (git_commit_lookup(&commit, repo->git_repository(), &oid->git_oid()) != 0) return nullptr;
+    if (git_commit_lookup(&commit, repo->gitRepository(), &oid->gitOid()) != 0) return nullptr;
     return LGCommitPtr(new LGCommit(commit));
 }
 
-git_commit* LGCommit::git_commit() {
+git_commit* LGCommit::gitCommit() {
     return d->git_commit;
 }
 

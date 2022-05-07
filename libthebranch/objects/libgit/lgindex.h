@@ -12,7 +12,7 @@ class LGIndex : public QObject {
         explicit LGIndex();
         ~LGIndex();
 
-        git_index* git_index();
+        struct ::git_index* gitIndex();
 
         bool hasConflicts();
         void conflictCleanup();

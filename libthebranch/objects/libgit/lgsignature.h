@@ -13,7 +13,7 @@ class LGSignature : public QObject {
         explicit LGSignature(const git_signature* git_signature);
         ~LGSignature();
 
-        git_signature* git_signature();
+        ::git_signature* gitSignature();
 
         QString name();
         QString email();

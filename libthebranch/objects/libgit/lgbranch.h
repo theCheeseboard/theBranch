@@ -12,8 +12,8 @@ class LGBranch : public QObject {
         explicit LGBranch(git_reference* git_reference);
         ~LGBranch();
 
-        struct git_reference* git_reference();
-        struct git_reference* take_git_reference();
+        struct ::git_reference* gitReference();
+        struct ::git_reference* takeGitReference();
 
         LGBranchPtr dup();
 

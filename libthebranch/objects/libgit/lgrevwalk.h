@@ -18,7 +18,7 @@ class LGRevwalk : public QObject {
 
         QList<LGOidPtr> walk();
 
-        git_revwalk* git_revwalk();
+        git_revwalk* gitRevwalk();
 
     signals:
 

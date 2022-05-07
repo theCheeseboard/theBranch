@@ -27,8 +27,8 @@ Merge::Merge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :
     d->annotatedCommit = d->ref->toAnnotatedCommit(repo->git_repository());
     d->errorResponse = ErrorResponse(ErrorResponse::UnspecifiedError, tr("Unspecified Error"));
 
-    const git_annotated_commit* annotatedCommit = d->annotatedCommit->git_annotated_commit();
-    git_merge_analysis(&d->mergeAnalysis, &d->mergePreference, repo->git_repository()->git_repository(), &annotatedCommit, 1);
+    const git_annotated_commit* annotatedCommit = d->annotatedCommit->gitAnnotatedCommit();
+    git_merge_analysis(&d->mergeAnalysis, &d->mergePreference, repo->git_repository()->gitRepository(), &annotatedCommit, 1);
 }
 
 Merge::~Merge() {
@@ -101,8 +101,8 @@ Merge::MergeResult Merge::performMerge() {
 
                 checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE | GIT_CHECKOUT_ALLOW_CONFLICTS;
 
-                const git_annotated_commit* annotatedCommit = d->annotatedCommit->git_annotated_commit();
-                if (git_merge(d->repo->git_repository()->git_repository(), &annotatedCommit, 1, &merge_opts, &checkout_opts) != 0) {
+                const git_annotated_commit* annotatedCommit = d->annotatedCommit->gitAnnotatedCommit();
+                if (git_merge(d->repo->git_repository()->gitRepository(), &annotatedCommit, 1, &merge_opts, &checkout_opts) != 0) {
                     return MergeFailed;
                 }
 

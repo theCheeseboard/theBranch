@@ -14,7 +14,7 @@ class LGCommit : public QObject {
 
         static LGCommitPtr lookup(LGRepositoryPtr repo, LGOidPtr oid);
 
-        git_commit* git_commit();
+        struct ::git_commit* gitCommit();
 
         QString message();
         LGSignaturePtr committer();

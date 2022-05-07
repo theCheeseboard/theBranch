@@ -12,7 +12,7 @@ class LGAnnotatedCommit : public QObject {
         explicit LGAnnotatedCommit(git_annotated_commit* git_annotated_commit);
         ~LGAnnotatedCommit();
 
-        git_annotated_commit* git_annotated_commit();
+        git_annotated_commit* gitAnnotatedCommit();
 
         LGOidPtr oid();
 

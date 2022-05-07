@@ -15,7 +15,7 @@ Branch::~Branch() {
 }
 
 ReferencePtr Branch::toReference() {
-    return Reference::referenceForLgReference(LGReferencePtr(new LGReference(d->branch->dup()->take_git_reference())));
+    return Reference::referenceForLgReference(LGReferencePtr(new LGReference(d->branch->dup()->takeGitReference())));
 }
 
 QString Branch::name() {

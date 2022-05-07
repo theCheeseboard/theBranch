@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     menu->addAction(ui->actionOpen_Repository);
     menu->addAction(ui->actionClone_Repository);
-    menu->addSeperator();
+    menu->addSeparator();
     menu->addMenu(helpMenu);
     menu->addAction(ui->actionExit);
 

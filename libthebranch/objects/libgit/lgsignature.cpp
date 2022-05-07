@@ -29,7 +29,7 @@ LGSignature::~LGSignature() {
     delete d;
 }
 
-git_signature* LGSignature::git_signature() {
+git_signature* LGSignature::gitSignature() {
     if (d->isConst) return nullptr;
     return d->signature;
 }

@@ -13,9 +13,9 @@ class LGReference : public QObject {
         LGReference(git_reference* git_reference);
         ~LGReference();
 
-        struct git_reference* git_reference();
+        struct git_reference* gitReference();
         LGReferencePtr dup();
-        struct git_reference* take_git_refernce();
+        struct git_reference* takeGitReference();
 
         ErrorResponse setTarget(LGOidPtr oid, QString reflogMessage);
 

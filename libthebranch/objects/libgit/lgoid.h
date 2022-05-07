@@ -12,7 +12,7 @@ class LGOid : public QObject {
         explicit LGOid(git_oid git_oid);
         ~LGOid();
 
-        git_oid& git_oid();
+        struct ::git_oid& gitOid();
         QString toHex();
 
     signals:

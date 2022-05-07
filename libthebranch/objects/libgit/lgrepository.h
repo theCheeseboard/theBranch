@@ -37,7 +37,7 @@ class LGRepository : public QObject {
         RepositoryState state();
         void cleanupState();
 
-        git_repository* git_repository();
+        git_repository* gitRepository();
 
     signals:
 
