@@ -25,6 +25,18 @@ LGClone::LGClone() :
                                                        const char* username_from_url,
                                                        unsigned int allowed_types,
                                                        void* payload) -> int {
+        // TODO: Handle more SSH keys
+        if (allowed_types & GIT_CREDTYPE_SSH_KEY) {
+            QDir sshDir(QDir::home().absoluteFilePath(".ssh"));
+            QList<QFileInfo> sshEntries = sshDir.entryInfoList();
+            for (QFileInfo sshEntry : sshEntries) {
+                if (sshEntry.fileName() == "id_rsa") {
+                    // Try this key
+                    git_credential_ssh_key_new(out, username_from_url, sshDir.absoluteFilePath("id_rsa.pub").toUtf8().data(), sshDir.absoluteFilePath("id_rsa").toUtf8().data(), "");
+                    return 0;
+                }
+            }
+        }
         return GIT_PASSTHROUGH;
     };
 }

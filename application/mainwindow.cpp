@@ -77,6 +77,23 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::openRepo(QString path) {
+    RepositoryPtr repo = Repository::repositoryForDirectory(path);
+    RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
+    if (browser->repository() == nullptr) {
+        browser->setRepository(repo);
+    } else {
+        RepositoryBrowser* browser = new RepositoryBrowser(this);
+        browser->setRepository(repo);
+        ui->stackedWidget->addWidget(browser);
+        tWindowTabberButton* initialBrowserTab = new tWindowTabberButton(QIcon(), browser->title(), ui->stackedWidget, browser);
+        ui->windowTabber->addButton(initialBrowserTab);
+        connect(browser, &RepositoryBrowser::titleChanged, this, [=] {
+            initialBrowserTab->setText(browser->title());
+        });
+    }
+}
+
 void MainWindow::on_actionExit_triggered() {
     tApplication::exit();
 }
@@ -107,7 +124,14 @@ void MainWindow::on_actionClone_Repository_triggered() {
     popover->show(this->window());
 }
 
+#include <tmessagebox.h>
 void MainWindow::on_actionOpen_Repository_triggered() {
+    tMessageBox* box = new tMessageBox(this->window());
+    box->setTitleBarText(tr("Up to date"));
+    box->setMessageText(tr("There are no changes to merge from %1."));
+    box->setIcon(QMessageBox::Information);
+    box->exec(true);
+
     Repository::repositoryForDirectoryUi(this)->then([=](RepositoryPtr repo) {
         RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
         if (browser->repository() == nullptr) {

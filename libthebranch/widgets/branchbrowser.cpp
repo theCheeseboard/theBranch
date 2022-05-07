@@ -66,82 +66,84 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
     });
     menu->addSeparator();
     menu->addAction(tr("Merge %1 into %2").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString()), QLocale().quoteString(head)), [=] {
-        MergePtr merge(new Merge(d->repo, index.data(BranchModel::Branch).value<BranchPtr>()));
-        if (merge->mergeType() == Merge::UpToDate) {
-            tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Up to date"));
-            box->setMessageText(tr("There are no changes to merge from %1.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-            box->setIcon(QMessageBox::Information);
-            box->exec(true);
-        } else if (merge->mergeType() == Merge::MergeNotPossible) {
-            tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Merge not possible"));
+        QTimer::singleShot(0, [=] {
+            MergePtr merge(new Merge(d->repo, index.data(BranchModel::Branch).value<BranchPtr>()));
+            if (merge->mergeType() == Merge::UpToDate) {
+                tMessageBox* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Up to date"));
+                box->setMessageText(tr("There are no changes to merge from %1.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
+                box->setIcon(QMessageBox::Information);
+                box->exec(true);
+            } else if (merge->mergeType() == Merge::MergeNotPossible) {
+                tMessageBox* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Merge not possible"));
 
-            switch (merge->mergeNotPossibleReason()) {
-                case Merge::MergeNotPossibleBecauseHeadDetached:
-                    box->setTitleBarText(tr("HEAD is detached"));
-                    box->setMessageText(tr("There is no branch to merge onto. Checkout a branch first, and then merge your changes."));
-                    break;
-                case Merge::MergeNotPossibleBecauseRepositoryNotIdle:
-                    box->setTitleBarText(tr("Ongoing operation"));
-                    box->setMessageText(tr("There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then merge your changes."));
-                    break;
-                case Merge::MergeNotPossibleUnknownReason:
-                    box->setMessageText(tr("Unable to merge from %1 into %2.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString()), QLocale().quoteString(head)));
-                    break;
-            }
-            box->setIcon(QMessageBox::Critical);
-            box->exec(true);
-        } else {
-            tMessageBoxButton* affirmativeButton;
-            tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Merge"));
-            if (merge->mergeType() == Merge::FastForward) {
-                box->setMessageText(tr("Do you want to perform a fast-forward merge from %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-                affirmativeButton = box->addButton(tr("Fast-Forward"), QMessageBox::AcceptRole);
-            } else {
-                box->setMessageText(tr("Do you want to create a merge commit from %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-                affirmativeButton = box->addButton(tr("Merge"), QMessageBox::AcceptRole);
-            }
-
-            connect(affirmativeButton, &tMessageBoxButton::buttonPressed, this, [=] {
-                Merge::MergeResult result = merge->performMerge();
-                if (result == Merge::MergeFailed) {
-                    ErrorResponse error = merge->mergeFailureReason();
-
-                    QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
-
-                    if (conflicts.length() > 0) {
-                        tMessageBox* box = new tMessageBox(this->window());
-                        box->setTitleBarText(tr("Unclean Working Directory"));
-                        box->setMessageText(tr("To perform a merge, you need to stash your uncommitted changes first."));
-                        box->exec(true);
-                        return;
-                    }
-
-                    tMessageBox* box = new tMessageBox(this->window());
-                    box->setTitleBarText(tr("Merge failed"));
-                    box->setMessageText(error.description());
-                    box->setIcon(QMessageBox::Critical);
-                    box->exec(true);
-                } else if (result == Merge::MergeConflict) {
-                    SnapInPopover* jp = new SnapInPopover();
-                    jp->pushSnapIn(new ConflictResolutionSnapIn(merge));
-
-                    tPopover* popover = new tPopover(jp);
-                    popover->setPopoverWidth(SC_DPI_W(-200, this));
-                    popover->setPopoverSide(tPopover::Bottom);
-                    connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
-                    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
-                    connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
-                    popover->show(this->window());
+                switch (merge->mergeNotPossibleReason()) {
+                    case Merge::MergeNotPossibleBecauseHeadDetached:
+                        box->setTitleBarText(tr("HEAD is detached"));
+                        box->setMessageText(tr("There is no branch to merge onto. Checkout a branch first, and then merge your changes."));
+                        break;
+                    case Merge::MergeNotPossibleBecauseRepositoryNotIdle:
+                        box->setTitleBarText(tr("Ongoing operation"));
+                        box->setMessageText(tr("There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then merge your changes."));
+                        break;
+                    case Merge::MergeNotPossibleUnknownReason:
+                        box->setMessageText(tr("Unable to merge from %1 into %2.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString()), QLocale().quoteString(head)));
+                        break;
                 }
-            });
-            box->setInformativeText(tr("All changes from %1 will be merged into the current branch.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-            box->addStandardButton(QMessageBox::Cancel);
-            box->setIcon(QMessageBox::Question);
-            box->exec(true);
-        }
+                box->setIcon(QMessageBox::Critical);
+                box->exec(true);
+            } else {
+                tMessageBoxButton* affirmativeButton;
+                tMessageBox* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Merge"));
+                if (merge->mergeType() == Merge::FastForward) {
+                    box->setMessageText(tr("Do you want to perform a fast-forward merge from %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
+                    affirmativeButton = box->addButton(tr("Fast-Forward"), QMessageBox::AcceptRole);
+                } else {
+                    box->setMessageText(tr("Do you want to create a merge commit from %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
+                    affirmativeButton = box->addButton(tr("Merge"), QMessageBox::AcceptRole);
+                }
+
+                connect(affirmativeButton, &tMessageBoxButton::buttonPressed, this, [=] {
+                    Merge::MergeResult result = merge->performMerge();
+                    if (result == Merge::MergeFailed) {
+                        ErrorResponse error = merge->mergeFailureReason();
+
+                        QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
+
+                        if (conflicts.length() > 0) {
+                            tMessageBox* box = new tMessageBox(this->window());
+                            box->setTitleBarText(tr("Unclean Working Directory"));
+                            box->setMessageText(tr("To perform a merge, you need to stash your uncommitted changes first."));
+                            box->exec(true);
+                            return;
+                        }
+
+                        tMessageBox* box = new tMessageBox(this->window());
+                        box->setTitleBarText(tr("Merge failed"));
+                        box->setMessageText(error.description());
+                        box->setIcon(QMessageBox::Critical);
+                        box->exec(true);
+                    } else if (result == Merge::MergeConflict) {
+                        SnapInPopover* jp = new SnapInPopover();
+                        jp->pushSnapIn(new ConflictResolutionSnapIn(merge));
+
+                        tPopover* popover = new tPopover(jp);
+                        popover->setPopoverWidth(SC_DPI_W(-200, this));
+                        popover->setPopoverSide(tPopover::Bottom);
+                        connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
+                        connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+                        connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
+                        popover->show(this->window());
+                    }
+                });
+                box->setInformativeText(tr("All changes from %1 will be merged into the current branch.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
+                box->addStandardButton(QMessageBox::Cancel);
+                box->setIcon(QMessageBox::Question);
+                box->exec(true);
+            }
+        });
     });                                                                                                                                      // Branch -> HEAD
     menu->addAction(tr("Merge %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(index.data(Qt::DisplayRole).toString()))); // HEAD -> Branch
     menu->addSeparator();

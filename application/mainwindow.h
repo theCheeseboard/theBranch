@@ -15,6 +15,8 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(QWidget* parent = nullptr);
         ~MainWindow();
 
+        void openRepo(QString path);
+
     private slots:
         void on_actionExit_triggered();
 

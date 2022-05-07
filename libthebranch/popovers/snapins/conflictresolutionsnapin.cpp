@@ -32,6 +32,7 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
 }
 
 ConflictResolutionSnapIn::~ConflictResolutionSnapIn() {
+    delete d;
     delete ui;
 }
 

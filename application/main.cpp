@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
     a.setApplicationVersion("1.0");
     a.setGenericName(QApplication::translate("main", "Git Client"));
-    a.setAboutDialogSplashGraphic(a.aboutDialogSplashGraphicFromSvg(":/icons/aboutsplash.svg"));
+    //    a.setAboutDialogSplashGraphic(a.aboutDialogSplashGraphicFromSvg(":/icons/aboutsplash.svg"));
     a.setApplicationLicense(tApplication::Gpl3OrLater);
     a.setCopyrightHolder("Victor Tran");
     a.setCopyrightYear("2022");
@@ -61,6 +61,15 @@ int main(int argc, char* argv[]) {
     a.setQuitOnLastWindowClosed(false);
 #endif
 
+    QCommandLineParser parser;
+    QCommandLineOption helpOption = parser.addHelpOption();
+    parser.parse(a.arguments());
+
+    if (parser.isSet(helpOption)) {
+        parser.showHelp();
+        return 0;
+    }
+
     theBranch::init();
 
     tSettings settings;
@@ -73,6 +82,23 @@ int main(int argc, char* argv[]) {
     tStyleManager::setOverrideStyleForApplication(settings.value("theme/mode").toString() == "light" ? tStyleManager::ContemporaryLight : tStyleManager::ContemporaryDark);
 
     MainWindow* w = new MainWindow();
+
+    QStringList files;
+    for (QString arg : parser.positionalArguments()) {
+        if (QUrl::fromLocalFile(arg).isValid()) {
+            files.append(QUrl::fromLocalFile(arg).toEncoded());
+        } else {
+            files.append(QUrl(arg).toEncoded());
+        }
+    }
+    a.ensureSingleInstance({
+        {"files", QJsonArray::fromStringList(files)}
+    });
+
+    for (QString repo : files) {
+        w->openRepo(QUrl(repo).toLocalFile());
+    }
+
     w->show();
 
     int retval = a.exec();

@@ -95,6 +95,7 @@ bool Repository::stateProvidesProgress() {
 }
 
 ReferencePtr Repository::head() {
+    if (!d->gitRepo) return nullptr;
     LGReferencePtr ref = d->gitRepo->head();
     if (!ref) return nullptr;
     return Reference::referenceForLgReference(ref);
