@@ -69,6 +69,49 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
         const git_error* err = git_error_last();
         return ErrorResponse(ErrorResponse::UnspecifiedError, err->message);
     }
+
+    ErrorResponse response = performCheckout([=](git_checkout_options* checkoutOptions) {
+        return git_checkout_tree(d->git_repository, obj, checkoutOptions);
+    },
+        options);
+
+    git_object_free(obj);
+
+    return response;
+}
+
+ErrorResponse LGRepository::checkoutIndex(LGIndexPtr index, QVariantMap options) {
+    return performCheckout([=](git_checkout_options* checkoutOptions) {
+        return git_checkout_index(d->git_repository, index->git_index(), checkoutOptions);
+    },
+        options);
+}
+
+LGRepository::RepositoryState LGRepository::state() {
+    git_repository_state_t state = static_cast<git_repository_state_t>(git_repository_state(d->git_repository));
+    switch (state) {
+        case GIT_REPOSITORY_STATE_NONE:
+            return IdleRepositoryState;
+        case GIT_REPOSITORY_STATE_MERGE:
+            return MergeRepositoryState;
+    }
+    return UnknownRepositoryState;
+}
+
+void LGRepository::cleanupState() {
+    git_repository_state_cleanup(d->git_repository);
+}
+
+LGRepository::~LGRepository() {
+    git_repository_free(d->git_repository);
+    delete d;
+}
+
+git_repository* LGRepository::git_repository() {
+    return d->git_repository;
+}
+
+ErrorResponse LGRepository::performCheckout(std::function<int(git_checkout_options*)> specificCheckout, QVariantMap options) {
     git_checkout_options* checkoutOptions = new git_checkout_options();
     git_checkout_options_init(checkoutOptions, GIT_CHECKOUT_OPTIONS_VERSION);
 
@@ -78,6 +121,8 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
     NotifyDetails* details = new NotifyDetails();
 
     checkoutOptions->checkout_strategy = GIT_CHECKOUT_SAFE;
+    if (options.value("force", false).toBool()) checkoutOptions->checkout_strategy = GIT_CHECKOUT_FORCE;
+
     checkoutOptions->notify_cb = [](
                                      git_checkout_notify_t why,
                                      const char* path,
@@ -94,7 +139,7 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
     checkoutOptions->notify_flags = GIT_CHECKOUT_NOTIFY_ALL;
     checkoutOptions->notify_payload = details;
 
-    if (git_checkout_tree(d->git_repository, obj, checkoutOptions) != 0) {
+    if (specificCheckout(checkoutOptions) != 0) {
         const git_error* err = git_error_last();
         ErrorResponse resp = ErrorResponse(ErrorResponse::UnspecifiedError, err->message, {
                                                                                               {"conflicts", details->conflicts}
@@ -105,15 +150,5 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
     delete details;
 
     delete checkoutOptions;
-    git_object_free(obj);
     return ErrorResponse();
-}
-
-LGRepository::~LGRepository() {
-    git_repository_free(d->git_repository);
-    delete d;
-}
-
-git_repository* LGRepository::git_repository() {
-    return d->git_repository;
 }

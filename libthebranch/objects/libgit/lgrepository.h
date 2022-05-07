@@ -4,7 +4,9 @@
 #include "../errorresponse.h"
 #include "../forward_declares.h"
 #include <QObject>
+#include <functional>
 
+struct git_checkout_options;
 struct git_repository;
 struct LGRepositoryPrivate;
 class LGRepository : public QObject {
@@ -12,6 +14,12 @@ class LGRepository : public QObject {
     public:
         LGRepository(git_repository* git_repository);
         ~LGRepository();
+
+        enum RepositoryState {
+            UnknownRepositoryState,
+            IdleRepositoryState,
+            MergeRepositoryState
+        };
 
         static LGRepository* open(QString path);
 
@@ -24,6 +32,10 @@ class LGRepository : public QObject {
         LGIndexPtr index();
 
         ErrorResponse checkoutTree(LGReferencePtr revision, QVariantMap options);
+        ErrorResponse checkoutIndex(LGIndexPtr index, QVariantMap options);
+
+        RepositoryState state();
+        void cleanupState();
 
         git_repository* git_repository();
 
@@ -31,6 +43,8 @@ class LGRepository : public QObject {
 
     private:
         LGRepositoryPrivate* d;
+
+        ErrorResponse performCheckout(std::function<int(git_checkout_options*)> specificCheckout, QVariantMap options);
 };
 
 typedef QSharedPointer<LGRepository> LGRepositoryPtr;

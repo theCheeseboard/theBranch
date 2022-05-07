@@ -9,9 +9,15 @@ class LGIndex : public QObject {
         Q_OBJECT
     public:
         explicit LGIndex(git_index* git_index);
+        explicit LGIndex();
         ~LGIndex();
 
         git_index* git_index();
+
+        bool hasConflicts();
+        void conflictCleanup();
+
+        void addAll(QStringList globs);
 
     signals:
 

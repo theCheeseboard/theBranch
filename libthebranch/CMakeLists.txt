@@ -22,12 +22,14 @@ set(SOURCES
     objects/errorresponse.cpp
     objects/merge.cpp
     objects/gitoperation.cpp
+    objects/index.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
 
     popovers/snapins/snapin.cpp
     popovers/snapins/checkoutsnapin.cpp popovers/snapins/checkoutsnapin.ui
+    popovers/snapins/conflictresolutionsnapin.cpp popovers/snapins/conflictresolutionsnapin.ui
 
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
@@ -60,6 +62,7 @@ set(HEADERS
     objects/errorresponse.h
     objects/merge.h
     objects/gitoperation.h
+    objects/index.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -69,6 +72,7 @@ set(HEADERS
     objects/forward_declares.h
     popovers/snapinpopover.h
     popovers/snapins/snapin.h
+    popovers/snapins/conflictresolutionsnapin.h
 )
 
 set(PRIVATE_HEADERS

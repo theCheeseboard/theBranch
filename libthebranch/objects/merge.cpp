@@ -1,6 +1,7 @@
 #include "merge.h"
 
 #include "libgit/lgannotatedcommit.h"
+#include "libgit/lgindex.h"
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
 #include "reference.h"
@@ -35,6 +36,10 @@ Merge::~Merge() {
 }
 
 Merge::MergeType Merge::mergeType() {
+    if (d->repo->git_repository()->state() != LGRepository::IdleRepositoryState) {
+        return MergeNotPossible;
+    }
+
     if (!d->repo->head()->asBranch()) {
         return MergeNotPossible;
     }
@@ -101,8 +106,13 @@ Merge::MergeResult Merge::performMerge() {
                     return MergeFailed;
                 }
 
-                // TODO: Check the index
+                LGIndexPtr index = d->repo->git_repository()->index();
+                if (index->hasConflicts()) {
+                    // Merging resulted in conflicts
+                    return MergeConflict;
+                }
 
+                finaliseOperation();
                 return MergeComplete;
             }
     }
@@ -113,6 +123,10 @@ ErrorResponse Merge::mergeFailureReason() {
 }
 
 Merge::MergeNotPossibleReason Merge::mergeNotPossibleReason() {
+    if (d->repo->git_repository()->state() != LGRepository::IdleRepositoryState) {
+        return MergeNotPossibleBecauseRepositoryNotIdle;
+    }
+
     if (!d->repo->head()->asBranch()) {
         return MergeNotPossibleBecauseHeadDetached;
     }
@@ -120,10 +134,20 @@ Merge::MergeNotPossibleReason Merge::mergeNotPossibleReason() {
     return MergeNotPossibleUnknownReason;
 }
 
-QStringList Merge::conflictingFiles() {
-    return QStringList();
+RepositoryPtr Merge::repository() {
+    return d->repo;
 }
 
 void Merge::abortOperation() {
     // Abort the ongoing merge
+    //    d->repo->git_repository()->index()->conflictCleanup();
+    d->repo->git_repository()->cleanupState();
+    d->repo->git_repository()->checkoutTree(d->repo->git_repository()->head(), {
+                                                                                   {"force", true}
+    });
+    //    d->repo->git_repository()->checkoutTree()
+}
+
+void Merge::finaliseOperation() {
+    // Create the merge commit
 }

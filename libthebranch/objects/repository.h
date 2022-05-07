@@ -41,6 +41,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         ErrorResponse setHeadAndCheckout(ReferencePtr reference);
 
         void reloadRepositoryState();
+        IndexPtr index();
 
         QString repositoryPath();
 

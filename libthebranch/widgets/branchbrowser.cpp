@@ -4,9 +4,12 @@
 #include "objects/merge.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
+#include "popovers/snapinpopover.h"
+#include "popovers/snapins/conflictresolutionsnapin.h"
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <tmessagebox.h>
+#include <tpopover.h>
 
 struct BranchBrowserPrivate {
         RepositoryPtr repo = nullptr;
@@ -79,6 +82,10 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
                     box->setTitleBarText(tr("HEAD is detached"));
                     box->setMessageText(tr("There is no branch to merge onto. Checkout a branch first, and then merge your changes."));
                     break;
+                case Merge::MergeNotPossibleBecauseRepositoryNotIdle:
+                    box->setTitleBarText(tr("Ongoing operation"));
+                    box->setMessageText(tr("There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then merge your changes."));
+                    break;
                 case Merge::MergeNotPossibleUnknownReason:
                     box->setMessageText(tr("Unable to merge from %1 into %2.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString()), QLocale().quoteString(head)));
                     break;
@@ -94,7 +101,7 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
                 affirmativeButton = box->addButton(tr("Fast-Forward"), QMessageBox::AcceptRole);
             } else {
                 box->setMessageText(tr("Do you want to create a merge commit from %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-                tMessageBoxButton* affirmativeButton = box->addButton(tr("Merge"), QMessageBox::AcceptRole);
+                affirmativeButton = box->addButton(tr("Merge"), QMessageBox::AcceptRole);
             }
 
             connect(affirmativeButton, &tMessageBoxButton::buttonPressed, this, [=] {
@@ -117,6 +124,17 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
                     box->setMessageText(error.description());
                     box->setIcon(QMessageBox::Critical);
                     box->exec(true);
+                } else if (result == Merge::MergeConflict) {
+                    SnapInPopover* jp = new SnapInPopover();
+                    jp->pushSnapIn(new ConflictResolutionSnapIn(merge));
+
+                    tPopover* popover = new tPopover(jp);
+                    popover->setPopoverWidth(SC_DPI_W(-200, this));
+                    popover->setPopoverSide(tPopover::Bottom);
+                    connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
+                    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+                    connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
+                    popover->show(this->window());
                 }
             });
             box->setInformativeText(tr("All changes from %1 will be merged into the current branch.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));

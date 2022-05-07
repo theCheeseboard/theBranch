@@ -1,6 +1,7 @@
 #include "repository.h"
 
 #include "branch.h"
+#include "index.h"
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
 #include "private/repositorycloneoperation.h"
@@ -189,6 +190,10 @@ void Repository::reloadRepositoryState() {
     emit stateChanged();
     updateWatchedDirectories();
     emit repositoryUpdated();
+}
+
+IndexPtr Repository::index() {
+    return Index::indexForLgIndex(d->gitRepo->index());
 }
 
 QString Repository::repositoryPath() {

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConflictResolutionSnapIn</class>
+ <widget class="QWidget" name="ConflictResolutionSnapIn">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>862</width>
+    <height>488</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="tStackedWidget" name="stackedWidget">
+     <widget class="QWidget" name="abortConflictResolutionPage">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="tTitleLabel" name="abortTitleLabel">
+         <property name="text">
+          <string>Abort Conflict Resolution</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QWidget" name="abortConfirmWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="tSubtitleLabel" name="label_2">
+            <property name="text">
+             <string>Abort Conflict Resolution?</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="abortExplainText">
+            <property name="text">
+             <string notr="true">The disc in the drive is not blank. To burn these tracks to the disc, the disc will need to be erased.
+
+Once the disc in the drive is erased, all the data on it will be gone forever.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="continueConflictResolutionButton">
+              <property name="text">
+               <string notr="true">Continue Merge</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="doAbortButton">
+              <property name="text">
+               <string notr="true">Abort Merge</string>
+              </property>
+              <property name="icon">
+               <iconset theme="tools-media-optical-burn">
+                <normaloff>../../../../theFrisbee/application/operations</normaloff>../../../../theFrisbee/application/operations</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="conflictResolutionPage">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="tTitleLabel" name="titleLabel">
+         <property name="text">
+          <string>Conflict Resolution</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>461</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>tStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">tstackedwidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>switchingFrame(int)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>tTitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ttitlelabel.h</header>
+   <slots>
+    <signal>backButtonClicked()</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>tSubtitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">tsubtitlelabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>abortTitleLabel</sender>
+   <signal>backButtonClicked()</signal>
+   <receiver>continueConflictResolutionButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>12</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>122</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

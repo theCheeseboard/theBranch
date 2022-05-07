@@ -32,13 +32,15 @@ class Merge : public GitOperation {
 
         enum MergeNotPossibleReason {
             MergeNotPossibleBecauseHeadDetached,
+            MergeNotPossibleBecauseRepositoryNotIdle,
             MergeNotPossibleUnknownReason
         };
 
         MergeNotPossibleReason mergeNotPossibleReason();
 
-        QStringList conflictingFiles();
+        RepositoryPtr repository();
         void abortOperation();
+        void finaliseOperation();
 
     signals:
 

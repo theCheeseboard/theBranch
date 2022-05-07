@@ -9,8 +9,9 @@ class GitOperation : public QObject {
     public:
         explicit GitOperation(QObject* parent = nullptr);
 
-        virtual QStringList conflictingFiles() = 0;
+        virtual RepositoryPtr repository() = 0;
         virtual void abortOperation() = 0;
+        virtual void finaliseOperation() = 0;
 
     signals:
 };
