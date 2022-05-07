@@ -24,6 +24,8 @@ void SnapInPopover::pushSnapIn(SnapIn* snapin) {
     ui->stackedWidget->addWidget(snapin);
     ui->stackedWidget->setCurrentWidget(snapin);
 
+    snapin->snapinShown();
+
     connect(snapin, &SnapIn::done, this, [=] {
         emit done();
     });

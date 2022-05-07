@@ -4,6 +4,8 @@
 #include "objects/gitoperation.h"
 #include "objects/merge.h"
 #include <tcontentsizer.h>
+#include <tpopover.h>
+#include <tscrim.h>
 
 struct ConflictResolutionSnapInPrivate {
         GitOperationPtr gitOperation;
@@ -34,6 +36,10 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
 ConflictResolutionSnapIn::~ConflictResolutionSnapIn() {
     delete d;
     delete ui;
+}
+
+void ConflictResolutionSnapIn::snapinShown() {
+    tPopover::popoverForPopoverWidget(this)->setDismissable(false);
 }
 
 void ConflictResolutionSnapIn::on_titleLabel_backButtonClicked() {

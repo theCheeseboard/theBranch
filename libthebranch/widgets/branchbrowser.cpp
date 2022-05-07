@@ -127,7 +127,6 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
                         box->exec(true);
                     } else if (result == Merge::MergeConflict) {
                         SnapInPopover* jp = new SnapInPopover();
-                        jp->pushSnapIn(new ConflictResolutionSnapIn(merge));
 
                         tPopover* popover = new tPopover(jp);
                         popover->setPopoverWidth(SC_DPI_W(-200, this));
@@ -136,6 +135,8 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
                         connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
                         connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
                         popover->show(this->window());
+
+                        jp->pushSnapIn(new ConflictResolutionSnapIn(merge));
                     }
                 });
                 box->setInformativeText(tr("All changes from %1 will be merged into the current branch.").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));

@@ -16,6 +16,8 @@ class ConflictResolutionSnapIn : public SnapIn {
         explicit ConflictResolutionSnapIn(GitOperationPtr gitOperation, QWidget* parent = nullptr);
         ~ConflictResolutionSnapIn();
 
+        void snapinShown();
+
     private slots:
         void on_titleLabel_backButtonClicked();
 

@@ -5,3 +5,8 @@ SnapIn::SnapIn(QWidget *parent)
 {
 
 }
+
+void SnapIn::snapinShown()
+{
+
+}

@@ -8,6 +8,8 @@ class SnapIn : public QWidget {
     public:
         explicit SnapIn(QWidget* parent = nullptr);
 
+        virtual void snapinShown();
+
     signals:
         void done();
 };
