@@ -55,6 +55,8 @@ void RepositoryBrowser::setRepository(RepositoryPtr repository) {
     ui->stateProgress->setVisible(d->repository->stateProvidesProgress());
     ui->stateProgress->setValue(d->repository->stateProgress());
     ui->stateProgress->setMaximum(d->repository->stateTotalProgress());
+
+    emit repositoryChanged();
 }
 
 RepositoryPtr RepositoryBrowser::repository() {

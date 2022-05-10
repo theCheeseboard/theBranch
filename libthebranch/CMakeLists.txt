@@ -23,6 +23,7 @@ set(SOURCES
     objects/merge.cpp
     objects/gitoperation.cpp
     objects/index.cpp
+    objects/indexmodel.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -63,6 +64,7 @@ set(HEADERS
     objects/merge.h
     objects/gitoperation.h
     objects/index.h
+    objects/indexmodel.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h

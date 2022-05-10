@@ -46,22 +46,49 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
     menu->addSection(tr("For branch %1").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
     menu->addAction(tr("Checkout"), this, [=] {
         BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
-        if (CHK_ERR(d->repo->setHeadAndCheckout(branch->toReference()))) {
-            QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
 
-            if (conflicts.length() > 0) {
+        auto performCheckout = [=] {
+            if (CHK_ERR(d->repo->setHeadAndCheckout(branch->toReference()))) {
+                QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
+
+                if (conflicts.length() > 0) {
+                    tMessageBox* box = new tMessageBox(this->window());
+                    box->setTitleBarText(tr("Unclean Working Directory"));
+                    box->setMessageText(tr("To checkout this branch, you need to stash your uncommitted changes first."));
+                    box->exec(true);
+                    return;
+                }
+
                 tMessageBox* box = new tMessageBox(this->window());
-                box->setTitleBarText(tr("Unclean Working Directory"));
-                box->setMessageText(tr("To checkout this branch, you need to stash your uncommitted changes first."));
+                box->setTitleBarText(tr("Can't checkout that branch"));
+                box->setMessageText(error.description());
+                box->setIcon(QMessageBox::Critical);
                 box->exec(true);
-                return;
             }
+        };
 
-            tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Can't checkout that branch"));
-            box->setMessageText(error.description());
-            box->setIcon(QMessageBox::Critical);
-            box->exec(true);
+        if (branch->isRemoteBranch()) {
+            ReferencePtr ref = d->repo->reference("refs/heads/" + branch->localBranchName());
+            if (ref) {
+                tMessageBox* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Can't checkout that branch"));
+                box->setMessageText(tr("A local branch called %1 already exists.").arg(QLocale().quoteString(branch->localBranchName())));
+                box->setIcon(QMessageBox::Critical);
+                box->exec(true);
+            } else {
+                tMessageBox* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Checkout Remote Branch"));
+                box->setMessageText(tr("Do you want to checkout this remote branch?"));
+                box->setInformativeText(tr("A new branch, %1, will be created and checked out.")
+                                            .arg(QLocale().quoteString(branch->localBranchName())));
+                box->setIcon(QMessageBox::Question);
+                tMessageBoxButton* checkoutButton = box->addButton(tr("Checkout"), QMessageBox::AcceptRole);
+                connect(checkoutButton, &tMessageBoxButton::buttonPressed, this, performCheckout);
+                box->addStandardButton(QMessageBox::Cancel);
+                box->exec(true);
+            }
+        } else {
+            performCheckout();
         }
     });
     menu->addSeparator();
@@ -152,7 +179,32 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
     menu->addAction(tr("Tag"));
     menu->addAction(tr("Branch from here"));
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"));
-    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
+    menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), this, [=] {
+        BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
+        if (branch->equal(d->repo->head())) {
+            tMessageBox* box = new tMessageBox(this->window());
+            box->setTitleBarText(tr("Branch is HEAD"));
+            box->setMessageText(tr("To delete this branch, checkout a different branch first."));
+            box->exec(true);
+            return;
+        }
+
+        tMessageBox* box = new tMessageBox(this->window());
+        box->setTitleBarText(tr("Delete branch?"));
+        box->setMessageText(tr("Do you want to delete the branch %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
+        tMessageBoxButton* button = box->addButton(tr("Delete Branch"), QMessageBox::DestructiveRole);
+        connect(button, &tMessageBoxButton::buttonPressed, this, [=] {
+            if (CHK_ERR(branch->deleteBranch())) {
+                tMessageBox* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Can't delete that branch"));
+                box->setMessageText(error.description());
+                box->exec(true);
+            }
+        });
+        box->addStandardButton(QMessageBox::Cancel);
+        box->setIcon(QMessageBox::Question);
+        box->exec(true);
+    });
+//    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(event->globalPos());
 }

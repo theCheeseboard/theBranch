@@ -1,6 +1,7 @@
 #include "lgrepository.h"
 
 #include "lgbranch.h"
+#include "lgcommit.h"
 #include "lgindex.h"
 #include "lgreference.h"
 #include <QVariantMap>
@@ -53,6 +54,18 @@ QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
     }
     git_branch_iterator_free(iterator);
     return branches;
+}
+
+LGBranchPtr LGRepository::createBranch(QString name, LGCommitPtr target) {
+    git_reference* ref;
+    if (git_branch_create(&ref, d->gitRepository, name.toUtf8().data(), target->gitCommit(), false) != 0) return LGBranchPtr();
+    return LGBranchPtr(new LGBranch(ref));
+}
+
+LGReferencePtr LGRepository::reference(QString name) {
+    git_reference* gitRef;
+    if (git_reference_lookup(&gitRef, d->gitRepository, name.toUtf8().data()) != 0) return LGReferencePtr();
+    return LGReferencePtr(new LGReference(gitRef));
 }
 
 LGIndexPtr LGRepository::index() {

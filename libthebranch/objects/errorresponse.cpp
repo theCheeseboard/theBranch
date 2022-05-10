@@ -1,6 +1,7 @@
 #include "errorresponse.h"
 
 #include <QCoreApplication>
+#include <git2.h>
 
 ErrorResponse::ErrorResponse(ErrorType error, QString description, QVariantMap supplementaryData) {
     _error = error;
@@ -36,4 +37,10 @@ QVariantMap ErrorResponse::supplementaryData() {
 
 ErrorResponse::operator bool() {
     return _error != ErrorResponse::NoError;
+}
+
+ErrorResponse ErrorResponse::fromCurrentGitError() {
+    const git_error* err = git_error_last();
+    if (err == nullptr) return ErrorResponse();
+    return ErrorResponse(UnspecifiedError, QString::fromUtf8(err->message));
 }

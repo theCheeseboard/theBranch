@@ -22,7 +22,7 @@ class Reference : public QObject {
     protected:
         friend Branch;
         friend Repository;
-        static ReferencePtr referenceForLgReference(LGReferencePtr reference);
+        static ReferencePtr referenceForLgReference(LGRepositoryPtr repo, LGReferencePtr reference);
 
     private:
         explicit Reference(QObject* parent = nullptr);

@@ -19,6 +19,14 @@ class LGBranch : public QObject {
 
         QString name();
 
+        bool isRemoteBranch();
+        QString localBranchName(LGRepositoryPtr repo);
+
+        LGBranchPtr upstream();
+        bool setUpstream(LGBranchPtr upstream);
+
+        bool deleteBranch();
+
     signals:
 
     private:

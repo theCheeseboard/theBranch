@@ -28,6 +28,9 @@
    </property>
    <item>
     <widget class="tStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="abortConflictResolutionPage">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="spacing">

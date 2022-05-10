@@ -7,6 +7,7 @@ namespace Ui {
     class MainWindow;
 }
 
+class RepositoryBrowser;
 struct MainWindowPrivate;
 class MainWindow : public QMainWindow {
         Q_OBJECT
@@ -17,6 +18,8 @@ class MainWindow : public QMainWindow {
 
         void openRepo(QString path);
 
+        RepositoryBrowser* openNextTab();
+
     private slots:
         void on_actionExit_triggered();
 
@@ -24,9 +27,13 @@ class MainWindow : public QMainWindow {
 
         void on_actionOpen_Repository_triggered();
 
+        void on_actionCheckout_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;
+
+        void updateMenuItems();
 };
 
 #endif // MAINWINDOW_H

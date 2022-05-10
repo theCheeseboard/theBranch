@@ -38,6 +38,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         ReferencePtr head();
         QList<BranchPtr> branches(THEBRANCH::ListBranchFlags flags);
 
+        ReferencePtr reference(QString name);
+
         ErrorResponse setHeadAndCheckout(ReferencePtr reference);
 
         void reloadRepositoryState();

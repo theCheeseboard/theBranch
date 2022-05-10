@@ -28,6 +28,7 @@ class RepositoryBrowser : public QWidget {
 
     signals:
         void titleChanged();
+        void repositoryChanged();
 
     private:
         Ui::RepositoryBrowser* ui;

@@ -2,6 +2,8 @@
 
 #include "branch.h"
 #include "index.h"
+#include "libgit/lgbranch.h"
+#include "libgit/lgcommit.h"
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
 #include "private/repositorycloneoperation.h"
@@ -98,22 +100,48 @@ ReferencePtr Repository::head() {
     if (!d->gitRepo) return nullptr;
     LGReferencePtr ref = d->gitRepo->head();
     if (!ref) return nullptr;
-    return Reference::referenceForLgReference(ref);
+    return Reference::referenceForLgReference(d->gitRepo, ref);
 }
 
 QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
     QList<BranchPtr> branches;
     for (LGBranchPtr branch : d->gitRepo->branches(flags)) {
-        branches.append(BranchPtr(Branch::branchForLgBranch(branch)));
+        branches.append(BranchPtr(Branch::branchForLgBranch(d->gitRepo, branch)));
     }
     return branches;
 }
 
+ReferencePtr Repository::reference(QString name) {
+    LGReferencePtr ref = d->gitRepo->reference(name);
+    if (!ref) return ReferencePtr();
+    return Reference::referenceForLgReference(d->gitRepo, ref);
+}
+
 ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {
-    if (CHK_ERR(d->gitRepo->checkoutTree(reference->git_reference(), {}))) return error;
     if (BranchPtr branch = reference->asBranch()) {
-        // TODO: Create local branch (or switch to local branch)
+        if (branch->isRemoteBranch()) {
+            LGReferencePtr ref = d->gitRepo->reference("refs/heads/" + branch->localBranchName());
+            if (ref) {
+                return ErrorResponse(ErrorResponse::UnspecifiedError, tr("The local branch %1 already exists.").arg(QLocale().quoteString(branch->localBranchName())));
+            } else {
+                // There is no local branch for this remote
+                // Create a local branch and track the remote branch
+                LGCommitPtr commit = LGCommit::lookup(d->gitRepo, LGReference::nameToId(d->gitRepo, reference->name()));
+                LGBranchPtr newBranch = d->gitRepo->createBranch(branch->localBranchName(), commit);
+                if (!newBranch) {
+                    return ErrorResponse(ErrorResponse::UnspecifiedError, "Could not create local branch");
+                }
+
+                if (!newBranch->setUpstream(branch->gitBranch())) {
+                    return ErrorResponse::fromCurrentGitError();
+                }
+                reference = Reference::referenceForLgReference(d->gitRepo, LGReferencePtr(new LGReference(newBranch->dup()->takeGitReference())));
+            }
+        }
     }
+
+    if (CHK_ERR(d->gitRepo->checkoutTree(reference->git_reference(), {}))) return error;
+
     d->gitRepo->setHead(reference->name());
     return ErrorResponse();
 }

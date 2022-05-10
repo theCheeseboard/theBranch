@@ -6,6 +6,7 @@
 
 struct ReferencePrivate {
         LGReferencePtr reference;
+        LGRepositoryPtr repo;
 };
 
 Reference::Reference(QObject* parent) :
@@ -19,7 +20,7 @@ Reference::~Reference() {
 
 BranchPtr Reference::asBranch() {
     if (d->reference->isBranch()) {
-        return Branch::branchForLgBranch(LGBranchPtr(new LGBranch(d->reference->dup()->takeGitReference())));
+        return Branch::branchForLgBranch(d->repo, LGBranchPtr(new LGBranch(d->reference->dup()->takeGitReference())));
     }
     return nullptr;
 }
@@ -36,8 +37,9 @@ QString Reference::shorthand() {
     return d->reference->shorthand();
 }
 
-ReferencePtr Reference::referenceForLgReference(LGReferencePtr reference) {
+ReferencePtr Reference::referenceForLgReference(LGRepositoryPtr repo, LGReferencePtr reference) {
     Reference* r = new Reference();
     r->d->reference = reference;
+    r->d->repo = repo;
     return ReferencePtr(r);
 }

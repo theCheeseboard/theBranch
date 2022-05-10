@@ -11,16 +11,25 @@ class Branch : public QObject {
     public:
         ~Branch();
 
+        bool equal(ReferencePtr ref);
+        bool equal(BranchPtr branch);
+
         ReferencePtr toReference();
 
         QString name();
+
+        bool isRemoteBranch();
+        QString localBranchName();
+
+        ErrorResponse deleteBranch();
 
     signals:
 
     protected:
         friend Repository;
         friend Reference;
-        static BranchPtr branchForLgBranch(LGBranchPtr branch);
+        static BranchPtr branchForLgBranch(LGRepositoryPtr repo, LGBranchPtr branch);
+        LGBranchPtr gitBranch();
 
     private:
         explicit Branch(QObject* parent = nullptr);

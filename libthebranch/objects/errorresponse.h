@@ -26,6 +26,8 @@ class ErrorResponse {
 
         operator bool();
 
+        static ErrorResponse fromCurrentGitError();
+
     private:
         ErrorType _error;
         QString _description;

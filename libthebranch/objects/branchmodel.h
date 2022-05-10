@@ -18,8 +18,9 @@ class BranchModel : public QAbstractListModel {
 
         // Basic functionality:
         int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-
         QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+
+        QModelIndex index(BranchPtr branch);
 
         void setRepository(RepositoryPtr repo);
         void reloadData();
@@ -27,6 +28,10 @@ class BranchModel : public QAbstractListModel {
 
     private:
         BranchModelPrivate* d;
+
+        // QAbstractItemModel interface
+    public:
+        QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const override;
 };
 
 #endif // BRANCHMODEL_H

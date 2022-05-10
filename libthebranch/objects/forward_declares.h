@@ -36,4 +36,6 @@ namespace THEBRANCH {
     };
 } // namespace THEBRANCH
 
+#include "errorresponse.h"
+
 #endif // FORWARD_DECLARES_H

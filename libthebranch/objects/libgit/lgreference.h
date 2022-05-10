@@ -17,6 +17,8 @@ class LGReference : public QObject {
         LGReferencePtr dup();
         struct git_reference* takeGitReference();
 
+        bool isEqual(LGReferencePtr other);
+
         ErrorResponse setTarget(LGOidPtr oid, QString reflogMessage);
 
         bool isBranch();

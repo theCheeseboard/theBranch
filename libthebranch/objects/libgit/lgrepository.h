@@ -28,6 +28,9 @@ class LGRepository : public QObject {
 
         QString path();
         QList<LGBranchPtr> branches(THEBRANCH::ListBranchFlags flags);
+        LGBranchPtr createBranch(QString name, LGCommitPtr target);
+
+        LGReferencePtr reference(QString name);
 
         LGIndexPtr index();
 

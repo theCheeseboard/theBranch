@@ -1,6 +1,8 @@
 #include "checkoutsnapin.h"
 #include "ui_checkoutsnapin.h"
 
+#include "objects/branchmodel.h"
+#include "objects/repository.h"
 #include <tcontentsizer.h>
 
 struct CheckoutSnapInPrivate {
@@ -17,6 +19,14 @@ CheckoutSnapIn::CheckoutSnapIn(RepositoryPtr repository, QWidget* parent) :
     ui->titleLabel->setBackButtonShown(true);
     new tContentSizer(ui->checkoutOptionsWidget);
     new tContentSizer(ui->checkoutButton);
+
+    BranchModel* model = new BranchModel();
+    model->setBranchFlags(THEBRANCH::LocalBranches);
+    model->setRepository(repository);
+    ui->branchBox->setModel(model);
+
+    ReferencePtr ref = repository->head();
+
 }
 
 CheckoutSnapIn::~CheckoutSnapIn() {

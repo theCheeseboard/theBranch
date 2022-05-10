@@ -20,7 +20,11 @@ class BranchBrowser : public QListView {
 
         // QWidget interface
     protected:
-        void contextMenuEvent(QContextMenuEvent* event);
+    QString extracted();
+    
+    BranchPtr extracted(const QModelIndex &index);
+    
+    void contextMenuEvent(QContextMenuEvent* event);
 };
 
 #endif // BRANCHBROWSER_H

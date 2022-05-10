@@ -44,6 +44,10 @@ QVariant BranchModel::data(const QModelIndex& index, int role) const {
     return QVariant();
 }
 
+QModelIndex BranchModel::index(BranchPtr branch) {
+    return index(d->branches.indexOf(branch));
+}
+
 void BranchModel::setRepository(RepositoryPtr repo) {
     d->repo = repo;
     connect(repo.data(), &Repository::repositoryUpdated, this, &BranchModel::reloadData);
@@ -55,10 +59,14 @@ void BranchModel::reloadData() {
     if (!d->repo->git_repository()) return;
 
     d->branches = d->repo->branches(d->flags);
-    emit dataChanged(index(0), index(rowCount()));
+    emit dataChanged(index(0, 0), index(rowCount()));
 }
 
 void BranchModel::setBranchFlags(THEBRANCH::ListBranchFlags flags) {
     d->flags = flags;
     reloadData();
+}
+
+QModelIndex BranchModel::index(int row, int column, const QModelIndex& parent) const {
+    return QAbstractListModel::index(row, column, parent);
 }

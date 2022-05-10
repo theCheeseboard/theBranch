@@ -34,6 +34,7 @@ void RepositoryStatusBar::setRepository(RepositoryPtr repository) {
 }
 
 void RepositoryStatusBar::updateRepository() {
+    if (!d->repository) return;
     ReferencePtr ref = d->repository->head();
     if (ref) {
         ui->checkoutButton->setText(ref->shorthand());

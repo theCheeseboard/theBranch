@@ -10,6 +10,8 @@
 
 #include <objects/repository.h>
 #include <popovers/clonerepositorypopover.h>
+#include <popovers/snapinpopover.h>
+#include <popovers/snapins/checkoutsnapin.h>
 #include <widgets/repositorybrowser.h>
 
 struct MainWindowPrivate {
@@ -64,13 +66,10 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
     this->setWindowIcon(tApplication::applicationIcon());
 
-    RepositoryBrowser* initialBrowser = new RepositoryBrowser(this);
-    ui->stackedWidget->addWidget(initialBrowser);
-    tWindowTabberButton* initialBrowserTab = new tWindowTabberButton(QIcon(), initialBrowser->title(), ui->stackedWidget, initialBrowser);
-    ui->windowTabber->addButton(initialBrowserTab);
-    connect(initialBrowser, &RepositoryBrowser::titleChanged, this, [=] {
-        initialBrowserTab->setText(initialBrowser->title());
-    });
+    connect(ui->stackedWidget, &tStackedWidget::switchingFrame, this, &MainWindow::updateMenuItems);
+
+    openNextTab();
+    updateMenuItems();
 }
 
 MainWindow::~MainWindow() {
@@ -79,18 +78,29 @@ MainWindow::~MainWindow() {
 
 void MainWindow::openRepo(QString path) {
     RepositoryPtr repo = Repository::repositoryForDirectory(path);
+    connect(repo.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
+
+    RepositoryBrowser* browser = openNextTab();
+    browser->setRepository(repo);
+
+    updateMenuItems();
+}
+
+RepositoryBrowser* MainWindow::openNextTab() {
     RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
-    if (browser->repository() == nullptr) {
-        browser->setRepository(repo);
+    if (browser && browser->repository() == nullptr) {
+        return browser;
     } else {
         RepositoryBrowser* browser = new RepositoryBrowser(this);
-        browser->setRepository(repo);
         ui->stackedWidget->addWidget(browser);
         tWindowTabberButton* initialBrowserTab = new tWindowTabberButton(QIcon(), browser->title(), ui->stackedWidget, browser);
         ui->windowTabber->addButton(initialBrowserTab);
         connect(browser, &RepositoryBrowser::titleChanged, this, [=] {
             initialBrowserTab->setText(browser->title());
         });
+        connect(browser, &RepositoryBrowser::repositoryChanged, this, &MainWindow::updateMenuItems);
+
+        return browser;
     }
 }
 
@@ -105,46 +115,64 @@ void MainWindow::on_actionClone_Repository_triggered() {
     popover->setPopoverSide(tPopover::Bottom);
     connect(jp, &CloneRepositoryPopover::done, popover, &tPopover::dismiss);
     connect(jp, &CloneRepositoryPopover::openRepository, this, [=](RepositoryPtr repository) {
-        RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
-        if (browser->repository() == nullptr) {
-            browser->setRepository(repository);
-        } else {
-            RepositoryBrowser* browser = new RepositoryBrowser(this);
-            browser->setRepository(repository);
-            ui->stackedWidget->addWidget(browser);
-            tWindowTabberButton* initialBrowserTab = new tWindowTabberButton(QIcon(), browser->title(), ui->stackedWidget, browser);
-            ui->windowTabber->addButton(initialBrowserTab);
-            connect(browser, &RepositoryBrowser::titleChanged, this, [=] {
-                initialBrowserTab->setText(browser->title());
-            });
-        }
+        RepositoryBrowser* browser = openNextTab();
+        browser->setRepository(repository);
+        connect(repository.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
+
+        updateMenuItems();
     });
     connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
     connect(popover, &tPopover::dismissed, jp, &CloneRepositoryPopover::deleteLater);
     popover->show(this->window());
 }
 
-#include <tmessagebox.h>
 void MainWindow::on_actionOpen_Repository_triggered() {
-    tMessageBox* box = new tMessageBox(this->window());
-    box->setTitleBarText(tr("Up to date"));
-    box->setMessageText(tr("There are no changes to merge from %1."));
-    box->setIcon(QMessageBox::Information);
-    box->exec(true);
-
     Repository::repositoryForDirectoryUi(this)->then([=](RepositoryPtr repo) {
-        RepositoryBrowser* browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->widget(ui->stackedWidget->currentIndex()));
-        if (browser->repository() == nullptr) {
-            browser->setRepository(repo);
-        } else {
-            RepositoryBrowser* browser = new RepositoryBrowser(this);
-            browser->setRepository(repo);
-            ui->stackedWidget->addWidget(browser);
-            tWindowTabberButton* initialBrowserTab = new tWindowTabberButton(QIcon(), browser->title(), ui->stackedWidget, browser);
-            ui->windowTabber->addButton(initialBrowserTab);
-            connect(browser, &RepositoryBrowser::titleChanged, this, [=] {
-                initialBrowserTab->setText(browser->title());
-            });
-        }
+        RepositoryBrowser* browser = openNextTab();
+        browser->setRepository(repo);
+        connect(repo.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
+
+        updateMenuItems();
     });
+}
+
+void MainWindow::on_actionCheckout_triggered() {
+    SnapInPopover* jp = new SnapInPopover();
+    jp->pushSnapIn(new CheckoutSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
+
+    tPopover* popover = new tPopover(jp);
+    popover->setPopoverWidth(SC_DPI_W(-200, this));
+    popover->setPopoverSide(tPopover::Bottom);
+    connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
+    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+    connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
+    popover->show(this->window());
+}
+
+void MainWindow::updateMenuItems() {
+    bool enabled = true;
+    RepositoryBrowser* repoBrowser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (repoBrowser) {
+        RepositoryPtr repo = repoBrowser->repository();
+        if (repo) {
+            if (repo->state() == Repository::Cloning || repo->state() == Repository::Invalid) {
+                enabled = false;
+            }
+        } else {
+            enabled = false;
+        }
+    } else {
+        enabled = false;
+    }
+
+    ui->actionNew_Branch->setEnabled(enabled);
+    ui->actionNew_Tag->setEnabled(enabled);
+    ui->actionMerge->setEnabled(enabled);
+    ui->actionRebase->setEnabled(enabled);
+    ui->actionCherry_Pick->setEnabled(enabled);
+    ui->actionCommit->setEnabled(enabled);
+    ui->actionCheckout->setEnabled(enabled);
+    ui->actionStash->setEnabled(enabled);
+    ui->actionPush->setEnabled(enabled);
+    ui->actionPull->setEnabled(enabled);
 }

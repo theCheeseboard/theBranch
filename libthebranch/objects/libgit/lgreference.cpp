@@ -39,6 +39,10 @@ git_reference* LGReference::takeGitReference() {
     return ref;
 }
 
+bool LGReference::isEqual(LGReferencePtr other) {
+    return git_reference_cmp(d->gitReference, other->d->gitReference) == 0;
+}
+
 ErrorResponse LGReference::setTarget(LGOidPtr oid, QString reflogMessage) {
     struct git_reference* newRef;
     if (git_reference_set_target(&newRef, d->gitReference, &oid->gitOid(), reflogMessage.toUtf8().data()) != 0) {
@@ -52,7 +56,7 @@ ErrorResponse LGReference::setTarget(LGOidPtr oid, QString reflogMessage) {
 }
 
 bool LGReference::isBranch() {
-    return git_reference_is_branch(d->gitReference);
+    return git_reference_is_branch(d->gitReference) || git_reference_is_remote(d->gitReference);
 }
 
 QString LGReference::name() {
