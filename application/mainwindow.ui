@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>theBranch</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="autoFillBackground">
@@ -108,7 +108,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -185,6 +185,9 @@
    </property>
   </action>
   <action name="actionPush">
+   <property name="icon">
+    <iconset theme="vcs-push"/>
+   </property>
    <property name="text">
     <string>Push</string>
    </property>
@@ -193,6 +196,9 @@
    </property>
   </action>
   <action name="actionPull">
+   <property name="icon">
+    <iconset theme="vcs-pull"/>
+   </property>
    <property name="text">
     <string>Pull</string>
    </property>
@@ -201,6 +207,9 @@
    </property>
   </action>
   <action name="actionCheckout">
+   <property name="icon">
+    <iconset theme="vcs-checkout"/>
+   </property>
    <property name="text">
     <string>Checkout...</string>
    </property>
@@ -209,6 +218,9 @@
    </property>
   </action>
   <action name="actionNew_Branch">
+   <property name="icon">
+    <iconset theme="vcs-branch-create"/>
+   </property>
    <property name="text">
     <string>New Branch...</string>
    </property>
@@ -217,6 +229,9 @@
    </property>
   </action>
   <action name="actionNew_Tag">
+   <property name="icon">
+    <iconset theme="vcs-tag"/>
+   </property>
    <property name="text">
     <string>New Tag...</string>
    </property>
@@ -225,6 +240,9 @@
    </property>
   </action>
   <action name="actionMerge">
+   <property name="icon">
+    <iconset theme="vcs-merge"/>
+   </property>
    <property name="text">
     <string>Merge...</string>
    </property>
@@ -233,6 +251,9 @@
    </property>
   </action>
   <action name="actionRebase">
+   <property name="icon">
+    <iconset theme="vcs-rebase"/>
+   </property>
    <property name="text">
     <string>Rebase...</string>
    </property>
@@ -241,6 +262,9 @@
    </property>
   </action>
   <action name="actionCherry_Pick">
+   <property name="icon">
+    <iconset theme="vcs-cherry-pick"/>
+   </property>
    <property name="text">
     <string>Cherry Pick...</string>
    </property>
@@ -249,6 +273,9 @@
    </property>
   </action>
   <action name="actionCommit">
+   <property name="icon">
+    <iconset theme="vcs-commit"/>
+   </property>
    <property name="text">
     <string>Commit...</string>
    </property>
@@ -257,6 +284,9 @@
    </property>
   </action>
   <action name="actionStash">
+   <property name="icon">
+    <iconset theme="vcs-stash"/>
+   </property>
    <property name="text">
     <string>Stash</string>
    </property>

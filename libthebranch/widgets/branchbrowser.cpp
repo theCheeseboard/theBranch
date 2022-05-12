@@ -44,7 +44,7 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
 
     QMenu* menu = new QMenu();
     menu->addSection(tr("For branch %1").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-    menu->addAction(tr("Checkout"), this, [=] {
+    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), this, [=] {
         BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
 
         auto performCheckout = [=] {
@@ -92,7 +92,7 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
         }
     });
     menu->addSeparator();
-    menu->addAction(tr("Merge %1 into %2").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString()), QLocale().quoteString(head)), [=] {
+    menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString()), QLocale().quoteString(head)), [=] {
         QTimer::singleShot(0, [=] {
             MergePtr merge(new Merge(d->repo, index.data(BranchModel::Branch).value<BranchPtr>()));
             if (merge->mergeType() == Merge::UpToDate) {
@@ -172,12 +172,12 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
                 box->exec(true);
             }
         });
-    });                                                                                                                                      // Branch -> HEAD
-    menu->addAction(tr("Merge %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(index.data(Qt::DisplayRole).toString()))); // HEAD -> Branch
+    });                                                                                                                                                                     // Branch -> HEAD
+    menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(index.data(Qt::DisplayRole).toString()))); // HEAD -> Branch
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"));
-    menu->addAction(tr("Tag"));
-    menu->addAction(tr("Branch from here"));
+    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
+    menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"));
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), this, [=] {
         BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
@@ -205,6 +205,6 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
         box->setIcon(QMessageBox::Question);
         box->exec(true);
     });
-//    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
+    //    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(event->globalPos());
 }

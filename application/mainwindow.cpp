@@ -56,6 +56,21 @@ MainWindow::MainWindow(QWidget* parent) :
     menu->addAction(ui->actionOpen_Repository);
     menu->addAction(ui->actionClone_Repository);
     menu->addSeparator();
+    menu->addAction(ui->actionCommit);
+    menu->addAction(ui->actionCheckout);
+    menu->addSeparator();
+    menu->addAction(ui->actionNew_Branch);
+    menu->addAction(ui->actionNew_Tag);
+    menu->addSeparator();
+    menu->addAction(ui->actionMerge);
+    menu->addAction(ui->actionRebase);
+    menu->addAction(ui->actionCherry_Pick);
+    menu->addSeparator();
+    menu->addAction(ui->actionPush);
+    menu->addAction(ui->actionPull);
+    menu->addSeparator();
+    menu->addAction(ui->actionStash);
+    menu->addSeparator();
     menu->addMenu(helpMenu);
     menu->addAction(ui->actionExit);
 

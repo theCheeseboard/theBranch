@@ -38,16 +38,16 @@ void CommitBrowser::contextMenuEvent(QContextMenuEvent* event) {
 
     QMenu* menu = new QMenu();
     menu->addSection(tr("For commit %1").arg(QLocale().quoteString(index.data(CommitModel::CommitHash).toString())));
-    menu->addAction(tr("Checkout"), this, [=] {
+    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), this, [=] {
         //        CommitPtr commit = index.data(CommitModel::Commit).value<CommitPtr>();
         //        d->repo->setHeadAndCheckout(commit);
     });
     menu->addSeparator();
-    menu->addAction(tr("Copy Commit Message"));
-    menu->addAction(tr("Copy Commit Hash"));
+    menu->addAction(QIcon::fromTheme("edit-copy"), tr("Copy Commit Message"));
+    menu->addAction(QIcon::fromTheme("edit-copy"), tr("Copy Commit Hash"));
     menu->addSeparator();
-    menu->addAction(tr("Tag"));
-    menu->addAction(tr("Cherry Pick"), this, [=] {
+    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
+    menu->addAction(QIcon::fromTheme("vcs-cherry-pick"), tr("Cherry Pick"), this, [=] {
         //        tMessageBox* box = new tMessageBox(this->window());
         //        box->setTitleBarText(tr("Selektiv udvælgelse?"));
         //        box->setMessageText(tr("Vil du bruge %1 til %2?").arg(QLocale().quoteString(index.data(CommitModel::CommitHash).toString()), QLocale().quoteString("main")));
@@ -56,8 +56,8 @@ void CommitBrowser::contextMenuEvent(QContextMenuEvent* event) {
         //        //        box->setIcon(QMessageBox::Critical);
         //        box->exec(true);
     });
-    menu->addAction(tr("Branch from here"));
-    menu->addAction(tr("Create Revert Commit"));
+    menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"));
+    menu->addAction(QIcon::fromTheme("vcs-revert"), tr("Create Revert Commit"));
     connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(event->globalPos());
 }
