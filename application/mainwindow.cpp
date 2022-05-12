@@ -12,6 +12,7 @@
 #include <popovers/clonerepositorypopover.h>
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
+#include <popovers/snapins/commitsnapin.h>
 #include <widgets/repositorybrowser.h>
 
 struct MainWindowPrivate {
@@ -92,13 +93,21 @@ RepositoryBrowser* MainWindow::openNextTab() {
         return browser;
     } else {
         RepositoryBrowser* browser = new RepositoryBrowser(this);
-        ui->stackedWidget->addWidget(browser);
         tWindowTabberButton* initialBrowserTab = new tWindowTabberButton(QIcon(), browser->title(), ui->stackedWidget, browser);
-        ui->windowTabber->addButton(initialBrowserTab);
+
+        ui->stackedWidget->addWidget(browser);
         connect(browser, &RepositoryBrowser::titleChanged, this, [=] {
             initialBrowserTab->setText(browser->title());
         });
         connect(browser, &RepositoryBrowser::repositoryChanged, this, &MainWindow::updateMenuItems);
+
+        QAction* commitAction = new QAction(QIcon::fromTheme("commit"), tr("Commit"));
+        connect(commitAction, &QAction::triggered, this, [=] {
+            SnapInPopover::showSnapInPopover(this, new CommitSnapIn(browser->repository()));
+        });
+        initialBrowserTab->addAction(commitAction);
+
+        ui->windowTabber->addButton(initialBrowserTab);
 
         return browser;
     }
@@ -137,16 +146,7 @@ void MainWindow::on_actionOpen_Repository_triggered() {
 }
 
 void MainWindow::on_actionCheckout_triggered() {
-    SnapInPopover* jp = new SnapInPopover();
-    jp->pushSnapIn(new CheckoutSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
-
-    tPopover* popover = new tPopover(jp);
-    popover->setPopoverWidth(SC_DPI_W(-200, this));
-    popover->setPopoverSide(tPopover::Bottom);
-    connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
-    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
-    connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
-    popover->show(this->window());
+    SnapInPopover::showSnapInPopover(this, new CheckoutSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
 }
 
 void MainWindow::updateMenuItems() {
@@ -175,4 +175,8 @@ void MainWindow::updateMenuItems() {
     ui->actionStash->setEnabled(enabled);
     ui->actionPush->setEnabled(enabled);
     ui->actionPull->setEnabled(enabled);
+}
+
+void MainWindow::on_actionCommit_triggered() {
+    SnapInPopover::showSnapInPopover(this, new CommitSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
 }

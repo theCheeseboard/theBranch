@@ -10,6 +10,8 @@
 
 class BranchModel;
 class CommitModel;
+class CommitSnapIn;
+
 struct RepositoryPrivate;
 class RepositoryOperation;
 class LIBTHEBRANCH_EXPORT Repository : public QObject {
@@ -45,6 +47,28 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         void reloadRepositoryState();
         IndexPtr index();
 
+        struct StatusItem {
+                enum StatusFlag {
+                    NoStatusFlag = 0x00,
+                    Current = 0x01,
+                    New = 0x02,
+                    Modified = 0x04,
+                    Deleted = 0x08,
+                    TypeChanged = 0x10,
+                    Renamed = 0x20,
+                    Ignored = 0x40,
+                    Conflicting = 0x80,
+
+                    FirstStatusFlag = Current,
+                    LastStatusFlag = Conflicting
+                };
+
+                QString path;
+                int flags = NoStatusFlag;
+        };
+
+        QList<StatusItem> fileStatus();
+
         QString repositoryPath();
 
     signals:
@@ -58,6 +82,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         friend CommitModel;
         friend BranchModel;
         friend Merge;
+        friend CommitSnapIn;
         LGRepositoryPtr git_repository();
 
     private:

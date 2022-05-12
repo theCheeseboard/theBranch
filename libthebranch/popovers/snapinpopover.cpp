@@ -2,6 +2,7 @@
 #include "ui_snapinpopover.h"
 
 #include "snapins/snapin.h"
+#include <tpopover.h>
 
 struct SnapInPopoverPrivate {
 };
@@ -29,4 +30,18 @@ void SnapInPopover::pushSnapIn(SnapIn* snapin) {
     connect(snapin, &SnapIn::done, this, [=] {
         emit done();
     });
+}
+
+void SnapInPopover::showSnapInPopover(QWidget* parent, SnapIn* snapin) {
+    SnapInPopover* jp = new SnapInPopover();
+
+    tPopover* popover = new tPopover(jp);
+    popover->setPopoverWidth(SC_DPI_W(-200, parent));
+    popover->setPopoverSide(tPopover::Bottom);
+    connect(jp, &SnapInPopover::done, popover, &tPopover::dismiss);
+    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+    connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
+    popover->show(parent->window());
+
+    jp->pushSnapIn(snapin);
 }

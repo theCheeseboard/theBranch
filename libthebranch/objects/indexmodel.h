@@ -13,6 +13,7 @@ class IndexModel : public QAbstractListModel {
         ~IndexModel();
 
         void setIndex(IndexPtr index);
+        void reloadData();
 
         // Basic functionality:
         int rowCount(const QModelIndex& parent = QModelIndex()) const override;

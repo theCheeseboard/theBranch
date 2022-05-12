@@ -15,6 +15,8 @@ class LGSignature : public QObject {
 
         ::git_signature* gitSignature();
 
+        static LGSignaturePtr signatureForNow(QString name, QString email);
+
         QString name();
         QString email();
 

@@ -24,6 +24,7 @@ set(SOURCES
     objects/gitoperation.cpp
     objects/index.cpp
     objects/indexmodel.cpp
+    objects/statusitemlistmodel.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -31,6 +32,7 @@ set(SOURCES
     popovers/snapins/snapin.cpp
     popovers/snapins/checkoutsnapin.cpp popovers/snapins/checkoutsnapin.ui
     popovers/snapins/conflictresolutionsnapin.cpp popovers/snapins/conflictresolutionsnapin.ui
+    popovers/snapins/commitsnapin.cpp popovers/snapins/commitsnapin.ui
 
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
@@ -50,6 +52,7 @@ set(SOURCES
     objects/libgit/lgbranch.cpp
     objects/libgit/lgannotatedcommit.cpp
     objects/libgit/lgindex.cpp
+    objects/libgit/lgtree.cpp
 )
 
 set(HEADERS
@@ -65,6 +68,7 @@ set(HEADERS
     objects/gitoperation.h
     objects/index.h
     objects/indexmodel.h
+    objects/statusitemlistmodel.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -75,6 +79,7 @@ set(HEADERS
     popovers/snapinpopover.h
     popovers/snapins/snapin.h
     popovers/snapins/conflictresolutionsnapin.h
+    popovers/snapins/commitsnapin.h
 )
 
 set(PRIVATE_HEADERS
@@ -90,12 +95,13 @@ set(PRIVATE_HEADERS
     objects/libgit/lgbranch.h
     objects/libgit/lgannotatedcommit.h
     objects/libgit/lgindex.h
+    objects/libgit/lgtree.h
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
 cntp_init(libthebranch 17)
 set_target_properties(libthebranch PROPERTIES
-        OUTPUT_NAME thebeat
+        OUTPUT_NAME thebranch
         FRAMEWORK TRUE
         MACOSX_FRAMEWORK_IDENTIFIER com.vicr123.libthebranch
         VERSION 1.0.0

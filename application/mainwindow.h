@@ -29,6 +29,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionCheckout_triggered();
 
+        void on_actionCommit_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;

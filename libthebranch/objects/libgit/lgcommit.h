@@ -19,6 +19,7 @@ class LGCommit : public QObject {
         QString message();
         LGSignaturePtr committer();
         LGOidPtr oid();
+        LGTreePtr tree();
 
     signals:
 

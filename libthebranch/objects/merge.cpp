@@ -103,6 +103,7 @@ Merge::MergeResult Merge::performMerge() {
 
                 const git_annotated_commit* annotatedCommit = d->annotatedCommit->gitAnnotatedCommit();
                 if (git_merge(d->repo->git_repository()->gitRepository(), &annotatedCommit, 1, &merge_opts, &checkout_opts) != 0) {
+                    d->errorResponse = ErrorResponse::fromCurrentGitError();
                     return MergeFailed;
                 }
 

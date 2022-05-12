@@ -225,6 +225,41 @@ IndexPtr Repository::index() {
     return Index::indexForLgIndex(d->gitRepo->index());
 }
 
+QList<Repository::StatusItem> Repository::fileStatus() {
+    QList<StatusItem> items;
+
+    git_status_options options;
+    git_status_options_init(&options, GIT_STATUS_OPTIONS_VERSION);
+    options.show = GIT_STATUS_SHOW_INDEX_AND_WORKDIR;
+
+    git_status_list* statusList;
+    if (git_status_list_new(&statusList, d->gitRepo->gitRepository(), &options) != 0) {
+        return {};
+    }
+
+    git_status_foreach(
+        d->gitRepo->gitRepository(), [](const char* path, unsigned int flags, void* payload) {
+            QList<StatusItem>* items = reinterpret_cast<QList<StatusItem>*>(payload);
+
+            StatusItem item;
+            item.path = QString::fromUtf8(path);
+            if (flags & GIT_STATUS_CURRENT) item.flags |= Repository::StatusItem::Current;
+            if (flags & GIT_STATUS_WT_NEW || flags & GIT_STATUS_INDEX_NEW) item.flags |= Repository::StatusItem::New;
+            if (flags & GIT_STATUS_WT_MODIFIED || flags & GIT_STATUS_INDEX_MODIFIED) item.flags |= Repository::StatusItem::Modified;
+            if (flags & GIT_STATUS_WT_DELETED || flags & GIT_STATUS_INDEX_DELETED) item.flags |= Repository::StatusItem::Deleted;
+            if (flags & GIT_STATUS_WT_TYPECHANGE || flags & GIT_STATUS_INDEX_TYPECHANGE) item.flags |= Repository::StatusItem::TypeChanged;
+            if (flags & GIT_STATUS_WT_RENAMED || flags & GIT_STATUS_INDEX_RENAMED) item.flags |= Repository::StatusItem::Renamed;
+            if (flags & GIT_STATUS_CONFLICTED) item.flags |= Repository::StatusItem::Conflicting;
+            items->append(item);
+
+            return 0;
+        },
+        &items);
+
+    git_status_list_free(statusList);
+    return items;
+}
+
 QString Repository::repositoryPath() {
     return QDir::cleanPath(QDir(d->gitRepo->path()).absoluteFilePath(".."));
 }

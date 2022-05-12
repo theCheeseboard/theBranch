@@ -27,12 +27,20 @@ class LGRepository : public QObject {
         void setHead(QString head);
 
         QString path();
+        QString workDir();
         QList<LGBranchPtr> branches(THEBRANCH::ListBranchFlags flags);
         LGBranchPtr createBranch(QString name, LGCommitPtr target);
 
         LGReferencePtr reference(QString name);
 
         LGIndexPtr index();
+
+        LGTreePtr lookupTree(LGOidPtr oid);
+
+        LGCommitPtr lookupCommit(LGOidPtr oid);
+        LGOidPtr createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents);
+
+        LGSignaturePtr defaultSignature();
 
         ErrorResponse checkoutTree(LGReferencePtr revision, QVariantMap options);
         ErrorResponse checkoutIndex(LGIndexPtr index, QVariantMap options);

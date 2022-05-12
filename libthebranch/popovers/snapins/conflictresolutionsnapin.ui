@@ -29,7 +29,7 @@
    <item>
     <widget class="tStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="abortConflictResolutionPage">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -107,7 +107,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
                <string notr="true">Abort Merge</string>
               </property>
               <property name="icon">
-               <iconset theme="tools-media-optical-burn">
+               <iconset theme="dialog-cancel">
                 <normaloff>../../../../theFrisbee/application/operations</normaloff>../../../../theFrisbee/application/operations</iconset>
               </property>
              </widget>
@@ -134,6 +134,9 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
      </widget>
      <widget class="QWidget" name="conflictResolutionPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -154,17 +157,75 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>0</number>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>461</height>
-          </size>
-         </property>
-        </spacer>
+         <item>
+          <widget class="QWidget" name="leftWidget" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QListView" name="modifiedFilesEdit">
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="completeButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string notr="true">Commit</string>
+              </property>
+              <property name="icon">
+               <iconset theme="commit">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_3">
+           <property name="maximumSize">
+            <size>
+             <width>1</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_2" native="true"/>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

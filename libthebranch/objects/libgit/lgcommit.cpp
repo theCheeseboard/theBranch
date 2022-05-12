@@ -3,6 +3,7 @@
 #include "lgoid.h"
 #include "lgrepository.h"
 #include "lgsignature.h"
+#include "lgtree.h"
 #include <git2.h>
 
 struct LGCommitPrivate {
@@ -41,4 +42,10 @@ LGSignaturePtr LGCommit::committer() {
 LGOidPtr LGCommit::oid() {
     const git_oid* oid = git_commit_id(d->git_commit);
     return LGOidPtr(new LGOid(*oid));
+}
+
+LGTreePtr LGCommit::tree() {
+    git_tree* tree;
+    if (git_commit_tree(&tree, d->git_commit) != 0) return LGTreePtr();
+    return LGTreePtr(new LGTree(tree));
 }

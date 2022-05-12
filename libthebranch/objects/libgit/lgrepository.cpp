@@ -3,7 +3,10 @@
 #include "lgbranch.h"
 #include "lgcommit.h"
 #include "lgindex.h"
+#include "lgoid.h"
 #include "lgreference.h"
+#include "lgsignature.h"
+#include "lgtree.h"
 #include <QVariantMap>
 #include <git2.h>
 
@@ -25,6 +28,10 @@ LGRepository* LGRepository::open(QString path) {
 
 QString LGRepository::path() {
     return QString::fromUtf8(git_repository_path(d->gitRepository));
+}
+
+QString LGRepository::workDir() {
+    return QString::fromUtf8(git_repository_workdir(d->gitRepository));
 }
 
 LGReferencePtr LGRepository::head() {
@@ -74,6 +81,46 @@ LGIndexPtr LGRepository::index() {
         return nullptr;
     }
     return LGIndexPtr(new LGIndex(index));
+}
+
+LGTreePtr LGRepository::lookupTree(LGOidPtr oid) {
+    git_tree* tree;
+    if (git_tree_lookup(&tree, d->gitRepository, &oid->gitOid()) != 0) return LGTreePtr();
+    return LGTreePtr(new LGTree(tree));
+}
+
+LGCommitPtr LGRepository::lookupCommit(LGOidPtr oid) {
+    git_commit* commit;
+    if (git_commit_lookup(&commit, d->gitRepository, &oid->gitOid()) != 0) return LGCommitPtr();
+    return LGCommitPtr(new LGCommit(commit));
+}
+
+LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
+    git_oid oid;
+    const char* update_ref;
+    if (refToUpdate.isEmpty()) {
+        update_ref = nullptr;
+    } else {
+        update_ref = refToUpdate.toUtf8().data();
+    }
+
+    const git_commit** commit_parents = new const git_commit*[parents.count()];
+    for (int i = 0; i < parents.length(); i++) {
+        commit_parents[i] = parents.at(i)->gitCommit();
+    }
+
+    if (git_commit_create(&oid, d->gitRepository, update_ref, author->gitSignature(), committer->gitSignature(), "UTF-8", message.toUtf8().data(), tree->gitTree(), parents.count(), commit_parents) != 0) {
+        delete[] commit_parents;
+        return LGOidPtr();
+    }
+
+    return LGOidPtr(new LGOid(oid));
+}
+
+LGSignaturePtr LGRepository::defaultSignature() {
+    git_signature* sig;
+    if (git_signature_default(&sig, d->gitRepository) != 0) return LGSignaturePtr();
+    return LGSignaturePtr(new LGSignature(sig));
 }
 
 ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap options) {

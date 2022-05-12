@@ -18,6 +18,8 @@ class SnapInPopover : public QWidget {
 
         void pushSnapIn(SnapIn* snapin);
 
+        static void showSnapInPopover(QWidget* parent, SnapIn* snapin);
+
     signals:
         void done();
 

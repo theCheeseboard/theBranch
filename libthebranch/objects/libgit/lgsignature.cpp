@@ -1,5 +1,6 @@
 #include "lgsignature.h"
 
+#include "lgrepository.h"
 #include <git2.h>
 
 struct LGSignaturePrivate {
@@ -32,6 +33,12 @@ LGSignature::~LGSignature() {
 git_signature* LGSignature::gitSignature() {
     if (d->isConst) return nullptr;
     return d->signature;
+}
+
+LGSignaturePtr LGSignature::signatureForNow(QString name, QString email) {
+    git_signature* sig;
+    if (git_signature_now(&sig, name.toUtf8().data(), email.toUtf8().data()) != 0) return LGSignaturePtr();
+    return LGSignaturePtr(new LGSignature(sig));
 }
 
 QString LGSignature::name() {

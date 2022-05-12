@@ -1,10 +1,12 @@
 #ifndef LGINDEX_H
 #define LGINDEX_H
 
+#include "../forward_declares.h"
 #include <QObject>
 
 struct git_index;
 struct LGIndexPrivate;
+class QFileInfo;
 class LGIndex : public QObject {
         Q_OBJECT
     public:
@@ -17,7 +19,13 @@ class LGIndex : public QObject {
         bool hasConflicts();
         void conflictCleanup();
 
-        void addAll(QStringList globs);
+        bool readTree(LGTreePtr tree);
+        LGOidPtr writeTree(LGRepositoryPtr repo);
+
+        bool addAll(QStringList globs);
+        bool addBuffer(QFileInfo fileInfo, QString pathspec, QByteArray data);
+
+        bool removeAll(QStringList globs);
 
     signals:
 

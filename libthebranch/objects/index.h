@@ -11,8 +11,13 @@ class Index : public QObject {
     public:
         ~Index();
 
+        struct IndexItem {
+        };
+
         bool hasConflicts();
         void conflictCleanup();
+
+        QList<IndexItem> items();
 
     signals:
 
