@@ -32,7 +32,7 @@
    <item>
     <widget class="tStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="commitPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -282,6 +282,15 @@
    <header location="global">tsubtitlelabel.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>modifiedFilesEdit</tabstop>
+  <tabstop>commitMessageEdit</tabstop>
+  <tabstop>commitButton</tabstop>
+  <tabstop>nameBox</tabstop>
+  <tabstop>emailBox</tabstop>
+  <tabstop>saveSignatureBox</tabstop>
+  <tabstop>commitButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
