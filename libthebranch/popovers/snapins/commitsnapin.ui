@@ -32,7 +32,7 @@
    <item>
     <widget class="tStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="commitPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -123,7 +123,8 @@
                <string notr="true">Commit</string>
               </property>
               <property name="icon">
-               <iconset theme="commit"/>
+               <iconset theme="commit">
+                <normaloff>.</normaloff>.</iconset>
               </property>
              </widget>
             </item>
@@ -225,7 +226,8 @@
              <string>Commit</string>
             </property>
             <property name="icon">
-             <iconset theme="commit"/>
+             <iconset theme="commit">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
