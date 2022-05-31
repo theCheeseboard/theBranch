@@ -15,6 +15,8 @@
 #include <popovers/snapins/commitsnapin.h>
 #include <widgets/repositorybrowser.h>
 
+#include "printcontroller.h"
+
 struct MainWindowPrivate {
         tCsdTools csd;
 };
@@ -70,6 +72,8 @@ MainWindow::MainWindow(QWidget* parent) :
     menu->addAction(ui->actionPull);
     menu->addSeparator();
     menu->addAction(ui->actionStash);
+    menu->addSeparator();
+    menu->addAction(ui->actionPrint);
     menu->addSeparator();
     menu->addMenu(helpMenu);
     menu->addAction(ui->actionExit);
@@ -194,4 +198,9 @@ void MainWindow::updateMenuItems() {
 
 void MainWindow::on_actionCommit_triggered() {
     SnapInPopover::showSnapInPopover(this, new CommitSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
+}
+
+void MainWindow::on_actionPrint_triggered() {
+    PrintController* controller = new PrintController(this);
+    controller->confirmAndPerformPrint();
 }

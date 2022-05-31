@@ -29,7 +29,7 @@
    <item>
     <widget class="tStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="abortConflictResolutionPage">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -223,7 +223,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
           </widget>
          </item>
          <item>
-          <widget class="QWidget" name="widget_2" native="true"/>
+          <widget class="tStackedWidget" name="conflictResolutionStack"/>
          </item>
         </layout>
        </item>

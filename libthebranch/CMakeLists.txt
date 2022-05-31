@@ -4,6 +4,7 @@ project(lib VERSION 1.0.0 LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia)
 find_package(libcontemporary REQUIRED)
+find_package(ttexteditor REQUIRED)
 
 cntp_find_pkgconfig(lgit libgit2 REQUIRED)
 #        WIN_FALLBACK_DLL "C:\\Program Files (x86)\\taglib\\bin\\tag.dll"
@@ -38,6 +39,10 @@ set(SOURCES
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
     widgets/commitbrowser.cpp
     widgets/branchbrowser.cpp
+
+    widgets/conflictresolution/conflictresolutionwidget.cpp
+    widgets/conflictresolution/textconflictresolution.cpp widgets/conflictresolution/textconflictresolution.ui
+    widgets/conflictresolution/conflictresolutiontexteditorrenderstep.cpp
 
     objects/private/repositoryoperation.cpp
     objects/private/repositorycloneoperation.cpp
@@ -96,6 +101,10 @@ set(PRIVATE_HEADERS
     objects/libgit/lgannotatedcommit.h
     objects/libgit/lgindex.h
     objects/libgit/lgtree.h
+
+    widgets/conflictresolution/conflictresolutionwidget.h
+    widgets/conflictresolution/textconflictresolution.h
+    widgets/conflictresolution/conflictresolutiontexteditorrenderstep.h
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
@@ -107,7 +116,7 @@ set_target_properties(libthebranch PROPERTIES
         VERSION 1.0.0
         PUBLIC_HEADER "${HEADERS}")
 
-target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia libcontemporary PkgConfig::lgit)
+target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia libcontemporary ttexteditor PkgConfig::lgit)
 target_compile_definitions(libthebranch PRIVATE LIBTHEBRANCH_LIBRARY)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

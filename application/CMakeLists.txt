@@ -8,10 +8,12 @@ find_package(libcontemporary REQUIRED)
 set(SOURCES
         main.cpp
         mainwindow.cpp mainwindow.ui
+        printcontroller.cpp
 )
 
 set(HEADERS
         mainwindow.h
+        printcontroller.h
 )
 
 # Find Apple lproj files

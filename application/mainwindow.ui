@@ -108,7 +108,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -117,6 +117,8 @@
     </property>
     <addaction name="actionOpen_Repository"/>
     <addaction name="actionClone_Repository"/>
+    <addaction name="separator"/>
+    <addaction name="actionPrint"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -186,7 +188,8 @@
   </action>
   <action name="actionPush">
    <property name="icon">
-    <iconset theme="vcs-push"/>
+    <iconset theme="vcs-push">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Push</string>
@@ -197,7 +200,8 @@
   </action>
   <action name="actionPull">
    <property name="icon">
-    <iconset theme="vcs-pull"/>
+    <iconset theme="vcs-pull">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Pull</string>
@@ -208,7 +212,8 @@
   </action>
   <action name="actionCheckout">
    <property name="icon">
-    <iconset theme="vcs-checkout"/>
+    <iconset theme="vcs-checkout">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Checkout...</string>
@@ -219,7 +224,8 @@
   </action>
   <action name="actionNew_Branch">
    <property name="icon">
-    <iconset theme="vcs-branch-create"/>
+    <iconset theme="vcs-branch-create">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>New Branch...</string>
@@ -230,7 +236,8 @@
   </action>
   <action name="actionNew_Tag">
    <property name="icon">
-    <iconset theme="vcs-tag"/>
+    <iconset theme="vcs-tag">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>New Tag...</string>
@@ -241,7 +248,8 @@
   </action>
   <action name="actionMerge">
    <property name="icon">
-    <iconset theme="vcs-merge"/>
+    <iconset theme="vcs-merge">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Merge...</string>
@@ -252,7 +260,8 @@
   </action>
   <action name="actionRebase">
    <property name="icon">
-    <iconset theme="vcs-rebase"/>
+    <iconset theme="vcs-rebase">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Rebase...</string>
@@ -263,7 +272,8 @@
   </action>
   <action name="actionCherry_Pick">
    <property name="icon">
-    <iconset theme="vcs-cherry-pick"/>
+    <iconset theme="vcs-cherry-pick">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Cherry Pick...</string>
@@ -274,7 +284,8 @@
   </action>
   <action name="actionCommit">
    <property name="icon">
-    <iconset theme="vcs-commit"/>
+    <iconset theme="vcs-commit">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Commit...</string>
@@ -285,13 +296,26 @@
   </action>
   <action name="actionStash">
    <property name="icon">
-    <iconset theme="vcs-stash"/>
+    <iconset theme="vcs-stash">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Stash</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="icon">
+    <iconset theme="document-print">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

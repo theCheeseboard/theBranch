@@ -28,6 +28,8 @@ class ConflictResolutionSnapIn : public SnapIn {
     private:
         Ui::ConflictResolutionSnapIn* ui;
         ConflictResolutionSnapInPrivate* d;
+
+        void updateConflictResolutionState();
 };
 
 #endif // CONFLICTRESOLUTIONSNAPIN_H

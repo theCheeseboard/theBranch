@@ -4,6 +4,7 @@
 #include "objects/gitoperation.h"
 #include "objects/merge.h"
 #include "objects/statusitemlistmodel.h"
+#include "widgets/conflictresolution/textconflictresolution.h"
 #include <tcontentsizer.h>
 #include <tpopover.h>
 #include <tscrim.h>
@@ -11,6 +12,8 @@
 struct ConflictResolutionSnapInPrivate {
         GitOperationPtr gitOperation;
         StatusItemListFilterView* statusModel;
+
+        QMap<QString, ConflictResolutionWidget*> conflictResolutionWidgets;
 };
 
 ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation, QWidget* parent) :
@@ -26,6 +29,7 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
     ui->leftWidget->setFixedWidth(SC_DPI_W(300, this));
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
     ui->stackedWidget->setCurrentWidget(ui->conflictResolutionPage, false);
+    ui->conflictResolutionStack->setCurrentAnimation(tStackedWidget::Lift);
     ui->doAbortButton->setProperty("type", "destructive");
     new tContentSizer(ui->abortConfirmWidget);
 
@@ -46,6 +50,31 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
     d->statusModel->setFlagFilters(Repository::StatusItem::Conflicting);
     ui->modifiedFilesEdit->setModel(d->statusModel);
     ui->modifiedFilesEdit->setItemDelegate(new StatusItemListDelegate(this));
+
+    QDir repositoryDir(gitOperation->repository()->repositoryPath());
+
+    for (auto i = 0; i < d->statusModel->rowCount(); i++) {
+        auto index = d->statusModel->index(i, 0);
+        auto path = index.data(StatusItemListModel::PathRole).toString();
+        ConflictResolutionWidget* resolutionWidget;
+
+        // TODO: Choose an appropriate widget
+        resolutionWidget = new TextConflictResolution(repositoryDir.absoluteFilePath(path), this);
+
+        ui->conflictResolutionStack->addWidget(resolutionWidget);
+
+        connect(resolutionWidget, &ConflictResolutionWidget::conflictResolutionCompletedChanged, this, &ConflictResolutionSnapIn::updateConflictResolutionState);
+
+        d->conflictResolutionWidgets.insert(path, resolutionWidget);
+    }
+
+    connect(ui->modifiedFilesEdit->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=](QModelIndex current) {
+        if (current.isValid()) {
+            ui->conflictResolutionStack->setCurrentWidget(d->conflictResolutionWidgets.value(current.data(StatusItemListModel::PathRole).toString()));
+        }
+    });
+
+    this->updateConflictResolutionState();
 }
 
 ConflictResolutionSnapIn::~ConflictResolutionSnapIn() {
@@ -68,4 +97,13 @@ void ConflictResolutionSnapIn::on_continueConflictResolutionButton_clicked() {
 void ConflictResolutionSnapIn::on_doAbortButton_clicked() {
     d->gitOperation->abortOperation();
     emit done();
+}
+
+void ConflictResolutionSnapIn::updateConflictResolutionState() {
+    bool resolutionCompleted = true;
+    for (auto resolver : d->conflictResolutionWidgets) {
+        if (!resolver->isConflictResolutionCompleted()) resolutionCompleted = false;
+    }
+
+    ui->completeButton->setEnabled(resolutionCompleted);
 }
