@@ -25,6 +25,8 @@ class ConflictResolutionSnapIn : public SnapIn {
 
         void on_doAbortButton_clicked();
 
+        void on_completeButton_clicked();
+
     private:
         Ui::ConflictResolutionSnapIn* ui;
         ConflictResolutionSnapInPrivate* d;

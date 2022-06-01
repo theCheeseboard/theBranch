@@ -199,7 +199,22 @@ QList<QPolygon> TextConflictResolution::renderResolutionZones() {
 }
 
 bool TextConflictResolution::isConflictResolutionCompleted() {
-    return false;
+    for (auto zone : d->resolutionZones) {
+        if (zone.leftContent != zone.rightContent && zone.resolveDirection == TextConflictResolutionPrivate::ConflictResolutionZone::NoResolution) return false;
+    }
+    return true;
+}
+
+void TextConflictResolution::applyConflictResolution() {
+    QString content;
+    for (auto zone : d->resolutionZones) {
+        content.append(zone.effectiveLeftContent());
+    }
+
+    QFile outputFile(d->file);
+    outputFile.open(QFile::WriteOnly);
+    outputFile.write(content.toUtf8());
+    outputFile.close();
 }
 
 QString TextConflictResolutionPrivate::ConflictResolutionZone::effectiveLeftContent() const {
@@ -214,10 +229,10 @@ QString TextConflictResolutionPrivate::ConflictResolutionZone::effectiveLeftCont
             return rightContent;
             break;
         case TextConflictResolutionPrivate::ConflictResolutionZone::ResolveLeftThenRight:
-            return leftContent + "\n" + rightContent;
+            return leftContent + rightContent;
             break;
         case TextConflictResolutionPrivate::ConflictResolutionZone::ResolveRightThenLeft:
-            return rightContent + "\n" + leftContent;
+            return rightContent + leftContent;
             break;
     };
     return "";

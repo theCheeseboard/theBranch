@@ -43,6 +43,7 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
     }
 
     StatusItemListModel* statusModel = new StatusItemListModel(this);
+    statusModel->setUserCheckable(false);
     statusModel->setStatusItems(gitOperation->repository()->fileStatus());
 
     d->statusModel = new StatusItemListFilterView(this);
@@ -101,9 +102,26 @@ void ConflictResolutionSnapIn::on_doAbortButton_clicked() {
 
 void ConflictResolutionSnapIn::updateConflictResolutionState() {
     bool resolutionCompleted = true;
-    for (auto resolver : d->conflictResolutionWidgets) {
-        if (!resolver->isConflictResolutionCompleted()) resolutionCompleted = false;
+    for (auto i = 0; i < d->statusModel->rowCount(); i++) {
+        auto index = d->statusModel->index(i, 0);
+        auto resolver = d->conflictResolutionWidgets.value(index.data(StatusItemListModel::PathRole).toString());
+        auto conflictResolutionCompleted = resolver->isConflictResolutionCompleted();
+        if (!conflictResolutionCompleted) resolutionCompleted = false;
+        d->statusModel->setItemData(index, {
+                                               {Qt::CheckStateRole, conflictResolutionCompleted ? Qt::Checked : Qt::Unchecked}
+        });
     }
 
     ui->completeButton->setEnabled(resolutionCompleted);
+}
+
+void ConflictResolutionSnapIn::on_completeButton_clicked() {
+    // Apply conflict resolution steps
+    for (auto resolver : d->conflictResolutionWidgets) {
+        resolver->applyConflictResolution();
+    }
+
+    // Finalise the operation
+    d->gitOperation->finaliseOperation();
+    emit done();
 }

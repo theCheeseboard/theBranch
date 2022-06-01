@@ -9,6 +9,7 @@ class ConflictResolutionWidget : public QWidget {
         explicit ConflictResolutionWidget(QWidget* parent = nullptr);
 
         virtual bool isConflictResolutionCompleted() = 0;
+        virtual void applyConflictResolution() = 0;
 
     signals:
         void conflictResolutionCompletedChanged();

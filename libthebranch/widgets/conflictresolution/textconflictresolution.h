@@ -27,6 +27,7 @@ class TextConflictResolution : public ConflictResolutionWidget {
         // ConflictResolutionWidget interface
     public:
         bool isConflictResolutionCompleted();
+        void applyConflictResolution();
 
         // QObject interface
     public:

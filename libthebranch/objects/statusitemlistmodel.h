@@ -20,6 +20,7 @@ class StatusItemListModel : public QAbstractListModel {
         };
 
         void setStatusItems(QList<Repository::StatusItem> items);
+        void setUserCheckable(bool userCheckable);
 
         // Basic functionality:
         int rowCount(const QModelIndex& parent = QModelIndex()) const override;

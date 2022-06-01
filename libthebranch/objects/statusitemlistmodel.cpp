@@ -3,6 +3,8 @@
 struct StatusItemListModelPrivate {
         QList<Repository::StatusItem> statusItems;
         QSet<QPersistentModelIndex> checkedItems;
+
+        bool userCheckable = true;
 };
 
 StatusItemListModel::StatusItemListModel(QObject* parent) :
@@ -52,6 +54,11 @@ void StatusItemListModel::setStatusItems(QList<Repository::StatusItem> items) {
     d->statusItems = items;
 }
 
+void StatusItemListModel::setUserCheckable(bool userCheckable) {
+    d->userCheckable = userCheckable;
+    emit dataChanged(index(0), index(rowCount()));
+}
+
 struct StatusItemListFilterViewPrivate {
         int flagFilters;
 };
@@ -99,7 +106,7 @@ QSize StatusItemListDelegate::sizeHint(const QStyleOptionViewItem& option, const
 
 Qt::ItemFlags StatusItemListModel::flags(const QModelIndex& index) const {
     Qt::ItemFlags flags = QAbstractListModel::flags(index);
-    flags |= Qt::ItemIsUserCheckable;
+    if (d->userCheckable) flags |= Qt::ItemIsUserCheckable;
     return flags;
 }
 

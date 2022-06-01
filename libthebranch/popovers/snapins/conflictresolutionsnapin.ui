@@ -194,9 +194,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
             </item>
             <item>
              <widget class="QPushButton" name="completeButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
               <property name="text">
                <string notr="true">Commit</string>
               </property>
