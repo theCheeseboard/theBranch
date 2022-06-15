@@ -109,31 +109,27 @@ set(PRIVATE_HEADERS
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
 cntp_init(libthebranch 17)
+cntp_target_public_headers(libthebranch
+    DESTINATION_DIRECTORY libthebranch
+    HEADERS ${HEADERS})
 set_target_properties(libthebranch PROPERTIES
         OUTPUT_NAME thebranch
         FRAMEWORK TRUE
         MACOSX_FRAMEWORK_IDENTIFIER com.vicr123.libthebranch
-        VERSION 1.0.0
-        PUBLIC_HEADER "${HEADERS}")
+        VERSION 1.0.0)
 
 target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia libcontemporary ttexteditor PkgConfig::lgit)
 target_compile_definitions(libthebranch PRIVATE LIBTHEBRANCH_LIBRARY)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set_target_properties(libthebranch PROPERTIES OUTPUT_NAME libthebranch)
     set(CMAKECONFIG_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/libthebranch.framework/Resources/CMake)
-    set(HEADER_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
-    set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/libthebranch.framework/Headers)
-    set(LIBRARY_INSTALL_DIR ../)
 ELSE()
     set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/libthebranch)
-    set(HEADER_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/libthebranch)
-    set(INCLUDE_INSTALL_DIR ${HEADER_INSTALL_DIR})
-    set(LIBRARY_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
 ENDIF()
 
 configure_package_config_file(libthebranchConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/libthebranchConfig.cmake
-        INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
-        PATH_VARS HEADER_INSTALL_DIR LIBRARY_INSTALL_DIR)
+        INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libthebranchConfig.cmake
         DESTINATION ${CMAKECONFIG_INSTALL_DIR})
@@ -143,8 +139,7 @@ install(EXPORT libthebranchTargets
 
 install(TARGETS libthebranch
         EXPORT libthebranchTargets
-        PUBLIC_HEADER DESTINATION ${HEADER_INSTALL_DIR}
-        INCLUDES DESTINATION ${INCLUDE_INSTALL_DIR}
+        INCLUDES DESTINATION ${libthebranch_INCLUDE_DIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
