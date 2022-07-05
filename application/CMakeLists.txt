@@ -39,7 +39,7 @@ set_target_properties(thebranch PROPERTIES
         WIN32_EXECUTABLE TRUE
         CNTP_DATA_SUBDIR thebranch)
 
-cntp_init(thebranch 17)
+cntp_init(thebranch 20)
 cntp_translate(thebranch)
 cntp_target_name(thebranch "theBranch")
 cntp_app_icon(thebranch

@@ -4,6 +4,7 @@
 #include "../forward_declares.h"
 #include "tpromise.h"
 #include <QObject>
+#include <Task>
 
 struct LGClonePrivate;
 class LGClone : public QObject {
@@ -12,7 +13,7 @@ class LGClone : public QObject {
         explicit LGClone();
         ~LGClone();
 
-        tPromise<void>* clone(QString cloneUrl, QString directory);
+        QCoro::Task<> clone(QString cloneUrl, QString directory);
 
     signals:
         void statusChanged(QString description);

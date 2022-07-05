@@ -108,7 +108,7 @@ set(PRIVATE_HEADERS
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
-cntp_init(libthebranch 17)
+cntp_init(libthebranch 20)
 cntp_target_public_headers(libthebranch
     DESTINATION_DIRECTORY libthebranch
     HEADERS ${HEADERS})

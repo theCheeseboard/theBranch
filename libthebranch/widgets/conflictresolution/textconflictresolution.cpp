@@ -43,11 +43,11 @@ TextConflictResolution::TextConflictResolution(QString file, QWidget* parent) :
     ui->leftTextEditor->pushRenderStep(new ConflictResolutionTextEditorRenderStep(ui->leftTextEditor));
     ui->rightTextEditor->pushRenderStep(new ConflictResolutionTextEditorRenderStep(ui->rightTextEditor));
 
-    connect(ui->leftTextEditor->verticalScrollBar(), &QScrollBar::valueChanged, this, [=] {
+    connect(ui->leftTextEditor->verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         ui->resolutionArea->update();
         ui->rightTextEditor->verticalScrollBar()->setValue(ui->leftTextEditor->verticalScrollBar()->value());
     });
-    connect(ui->rightTextEditor->verticalScrollBar(), &QScrollBar::valueChanged, this, [=] {
+    connect(ui->rightTextEditor->verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         ui->resolutionArea->update();
 
         // TODO: Something smarter with the scrolling

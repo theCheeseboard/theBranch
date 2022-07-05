@@ -3,6 +3,7 @@
 
 #include "objects/forward_declares.h"
 #include <QWidget>
+#include <Task>
 
 namespace Ui {
     class RepositoryBrowser;
@@ -24,7 +25,7 @@ class RepositoryBrowser : public QWidget {
     private slots:
         void on_cloneButton_clicked();
 
-        void on_openRepositoryButton_clicked();
+        QCoro::Task<> on_openRepositoryButton_clicked();
 
     signals:
         void titleChanged();

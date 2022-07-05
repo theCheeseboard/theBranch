@@ -53,18 +53,18 @@ RepositoryCloneOperation::RepositoryCloneOperation(QString cloneUrl, QString dir
         d->cloneOutput = description.trimmed();
         emit stateInformationalTextChanged();
     });
-    clone->clone(cloneUrl, directory)->then([=] {
-                                         emit putRepository(LGRepositoryPtr(LGRepository::open(directory)));
-                                         emit done();
-                                     })
-        ->error([=](QString error) {
-            d->cloneOutput = error;
-            d->state = Repository::Invalid;
-            emit stateChanged();
-            emit stateDescriptionChanged();
-            emit stateInformationalTextChanged();
-            emit progressChanged();
-        });
+    clone->clone(cloneUrl, directory).then([=] {
+        emit putRepository(LGRepositoryPtr(LGRepository::open(directory)));
+        emit done();
+    },
+        [=](const std::exception e) {
+        //            d->cloneOutput = error;
+        d->state = Repository::Invalid;
+        emit stateChanged();
+        emit stateDescriptionChanged();
+        emit stateInformationalTextChanged();
+        emit progressChanged();
+    });
 }
 
 RepositoryCloneOperation::~RepositoryCloneOperation() {

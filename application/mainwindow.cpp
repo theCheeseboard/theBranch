@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QCoroTimer>
+#include <QMessageBox>
 #include <tapplication.h>
 #include <tcsdtools.h>
 #include <thelpmenu.h>
@@ -13,9 +15,12 @@
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
 #include <popovers/snapins/commitsnapin.h>
+#include <tasync.h>
 #include <widgets/repositorybrowser.h>
 
 #include "printcontroller.h"
+
+#include <QCoroFuture>
 
 struct MainWindowPrivate {
         tCsdTools csd;
@@ -154,14 +159,18 @@ void MainWindow::on_actionClone_Repository_triggered() {
     popover->show(this->window());
 }
 
-void MainWindow::on_actionOpen_Repository_triggered() {
-    Repository::repositoryForDirectoryUi(this)->then([=](RepositoryPtr repo) {
+QCoro::Task<> MainWindow::on_actionOpen_Repository_triggered() {
+    try {
+        auto repo = co_await Repository::repositoryForDirectoryUi(this);
+
         RepositoryBrowser* browser = openNextTab();
         browser->setRepository(repo);
         connect(repo.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
 
         updateMenuItems();
-    });
+    } catch (QException ex) {
+        // ignore
+    }
 }
 
 void MainWindow::on_actionCheckout_triggered() {

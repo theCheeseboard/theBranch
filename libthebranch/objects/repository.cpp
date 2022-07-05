@@ -8,6 +8,7 @@
 #include "libgit/lgrepository.h"
 #include "private/repositorycloneoperation.h"
 #include "reference.h"
+#include <QCoroSignal>
 #include <QDirIterator>
 #include <QFileDialog>
 #include <QFileSystemWatcher>
@@ -26,7 +27,7 @@ Repository::Repository(QObject* parent) :
     QObject{parent} {
     d = new RepositoryPrivate;
     d->watcher = new QFileSystemWatcher();
-    connect(d->watcher, &QFileSystemWatcher::directoryChanged, this, [=] {
+    connect(d->watcher, &QFileSystemWatcher::directoryChanged, this, [this] {
         updateWatchedDirectories();
         emit repositoryUpdated();
     });
@@ -34,7 +35,7 @@ Repository::Repository(QObject* parent) :
 
 void Repository::putRepositoryOperation(RepositoryOperation* operation) {
     d->operations.append(operation);
-    connect(operation, &RepositoryOperation::done, this, [=] {
+    connect(operation, &RepositoryOperation::done, this, [this, operation] {
         emit stateChanged();
         emit stateDescriptionChanged();
         emit stateInformationalTextChanged();
@@ -47,7 +48,7 @@ void Repository::putRepositoryOperation(RepositoryOperation* operation) {
     connect(operation, &RepositoryOperation::stateDescriptionChanged, this, &Repository::stateDescriptionChanged);
     connect(operation, &RepositoryOperation::stateInformationalTextChanged, this, &Repository::stateInformationalTextChanged);
     connect(operation, &RepositoryOperation::progressChanged, this, &Repository::stateProgressChanged);
-    connect(operation, &RepositoryOperation::putRepository, this, [=](LGRepositoryPtr repository) {
+    connect(operation, &RepositoryOperation::putRepository, this, [this](LGRepositoryPtr repository) {
         d->gitRepo = repository;
         reloadRepositoryState();
     });
@@ -154,39 +155,43 @@ RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, Q
     return RepositoryPtr(repo);
 }
 
-tPromise<RepositoryPtr>* Repository::repositoryForDirectoryUi(QWidget* parent) {
-    return TPROMISE_CREATE_SAME_THREAD(RepositoryPtr, {
-        QFileDialog* dialog = new QFileDialog(parent);
-        dialog->setAcceptMode(QFileDialog::AcceptOpen);
-        dialog->setFileMode(QFileDialog::Directory);
-        dialog->setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
-        connect(
-            dialog, &QFileDialog::accepted, parent, [=] {
-                RepositoryPtr repo = Repository::repositoryForDirectory(dialog->selectedFiles().first());
-                if (repo) {
-                    res(repo);
-                } else {
-                    tMessageBox* box = new tMessageBox(parent->window());
-                    box->setTitleBarText(tr("No Git Repository Available"));
-                    box->setMessageText(tr("The folder that you selected does not contain a Git repository. Do you want to create an empty Git repository there?"));
-                    box->setIcon(QMessageBox::Question);
-                    tMessageBoxButton* createButton = box->addButton(tr("Create and Open Git Repository"), QMessageBox::AcceptRole);
-                    tMessageBoxButton* cancelButton = box->addStandardButton(QMessageBox::Cancel);
+QCoro::Task<RepositoryPtr> Repository::repositoryForDirectoryUi(QWidget* parent) {
+    QFileDialog* dialog = new QFileDialog(parent);
+    dialog->setAcceptMode(QFileDialog::AcceptOpen);
+    dialog->setFileMode(QFileDialog::Directory);
+    dialog->setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    dialog->open();
 
-                    connect(createButton, &tMessageBoxButton::buttonPressed, parent, [=] {
-                        rej("Not Implemented");
-                    });
-                    connect(cancelButton, &tMessageBoxButton::buttonPressed, parent, [=] {
-                        rej("Cancelled");
-                    });
+    const auto result = co_await qCoro(dialog, &QFileDialog::finished);
+    dialog->deleteLater();
+    if (result == QFileDialog::Rejected) throw QException();
 
-                    box->exec(true);
-                }
-            },
-            Qt::QueuedConnection);
-        connect(dialog, &QFileDialog::finished, dialog, &QFileDialog::deleteLater);
-        dialog->open();
-    });
+    RepositoryPtr repo = Repository::repositoryForDirectory(dialog->selectedFiles().first());
+    if (repo) {
+        co_return repo;
+    } else {
+        tMessageBox* box = new tMessageBox(parent->window());
+        box->setTitleBarText(tr("No Git Repository Available"));
+        box->setMessageText(tr("The folder that you selected does not contain a Git repository. Do you want to create an empty Git repository there?"));
+        box->setIcon(QMessageBox::Question);
+        tMessageBoxButton* createButton = box->addButton(tr("Create and Open Git Repository"), QMessageBox::AcceptRole);
+        tMessageBoxButton* cancelButton = box->addStandardButton(QMessageBox::Cancel);
+
+        bool create = false;
+        connect(createButton, &tMessageBoxButton::buttonPressed, parent, [&create] {
+            create = true;
+        });
+        connect(cancelButton, &tMessageBoxButton::buttonPressed, parent, [=] {
+        });
+
+        box->exec(true);
+
+        if (create) {
+            throw QException();
+        } else {
+            throw QException();
+        }
+    }
 }
 
 RepositoryPtr Repository::repositoryForDirectory(QString directory) {

@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFuture>
 #include <QMainWindow>
+#include <Task>
 
 namespace Ui {
     class MainWindow;
@@ -25,7 +27,7 @@ class MainWindow : public QMainWindow {
 
         void on_actionClone_Repository_triggered();
 
-        void on_actionOpen_Repository_triggered();
+        QCoro::Task<> on_actionOpen_Repository_triggered();
 
         void on_actionCheckout_triggered();
 

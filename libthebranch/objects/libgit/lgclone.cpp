@@ -1,5 +1,6 @@
 #include "lgclone.h"
 
+#include <QCoroFuture>
 #include <git2.h>
 
 struct LGClonePrivate {
@@ -45,16 +46,17 @@ LGClone::~LGClone() {
     delete d;
 }
 
-tPromise<void>* LGClone::clone(QString cloneUrl, QString directory) {
-    return TPROMISE_CREATE_NEW_THREAD(void, {
+QCoro::Task<> LGClone::clone(QString cloneUrl, QString directory) {
+    auto ok = co_await QtConcurrent::run([cloneUrl, directory, this] {
         git_repository* repo;
         if (git_clone(&repo, cloneUrl.toUtf8().data(), directory.toUtf8().data(), d->options) != 0) {
             const git_error* error = git_error_last();
-            rej(error->message);
-            return;
+            return false;
         }
 
         git_repository_free(repo);
-        res();
+        return true;
     });
+
+    if (!ok) throw QException();
 }

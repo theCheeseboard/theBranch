@@ -100,8 +100,11 @@ void RepositoryBrowser::updateRepositoryState() {
     emit titleChanged();
 }
 
-void RepositoryBrowser::on_openRepositoryButton_clicked() {
-    Repository::repositoryForDirectoryUi(this)->then([=](RepositoryPtr repo) {
+QCoro::Task<> RepositoryBrowser::on_openRepositoryButton_clicked() {
+    try {
+        auto repo = co_await Repository::repositoryForDirectoryUi(this);
         this->setRepository(repo);
-    });
+    } catch (QException ex) {
+        // Ignore
+    }
 }

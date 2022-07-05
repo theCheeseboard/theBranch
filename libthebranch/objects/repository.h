@@ -6,6 +6,7 @@
 #include "forward_declares.h"
 #include "libthebranch_global.h"
 #include <QObject>
+#include <Task>
 #include <tpromise.h>
 
 class BranchModel;
@@ -20,7 +21,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         ~Repository();
 
         static RepositoryPtr cloneRepository(QString cloneUrl, QString directory, QVariantMap options);
-        static tPromise<RepositoryPtr>* repositoryForDirectoryUi(QWidget* parent);
+        static QCoro::Task<RepositoryPtr> repositoryForDirectoryUi(QWidget* parent);
         static RepositoryPtr repositoryForDirectory(QString directory);
         static QString gitRepositoryRootForDirectory(QString directory);
 

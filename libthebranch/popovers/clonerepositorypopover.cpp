@@ -60,7 +60,7 @@ void CloneRepositoryPopover::on_browseButton_clicked() {
     QFileDialog* dialog = new QFileDialog(this);
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
     dialog->setFileMode(QFileDialog::Directory);
-    connect(dialog, &QFileDialog::fileSelected, this, [=](QString file) {
+    connect(dialog, &QFileDialog::fileSelected, this, [this](QString file) {
         ui->cloneDirectoryEdit->setText(file);
     });
     connect(dialog, &QFileDialog::finished, dialog, &QFileDialog::deleteLater);

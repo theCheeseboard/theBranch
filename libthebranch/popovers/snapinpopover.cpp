@@ -27,7 +27,7 @@ void SnapInPopover::pushSnapIn(SnapIn* snapin) {
 
     snapin->snapinShown();
 
-    connect(snapin, &SnapIn::done, this, [=] {
+    connect(snapin, &SnapIn::done, this, [this] {
         emit done();
     });
 }
