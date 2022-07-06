@@ -15,7 +15,6 @@
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
 #include <popovers/snapins/commitsnapin.h>
-#include <tasync.h>
 #include <widgets/repositorybrowser.h>
 
 #include "printcontroller.h"
