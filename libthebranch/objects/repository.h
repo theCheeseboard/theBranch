@@ -6,7 +6,7 @@
 #include "forward_declares.h"
 #include "libthebranch_global.h"
 #include <QObject>
-#include <Task>
+#include <QCoroTask>
 #include <tpromise.h>
 
 class BranchModel;

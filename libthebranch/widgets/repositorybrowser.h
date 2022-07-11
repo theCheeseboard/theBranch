@@ -3,7 +3,7 @@
 
 #include "objects/forward_declares.h"
 #include <QWidget>
-#include <Task>
+#include <QCoroTask>
 
 namespace Ui {
     class RepositoryBrowser;

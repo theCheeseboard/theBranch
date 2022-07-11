@@ -3,7 +3,7 @@
 
 #include <QFuture>
 #include <QMainWindow>
-#include <Task>
+#include <QCoroTask>
 
 namespace Ui {
     class MainWindow;

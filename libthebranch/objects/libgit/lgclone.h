@@ -4,7 +4,7 @@
 #include "../forward_declares.h"
 #include "tpromise.h"
 #include <QObject>
-#include <Task>
+#include <QCoroTask>
 
 struct LGClonePrivate;
 class LGClone : public QObject {

@@ -2,9 +2,9 @@ set(libthebranch_VERSION 1.0.0)
 
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/libthebranchTargets.cmake")
-
 cntp_find_pkgconfig(lgit libgit2 REQUIRED)
 find_package(ttexteditor REQUIRED)
+
+include("${CMAKE_CURRENT_LIST_DIR}/libthebranchTargets.cmake")
 
 check_required_components(libthebranch)
