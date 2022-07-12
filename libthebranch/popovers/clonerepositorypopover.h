@@ -3,13 +3,14 @@
 
 #include "objects/forward_declares.h"
 #include <QWidget>
+#include "libthebranch_global.h"
 
 namespace Ui {
     class CloneRepositoryPopover;
 }
 
 class Repository;
-class CloneRepositoryPopover : public QWidget {
+class LIBTHEBRANCH_EXPORT CloneRepositoryPopover : public QWidget {
         Q_OBJECT
 
     public:

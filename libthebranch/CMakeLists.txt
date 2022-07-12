@@ -6,10 +6,10 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia)
 find_package(libcontemporary REQUIRED)
 find_package(ttexteditor REQUIRED)
 
-cntp_find_pkgconfig(lgit libgit2 REQUIRED)
-#        WIN_FALLBACK_DLL "C:\\Program Files (x86)\\taglib\\bin\\tag.dll"
-#        WIN_FALLBACK_IMPLIB "C:\\Program Files (x86)\\taglib\\lib\\tag.lib"
-#        WIN_FALLBACK_INCLUDE "C:\\Program Files (x86)\\taglib\\include")
+cntp_find_pkgconfig(lgit libgit2 REQUIRED
+        WIN_FALLBACK_DLL "C:\\Program Files (x86)\\libgit2\\bin\\git2.dll"
+        WIN_FALLBACK_IMPLIB "C:\\Program Files (x86)\\libgit2\\lib\\git2.lib"
+        WIN_FALLBACK_INCLUDE "C:\\Program Files (x86)\\libgit2\\include")
 
 set(SOURCES
     libthebranch_global.cpp

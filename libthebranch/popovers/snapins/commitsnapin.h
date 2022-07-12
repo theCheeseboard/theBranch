@@ -3,13 +3,14 @@
 
 #include "objects/forward_declares.h"
 #include "snapin.h"
+#include "libthebranch_global.h"
 
 namespace Ui {
     class CommitSnapIn;
 }
 
 struct CommitSnapInPrivate;
-class CommitSnapIn : public SnapIn {
+class LIBTHEBRANCH_EXPORT CommitSnapIn : public SnapIn {
         Q_OBJECT
 
     public:

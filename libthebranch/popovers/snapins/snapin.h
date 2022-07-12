@@ -2,8 +2,9 @@
 #define SNAPIN_H
 
 #include <QWidget>
+#include "libthebranch_global.h"
 
-class SnapIn : public QWidget {
+class LIBTHEBRANCH_EXPORT SnapIn : public QWidget {
         Q_OBJECT
     public:
         explicit SnapIn(QWidget* parent = nullptr);

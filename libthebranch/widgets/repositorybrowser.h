@@ -4,13 +4,14 @@
 #include "objects/forward_declares.h"
 #include <QWidget>
 #include <QCoroTask>
+#include "libthebranch_global.h"
 
 namespace Ui {
     class RepositoryBrowser;
 }
 
 struct RepositoryBrowserPrivate;
-class RepositoryBrowser : public QWidget {
+class LIBTHEBRANCH_EXPORT RepositoryBrowser : public QWidget {
         Q_OBJECT
 
     public:

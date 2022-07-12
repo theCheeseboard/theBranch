@@ -2,6 +2,7 @@
 #define SNAPINPOPOVER_H
 
 #include <QWidget>
+#include "libthebranch_global.h"
 
 namespace Ui {
     class SnapInPopover;
@@ -9,7 +10,7 @@ namespace Ui {
 
 class SnapIn;
 struct SnapInPopoverPrivate;
-class SnapInPopover : public QWidget {
+class LIBTHEBRANCH_EXPORT SnapInPopover : public QWidget {
         Q_OBJECT
 
     public:
