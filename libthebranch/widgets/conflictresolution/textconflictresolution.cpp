@@ -40,6 +40,8 @@ TextConflictResolution::TextConflictResolution(QString file, QWidget* parent) :
 
     ui->resolutionArea->setFixedWidth(SC_DPI_W(50, this));
 
+    ui->leftTextEditor->setReadOnly(true);
+    ui->rightTextEditor->setReadOnly(true);
     ui->leftTextEditor->pushRenderStep(new ConflictResolutionTextEditorRenderStep(ui->leftTextEditor));
     ui->rightTextEditor->pushRenderStep(new ConflictResolutionTextEditorRenderStep(ui->rightTextEditor));
 
