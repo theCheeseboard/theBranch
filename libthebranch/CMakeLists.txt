@@ -41,8 +41,7 @@ set(SOURCES
     widgets/branchbrowser.cpp
 
     widgets/conflictresolution/conflictresolutionwidget.cpp
-    widgets/conflictresolution/textconflictresolution.cpp widgets/conflictresolution/textconflictresolution.ui
-    widgets/conflictresolution/conflictresolutiontexteditorrenderstep.cpp
+    widgets/conflictresolution/textconflictresolution.cpp
 
     objects/private/repositoryoperation.cpp
     objects/private/repositorycloneoperation.cpp
@@ -101,10 +100,8 @@ set(PRIVATE_HEADERS
     objects/libgit/lgannotatedcommit.h
     objects/libgit/lgindex.h
     objects/libgit/lgtree.h
-
     widgets/conflictresolution/conflictresolutionwidget.h
     widgets/conflictresolution/textconflictresolution.h
-    widgets/conflictresolution/conflictresolutiontexteditorrenderstep.h
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})

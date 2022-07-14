@@ -3,35 +3,22 @@
 
 #include "conflictresolutionwidget.h"
 
-namespace Ui {
-    class TextConflictResolution;
-}
-
 struct TextConflictResolutionPrivate;
 class TextConflictResolution : public ConflictResolutionWidget {
         Q_OBJECT
-
     public:
         explicit TextConflictResolution(QString file, QWidget* parent = nullptr);
         ~TextConflictResolution();
 
+    signals:
+
     private:
-        Ui::TextConflictResolution* ui;
         TextConflictResolutionPrivate* d;
-
-        void loadFile();
-        void loadResolutionZones();
-
-        QList<QPolygon> renderResolutionZones();
 
         // ConflictResolutionWidget interface
     public:
         bool isConflictResolutionCompleted();
         void applyConflictResolution();
-
-        // QObject interface
-    public:
-        bool eventFilter(QObject* watched, QEvent* event);
 };
 
 #endif // TEXTCONFLICTRESOLUTION_H
