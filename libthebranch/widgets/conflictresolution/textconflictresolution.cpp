@@ -18,7 +18,30 @@ TextConflictResolution::TextConflictResolution(QString file, QWidget* parent) :
 
     QFile initialFile(d->file);
     initialFile.open(QFile::ReadOnly);
-    d->mergeTool->loadGitDiff(initialFile.readAll());
+
+    QString leftContent;
+    QString rightContent;
+
+    auto lines = QString(initialFile.readAll()).split("\n");
+    bool writeToLeftSide = true;
+    bool writeToRightSide = true;
+    for (const auto& line : lines) {
+        if (line.startsWith("<<<<<<< ")) {
+            writeToLeftSide = true;
+            writeToRightSide = false;
+        } else if (line.startsWith("=======")) {
+            writeToLeftSide = false;
+            writeToRightSide = true;
+        } else if (line.startsWith(">>>>>>> ")) {
+            writeToLeftSide = true;
+            writeToRightSide = true;
+        } else {
+            if (writeToLeftSide) leftContent.append(line + "\n");
+            if (writeToRightSide) rightContent.append(line + "\n");
+        }
+    }
+
+    d->mergeTool->loadDiff(leftContent, rightContent);
     initialFile.close();
 
     auto* layout = new QBoxLayout(QBoxLayout::TopToBottom);
