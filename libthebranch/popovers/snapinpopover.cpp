@@ -2,9 +2,11 @@
 #include "ui_snapinpopover.h"
 
 #include "snapins/snapin.h"
+#include <QTimer>
 #include <tpopover.h>
 
 struct SnapInPopoverPrivate {
+        int numSnapins = 0;
 };
 
 SnapInPopover::SnapInPopover(QWidget* parent) :
@@ -22,14 +24,34 @@ SnapInPopover::~SnapInPopover() {
 }
 
 void SnapInPopover::pushSnapIn(SnapIn* snapin) {
+    d->numSnapins++;
+    snapin->setParentPopover(this);
     ui->stackedWidget->addWidget(snapin);
     ui->stackedWidget->setCurrentWidget(snapin);
 
     snapin->snapinShown();
 
-    connect(snapin, &SnapIn::done, this, [this] {
-        emit done();
-    });
+    connect(
+        snapin, &SnapIn::done, this, [this, snapin] {
+            d->numSnapins--;
+            if (d->numSnapins == 0) {
+                emit done();
+            } else {
+                if (ui->stackedWidget->currentIndex() == ui->stackedWidget->indexOf(snapin)) {
+                    auto newIndex = ui->stackedWidget->indexOf(snapin) + 1;
+                    if (newIndex == ui->stackedWidget->count()) newIndex = ui->stackedWidget->count() - 2;
+
+                    auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(newIndex));
+                    widget->snapinShown();
+                    ui->stackedWidget->setCurrentWidget(widget);
+                }
+
+                QTimer::singleShot(500, this, [this, snapin] {
+                    ui->stackedWidget->removeWidget(snapin);
+                });
+            }
+        },
+        Qt::QueuedConnection);
 }
 
 void SnapInPopover::showSnapInPopover(QWidget* parent, SnapIn* snapin) {

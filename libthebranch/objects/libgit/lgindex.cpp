@@ -30,8 +30,8 @@ git_index* LGIndex::gitIndex() {
     return d->gitIndex;
 }
 
-void LGIndex::write() {
-    git_index_write(d->gitIndex);
+bool LGIndex::write() {
+    return git_index_write(d->gitIndex) == 0;
 }
 
 bool LGIndex::hasConflicts() {
@@ -50,6 +50,10 @@ LGOidPtr LGIndex::writeTree(LGRepositoryPtr repo) {
     git_oid oid;
     if (git_index_write_tree_to(&oid, d->gitIndex, repo->gitRepository()) != 0) return LGOidPtr();
     return LGOidPtr(new LGOid(oid));
+}
+
+bool LGIndex::addByPath(QString path) {
+    return git_index_add_bypath(d->gitIndex, path.toUtf8().data()) == 0;
 }
 
 bool LGIndex::addAll(QStringList globs) {

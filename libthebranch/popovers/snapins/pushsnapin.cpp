@@ -1,11 +1,13 @@
 #include "pushsnapin.h"
 #include "ui_pushsnapin.h"
 
+#include "../snapinpopover.h"
 #include "objects/branch.h"
 #include "objects/branchmodel.h"
 #include "objects/libgit/lgrepository.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
+#include "pullsnapin.h"
 #include <tcontentsizer.h>
 
 struct PushSnapInPrivate {
@@ -83,4 +85,12 @@ void PushSnapIn::updateUpstreamBox() {
 
 void PushSnapIn::on_titleLabel_2_backButtonClicked() {
     emit done();
+}
+
+void PushSnapIn::on_pullButton_clicked() {
+    this->parentPopover()->pushSnapIn(new PullSnapIn(d->repo));
+}
+
+void PushSnapIn::snapinShown() {
+    ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage, false);
 }

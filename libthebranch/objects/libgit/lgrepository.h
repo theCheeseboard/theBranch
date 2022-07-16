@@ -59,6 +59,7 @@ class LGRepository : public QObject {
         void cleanupState();
 
         QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags);
+        QCoro::Task<> fetch(QString remote);
 
         QCoro::Task<QString> runGit(QStringList args);
 

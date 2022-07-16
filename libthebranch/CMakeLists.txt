@@ -35,6 +35,7 @@ set(SOURCES
     popovers/snapins/conflictresolutionsnapin.cpp popovers/snapins/conflictresolutionsnapin.ui
     popovers/snapins/commitsnapin.cpp popovers/snapins/commitsnapin.ui
     popovers/snapins/pushsnapin.cpp popovers/snapins/pushsnapin.ui
+    popovers/snapins/pullsnapin.cpp popovers/snapins/pullsnapin.ui
 
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
@@ -86,6 +87,7 @@ set(HEADERS
     popovers/snapins/conflictresolutionsnapin.h
     popovers/snapins/commitsnapin.h
     popovers/snapins/pushsnapin.h
+    popovers/snapins/pullsnapin.h
 )
 
 set(PRIVATE_HEADERS

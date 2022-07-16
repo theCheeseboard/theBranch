@@ -33,7 +33,14 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
     ui->doAbortButton->setProperty("type", "destructive");
     new tContentSizer(ui->abortConfirmWidget);
 
-    if (gitOperation.objectCast<Merge>()) {
+    if (gitOperation.objectCast<PullMerge>()) {
+        ui->abortExplainText->setText(tr("Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost."));
+        ui->continueConflictResolutionButton->setText(tr("Continue Pull"));
+        ui->continueConflictResolutionButton->setIcon(QIcon::fromTheme("vcs-pull"));
+        ui->doAbortButton->setText(tr("Abort Pull"));
+        ui->completeButton->setText(tr("Pull"));
+        ui->completeButton->setIcon(QIcon::fromTheme("vcs-pull"));
+    } else if (gitOperation.objectCast<Merge>()) {
         ui->abortExplainText->setText(tr("Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started merging, and will also abort the merge operation. Any conflict resolution will be lost."));
         ui->continueConflictResolutionButton->setText(tr("Continue Merge"));
         ui->continueConflictResolutionButton->setIcon(QIcon::fromTheme("vcs-merge"));
@@ -117,7 +124,7 @@ void ConflictResolutionSnapIn::updateConflictResolutionState() {
 
 void ConflictResolutionSnapIn::on_completeButton_clicked() {
     // Apply conflict resolution steps
-    for (auto *resolver : d->conflictResolutionWidgets) {
+    for (auto* resolver : d->conflictResolutionWidgets) {
         resolver->applyConflictResolution();
     }
 

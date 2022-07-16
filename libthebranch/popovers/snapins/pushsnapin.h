@@ -27,11 +27,17 @@ class LIBTHEBRANCH_EXPORT PushSnapIn : public SnapIn {
 
         void on_titleLabel_2_backButtonClicked();
 
+        void on_pullButton_clicked();
+
     private:
         Ui::PushSnapIn* ui;
         PushSnapInPrivate* d;
 
         void updateUpstreamBox();
+
+        // SnapIn interface
+    public:
+        void snapinShown();
 };
 
 #endif // PUSHSNAPIN_H

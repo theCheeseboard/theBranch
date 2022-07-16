@@ -165,16 +165,10 @@ void Merge::finaliseOperation() {
 
     for (auto item : d->repo->fileStatus()) {
         if (item.flags & Repository::StatusItem::Conflicting) {
-            QString pathspec = item.path;
-            QString filePath = QDir(repo->workDir()).absoluteFilePath(pathspec);
-
-            QFile file(filePath);
-            file.open(QFile::ReadOnly);
-            if (!index->addBuffer(QFileInfo(filePath), pathspec, file.readAll())) {
+            if (!index->addByPath(item.path)) {
                 // TODO: Error handling
                 return;
             }
-            file.close();
         }
     }
 
@@ -182,4 +176,8 @@ void Merge::finaliseOperation() {
 
     auto mergeMessage = tr("Merge %1 into %2").arg(d->fromName, d->toName);
     repo->commit(mergeMessage, sig);
+}
+
+PullMerge::PullMerge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :
+    Merge(repo, branch, parent) {
 }

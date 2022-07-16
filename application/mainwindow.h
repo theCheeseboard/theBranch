@@ -37,6 +37,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionPush_triggered();
 
+        void on_actionPull_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;

@@ -106,6 +106,7 @@ LGCommitPtr LGRepository::lookupCommit(LGOidPtr oid) {
     return LGCommitPtr(new LGCommit(commit));
 }
 
+#include <tlogger.h>
 QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
     // Use git command to write commits
     QTemporaryFile messageFile;
@@ -113,7 +114,10 @@ QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
     messageFile.write(message.toUtf8());
     messageFile.close();
 
-    co_await this->runGit({"commit", QStringLiteral("--file=%1").arg(messageFile.fileName()), QStringLiteral("--author=%1 <%2>").arg(committer->name(), committer->email())});
+    auto args = QStringList({"commit", QStringLiteral("--file=%1").arg(messageFile.fileName()), QStringLiteral("--author=%1 <%2>").arg(committer->name(), committer->email())});
+    auto output = co_await this->runGit(args);
+
+    tDebug("LGRepository") << output;
 }
 
 // LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
@@ -183,7 +187,6 @@ void LGRepository::cleanupState() {
     git_repository_state_cleanup(d->gitRepository);
 }
 
-#include <tlogger.h>
 QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags) {
     auto args = QStringList({"push"});
     if (pushTags) args.append("--tags");
@@ -191,10 +194,15 @@ QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch,
     args.append({upstreamRemote, upstreamBranch});
     auto output = co_await this->runGit(args);
 
-    tDebug("LGRepository") << output;
     if (output.contains("[rejected]")) {
         throw GitRepositoryOutOfDateException();
     }
+}
+
+QCoro::Task<> LGRepository::fetch(QString remote) {
+    // TODO: Error checking
+    auto args = QStringList({"fetch", remote});
+    auto output = co_await this->runGit(args);
 }
 
 QCoro::Task<QString> LGRepository::runGit(QStringList args) {

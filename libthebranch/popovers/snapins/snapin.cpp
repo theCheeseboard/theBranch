@@ -1,12 +1,25 @@
 #include "snapin.h"
 
-SnapIn::SnapIn(QWidget *parent)
-    : QWidget{parent}
-{
+struct SnapInPrivate {
+        SnapInPopover* popover;
+};
 
+SnapIn::SnapIn(QWidget* parent) :
+    QWidget{parent} {
+    d = new SnapInPrivate();
 }
 
-void SnapIn::snapinShown()
-{
+SnapIn::~SnapIn() {
+    delete d;
+}
 
+void SnapIn::snapinShown() {
+}
+
+void SnapIn::setParentPopover(SnapInPopover* popover) {
+    d->popover = popover;
+}
+
+SnapInPopover* SnapIn::parentPopover() {
+    return d->popover;
 }

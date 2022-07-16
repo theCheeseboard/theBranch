@@ -90,22 +90,21 @@ void CommitSnapIn::performCommit() {
 
     for (QModelIndex selected : d->statusModel->checkedItems()) {
         QString pathspec = selected.data(StatusItemListModel::PathRole).toString();
-        QString filePath = QDir(repo->workDir()).absoluteFilePath(pathspec);
-
-        QFile file(filePath);
-        file.open(QFile::ReadOnly);
-        if (!index->addBuffer(QFileInfo(filePath), pathspec, file.readAll())) {
+        if (!index->addByPath(pathspec)) {
             ui->stackedWidget->setCurrentWidget(ui->commitPage);
             ErrorResponse err = ErrorResponse::fromCurrentGitError();
             tErrorFlash::flashError(ui->commitMessageEdit, err.description());
             return;
         }
-        file.close();
     }
 
-    index->write();
+    if (!index->write()) {
+        ui->stackedWidget->setCurrentWidget(ui->commitPage);
+        ErrorResponse err = ErrorResponse::fromCurrentGitError();
+        tErrorFlash::flashError(ui->commitMessageEdit, err.description());
+        return;
+    }
 
-    //        repo->createCommit("HEAD", sig, sig, ui->commitMessageEdit->toPlainText(), commitTree, {parentCommit});
     repo->commit(ui->commitMessageEdit->toPlainText(), sig);
 
     emit done();

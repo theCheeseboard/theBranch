@@ -15,6 +15,7 @@
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
 #include <popovers/snapins/commitsnapin.h>
+#include <popovers/snapins/pullsnapin.h>
 #include <popovers/snapins/pushsnapin.h>
 #include <widgets/repositorybrowser.h>
 
@@ -216,4 +217,8 @@ void MainWindow::on_actionPrint_triggered() {
 
 void MainWindow::on_actionPush_triggered() {
     SnapInPopover::showSnapInPopover(this, new PushSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
+}
+
+void MainWindow::on_actionPull_triggered() {
+    SnapInPopover::showSnapInPopover(this, new PullSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
 }

@@ -16,7 +16,7 @@ class LGIndex : public QObject {
 
         struct ::git_index* gitIndex();
 
-        void write();
+        bool write();
 
         bool hasConflicts();
         void conflictCleanup();
@@ -24,6 +24,7 @@ class LGIndex : public QObject {
         bool readTree(LGTreePtr tree);
         LGOidPtr writeTree(LGRepositoryPtr repo);
 
+        bool addByPath(QString path);
         bool addAll(QStringList globs);
         bool addBuffer(QFileInfo fileInfo, QString pathspec, QByteArray data);
 

@@ -13,6 +13,7 @@ class BranchModel;
 class CommitModel;
 class CommitSnapIn;
 class PushSnapIn;
+class PullSnapIn;
 
 struct RepositoryPrivate;
 class RepositoryOperation;
@@ -71,6 +72,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
 
         QList<StatusItem> fileStatus();
 
+        QCoro::Task<> fetch(QString remote);
+
         QString repositoryPath();
 
     signals:
@@ -86,6 +89,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         friend Merge;
         friend CommitSnapIn;
         friend PushSnapIn;
+        friend PullSnapIn;
         LGRepositoryPtr git_repository();
 
     private:

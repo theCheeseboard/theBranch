@@ -48,4 +48,10 @@ class Merge : public GitOperation {
         MergePrivate* d;
 };
 
+class PullMerge : public Merge {
+        Q_OBJECT
+    public:
+        explicit PullMerge(RepositoryPtr repo, BranchPtr branch, QObject* parent = nullptr);
+};
+
 #endif // MERGE_H

@@ -265,6 +265,10 @@ QList<Repository::StatusItem> Repository::fileStatus() {
     return items;
 }
 
+QCoro::Task<> Repository::fetch(QString remote) {
+    co_return co_await d->gitRepo->fetch(remote);
+}
+
 QString Repository::repositoryPath() {
     return QDir::cleanPath(QDir(d->gitRepo->path()).absoluteFilePath(".."));
 }
