@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QCoroTask>
 #include <QFuture>
 #include <QMainWindow>
-#include <QCoroTask>
 
 namespace Ui {
     class MainWindow;
@@ -34,6 +34,8 @@ class MainWindow : public QMainWindow {
         void on_actionCommit_triggered();
 
         void on_actionPrint_triggered();
+
+        void on_actionPush_triggered();
 
     private:
         Ui::MainWindow* ui;

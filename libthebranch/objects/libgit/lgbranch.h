@@ -20,6 +20,7 @@ class LGBranch : public QObject {
         QString name();
 
         bool isRemoteBranch();
+        QString remoteName(LGRepositoryPtr repo);
         QString localBranchName(LGRepositoryPtr repo);
 
         LGBranchPtr upstream();

@@ -35,6 +35,10 @@ bool Branch::isRemoteBranch() {
     return d->branch->isRemoteBranch();
 }
 
+QString Branch::remoteName() {
+    return d->branch->remoteName(d->repo);
+}
+
 QString Branch::localBranchName() {
     return d->branch->localBranchName(d->repo);
 }
@@ -46,8 +50,14 @@ ErrorResponse Branch::deleteBranch() {
     return ErrorResponse();
 }
 
+BranchPtr Branch::upstream() {
+    auto upstream = d->branch->upstream();
+    if (!upstream) return nullptr;
+    return Branch::branchForLgBranch(d->repo, upstream);
+}
+
 BranchPtr Branch::branchForLgBranch(LGRepositoryPtr repo, LGBranchPtr branch) {
-    Branch* b = new Branch();
+    auto* b = new Branch();
     b->d->branch = branch;
     b->d->repo = repo;
     return BranchPtr(b);

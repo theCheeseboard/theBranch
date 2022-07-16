@@ -46,10 +46,14 @@ bool LGBranch::isRemoteBranch() {
     return git_reference_is_remote(d->gitReference);
 }
 
-QString LGBranch::localBranchName(LGRepositoryPtr repo) {
+QString LGBranch::remoteName(LGRepositoryPtr repo) {
     git_buf buf = GIT_BUF_INIT;
     git_branch_remote_name(&buf, repo->gitRepository(), ("refs/remotes/" + this->name()).toUtf8().data());
-    QString remoteName = QString::fromUtf8(buf.ptr, buf.size);
+    return QString::fromUtf8(buf.ptr, buf.size);
+}
+
+QString LGBranch::localBranchName(LGRepositoryPtr repo) {
+    QString remoteName = this->remoteName(repo);
 
     QString branchName = this->name().remove(remoteName);
     if (branchName.startsWith("/")) branchName = branchName.mid(1);

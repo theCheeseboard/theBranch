@@ -184,7 +184,20 @@ void LGRepository::cleanupState() {
 }
 
 #include <tlogger.h>
-QCoro::Task<> LGRepository::runGit(QStringList args) {
+QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags) {
+    auto args = QStringList({"push"});
+    if (pushTags) args.append("--tags");
+    if (setUpstream) args.append("--set-upstream");
+    args.append({upstreamRemote, upstreamBranch});
+    auto output = co_await this->runGit(args);
+
+    tDebug("LGRepository") << output;
+    if (output.contains("[rejected]")) {
+        throw GitRepositoryOutOfDateException();
+    }
+}
+
+QCoro::Task<QString> LGRepository::runGit(QStringList args) {
     auto gitCommand = this->gitExecutable();
     if (gitCommand.isEmpty()) throw QException();
 
@@ -193,6 +206,8 @@ QCoro::Task<> LGRepository::runGit(QStringList args) {
     gitProc.setProcessChannelMode(QProcess::MergedChannels);
     co_await qCoro(gitProc).start(gitCommand, args);
     co_await qCoro(gitProc).waitForFinished();
+
+    co_return gitProc.readAll();
 }
 
 LGRepository::~LGRepository() {

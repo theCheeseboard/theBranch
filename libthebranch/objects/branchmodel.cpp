@@ -45,7 +45,10 @@ QVariant BranchModel::data(const QModelIndex& index, int role) const {
 }
 
 QModelIndex BranchModel::index(BranchPtr branch) {
-    return index(d->branches.indexOf(branch));
+    for (auto i = 0; i < d->branches.length(); i++) {
+        if (d->branches.at(i)->equal(branch)) return index(i);
+    }
+    return QModelIndex();
 }
 
 void BranchModel::setRepository(RepositoryPtr repo) {

@@ -5,13 +5,14 @@
 #include "errorresponse.h"
 #include "forward_declares.h"
 #include "libthebranch_global.h"
-#include <QObject>
 #include <QCoroTask>
+#include <QObject>
 #include <tpromise.h>
 
 class BranchModel;
 class CommitModel;
 class CommitSnapIn;
+class PushSnapIn;
 
 struct RepositoryPrivate;
 class RepositoryOperation;
@@ -84,6 +85,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
         friend BranchModel;
         friend Merge;
         friend CommitSnapIn;
+        friend PushSnapIn;
         LGRepositoryPtr git_repository();
 
     private:

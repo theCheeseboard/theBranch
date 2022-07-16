@@ -15,6 +15,7 @@
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
 #include <popovers/snapins/commitsnapin.h>
+#include <popovers/snapins/pushsnapin.h>
 #include <widgets/repositorybrowser.h>
 
 #include "printcontroller.h"
@@ -211,4 +212,8 @@ void MainWindow::on_actionCommit_triggered() {
 void MainWindow::on_actionPrint_triggered() {
     PrintController* controller = new PrintController(this);
     controller->confirmAndPerformPrint();
+}
+
+void MainWindow::on_actionPush_triggered() {
+    SnapInPopover::showSnapInPopover(this, new PushSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
 }

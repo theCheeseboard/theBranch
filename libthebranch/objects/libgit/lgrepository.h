@@ -4,8 +4,15 @@
 #include "../errorresponse.h"
 #include "../forward_declares.h"
 #include <QCoroTask>
+#include <QException>
 #include <QObject>
 #include <functional>
+
+class GitRepositoryOutOfDateException : public QException {
+    public:
+        void raise() const override { throw *this; }
+        GitRepositoryOutOfDateException* clone() const override { return new GitRepositoryOutOfDateException(*this); }
+};
 
 struct git_checkout_options;
 struct git_repository;
@@ -51,7 +58,9 @@ class LGRepository : public QObject {
         RepositoryState state();
         void cleanupState();
 
-        QCoro::Task<> runGit(QStringList args);
+        QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags);
+
+        QCoro::Task<QString> runGit(QStringList args);
 
         git_repository* gitRepository();
 

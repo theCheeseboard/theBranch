@@ -19,9 +19,11 @@ class Branch : public QObject {
         QString name();
 
         bool isRemoteBranch();
+        QString remoteName();
         QString localBranchName();
 
         ErrorResponse deleteBranch();
+        BranchPtr upstream();
 
     signals:
 
