@@ -30,7 +30,7 @@ git_reference* LGReference::gitReference() {
 LGReferencePtr LGReference::dup() {
     struct git_reference* ref;
     ::git_reference_dup(&ref, d->gitReference);
-    return LGReferencePtr(new LGReference(ref));
+    return (new LGReference(ref))->sharedFromThis();
 }
 
 git_reference* LGReference::takeGitReference() {
@@ -70,19 +70,19 @@ QString LGReference::shorthand() {
 LGAnnotatedCommitPtr LGReference::toAnnotatedCommit(LGRepositoryPtr repository) {
     git_annotated_commit* out;
     if (git_annotated_commit_from_ref(&out, repository->gitRepository(), d->gitReference) != 0) {
-        return LGAnnotatedCommitPtr();
+        return nullptr;
     }
-    return LGAnnotatedCommitPtr(new LGAnnotatedCommit(out));
+    return (new LGAnnotatedCommit(out))->sharedFromThis();
 }
 
 LGReferencePtr LGReference::resolve() {
     struct git_reference* ref;
     git_reference_resolve(&ref, d->gitReference);
-    return LGReferencePtr(new LGReference(ref));
+    return (new LGReference(ref))->sharedFromThis();
 }
 
 LGOidPtr LGReference::nameToId(LGRepositoryPtr repository, QString name) {
     git_oid oid;
     git_reference_name_to_id(&oid, repository->gitRepository(), name.toUtf8().data());
-    return LGOidPtr(new LGOid(oid));
+    return (new LGOid(oid))->sharedFromThis();
 }

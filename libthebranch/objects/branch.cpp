@@ -24,7 +24,7 @@ bool Branch::equal(BranchPtr branch) {
 }
 
 ReferencePtr Branch::toReference() {
-    return Reference::referenceForLgReference(d->repo, LGReferencePtr(new LGReference(d->branch->dup()->takeGitReference())));
+    return Reference::referenceForLgReference(d->repo, (new LGReference(d->branch->dup()->takeGitReference()))->sharedFromThis());
 }
 
 QString Branch::name() {
@@ -60,7 +60,7 @@ BranchPtr Branch::branchForLgBranch(LGRepositoryPtr repo, LGBranchPtr branch) {
     auto* b = new Branch();
     b->d->branch = branch;
     b->d->repo = repo;
-    return BranchPtr(b);
+    return b->sharedFromThis();
 }
 
 LGBranchPtr Branch::gitBranch() {

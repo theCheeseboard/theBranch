@@ -3,11 +3,12 @@
 
 #include "../forward_declares.h"
 #include "tpromise.h"
-#include <QObject>
 #include <QCoroTask>
+#include <QObject>
 
 struct LGClonePrivate;
-class LGClone : public QObject {
+class LGClone : public QObject,
+                public tbSharedFromThis<LGClone> {
         Q_OBJECT
     public:
         explicit LGClone();

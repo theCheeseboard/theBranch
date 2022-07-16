@@ -24,7 +24,7 @@ LGCommit::~LGCommit() {
 LGCommitPtr LGCommit::lookup(LGRepositoryPtr repo, LGOidPtr oid) {
     struct git_commit* commit;
     if (git_commit_lookup(&commit, repo->gitRepository(), &oid->gitOid()) != 0) return nullptr;
-    return LGCommitPtr(new LGCommit(commit));
+    return (new LGCommit(commit))->sharedFromThis();
 }
 
 git_commit* LGCommit::gitCommit() {
@@ -36,16 +36,16 @@ QString LGCommit::message() {
 }
 
 LGSignaturePtr LGCommit::committer() {
-    return LGSignaturePtr(new LGSignature(git_commit_committer(d->git_commit)));
+    return (new LGSignature(git_commit_committer(d->git_commit)))->sharedFromThis();
 }
 
 LGOidPtr LGCommit::oid() {
     const git_oid* oid = git_commit_id(d->git_commit);
-    return LGOidPtr(new LGOid(*oid));
+    return (new LGOid(*oid))->sharedFromThis();
 }
 
 LGTreePtr LGCommit::tree() {
     git_tree* tree;
-    if (git_commit_tree(&tree, d->git_commit) != 0) return LGTreePtr();
-    return LGTreePtr(new LGTree(tree));
+    if (git_commit_tree(&tree, d->git_commit) != 0) return nullptr;
+    return (new LGTree(tree))->sharedFromThis();
 }

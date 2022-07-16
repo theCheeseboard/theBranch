@@ -6,7 +6,8 @@
 
 class CommitModel;
 struct CommitPrivate;
-class Commit : public QObject {
+class Commit : public QObject,
+               public tbSharedFromThis<Commit> {
         Q_OBJECT
     public:
         ~Commit();

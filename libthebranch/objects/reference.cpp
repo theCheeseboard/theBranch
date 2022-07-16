@@ -20,7 +20,7 @@ Reference::~Reference() {
 
 BranchPtr Reference::asBranch() {
     if (d->reference->isBranch()) {
-        return Branch::branchForLgBranch(d->repo, LGBranchPtr(new LGBranch(d->reference->dup()->takeGitReference())));
+        return Branch::branchForLgBranch(d->repo, (new LGBranch(d->reference->dup()->takeGitReference()))->sharedFromThis());
     }
     return nullptr;
 }
@@ -41,5 +41,5 @@ ReferencePtr Reference::referenceForLgReference(LGRepositoryPtr repo, LGReferenc
     Reference* r = new Reference();
     r->d->reference = reference;
     r->d->repo = repo;
-    return ReferencePtr(r);
+    return r->sharedFromThis();
 }

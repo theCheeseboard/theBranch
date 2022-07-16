@@ -26,6 +26,9 @@ set(SOURCES
     objects/index.cpp
     objects/indexmodel.cpp
     objects/statusitemlistmodel.cpp
+    objects/remotesmodel.cpp
+    objects/remote.cpp
+    widgets/remotebrowser.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -59,6 +62,7 @@ set(SOURCES
     objects/libgit/lgannotatedcommit.cpp
     objects/libgit/lgindex.cpp
     objects/libgit/lgtree.cpp
+    objects/libgit/lgremote.cpp
 )
 
 set(HEADERS
@@ -75,12 +79,15 @@ set(HEADERS
     objects/index.h
     objects/indexmodel.h
     objects/statusitemlistmodel.h
+    objects/remotesmodel.h
+    objects/remote.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
     widgets/commitbrowser.h
     widgets/branchbrowser.h
     widgets/repositorystatusbar.h
+    widgets/remotebrowser.h
     objects/forward_declares.h
     popovers/snapinpopover.h
     popovers/snapins/snapin.h
@@ -104,8 +111,10 @@ set(PRIVATE_HEADERS
     objects/libgit/lgannotatedcommit.h
     objects/libgit/lgindex.h
     objects/libgit/lgtree.h
+    objects/libgit/lgremote.h
     widgets/conflictresolution/conflictresolutionwidget.h
     widgets/conflictresolution/textconflictresolution.h
+
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})

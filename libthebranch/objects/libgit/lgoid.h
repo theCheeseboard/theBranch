@@ -6,7 +6,8 @@
 
 struct git_oid;
 struct LGOidPrivate;
-class LGOid : public QObject {
+class LGOid : public QObject,
+              public tbSharedFromThis<LGOid> {
         Q_OBJECT
     public:
         explicit LGOid(git_oid git_oid);

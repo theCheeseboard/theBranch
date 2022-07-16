@@ -6,7 +6,8 @@
 
 struct git_tree;
 struct LGTreePrivate;
-class LGTree : public QObject {
+class LGTree : public QObject,
+               public tbSharedFromThis<LGTree> {
         Q_OBJECT
     public:
         explicit LGTree(git_tree* tree);

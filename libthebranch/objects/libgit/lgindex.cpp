@@ -48,8 +48,8 @@ bool LGIndex::readTree(LGTreePtr tree) {
 
 LGOidPtr LGIndex::writeTree(LGRepositoryPtr repo) {
     git_oid oid;
-    if (git_index_write_tree_to(&oid, d->gitIndex, repo->gitRepository()) != 0) return LGOidPtr();
-    return LGOidPtr(new LGOid(oid));
+    if (git_index_write_tree_to(&oid, d->gitIndex, repo->gitRepository()) != 0) return nullptr;
+    return (new LGOid(oid))->sharedFromThis();
 }
 
 bool LGIndex::addByPath(QString path) {

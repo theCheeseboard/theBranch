@@ -11,13 +11,15 @@
 
 class BranchModel;
 class CommitModel;
+class RemotesModel;
 class CommitSnapIn;
 class PushSnapIn;
 class PullSnapIn;
 
 struct RepositoryPrivate;
 class RepositoryOperation;
-class LIBTHEBRANCH_EXPORT Repository : public QObject {
+class LIBTHEBRANCH_EXPORT Repository : public QObject,
+                                       public tbSharedFromThis<Repository> {
         Q_OBJECT
     public:
         ~Repository();
@@ -72,6 +74,9 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
 
         QList<StatusItem> fileStatus();
 
+        RemotePtr addRemote(QString name, QString url);
+        QList<RemotePtr> remotes();
+
         QCoro::Task<> fetch(QString remote);
 
         QString repositoryPath();
@@ -86,6 +91,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject {
     protected:
         friend CommitModel;
         friend BranchModel;
+        friend RemotesModel;
         friend Merge;
         friend CommitSnapIn;
         friend PushSnapIn;

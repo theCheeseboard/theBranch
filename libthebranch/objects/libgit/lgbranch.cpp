@@ -33,7 +33,7 @@ git_reference* LGBranch::takeGitReference() {
 LGBranchPtr LGBranch::dup() {
     struct git_reference* ref;
     ::git_reference_dup(&ref, d->gitReference);
-    return LGBranchPtr(new LGBranch(ref));
+    return (new LGBranch(ref))->sharedFromThis();
 }
 
 QString LGBranch::name() {
@@ -63,8 +63,8 @@ QString LGBranch::localBranchName(LGRepositoryPtr repo) {
 
 LGBranchPtr LGBranch::upstream() {
     git_reference* upstreamBranch;
-    if (git_branch_upstream(&upstreamBranch, d->gitReference) != 0) return LGBranchPtr();
-    return LGBranchPtr(new LGBranch(upstreamBranch));
+    if (git_branch_upstream(&upstreamBranch, d->gitReference) != 0) return nullptr;
+    return (new LGBranch(upstreamBranch))->sharedFromThis();
 }
 
 bool LGBranch::setUpstream(LGBranchPtr upstream) {

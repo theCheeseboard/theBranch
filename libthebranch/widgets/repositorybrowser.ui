@@ -238,6 +238,11 @@
               <string>Branches</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Remotes</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item>
@@ -332,6 +337,35 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="remotesPage">
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="tTitleLabel" name="label_4">
+             <property name="text">
+              <string>Remotes</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="RemoteBrowser" name="remotesView"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -370,6 +404,11 @@
    <extends>QWidget</extends>
    <header>widgets/repositorystatusbar.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RemoteBrowser</class>
+   <extends>QListView</extends>
+   <header>widgets/remotebrowser.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -7,7 +7,8 @@
 
 struct git_reference;
 struct LGReferencePrivate;
-class LGReference : public QObject {
+class LGReference : public QObject,
+                    public tbSharedFromThis<LGReference> {
         Q_OBJECT
     public:
         LGReference(git_reference* git_reference);

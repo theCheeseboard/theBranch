@@ -6,7 +6,8 @@
 
 struct git_revwalk;
 struct LGRevwalkPrivate;
-class LGRevwalk : public QObject {
+class LGRevwalk : public QObject,
+                  public tbSharedFromThis<LGRevwalk> {
         Q_OBJECT
     public:
         explicit LGRevwalk(git_revwalk* git_revwalk);

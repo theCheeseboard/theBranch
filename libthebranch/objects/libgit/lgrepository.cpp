@@ -1,4 +1,5 @@
 #include "lgrepository.h"
+#include "lgremote.h"
 
 #include "lgbranch.h"
 #include "lgcommit.h"
@@ -48,7 +49,7 @@ QString LGRepository::workDir() {
 LGReferencePtr LGRepository::head() {
     git_reference* head;
     if (git_repository_head(&head, d->gitRepository) != 0) return nullptr;
-    return LGReferencePtr(new LGReference(head));
+    return (new LGReference(head))->sharedFromThis();
 }
 
 void LGRepository::setHead(QString head) {
@@ -68,7 +69,7 @@ QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
     git_reference* reference;
     git_branch_t type;
     while (!git_branch_next(&reference, &type, iterator)) {
-        branches.append(LGBranchPtr(new LGBranch(reference)));
+        branches.append((new LGBranch(reference))->sharedFromThis());
     }
     git_branch_iterator_free(iterator);
     return branches;
@@ -76,14 +77,14 @@ QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
 
 LGBranchPtr LGRepository::createBranch(QString name, LGCommitPtr target) {
     git_reference* ref;
-    if (git_branch_create(&ref, d->gitRepository, name.toUtf8().data(), target->gitCommit(), false) != 0) return LGBranchPtr();
-    return LGBranchPtr(new LGBranch(ref));
+    if (git_branch_create(&ref, d->gitRepository, name.toUtf8().data(), target->gitCommit(), false) != 0) return nullptr;
+    return (new LGBranch(ref))->sharedFromThis();
 }
 
 LGReferencePtr LGRepository::reference(QString name) {
     git_reference* gitRef;
-    if (git_reference_lookup(&gitRef, d->gitRepository, name.toUtf8().data()) != 0) return LGReferencePtr();
-    return LGReferencePtr(new LGReference(gitRef));
+    if (git_reference_lookup(&gitRef, d->gitRepository, name.toUtf8().data()) != 0) return nullptr;
+    return (new LGReference(gitRef))->sharedFromThis();
 }
 
 LGIndexPtr LGRepository::index() {
@@ -91,19 +92,19 @@ LGIndexPtr LGRepository::index() {
     if (git_repository_index(&index, d->gitRepository) != 0) {
         return nullptr;
     }
-    return LGIndexPtr(new LGIndex(index));
+    return (new LGIndex(index))->sharedFromThis();
 }
 
 LGTreePtr LGRepository::lookupTree(LGOidPtr oid) {
     git_tree* tree;
-    if (git_tree_lookup(&tree, d->gitRepository, &oid->gitOid()) != 0) return LGTreePtr();
-    return LGTreePtr(new LGTree(tree));
+    if (git_tree_lookup(&tree, d->gitRepository, &oid->gitOid()) != 0) return nullptr;
+    return (new LGTree(tree))->sharedFromThis();
 }
 
 LGCommitPtr LGRepository::lookupCommit(LGOidPtr oid) {
     git_commit* commit;
-    if (git_commit_lookup(&commit, d->gitRepository, &oid->gitOid()) != 0) return LGCommitPtr();
-    return LGCommitPtr(new LGCommit(commit));
+    if (git_commit_lookup(&commit, d->gitRepository, &oid->gitOid()) != 0) return nullptr;
+    return (new LGCommit(commit))->sharedFromThis();
 }
 
 #include <tlogger.h>
@@ -120,32 +121,10 @@ QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
     tDebug("LGRepository") << output;
 }
 
-// LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
-//     git_oid oid;
-//     const char* update_ref;
-//     if (refToUpdate.isEmpty()) {
-//         update_ref = nullptr;
-//     } else {
-//         update_ref = refToUpdate.toUtf8().data();
-//     }
-
-//    const git_commit** commit_parents = new const git_commit*[parents.count()];
-//    for (int i = 0; i < parents.length(); i++) {
-//        commit_parents[i] = parents.at(i)->gitCommit();
-//    }
-
-//    if (git_commit_create(&oid, d->gitRepository, update_ref, author->gitSignature(), committer->gitSignature(), "UTF-8", message.toUtf8().data(), tree->gitTree(), parents.count(), commit_parents) != 0) {
-//        delete[] commit_parents;
-//        return LGOidPtr();
-//    }
-
-//    return LGOidPtr(new LGOid(oid));
-//}
-
 LGSignaturePtr LGRepository::defaultSignature() {
     git_signature* sig;
-    if (git_signature_default(&sig, d->gitRepository) != 0) return LGSignaturePtr();
-    return LGSignaturePtr(new LGSignature(sig));
+    if (git_signature_default(&sig, d->gitRepository) != 0) return nullptr;
+    return (new LGSignature(sig))->sharedFromThis();
 }
 
 ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap options) {
@@ -170,6 +149,26 @@ ErrorResponse LGRepository::checkoutIndex(LGIndexPtr index, QVariantMap options)
         return git_checkout_index(d->gitRepository, index->gitIndex(), checkoutOptions);
     },
         options);
+}
+
+LGRemotePtr LGRepository::createRemote(QString name, QString url) {
+    git_remote* remote;
+    if (git_remote_create(&remote, d->gitRepository, name.toUtf8().data(), url.toUtf8().data()) != 0) return nullptr;
+    git_remote_free(remote);
+
+    return (new LGRemote(name, this->sharedFromThis()))->sharedFromThis();
+}
+
+QList<LGRemotePtr> LGRepository::remotes() {
+    git_strarray remoteNames;
+    git_remote_list(&remoteNames, d->gitRepository);
+
+    QList<LGRemotePtr> remotes;
+    for (auto i = 0; i < remoteNames.count; i++) {
+        remotes.append((new LGRemote(remoteNames.strings[i], this->sharedFromThis()))->sharedFromThis());
+    }
+    git_strarray_free(&remoteNames);
+    return remotes;
 }
 
 LGRepository::RepositoryState LGRepository::state() {

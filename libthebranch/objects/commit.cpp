@@ -28,7 +28,7 @@ QString Commit::authorName() {
 CommitPtr Commit::commitForLgCommit(LGCommitPtr commit) {
     Commit* c = new Commit();
     c->d->commit = commit;
-    return CommitPtr(c);
+    return c->sharedFromThis();
 }
 
 Commit::Commit(QObject* parent) :

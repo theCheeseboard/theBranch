@@ -18,6 +18,7 @@ FORWARD_DECLARE(LGBranch)
 FORWARD_DECLARE(LGAnnotatedCommit)
 FORWARD_DECLARE(LGIndex)
 FORWARD_DECLARE(LGTree)
+FORWARD_DECLARE(LGRemote)
 
 FORWARD_DECLARE(Repository)
 FORWARD_DECLARE(Index)
@@ -28,6 +29,7 @@ FORWARD_DECLARE(GitOperation)
 FORWARD_DECLARE(Merge)
 FORWARD_DECLARE(PullMerge)
 FORWARD_DECLARE(StatusList)
+FORWARD_DECLARE(Remote)
 
 #undef FORWARD_DECLARE
 
@@ -38,6 +40,15 @@ namespace THEBRANCH {
         RemoteBranches
     };
 } // namespace THEBRANCH
+
+template<typename T> class tbSharedFromThis : public QEnableSharedFromThis<T> {
+    public:
+        QSharedPointer<T> sharedFromThis() {
+            auto ptr = QEnableSharedFromThis<T>::sharedFromThis();
+            if (ptr) return ptr;
+            return QSharedPointer<T>(static_cast<T*>(this));
+        }
+};
 
 #include "errorresponse.h"
 

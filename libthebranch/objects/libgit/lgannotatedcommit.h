@@ -6,7 +6,8 @@
 
 struct git_annotated_commit;
 struct LGAnnotatedCommitPrivate;
-class LGAnnotatedCommit : public QObject {
+class LGAnnotatedCommit : public QObject,
+                          public tbSharedFromThis<LGAnnotatedCommit> {
         Q_OBJECT
     public:
         explicit LGAnnotatedCommit(git_annotated_commit* git_annotated_commit);

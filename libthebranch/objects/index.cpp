@@ -45,5 +45,5 @@ QList<Index::IndexItem> Index::items() {
 IndexPtr Index::indexForLgIndex(LGIndexPtr index) {
     Index* i = new Index();
     i->d->index = index;
-    return IndexPtr(i);
+    return i->sharedFromThis();
 }

@@ -7,7 +7,8 @@
 struct git_index;
 struct LGIndexPrivate;
 class QFileInfo;
-class LGIndex : public QObject {
+class LGIndex : public QObject,
+                public tbSharedFromThis<LGIndex> {
         Q_OBJECT
     public:
         explicit LGIndex(git_index* git_index);

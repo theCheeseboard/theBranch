@@ -30,7 +30,7 @@ RepositoryCloneOperation::RepositoryCloneOperation(QString cloneUrl, QString dir
     //    });
     //    connect(cloneProcess, &QProcess::finished, this, [=](int exitCode, QProcess::ExitStatus exitStatus) {
     //        if (exitCode == 0) {
-    //            emit putRepository(LGRepositoryPtr(LGRepository::open(directory)));
+    //            emit putRepository(LGRepository::open(directory)->sharedFromThis());
     //            emit done();
     //        } else {
     //            d->state = Repository::Invalid;
@@ -54,7 +54,7 @@ RepositoryCloneOperation::RepositoryCloneOperation(QString cloneUrl, QString dir
         emit stateInformationalTextChanged();
     });
     clone->clone(cloneUrl, directory).then([=] {
-        emit putRepository(LGRepositoryPtr(LGRepository::open(directory)));
+        emit putRepository(LGRepository::open(directory)->sharedFromThis());
         emit done();
     },
         [=](const std::exception e) {

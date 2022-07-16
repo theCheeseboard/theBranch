@@ -23,5 +23,5 @@ git_annotated_commit* LGAnnotatedCommit::gitAnnotatedCommit() {
 }
 
 LGOidPtr LGAnnotatedCommit::oid() {
-    return LGOidPtr(new LGOid(*git_annotated_commit_id(d->gitAnnotatedCommit)));
+    return (new LGOid(*git_annotated_commit_id(d->gitAnnotatedCommit)))->sharedFromThis();
 }

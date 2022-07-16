@@ -6,7 +6,8 @@
 
 class Repository;
 struct BranchPrivate;
-class Branch : public QObject {
+class Branch : public QObject,
+               public tbSharedFromThis<Branch> {
         Q_OBJECT
     public:
         ~Branch();

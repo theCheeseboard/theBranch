@@ -37,8 +37,8 @@ git_signature* LGSignature::gitSignature() {
 
 LGSignaturePtr LGSignature::signatureForNow(QString name, QString email) {
     git_signature* sig;
-    if (git_signature_now(&sig, name.toUtf8().data(), email.toUtf8().data()) != 0) return LGSignaturePtr();
-    return LGSignaturePtr(new LGSignature(sig));
+    if (git_signature_now(&sig, name.toUtf8().data(), email.toUtf8().data()) != 0) return nullptr;
+    return (new LGSignature(sig))->sharedFromThis();
 }
 
 QString LGSignature::name() {

@@ -8,6 +8,7 @@
 #include "libgit/lgrepository.h"
 #include "private/repositorycloneoperation.h"
 #include "reference.h"
+#include "remote.h"
 #include <QCoroSignal>
 #include <QDirIterator>
 #include <QFileDialog>
@@ -107,14 +108,14 @@ ReferencePtr Repository::head() {
 QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
     QList<BranchPtr> branches;
     for (LGBranchPtr branch : d->gitRepo->branches(flags)) {
-        branches.append(BranchPtr(Branch::branchForLgBranch(d->gitRepo, branch)));
+        branches.append(Branch::branchForLgBranch(d->gitRepo, branch)->sharedFromThis());
     }
     return branches;
 }
 
 ReferencePtr Repository::reference(QString name) {
     LGReferencePtr ref = d->gitRepo->reference(name);
-    if (!ref) return ReferencePtr();
+    if (!ref) return nullptr;
     return Reference::referenceForLgReference(d->gitRepo, ref);
 }
 
@@ -136,7 +137,7 @@ ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {
                 if (!newBranch->setUpstream(branch->gitBranch())) {
                     return ErrorResponse::fromCurrentGitError();
                 }
-                reference = Reference::referenceForLgReference(d->gitRepo, LGReferencePtr(new LGReference(newBranch->dup()->takeGitReference())));
+                reference = Reference::referenceForLgReference(d->gitRepo, (new LGReference(newBranch->dup()->takeGitReference()))->sharedFromThis());
             }
         }
     }
@@ -152,7 +153,7 @@ RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, Q
 
     Repository* repo = new Repository();
     repo->putRepositoryOperation(operation);
-    return RepositoryPtr(repo);
+    return repo->sharedFromThis();
 }
 
 QCoro::Task<RepositoryPtr> Repository::repositoryForDirectoryUi(QWidget* parent) {
@@ -206,7 +207,7 @@ RepositoryPtr Repository::repositoryForDirectory(QString directory) {
     Repository* repo = new Repository();
     repo->d->gitRepo.reset(LGRepository::open(path));
     repo->reloadRepositoryState();
-    return RepositoryPtr(repo);
+    return repo->sharedFromThis();
 }
 
 QString Repository::gitRepositoryRootForDirectory(QString directory) {
@@ -263,6 +264,20 @@ QList<Repository::StatusItem> Repository::fileStatus() {
 
     git_status_list_free(statusList);
     return items;
+}
+
+RemotePtr Repository::addRemote(QString name, QString url) {
+    auto remote = d->gitRepo->createRemote(name, url);
+    if (!remote) return nullptr;
+    return Remote::remoteForLgRemote(remote)->sharedFromThis();
+}
+
+QList<RemotePtr> Repository::remotes() {
+    QList<RemotePtr> remotes;
+    for (auto remote : d->gitRepo->remotes()) {
+        remotes.append(Remote::remoteForLgRemote(remote)->sharedFromThis());
+    }
+    return remotes;
 }
 
 QCoro::Task<> Repository::fetch(QString remote) {

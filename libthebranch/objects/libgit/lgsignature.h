@@ -6,7 +6,8 @@
 
 struct git_signature;
 struct LGSignaturePrivate;
-class LGSignature : public QObject {
+class LGSignature : public QObject,
+                    public tbSharedFromThis<LGSignature> {
         Q_OBJECT
     public:
         explicit LGSignature(git_signature* git_signature);

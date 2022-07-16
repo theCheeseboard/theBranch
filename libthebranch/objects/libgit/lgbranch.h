@@ -6,7 +6,8 @@
 
 struct git_reference;
 struct LGReferencePrivate;
-class LGBranch : public QObject {
+class LGBranch : public QObject,
+                 public tbSharedFromThis<LGBranch> {
         Q_OBJECT
     public:
         explicit LGBranch(git_reference* git_reference);

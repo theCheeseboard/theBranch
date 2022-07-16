@@ -6,7 +6,8 @@
 
 class Repository;
 struct IndexPrivate;
-class Index : public QObject {
+class Index : public QObject,
+              public tbSharedFromThis<Index> {
         Q_OBJECT
     public:
         ~Index();

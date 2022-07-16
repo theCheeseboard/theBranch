@@ -22,7 +22,7 @@ LGRevwalk::~LGRevwalk() {
 LGRevwalkPtr LGRevwalk::revwalk_new(LGRepositoryPtr repo) {
     struct git_revwalk* revwalk;
     if (git_revwalk_new(&revwalk, repo->gitRepository()) != 0) return nullptr;
-    return LGRevwalkPtr(new LGRevwalk(revwalk));
+    return (new LGRevwalk(revwalk))->sharedFromThis();
 }
 
 void LGRevwalk::sorting(uint sortMode) {
@@ -37,7 +37,7 @@ QList<LGOidPtr> LGRevwalk::walk() {
     QList<LGOidPtr> oids;
     git_oid oid;
     while (git_revwalk_next(&oid, d->gitRevwalk) == 0) {
-        oids.append(LGOidPtr(new LGOid(oid)));
+        oids.append((new LGOid(oid))->sharedFromThis());
     }
     return oids;
 }

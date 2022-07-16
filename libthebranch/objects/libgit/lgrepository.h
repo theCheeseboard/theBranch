@@ -17,7 +17,8 @@ class GitRepositoryOutOfDateException : public QException {
 struct git_checkout_options;
 struct git_repository;
 struct LGRepositoryPrivate;
-class LGRepository : public QObject {
+class LGRepository : public QObject,
+                     public tbSharedFromThis<LGRepository> {
         Q_OBJECT
     public:
         LGRepository(git_repository* git_repository);
@@ -47,13 +48,15 @@ class LGRepository : public QObject {
         LGTreePtr lookupTree(LGOidPtr oid);
 
         LGCommitPtr lookupCommit(LGOidPtr oid);
-        //        LGOidPtr createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents);
         QCoro::Task<> commit(QString message, LGSignaturePtr committer);
 
         LGSignaturePtr defaultSignature();
 
         ErrorResponse checkoutTree(LGReferencePtr revision, QVariantMap options);
         ErrorResponse checkoutIndex(LGIndexPtr index, QVariantMap options);
+
+        LGRemotePtr createRemote(QString name, QString url);
+        QList<LGRemotePtr> remotes();
 
         RepositoryState state();
         void cleanupState();

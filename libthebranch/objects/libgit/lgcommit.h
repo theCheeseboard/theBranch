@@ -6,7 +6,8 @@
 
 struct git_commit;
 struct LGCommitPrivate;
-class LGCommit : public QObject {
+class LGCommit : public QObject,
+                 public tbSharedFromThis<LGCommit> {
         Q_OBJECT
     public:
         explicit LGCommit(git_commit* git_commit);

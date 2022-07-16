@@ -5,7 +5,8 @@
 #include <QObject>
 
 struct ReferencePrivate;
-class Reference : public QObject {
+class Reference : public QObject,
+                  public tbSharedFromThis<Reference> {
         Q_OBJECT
     public:
         ~Reference();
