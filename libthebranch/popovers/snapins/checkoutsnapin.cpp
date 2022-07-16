@@ -4,6 +4,7 @@
 #include "objects/branchmodel.h"
 #include "objects/repository.h"
 #include <tcontentsizer.h>
+#include <tmessagebox.h>
 
 struct CheckoutSnapInPrivate {
         RepositoryPtr repository;
@@ -26,7 +27,6 @@ CheckoutSnapIn::CheckoutSnapIn(RepositoryPtr repository, QWidget* parent) :
     ui->branchBox->setModel(model);
 
     ReferencePtr ref = repository->head();
-
 }
 
 CheckoutSnapIn::~CheckoutSnapIn() {
@@ -39,4 +39,27 @@ void CheckoutSnapIn::on_titleLabel_backButtonClicked() {
 }
 
 void CheckoutSnapIn::on_checkoutButton_clicked() {
+    if (ui->checkoutBranchButton->isChecked()) {
+        emit done();
+
+        BranchPtr branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+
+        if (CHK_ERR(d->repository->setHeadAndCheckout(branch->toReference()))) {
+            QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
+
+            if (conflicts.length() > 0) {
+                auto* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Unclean Working Directory"));
+                box->setMessageText(tr("To checkout this branch, you need to stash your uncommitted changes first."));
+                box->exec(true);
+                return;
+            }
+
+            auto* box = new tMessageBox(this->window());
+            box->setTitleBarText(tr("Can't checkout that branch"));
+            box->setMessageText(error.description());
+            box->setIcon(QMessageBox::Critical);
+            box->exec(true);
+        }
+    }
 }

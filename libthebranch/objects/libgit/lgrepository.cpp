@@ -7,6 +7,11 @@
 #include "lgreference.h"
 #include "lgsignature.h"
 #include "lgtree.h"
+#include <QCoroProcess>
+#include <QException>
+#include <QProcess>
+#include <QStandardPaths>
+#include <QTemporaryFile>
 #include <QVariantMap>
 #include <git2.h>
 
@@ -24,6 +29,12 @@ LGRepository* LGRepository::open(QString path) {
     struct git_repository* repo;
     if (git_repository_open(&repo, path.toUtf8().data()) != 0) return nullptr;
     return new LGRepository(repo);
+}
+
+QString LGRepository::gitExecutable() {
+    auto paths = QStandardPaths::findExecutable("git");
+    if (paths.isEmpty()) return "";
+    return paths;
 }
 
 QString LGRepository::path() {
@@ -95,27 +106,37 @@ LGCommitPtr LGRepository::lookupCommit(LGOidPtr oid) {
     return LGCommitPtr(new LGCommit(commit));
 }
 
-LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
-    git_oid oid;
-    const char* update_ref;
-    if (refToUpdate.isEmpty()) {
-        update_ref = nullptr;
-    } else {
-        update_ref = refToUpdate.toUtf8().data();
-    }
+QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
+    // Use git command to write commits
+    QTemporaryFile messageFile;
+    messageFile.open();
+    messageFile.write(message.toUtf8());
+    messageFile.close();
 
-    const git_commit** commit_parents = new const git_commit*[parents.count()];
-    for (int i = 0; i < parents.length(); i++) {
-        commit_parents[i] = parents.at(i)->gitCommit();
-    }
-
-    if (git_commit_create(&oid, d->gitRepository, update_ref, author->gitSignature(), committer->gitSignature(), "UTF-8", message.toUtf8().data(), tree->gitTree(), parents.count(), commit_parents) != 0) {
-        delete[] commit_parents;
-        return LGOidPtr();
-    }
-
-    return LGOidPtr(new LGOid(oid));
+    co_await this->runGit({"commit", QStringLiteral("--file=%1").arg(messageFile.fileName()), QStringLiteral("--author=%1 <%2>").arg(committer->name(), committer->email())});
 }
+
+// LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
+//     git_oid oid;
+//     const char* update_ref;
+//     if (refToUpdate.isEmpty()) {
+//         update_ref = nullptr;
+//     } else {
+//         update_ref = refToUpdate.toUtf8().data();
+//     }
+
+//    const git_commit** commit_parents = new const git_commit*[parents.count()];
+//    for (int i = 0; i < parents.length(); i++) {
+//        commit_parents[i] = parents.at(i)->gitCommit();
+//    }
+
+//    if (git_commit_create(&oid, d->gitRepository, update_ref, author->gitSignature(), committer->gitSignature(), "UTF-8", message.toUtf8().data(), tree->gitTree(), parents.count(), commit_parents) != 0) {
+//        delete[] commit_parents;
+//        return LGOidPtr();
+//    }
+
+//    return LGOidPtr(new LGOid(oid));
+//}
 
 LGSignaturePtr LGRepository::defaultSignature() {
     git_signature* sig;
@@ -160,6 +181,18 @@ LGRepository::RepositoryState LGRepository::state() {
 
 void LGRepository::cleanupState() {
     git_repository_state_cleanup(d->gitRepository);
+}
+
+#include <tlogger.h>
+QCoro::Task<> LGRepository::runGit(QStringList args) {
+    auto gitCommand = this->gitExecutable();
+    if (gitCommand.isEmpty()) throw QException();
+
+    QProcess gitProc;
+    gitProc.setWorkingDirectory(this->workDir());
+    gitProc.setProcessChannelMode(QProcess::MergedChannels);
+    co_await qCoro(gitProc).start(gitCommand, args);
+    co_await qCoro(gitProc).waitForFinished();
 }
 
 LGRepository::~LGRepository() {

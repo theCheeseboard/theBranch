@@ -16,6 +16,9 @@ struct MergePrivate {
         LGReferencePtr ref;
         LGAnnotatedCommitPtr annotatedCommit;
 
+        QString fromName;
+        QString toName;
+
         ErrorResponse errorResponse;
 };
 
@@ -26,6 +29,9 @@ Merge::Merge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :
     d->ref = branch->toReference()->git_reference();
     d->annotatedCommit = d->ref->toAnnotatedCommit(repo->git_repository());
     d->errorResponse = ErrorResponse(ErrorResponse::UnspecifiedError, tr("Unspecified Error"));
+
+    d->fromName = branch->name();
+    d->toName = repo->head()->asBranch()->name();
 
     const git_annotated_commit* annotatedCommit = d->annotatedCommit->gitAnnotatedCommit();
     git_merge_analysis(&d->mergeAnalysis, &d->mergePreference, repo->git_repository()->gitRepository(), &annotatedCommit, 1);
@@ -141,14 +147,39 @@ RepositoryPtr Merge::repository() {
 
 void Merge::abortOperation() {
     // Abort the ongoing merge
-    //    d->repo->git_repository()->index()->conflictCleanup();
     d->repo->git_repository()->cleanupState();
     d->repo->git_repository()->checkoutTree(d->repo->git_repository()->head(), {
                                                                                    {"force", true}
     });
-    //    d->repo->git_repository()->checkoutTree()
 }
 
 void Merge::finaliseOperation() {
     // Create the merge commit
+
+    LGRepositoryPtr repo = d->repo->git_repository();
+    LGSignaturePtr sig = repo->defaultSignature();
+    LGReferencePtr head = repo->head();
+
+    // Create a commit on the existing HEAD
+    LGIndexPtr index = repo->index();
+
+    for (auto item : d->repo->fileStatus()) {
+        if (item.flags & Repository::StatusItem::Conflicting) {
+            QString pathspec = item.path;
+            QString filePath = QDir(repo->workDir()).absoluteFilePath(pathspec);
+
+            QFile file(filePath);
+            file.open(QFile::ReadOnly);
+            if (!index->addBuffer(QFileInfo(filePath), pathspec, file.readAll())) {
+                // TODO: Error handling
+                return;
+            }
+            file.close();
+        }
+    }
+
+    index->write();
+
+    auto mergeMessage = tr("Merge %1 into %2").arg(d->fromName, d->toName);
+    repo->commit(mergeMessage, sig);
 }

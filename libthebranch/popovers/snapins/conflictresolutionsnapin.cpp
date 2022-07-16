@@ -117,7 +117,7 @@ void ConflictResolutionSnapIn::updateConflictResolutionState() {
 
 void ConflictResolutionSnapIn::on_completeButton_clicked() {
     // Apply conflict resolution steps
-    for (auto resolver : d->conflictResolutionWidgets) {
+    for (auto *resolver : d->conflictResolutionWidgets) {
         resolver->applyConflictResolution();
     }
 

@@ -16,6 +16,8 @@ class LGIndex : public QObject {
 
         struct ::git_index* gitIndex();
 
+        void write();
+
         bool hasConflicts();
         void conflictCleanup();
 

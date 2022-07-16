@@ -3,6 +3,7 @@
 
 #include "../errorresponse.h"
 #include "../forward_declares.h"
+#include <QCoroTask>
 #include <QObject>
 #include <functional>
 
@@ -22,6 +23,7 @@ class LGRepository : public QObject {
         };
 
         static LGRepository* open(QString path);
+        static QString gitExecutable();
 
         LGReferencePtr head();
         void setHead(QString head);
@@ -38,7 +40,8 @@ class LGRepository : public QObject {
         LGTreePtr lookupTree(LGOidPtr oid);
 
         LGCommitPtr lookupCommit(LGOidPtr oid);
-        LGOidPtr createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents);
+        //        LGOidPtr createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents);
+        QCoro::Task<> commit(QString message, LGSignaturePtr committer);
 
         LGSignaturePtr defaultSignature();
 
@@ -47,6 +50,8 @@ class LGRepository : public QObject {
 
         RepositoryState state();
         void cleanupState();
+
+        QCoro::Task<> runGit(QStringList args);
 
         git_repository* gitRepository();
 

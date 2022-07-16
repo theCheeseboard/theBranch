@@ -30,6 +30,10 @@ git_index* LGIndex::gitIndex() {
     return d->gitIndex;
 }
 
+void LGIndex::write() {
+    git_index_write(d->gitIndex);
+}
+
 bool LGIndex::hasConflicts() {
     return git_index_has_conflicts(d->gitIndex);
 }

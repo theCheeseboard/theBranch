@@ -84,39 +84,31 @@ void CommitSnapIn::performCommit() {
     LGRepositoryPtr repo = d->repository->git_repository();
     LGSignaturePtr sig = d->signature;
     LGReferencePtr head = repo->head();
-    if (head) {
-        // Create a commit on the existing HEAD
-        LGOidPtr headOid = LGReference::nameToId(repo, head->resolve()->name());
-        LGCommitPtr parentCommit = repo->lookupCommit(headOid);
-        LGTreePtr headTree = parentCommit->tree();
-        LGIndexPtr index = repo->index();
 
-        index->removeAll({"*"});
+    // Create a commit on the existing HEAD
+    LGIndexPtr index = repo->index();
 
-        for (QModelIndex selected : d->statusModel->checkedItems()) {
-            QString pathspec = selected.data(StatusItemListModel::PathRole).toString();
-            QString filePath = QDir(repo->workDir()).absoluteFilePath(pathspec);
+    for (QModelIndex selected : d->statusModel->checkedItems()) {
+        QString pathspec = selected.data(StatusItemListModel::PathRole).toString();
+        QString filePath = QDir(repo->workDir()).absoluteFilePath(pathspec);
 
-            QFile file(filePath);
-            file.open(QFile::ReadOnly);
-            if (!index->addBuffer(QFileInfo(filePath), pathspec, file.readAll())) {
-                ui->stackedWidget->setCurrentWidget(ui->commitPage);
-                ErrorResponse err = ErrorResponse::fromCurrentGitError();
-                tErrorFlash::flashError(ui->commitMessageEdit, err.description());
-                return;
-            }
-            file.close();
+        QFile file(filePath);
+        file.open(QFile::ReadOnly);
+        if (!index->addBuffer(QFileInfo(filePath), pathspec, file.readAll())) {
+            ui->stackedWidget->setCurrentWidget(ui->commitPage);
+            ErrorResponse err = ErrorResponse::fromCurrentGitError();
+            tErrorFlash::flashError(ui->commitMessageEdit, err.description());
+            return;
         }
-
-        LGOidPtr treeOid = index->writeTree(repo);
-        LGTreePtr commitTree = repo->lookupTree(treeOid);
-
-        repo->createCommit("HEAD", sig, sig, ui->commitMessageEdit->toPlainText(), commitTree, {parentCommit});
-
-        emit done();
-    } else {
-        // TODO: The HEAD is unborn, what do now?
+        file.close();
     }
+
+    index->write();
+
+    //        repo->createCommit("HEAD", sig, sig, ui->commitMessageEdit->toPlainText(), commitTree, {parentCommit});
+    repo->commit(ui->commitMessageEdit->toPlainText(), sig);
+
+    emit done();
 }
 
 void CommitSnapIn::on_titleLabel_2_backButtonClicked() {
