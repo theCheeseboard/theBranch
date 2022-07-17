@@ -20,9 +20,11 @@
 #include "remote.h"
 
 #include "libgit/lgremote.h"
+#include "libgit/lgrepository.h"
 
 struct RemotePrivate {
         LGRemotePtr remote;
+        LGRepositoryPtr repo;
 };
 
 Remote::~Remote() {
@@ -37,13 +39,18 @@ QString Remote::url() {
     return d->remote->url();
 }
 
+QCoro::Task<> Remote::fetch() {
+    co_await d->repo->fetch(d->remote->name());
+}
+
 void Remote::remove() {
     d->remote->remove();
 }
 
-RemotePtr Remote::remoteForLgRemote(LGRemotePtr remote) {
+RemotePtr Remote::remoteForLgRemote(LGRepositoryPtr repo, LGRemotePtr remote) {
     Remote* r = new Remote();
     r->d->remote = remote;
+    r->d->repo = repo;
     return r->sharedFromThis();
 }
 

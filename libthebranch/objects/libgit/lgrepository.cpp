@@ -116,7 +116,7 @@ QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
     messageFile.close();
 
     auto args = QStringList({"commit", QStringLiteral("--file=%1").arg(messageFile.fileName()), QStringLiteral("--author=%1 <%2>").arg(committer->name(), committer->email())});
-    auto output = co_await this->runGit(args);
+    auto [exitCode, output] = co_await this->runGit(args);
 
     tDebug("LGRepository") << output;
 }
@@ -191,7 +191,7 @@ QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch,
     if (pushTags) args.append("--tags");
     if (setUpstream) args.append("--set-upstream");
     args.append({upstreamRemote, upstreamBranch});
-    auto output = co_await this->runGit(args);
+    auto [exitCode, output] = co_await this->runGit(args);
 
     if (output.contains("[rejected]")) {
         throw GitRepositoryOutOfDateException();
@@ -201,10 +201,14 @@ QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch,
 QCoro::Task<> LGRepository::fetch(QString remote) {
     // TODO: Error checking
     auto args = QStringList({"fetch", remote});
-    auto output = co_await this->runGit(args);
+    auto [exitCode, output] = co_await this->runGit(args);
+
+    if (exitCode != 0) {
+        throw QException();
+    }
 }
 
-QCoro::Task<QString> LGRepository::runGit(QStringList args) {
+QCoro::Task<std::tuple<int, QString>> LGRepository::runGit(QStringList args) {
     auto gitCommand = this->gitExecutable();
     if (gitCommand.isEmpty()) throw QException();
 
@@ -214,7 +218,7 @@ QCoro::Task<QString> LGRepository::runGit(QStringList args) {
     co_await qCoro(gitProc).start(gitCommand, args);
     co_await qCoro(gitProc).waitForFinished();
 
-    co_return gitProc.readAll();
+    co_return {gitProc.exitCode(), gitProc.readAll()};
 }
 
 LGRepository::~LGRepository() {

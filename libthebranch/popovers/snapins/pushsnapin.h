@@ -34,6 +34,7 @@ class LIBTHEBRANCH_EXPORT PushSnapIn : public SnapIn {
         PushSnapInPrivate* d;
 
         void updateUpstreamBox();
+        void updatePushButton();
 
         // SnapIn interface
     public:

@@ -13,7 +13,8 @@ class BranchModel : public QAbstractListModel {
         ~BranchModel();
 
         enum BranchModelRole {
-            Branch = Qt::UserRole
+            Branch = Qt::UserRole,
+            FakeRemoteName
         };
 
         // Basic functionality:
@@ -21,6 +22,9 @@ class BranchModel : public QAbstractListModel {
         QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
         QModelIndex index(BranchPtr branch);
+
+        void setFakePushBranchName(QString name);
+        QStringList nonexistentRemoteNames() const;
 
         void setRepository(RepositoryPtr repo);
         void reloadData();

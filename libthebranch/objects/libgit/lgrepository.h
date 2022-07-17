@@ -64,7 +64,7 @@ class LGRepository : public QObject,
         QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags);
         QCoro::Task<> fetch(QString remote);
 
-        QCoro::Task<QString> runGit(QStringList args);
+        QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
 
         git_repository* gitRepository();
 

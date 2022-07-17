@@ -1,4 +1,5 @@
 #include "pushsnapin.h"
+#include "newremotesnapin.h"
 #include "ui_pushsnapin.h"
 
 #include "../snapinpopover.h"
@@ -29,6 +30,7 @@ PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
     new tContentSizer(ui->pushButton);
     new tContentSizer(ui->pushFailedWidget);
     new tContentSizer(ui->pullButton);
+    new tContentSizer(ui->noUpstreamFrame);
     ui->spinner->setFixedSize(SC_DPI_WT(QSize(32, 32), QSize, this));
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
@@ -37,16 +39,34 @@ PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
     auto* model = new BranchModel();
     model->setBranchFlags(THEBRANCH::RemoteBranches);
     model->setRepository(repo);
+    model->setFakePushBranchName(repo->head()->asBranch()->name());
     ui->branchBox->setModel(model);
 
     auto branch = repo->head()->asBranch()->upstream();
     if (branch) {
+        auto name = branch->name();
         auto index = model->index(branch);
         if (index.isValid()) ui->branchBox->setCurrentIndex(index.row());
         d->upstreamIndex = index;
     }
 
+    ui->noUpstreamFrame->setState(tStatusFrame::Error);
+    ui->noUpstreamFrame->setTitle(tr("No Remotes Configured"));
+    ui->noUpstreamFrame->setText(tr("To push from this repository, you need to add a remote."));
+    connect(model, &BranchModel::dataChanged, this, [this, model] {
+        ui->noUpstreamFrame->setVisible(model->rowCount() == 0);
+    });
+    ui->noUpstreamFrame->setVisible(model->rowCount() == 0);
+
+    auto addRemoteButton = ui->noUpstreamFrame->addButton();
+    addRemoteButton->setText(tr("Add Remote"));
+    addRemoteButton->setIcon(QIcon::fromTheme("list-add"));
+    connect(addRemoteButton, &QPushButton::clicked, this, [this] {
+        this->parentPopover()->pushSnapIn(new NewRemoteSnapIn(d->repo));
+    });
+
     updateUpstreamBox();
+    updatePushButton();
 }
 
 PushSnapIn::~PushSnapIn() {
@@ -59,11 +79,20 @@ void PushSnapIn::on_titleLabel_backButtonClicked() {
 }
 
 QCoro::Task<> PushSnapIn::on_pushButton_clicked() {
+    QString remoteName;
+    QString localBranchName;
     auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+    if (!branch) {
+        remoteName = ui->branchBox->currentData(BranchModel::FakeRemoteName).toString();
+        localBranchName = d->repo->head()->asBranch()->name();
+    } else {
+        remoteName = branch->remoteName();
+        localBranchName = branch->localBranchName();
+    }
     ui->stackedWidget->setCurrentWidget(ui->pushingPage);
 
     try {
-        co_await d->repo->git_repository()->push(branch->remoteName(), branch->localBranchName(), ui->upstreamCheckbox->isChecked(), ui->tagsCheckbox->isChecked());
+        co_await d->repo->git_repository()->push(remoteName, localBranchName, ui->upstreamCheckbox->isChecked(), ui->tagsCheckbox->isChecked());
         emit done();
     } catch (const GitRepositoryOutOfDateException& ex) {
         ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
@@ -72,6 +101,7 @@ QCoro::Task<> PushSnapIn::on_pushButton_clicked() {
 
 void PushSnapIn::on_branchBox_currentIndexChanged(int index) {
     updateUpstreamBox();
+    updatePushButton();
 }
 
 void PushSnapIn::updateUpstreamBox() {
@@ -81,6 +111,10 @@ void PushSnapIn::updateUpstreamBox() {
     } else {
         ui->upstreamCheckbox->setEnabled(true);
     }
+}
+
+void PushSnapIn::updatePushButton() {
+    ui->pushButton->setEnabled(ui->branchBox->currentIndex() != -1);
 }
 
 void PushSnapIn::on_titleLabel_2_backButtonClicked() {

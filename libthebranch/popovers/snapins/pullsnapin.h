@@ -30,7 +30,7 @@ namespace Ui {
 }
 
 struct PullSnapInPrivate;
-class PullSnapIn : public SnapIn {
+class LIBTHEBRANCH_EXPORT PullSnapIn : public SnapIn {
         Q_OBJECT
 
     public:

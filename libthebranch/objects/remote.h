@@ -21,6 +21,7 @@
 #define REMOTE_H
 
 #include "forward_declares.h"
+#include <QCoroTask>
 #include <QObject>
 
 class Repository;
@@ -34,13 +35,15 @@ class Remote : public QObject,
         QString name();
         QString url();
 
+        QCoro::Task<> fetch();
+
         void remove();
 
     signals:
 
     protected:
         friend Repository;
-        static RemotePtr remoteForLgRemote(LGRemotePtr remote);
+        static RemotePtr remoteForLgRemote(LGRepositoryPtr repo, LGRemotePtr remote);
 
     private:
         explicit Remote(QObject* parent = nullptr);

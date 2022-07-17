@@ -190,32 +190,47 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
         popover->show(this->window());
     });
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), this, [=] {
+    menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), this, [index, this]() -> QCoro::Task<> {
+        // TODO: Use a snapin or popover
+
         BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
         if (branch->toReference()->shorthand() == d->repo->head()->shorthand()) {
-            tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Can't delete that branch"));
-            box->setMessageText(tr("The selected branch is the current branch."));
-            box->setInformativeText(tr("To delete the branch, checkout a different branch first."));
-            box->exec(true);
-            return;
+            tMessageBox box(this->window());
+            box.setTitleBarText(tr("Can't delete that branch"));
+            box.setMessageText(tr("The selected branch is the current branch."));
+            box.setInformativeText(tr("To delete the branch, checkout a different branch first."));
+            co_await box.presentAsync();
+            co_return;
         }
 
-        tMessageBox* box = new tMessageBox(this->window());
-        box->setTitleBarText(tr("Delete branch?"));
-        box->setMessageText(tr("Do you want to delete the branch %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-        tMessageBoxButton* button = box->addButton(tr("Delete Branch"), QMessageBox::DestructiveRole);
-        connect(button, &tMessageBoxButton::buttonPressed, this, [=] {
-            if (CHK_ERR(branch->deleteBranch())) {
-                tMessageBox* box = new tMessageBox(this->window());
-                box->setTitleBarText(tr("Can't delete that branch"));
-                box->setMessageText(error.description());
-                box->exec(true);
+        tMessageBox box(this->window());
+        box.setTitleBarText(tr("Delete branch?"));
+        box.setMessageText(tr("Do you want to delete the branch %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
+        tMessageBoxButton* deleteButton = box.addButton(tr("Delete Branch"), QMessageBox::DestructiveRole);
+        box.addStandardButton(QMessageBox::Cancel);
+        box.setIcon(QMessageBox::Question);
+
+        auto button = co_await box.presentAsync();
+        if (button == deleteButton) {
+            if (branch->isRemoteBranch()) {
+                try {
+                    co_await branch->deleteRemoteBranch();
+                } catch (QException& ex) {
+                    tMessageBox* box = new tMessageBox(this->window());
+                    box->setTitleBarText(tr("Can't delete that branch"));
+                    box->setMessageText(tr("Failed to delete the remote branch"));
+                    box->exec(true);
+                    co_return;
+                }
             }
-        });
-        box->addStandardButton(QMessageBox::Cancel);
-        box->setIcon(QMessageBox::Question);
-        box->exec(true);
+
+            if (CHK_ERR(branch->deleteBranch())) {
+                tMessageBox box(this->window());
+                box.setTitleBarText(tr("Can't delete that branch"));
+                box.setMessageText(error.description());
+                co_await box.presentAsync();
+            }
+        }
     });
     //    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(event->globalPos());

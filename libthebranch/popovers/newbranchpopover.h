@@ -20,6 +20,7 @@
 #ifndef NEWBRANCHPOPOVER_H
 #define NEWBRANCHPOPOVER_H
 
+#include "libthebranch_global.h"
 #include "objects/forward_declares.h"
 #include <QWidget>
 
@@ -28,7 +29,7 @@ namespace Ui {
 }
 
 struct NewBranchPopoverPrivate;
-class NewBranchPopover : public QWidget {
+class LIBTHEBRANCH_EXPORT NewBranchPopover : public QWidget {
         Q_OBJECT
 
     public:

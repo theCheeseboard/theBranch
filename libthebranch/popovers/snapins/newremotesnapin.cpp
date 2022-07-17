@@ -17,56 +17,76 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#include "newremotepopover.h"
-#include "ui_newremotepopover.h"
+#include "newremotesnapin.h"
+#include "ui_newremotesnapin.h"
 
 #include "objects/errorresponse.h"
+#include "objects/remote.h"
 #include "objects/repository.h"
 #include <tcontentsizer.h>
 #include <terrorflash.h>
 
-struct NewRemotePopoverPrivate {
+struct NewRemoteSnapInPrivate {
         RepositoryPtr repo;
 };
 
-NewRemotePopover::NewRemotePopover(RepositoryPtr repo, QWidget* parent) :
-    QWidget(parent),
-    ui(new Ui::NewRemotePopover) {
+NewRemoteSnapIn::NewRemoteSnapIn(RepositoryPtr repo, QWidget* parent) :
+    SnapIn(parent),
+    ui(new Ui::NewRemoteSnapIn) {
     ui->setupUi(this);
-    d = new NewRemotePopoverPrivate();
+    d = new NewRemoteSnapInPrivate();
     d->repo = repo;
 
+    ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
     ui->titleLabel->setBackButtonShown(true);
     new tContentSizer(ui->remoteOptionsWidget);
     new tContentSizer(ui->addRemoteButton);
+    new tContentSizer(ui->remoteErrorFrame);
+    ui->spinner->setFixedSize(SC_DPI_WT(QSize(32, 32), QSize, this));
+
+    ui->remoteErrorFrame->setState(tStatusFrame::Error);
+    ui->remoteErrorFrame->setVisible(false);
+    ui->remoteErrorFrame->setTitle(tr("Could not connect to the remote"));
+    ui->remoteErrorFrame->setText(tr("Ensure the URL is correct and that your Internet connection is working"));
 }
 
-NewRemotePopover::~NewRemotePopover() {
+NewRemoteSnapIn::~NewRemoteSnapIn() {
     delete d;
     delete ui;
 }
 
-void NewRemotePopover::on_titleLabel_backButtonClicked() {
+void NewRemoteSnapIn::on_titleLabel_backButtonClicked() {
     emit done();
 }
 
-void NewRemotePopover::on_addRemoteButton_clicked() {
+QCoro::Task<> NewRemoteSnapIn::on_addRemoteButton_clicked() {
     if (ui->nameBox->text().isEmpty()) {
         tErrorFlash::flashError(ui->nameContainer);
-        return;
+        co_return;
     }
 
     if (ui->urlBox->text().isEmpty()) {
         tErrorFlash::flashError(ui->urlContainer);
-        return;
+        co_return;
     }
 
     auto remote = d->repo->addRemote(ui->nameBox->text(), ui->urlBox->text());
     if (!remote) {
         auto error = ErrorResponse::fromCurrentGitError();
         tErrorFlash::flashError(ui->nameContainer, error.description());
-        return;
+        co_return;
     }
 
-    emit done();
+    ui->stackedWidget->setCurrentWidget(ui->addingPage);
+    try {
+        co_await remote->fetch();
+        emit done();
+    } catch (QException& ex) {
+        remote->remove();
+        ui->remoteErrorFrame->setVisible(true);
+
+        QTimer::singleShot(500, this, [this] {
+            ui->stackedWidget->setCurrentWidget(ui->remoteOptionsPage);
+        });
+    }
 }

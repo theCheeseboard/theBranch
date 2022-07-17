@@ -4,6 +4,7 @@
 #include "libgit/lgbranch.h"
 #include "libgit/lgcommit.h"
 #include "libgit/lgreference.h"
+#include "libgit/lgrepository.h"
 #include "reference.h"
 
 #include <git2.h>
@@ -22,7 +23,7 @@ bool Branch::equal(ReferencePtr ref) {
 }
 
 bool Branch::equal(BranchPtr branch) {
-    return equal(branch->toReference());
+    return branch->name() == this->name() && branch->toReference()->shorthand() == this->toReference()->shorthand();
 }
 
 ReferencePtr Branch::toReference() {
@@ -56,6 +57,15 @@ ErrorResponse Branch::deleteBranch() {
         return ErrorResponse::fromCurrentGitError();
     }
     return ErrorResponse();
+}
+
+QCoro::Task<> Branch::deleteRemoteBranch() {
+    QStringList args = {
+        "push",
+        "-d",
+        this->remoteName(),
+        this->localBranchName()};
+    auto [exitCode, gitError] = co_await d->repo->runGit(args);
 }
 
 BranchPtr Branch::upstream() {

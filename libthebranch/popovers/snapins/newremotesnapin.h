@@ -20,32 +20,32 @@
 #ifndef NEWREMOTEPOPOVER_H
 #define NEWREMOTEPOPOVER_H
 
+#include "libthebranch_global.h"
 #include "objects/forward_declares.h"
+#include "snapin.h"
+#include <QCoroTask>
 #include <QWidget>
 
 namespace Ui {
-    class NewRemotePopover;
+    class NewRemoteSnapIn;
 }
 
-struct NewRemotePopoverPrivate;
-class NewRemotePopover : public QWidget {
+struct NewRemoteSnapInPrivate;
+class LIBTHEBRANCH_EXPORT NewRemoteSnapIn : public SnapIn {
         Q_OBJECT
 
     public:
-        explicit NewRemotePopover(RepositoryPtr repo, QWidget* parent = nullptr);
-        ~NewRemotePopover();
-
-    signals:
-        void done();
+        explicit NewRemoteSnapIn(RepositoryPtr repo, QWidget* parent = nullptr);
+        ~NewRemoteSnapIn();
 
     private slots:
         void on_titleLabel_backButtonClicked();
 
-        void on_addRemoteButton_clicked();
+        QCoro::Task<> on_addRemoteButton_clicked();
 
     private:
-        Ui::NewRemotePopover* ui;
-        NewRemotePopoverPrivate* d;
+        Ui::NewRemoteSnapIn* ui;
+        NewRemoteSnapInPrivate* d;
 };
 
 #endif // NEWREMOTEPOPOVER_H

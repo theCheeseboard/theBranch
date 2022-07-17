@@ -286,13 +286,13 @@ QList<Repository::StatusItem> Repository::fileStatus() {
 RemotePtr Repository::addRemote(QString name, QString url) {
     auto remote = d->gitRepo->createRemote(name, url);
     if (!remote) return nullptr;
-    return Remote::remoteForLgRemote(remote)->sharedFromThis();
+    return Remote::remoteForLgRemote(d->gitRepo, remote)->sharedFromThis();
 }
 
 QList<RemotePtr> Repository::remotes() {
     QList<RemotePtr> remotes;
     for (auto remote : d->gitRepo->remotes()) {
-        remotes.append(Remote::remoteForLgRemote(remote)->sharedFromThis());
+        remotes.append(Remote::remoteForLgRemote(d->gitRepo, remote)->sharedFromThis());
     }
     return remotes;
 }

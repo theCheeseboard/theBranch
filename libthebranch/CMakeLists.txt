@@ -39,7 +39,7 @@ set(SOURCES
     popovers/snapins/commitsnapin.cpp popovers/snapins/commitsnapin.ui
     popovers/snapins/pushsnapin.cpp popovers/snapins/pushsnapin.ui
     popovers/snapins/pullsnapin.cpp popovers/snapins/pullsnapin.ui
-    popovers/newremotepopover.cpp popovers/newremotepopover.ui
+    popovers/snapins/newremotesnapin.cpp popovers/snapins/newremotesnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
 
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
@@ -97,7 +97,7 @@ set(HEADERS
     popovers/snapins/commitsnapin.h
     popovers/snapins/pushsnapin.h
     popovers/snapins/pullsnapin.h
-    popovers/newremotepopover.h
+    popovers/snapins/newremotesnapin.h
     popovers/newbranchpopover.h
 )
 

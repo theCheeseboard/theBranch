@@ -2,6 +2,7 @@
 #define BRANCH_H
 
 #include "forward_declares.h"
+#include <QCoroTask>
 #include <QObject>
 
 class Repository;
@@ -25,6 +26,7 @@ class Branch : public QObject,
         QString localBranchName();
 
         ErrorResponse deleteBranch();
+        QCoro::Task<> deleteRemoteBranch();
         BranchPtr upstream();
 
     signals:

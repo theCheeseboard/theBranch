@@ -22,7 +22,8 @@
 #include "objects/remote.h"
 #include "objects/remotesmodel.h"
 #include "objects/repository.h"
-#include "popovers/newremotepopover.h"
+#include "popovers/snapinpopover.h"
+#include "popovers/snapins/newremotesnapin.h"
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <tmessagebox.h>
@@ -80,14 +81,7 @@ void RemoteBrowser::contextMenuEvent(QContextMenuEvent* event) {
 
     menu->addSection(tr("For repository"));
     menu->addAction(QIcon::fromTheme("list-add"), tr("Add Remote"), this, [this] {
-        auto* jp = new NewRemotePopover(d->repo);
-        tPopover* popover = new tPopover(jp);
-        popover->setPopoverWidth(SC_DPI_W(-200, this));
-        popover->setPopoverSide(tPopover::Bottom);
-        connect(jp, &NewRemotePopover::done, popover, &tPopover::dismiss);
-        connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
-        connect(popover, &tPopover::dismissed, jp, &NewRemotePopover::deleteLater);
-        popover->show(this->window());
+        SnapInPopover::showSnapInPopover(this->window(), new NewRemoteSnapIn(d->repo));
     });
 
     connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
