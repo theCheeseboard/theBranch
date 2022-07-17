@@ -34,6 +34,8 @@ class LGRemote : public QObject,
         QString name();
         QString url();
 
+        void remove();
+
     signals:
 
     private:

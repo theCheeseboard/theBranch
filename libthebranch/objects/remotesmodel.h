@@ -31,6 +31,10 @@ class RemotesModel : public QAbstractListModel {
         explicit RemotesModel(QObject* parent = nullptr);
         ~RemotesModel();
 
+        enum RemotesModelRole {
+            Remote = Qt::UserRole
+        };
+
         // Basic functionality:
         int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 

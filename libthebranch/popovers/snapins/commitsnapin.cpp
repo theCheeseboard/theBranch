@@ -1,4 +1,6 @@
 #include "commitsnapin.h"
+#include "popovers/snapinpopover.h"
+#include "pushsnapin.h"
 #include "ui_commitsnapin.h"
 
 #include "objects/libgit/lgcommit.h"
@@ -107,6 +109,9 @@ void CommitSnapIn::performCommit() {
 
     repo->commit(ui->commitMessageEdit->toPlainText(), sig);
 
+    if (ui->pushBox->isChecked()) {
+        this->parentPopover()->pushSnapIn(new PushSnapIn(d->repository));
+    }
     emit done();
 }
 

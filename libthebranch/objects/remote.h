@@ -34,6 +34,8 @@ class Remote : public QObject,
         QString name();
         QString url();
 
+        void remove();
+
     signals:
 
     protected:

@@ -17,37 +17,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#include "remote.h"
+#ifndef NEWREMOTEPOPOVER_H
+#define NEWREMOTEPOPOVER_H
 
-#include "libgit/lgremote.h"
+#include "objects/forward_declares.h"
+#include <QWidget>
 
-struct RemotePrivate {
-        LGRemotePtr remote;
+namespace Ui {
+    class NewRemotePopover;
+}
+
+struct NewRemotePopoverPrivate;
+class NewRemotePopover : public QWidget {
+        Q_OBJECT
+
+    public:
+        explicit NewRemotePopover(RepositoryPtr repo, QWidget* parent = nullptr);
+        ~NewRemotePopover();
+
+    signals:
+        void done();
+
+    private slots:
+        void on_titleLabel_backButtonClicked();
+
+        void on_addRemoteButton_clicked();
+
+    private:
+        Ui::NewRemotePopover* ui;
+        NewRemotePopoverPrivate* d;
 };
 
-Remote::~Remote() {
-    delete d;
-}
-
-QString Remote::name() {
-    return d->remote->name();
-}
-
-QString Remote::url() {
-    return d->remote->url();
-}
-
-void Remote::remove() {
-    d->remote->remove();
-}
-
-RemotePtr Remote::remoteForLgRemote(LGRemotePtr remote) {
-    Remote* r = new Remote();
-    r->d->remote = remote;
-    return r->sharedFromThis();
-}
-
-Remote::Remote(QObject* parent) :
-    QObject{parent} {
-    d = new RemotePrivate();
-}
+#endif // NEWREMOTEPOPOVER_H

@@ -52,3 +52,7 @@ QString LGRemote::url() {
     git_remote_free(remote);
     return url;
 }
+
+void LGRemote::remove() {
+    git_remote_delete(d->repo->gitRepository(), d->remoteName.toUtf8().data());
+}

@@ -53,6 +53,8 @@ QVariant RemotesModel::data(const QModelIndex& index, int role) const {
     switch (role) {
         case Qt::DisplayRole:
             return remote->name();
+        case Remote:
+            return QVariant::fromValue(remote);
     }
 
     return QVariant();
