@@ -67,6 +67,10 @@ QString LGReference::shorthand() {
     return QString::fromUtf8(git_reference_shorthand(d->gitReference));
 }
 
+QString LGReference::symbolicTarget() {
+    return QString::fromUtf8(git_reference_symbolic_target(d->gitReference));
+}
+
 LGAnnotatedCommitPtr LGReference::toAnnotatedCommit(LGRepositoryPtr repository) {
     git_annotated_commit* out;
     if (git_annotated_commit_from_ref(&out, repository->gitRepository(), d->gitReference) != 0) {
@@ -79,6 +83,11 @@ LGReferencePtr LGReference::resolve() {
     struct git_reference* ref;
     git_reference_resolve(&ref, d->gitReference);
     return (new LGReference(ref))->sharedFromThis();
+}
+
+LGOidPtr LGReference::target() {
+    auto oid = git_reference_target(d->gitReference);
+    return (new LGOid(*oid))->sharedFromThis();
 }
 
 LGOidPtr LGReference::nameToId(LGRepositoryPtr repository, QString name) {

@@ -1,6 +1,8 @@
 #include "branch.h"
 
+#include "commit.h"
 #include "libgit/lgbranch.h"
+#include "libgit/lgcommit.h"
 #include "libgit/lgreference.h"
 #include "reference.h"
 
@@ -25,6 +27,12 @@ bool Branch::equal(BranchPtr branch) {
 
 ReferencePtr Branch::toReference() {
     return Reference::referenceForLgReference(d->repo, (new LGReference(d->branch->dup()->takeGitReference()))->sharedFromThis());
+}
+
+CommitPtr Branch::lastCommit() {
+    auto ref = this->toReference()->git_reference();
+    auto oid = ref->resolve()->target();
+    return Commit::commitForLgCommit(LGCommit::lookup(d->repo, oid));
 }
 
 QString Branch::name() {

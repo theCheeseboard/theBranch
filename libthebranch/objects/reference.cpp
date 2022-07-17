@@ -37,6 +37,10 @@ QString Reference::shorthand() {
     return d->reference->shorthand();
 }
 
+QString Reference::symbolicTarget() {
+    return d->reference->symbolicTarget();
+}
+
 ReferencePtr Reference::referenceForLgReference(LGRepositoryPtr repo, LGReferencePtr reference) {
     Reference* r = new Reference();
     r->d->reference = reference;

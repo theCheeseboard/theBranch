@@ -20,7 +20,10 @@ class Commit : public QObject,
 
     protected:
         friend CommitModel;
+        friend Repository;
+        friend Branch;
         static CommitPtr commitForLgCommit(LGCommitPtr commit);
+        LGCommitPtr gitCommit();
 
     private:
         explicit Commit(QObject* parent = nullptr);

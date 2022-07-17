@@ -31,6 +31,10 @@ CommitPtr Commit::commitForLgCommit(LGCommitPtr commit) {
     return c->sharedFromThis();
 }
 
+LGCommitPtr Commit::gitCommit() {
+    return d->commit;
+}
+
 Commit::Commit(QObject* parent) :
     QObject{parent} {
     d = new CommitPrivate;

@@ -4,6 +4,7 @@
 #include "objects/merge.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
+#include "popovers/newbranchpopover.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/conflictresolutionsnapin.h"
 #include <QContextMenuEvent>
@@ -177,14 +178,25 @@ void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"));
     menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
-    menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"));
+    menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), this, [this, index] {
+        BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
+        auto* jp = new NewBranchPopover(d->repo, branch->lastCommit());
+        tPopover* popover = new tPopover(jp);
+        popover->setPopoverWidth(SC_DPI_W(-200, this));
+        popover->setPopoverSide(tPopover::Bottom);
+        connect(jp, &NewBranchPopover::done, popover, &tPopover::dismiss);
+        connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+        connect(popover, &tPopover::dismissed, jp, &NewBranchPopover::deleteLater);
+        popover->show(this->window());
+    });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), this, [=] {
         BranchPtr branch = index.data(BranchModel::Branch).value<BranchPtr>();
-        if (branch->equal(d->repo->head())) {
+        if (branch->toReference()->shorthand() == d->repo->head()->shorthand()) {
             tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Branch is HEAD"));
-            box->setMessageText(tr("To delete this branch, checkout a different branch first."));
+            box->setTitleBarText(tr("Can't delete that branch"));
+            box->setMessageText(tr("The selected branch is the current branch."));
+            box->setInformativeText(tr("To delete the branch, checkout a different branch first."));
             box->exec(true);
             return;
         }

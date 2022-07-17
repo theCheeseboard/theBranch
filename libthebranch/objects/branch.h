@@ -16,6 +16,7 @@ class Branch : public QObject,
         bool equal(BranchPtr branch);
 
         ReferencePtr toReference();
+        CommitPtr lastCommit();
 
         QString name();
 

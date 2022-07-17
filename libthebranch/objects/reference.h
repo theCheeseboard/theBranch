@@ -17,6 +17,7 @@ class Reference : public QObject,
 
         QString name();
         QString shorthand();
+        QString symbolicTarget();
 
     signals:
 

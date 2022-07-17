@@ -25,10 +25,12 @@ class LGReference : public QObject,
         bool isBranch();
         QString name();
         QString shorthand();
+        QString symbolicTarget();
 
         LGAnnotatedCommitPtr toAnnotatedCommit(LGRepositoryPtr repository);
 
         LGReferencePtr resolve();
+        LGOidPtr target();
         static LGOidPtr nameToId(LGRepositoryPtr repository, QString name);
 
     signals:

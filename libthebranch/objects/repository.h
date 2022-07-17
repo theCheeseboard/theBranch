@@ -44,6 +44,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
 
         ReferencePtr head();
         QList<BranchPtr> branches(THEBRANCH::ListBranchFlags flags);
+        BranchPtr createBranch(QString name, CommitPtr target);
 
         ReferencePtr reference(QString name);
 

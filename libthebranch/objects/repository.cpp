@@ -1,6 +1,7 @@
 #include "repository.h"
 
 #include "branch.h"
+#include "commit.h"
 #include "index.h"
 #include "libgit/lgbranch.h"
 #include "libgit/lgcommit.h"
@@ -22,15 +23,25 @@ struct RepositoryPrivate {
 
         QList<RepositoryOperation*> operations;
         QFileSystemWatcher* watcher;
+        QTimer* watcherTimer;
 };
 
 Repository::Repository(QObject* parent) :
     QObject{parent} {
     d = new RepositoryPrivate;
-    d->watcher = new QFileSystemWatcher();
-    connect(d->watcher, &QFileSystemWatcher::directoryChanged, this, [this] {
+
+    d->watcherTimer = new QTimer();
+    d->watcherTimer->setInterval(500);
+    d->watcherTimer->setSingleShot(true);
+    connect(d->watcherTimer, &QTimer::timeout, this, [this] {
         updateWatchedDirectories();
         emit repositoryUpdated();
+    });
+
+    d->watcher = new QFileSystemWatcher();
+    connect(d->watcher, &QFileSystemWatcher::directoryChanged, this, [this] {
+        d->watcherTimer->stop();
+        d->watcherTimer->start();
     });
 }
 
@@ -111,6 +122,12 @@ QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
         branches.append(Branch::branchForLgBranch(d->gitRepo, branch)->sharedFromThis());
     }
     return branches;
+}
+
+BranchPtr Repository::createBranch(QString name, CommitPtr target) {
+    auto branch = d->gitRepo->createBranch(name, target->gitCommit());
+    if (!branch) return nullptr;
+    return Branch::branchForLgBranch(d->gitRepo, branch);
 }
 
 ReferencePtr Repository::reference(QString name) {
