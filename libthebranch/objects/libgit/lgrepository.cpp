@@ -187,14 +187,18 @@ void LGRepository::cleanupState() {
 }
 
 QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags) {
+    auto headBranch = (new LGBranch(this->head()->takeGitReference()))->sharedFromThis();
+
     auto args = QStringList({"push"});
     if (pushTags) args.append("--tags");
     if (setUpstream) args.append("--set-upstream");
-    args.append({upstreamRemote, upstreamBranch});
+    args.append({upstreamRemote, QStringLiteral("%1:%2").arg(headBranch->name(), upstreamBranch)});
     auto [exitCode, output] = co_await this->runGit(args);
 
     if (output.contains("[rejected]")) {
         throw GitRepositoryOutOfDateException();
+    } else if (exitCode != 0) {
+        throw QException();
     }
 }
 

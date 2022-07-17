@@ -31,6 +31,7 @@ PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
     new tContentSizer(ui->pushFailedWidget);
     new tContentSizer(ui->pullButton);
     new tContentSizer(ui->noUpstreamFrame);
+    new tContentSizer(ui->pushFailedFrame);
     ui->spinner->setFixedSize(SC_DPI_WT(QSize(32, 32), QSize, this));
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
@@ -65,6 +66,11 @@ PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
         this->parentPopover()->pushSnapIn(new NewRemoteSnapIn(d->repo));
     });
 
+    ui->pushFailedFrame->setState(tStatusFrame::Error);
+    ui->pushFailedFrame->setTitle(tr("Failed to push"));
+    ui->pushFailedFrame->setText(tr("Unable to push the repository to the remote"));
+    ui->pushFailedFrame->setVisible(false);
+
     updateUpstreamBox();
     updatePushButton();
 }
@@ -96,6 +102,11 @@ QCoro::Task<> PushSnapIn::on_pushButton_clicked() {
         emit done();
     } catch (const GitRepositoryOutOfDateException& ex) {
         ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
+    } catch (const QException& ex) {
+        QTimer::singleShot(500, this, [this] {
+            ui->pushFailedFrame->setVisible(true);
+            ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
+        });
     }
 }
 

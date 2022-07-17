@@ -83,9 +83,9 @@ QCoro::Task<> NewRemoteSnapIn::on_addRemoteButton_clicked() {
         emit done();
     } catch (QException& ex) {
         remote->remove();
-        ui->remoteErrorFrame->setVisible(true);
 
         QTimer::singleShot(500, this, [this] {
+            ui->remoteErrorFrame->setVisible(true);
             ui->stackedWidget->setCurrentWidget(ui->remoteOptionsPage);
         });
     }
