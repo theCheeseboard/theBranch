@@ -388,6 +388,9 @@
    <class>tTitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">ttitlelabel.h</header>
+   <slots>
+    <signal>backButtonClicked()</signal>
+   </slots>
   </customwidget>
   <customwidget>
    <class>CommitBrowser</class>

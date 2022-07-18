@@ -28,7 +28,8 @@ set(SOURCES
     objects/statusitemlistmodel.cpp
     objects/remotesmodel.cpp
     objects/remote.cpp
-    widgets/remotebrowser.cpp
+    objects/repositorymodel.cpp
+    objects/branchuihelper.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -46,6 +47,8 @@ set(SOURCES
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
     widgets/commitbrowser.cpp
     widgets/branchbrowser.cpp
+    widgets/remotebrowser.cpp
+    widgets/repositorybrowserlist.cpp
 
     widgets/conflictresolution/conflictresolutionwidget.cpp
     widgets/conflictresolution/textconflictresolution.cpp
@@ -83,6 +86,8 @@ set(HEADERS
     objects/statusitemlistmodel.h
     objects/remotesmodel.h
     objects/remote.h
+    objects/repositorymodel.h
+    objects/branchuihelper.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -90,6 +95,7 @@ set(HEADERS
     widgets/branchbrowser.h
     widgets/repositorystatusbar.h
     widgets/remotebrowser.h
+    widgets/repositorybrowserlist.h
     objects/forward_declares.h
     popovers/snapinpopover.h
     popovers/snapins/snapin.h
