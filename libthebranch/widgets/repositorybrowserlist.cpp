@@ -64,13 +64,15 @@ RepositoryBrowserList::~RepositoryBrowserList() {
 
 void RepositoryBrowserList::setRepository(RepositoryPtr repo) {
     d->repo = repo;
-    d->branches = d->repo->branches(THEBRANCH::LocalBranches);
-    d->remotes = d->repo->remotes();
+    connect(repo.data(), &Repository::repositoryUpdated, this, &RepositoryBrowserList::updateData);
     this->updateData();
     //    d->model->setRepository(repo);
 }
 
 void RepositoryBrowserList::updateData() {
+    d->branches = d->repo->branches(THEBRANCH::LocalBranches);
+    d->remotes = d->repo->remotes();
+
     d->branchParent->removeRows(0, d->branchParent->rowCount());
     for (auto branch : d->branches) {
         auto item = new QStandardItem(branch->name());
@@ -87,6 +89,7 @@ void RepositoryBrowserList::updateData() {
 }
 
 void RepositoryBrowserList::setBeforeActionPerformedHandler(std::function<QCoro::Task<>()> handler) {
+    d->handler = handler;
 }
 
 QCoro::Task<> RepositoryBrowserList::showContextMenu(QPoint pos) {

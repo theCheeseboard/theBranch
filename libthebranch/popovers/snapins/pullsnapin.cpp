@@ -72,12 +72,12 @@ QCoro::Task<> PullSnapIn::on_pullButton_clicked() {
     auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
     ui->stackedWidget->setCurrentWidget(ui->pullingPage);
 
-    //    try {
-    co_await d->repo->fetch(branch->remoteName());
-    //    } catch (const GitRepositoryOutOfDateException& ex) {
-    //        ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
-    //        co_return;
-    //    }
+    try {
+        co_await d->repo->fetch(branch->remoteName());
+    } catch (const QException& ex) {
+        ui->stackedWidget->setCurrentWidget(ui->pullOptionsPage);
+        co_return;
+    }
 
     // TODO: Merge the repository
     if (ui->rebaseCheckbox->isChecked()) {
