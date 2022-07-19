@@ -191,29 +191,11 @@ void LGRepository::cleanupState() {
 QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags, InformationRequiredCallback callback) {
     auto headBranch = (new LGBranch(this->head()->takeGitReference()))->sharedFromThis();
 
-    //    auto args = QStringList({"push"});
-    //    if (pushTags) args.append("--tags");
-    //    if (setUpstream) args.append("--set-upstream");
-    //    args.append({upstreamRemote, QStringLiteral("%1:%2").arg(headBranch->name(), upstreamBranch)});
-    //    auto [exitCode, output] = co_await this->runGit(args);
-
-    //    if (output.contains("[rejected]")) {
-    //        throw GitRepositoryOutOfDateException();
-    //    } else if (exitCode != 0) {
-    //        throw QException();
-    //    }
-
     QStringList refs;
     refs.append(QStringLiteral("refs/heads/%1:refs/heads/%2").arg(headBranch->name(), upstreamBranch));
     if (pushTags) refs.append("refs/tags/*:refs/tags/*");
 
-    auto rem = (new LGRemote(upstreamRemote, this->sharedFromThis()))->sharedFromThis();
-    if (!rem) throw QException();
-
-    auto activeRem = rem->activeRemote();
-    activeRem->setInformationRequiredCallback(callback);
-    co_await activeRem->connect(true);
-    co_await activeRem->push(refs);
+    co_await this->push(upstreamRemote, refs, callback);
 
     if (setUpstream) {
         for (auto branch : this->branches(THEBRANCH::RemoteBranches)) {
@@ -224,15 +206,17 @@ QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch,
     }
 }
 
+QCoro::Task<> LGRepository::push(QString upstreamRemote, QStringList refs, InformationRequiredCallback callback) {
+    auto rem = (new LGRemote(upstreamRemote, this->sharedFromThis()))->sharedFromThis();
+    if (!rem) throw QException();
+
+    auto activeRem = rem->activeRemote();
+    activeRem->setInformationRequiredCallback(callback);
+    co_await activeRem->connect(true);
+    co_await activeRem->push(refs);
+}
+
 QCoro::Task<> LGRepository::fetch(QString remote, InformationRequiredCallback callback) {
-    // TODO: Error checking
-    //    auto args = QStringList({"fetch", remote});
-    //    auto [exitCode, output] = co_await this->runGit(args);
-
-    //    if (exitCode != 0) {
-    //        throw QException();
-    //    }
-
     auto rem = (new LGRemote(remote, this->sharedFromThis()))->sharedFromThis();
     if (!rem) throw QException();
 

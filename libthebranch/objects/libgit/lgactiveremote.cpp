@@ -57,6 +57,8 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
             } catch (const QException& ex) {
                 return -1;
             }
+        } else {
+            return GIT_PASSTHROUGH;
         }
         return 0;
     };
