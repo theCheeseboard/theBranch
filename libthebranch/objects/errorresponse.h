@@ -2,10 +2,30 @@
 #define ERRORRESPONSE_H
 
 #include <QCoreApplication>
+#include <QException>
 #include <QString>
 #include <QVariantMap>
 
 #define CHK_ERR(err) ErrorResponse error = err
+
+class GitRepositoryOutOfDateException : public QException {
+    public:
+        void raise() const override;
+        GitRepositoryOutOfDateException* clone() const override;
+};
+
+class GitException : public QException {
+    public:
+        GitException(QString description);
+
+        void raise() const override;
+        GitException* clone() const override;
+
+        QString description() const;
+
+    private:
+        QString _description;
+};
 
 class ErrorResponse {
         Q_DECLARE_TR_FUNCTIONS(ErrorResponse);
@@ -24,6 +44,8 @@ class ErrorResponse {
         QString errorString();
         QString description();
         QVariantMap supplementaryData();
+
+        void throwIfError();
 
         operator bool();
 

@@ -8,12 +8,6 @@
 #include <QObject>
 #include <functional>
 
-class GitRepositoryOutOfDateException : public QException {
-    public:
-        void raise() const override { throw *this; }
-        GitRepositoryOutOfDateException* clone() const override { return new GitRepositoryOutOfDateException(*this); }
-};
-
 struct git_checkout_options;
 struct git_repository;
 struct LGRepositoryPrivate;

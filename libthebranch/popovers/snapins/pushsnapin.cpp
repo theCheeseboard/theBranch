@@ -103,10 +103,17 @@ QCoro::Task<> PushSnapIn::on_pushButton_clicked() {
         emit done();
     } catch (const GitRepositoryOutOfDateException& ex) {
         ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
+    } catch (const GitException& ex) {
+        QTimer::singleShot(500, this, [this, ex] {
+            ui->pushFailedFrame->setVisible(true);
+            ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
+            ui->pushFailedFrame->setText(ex.description());
+        });
     } catch (const QException& ex) {
         QTimer::singleShot(500, this, [this] {
             ui->pushFailedFrame->setVisible(true);
             ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
+            ui->pushFailedFrame->setText(tr("Unable to push the repository to the remote"));
         });
     }
 }

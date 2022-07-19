@@ -153,27 +153,26 @@ LGActiveRemote::~LGActiveRemote() {
 
 QCoro::Task<> LGActiveRemote::connect(bool isPush) {
     auto callbacks = &d->callbacks;
-    auto success = co_await QtConcurrent::run([this, isPush, callbacks] {
+    auto error = co_await QtConcurrent::run([this, isPush, callbacks] {
         git_proxy_options proxyOptions = GIT_PROXY_OPTIONS_INIT;
         git_strarray customHeaders;
         customHeaders.count = 0;
-        return git_remote_connect(d->remote, isPush ? GIT_DIRECTION_PUSH : GIT_DIRECTION_FETCH, callbacks, &proxyOptions, &customHeaders) == 0;
+        git_remote_connect(d->remote, isPush ? GIT_DIRECTION_PUSH : GIT_DIRECTION_FETCH, callbacks, &proxyOptions, &customHeaders);
+        return ErrorResponse::fromCurrentGitError();
     });
-
-    if (!success) throw QException();
+    error.throwIfError();
 }
 
 QCoro::Task<> LGActiveRemote::fetch() {
     auto callbacks = &d->callbacks;
-    auto success = co_await QtConcurrent::run([this, callbacks] {
-        return git_remote_fetch(d->remote, nullptr, nullptr, nullptr) == 0;
+    auto error = co_await QtConcurrent::run([this, callbacks] {
+        git_remote_fetch(d->remote, nullptr, nullptr, nullptr);
+        return ErrorResponse::fromCurrentGitError();
     });
-
-    if (!success) throw QException();
+    error.throwIfError();
 }
 
 QCoro::Task<> LGActiveRemote::push(QStringList refs) {
-    //    auto callbacks = &d->callbacks;
     auto error = co_await QtConcurrent::run([this](QStringList refs, git_remote_callbacks callbacks) {
         git_push_options pushOptions = GIT_PUSH_OPTIONS_INIT;
         pushOptions.callbacks = callbacks;
@@ -195,15 +194,7 @@ QCoro::Task<> LGActiveRemote::push(QStringList refs) {
         return ErrorResponse::fromCurrentGitError();
     },
         refs, d->callbacks);
-
-    switch (error.error()) {
-        case ErrorResponse::NoError:
-            co_return;
-        case ErrorResponse::UnableToPushNonFastForwardableReferenceError:
-            throw GitRepositoryOutOfDateException();
-        default:
-            throw QException();
-    }
+    error.throwIfError();
 }
 
 void LGActiveRemote::setInformationRequiredCallback(InformationRequiredCallback callback) {

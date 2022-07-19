@@ -36,6 +36,17 @@ QVariantMap ErrorResponse::supplementaryData() {
     return _supplementaryData;
 }
 
+void ErrorResponse::throwIfError() {
+    switch (this->error()) {
+        case ErrorResponse::NoError:
+            return;
+        case ErrorResponse::UnableToPushNonFastForwardableReferenceError:
+            throw GitRepositoryOutOfDateException();
+        default:
+            throw GitException(_description);
+    }
+}
+
 ErrorResponse::operator bool() {
     return _error != ErrorResponse::NoError;
 }
@@ -50,4 +61,28 @@ ErrorResponse ErrorResponse::fromCurrentGitError() {
         errorType = UnableToPushNonFastForwardableReferenceError;
     }
     return ErrorResponse(errorType, message);
+}
+
+void GitRepositoryOutOfDateException::raise() const {
+    throw *this;
+}
+
+GitRepositoryOutOfDateException* GitRepositoryOutOfDateException::clone() const {
+    return new GitRepositoryOutOfDateException(*this);
+}
+
+GitException::GitException(QString description) {
+    this->_description = description;
+}
+
+void GitException::raise() const {
+    throw *this;
+}
+
+GitException* GitException::clone() const {
+    return new GitException(*this);
+}
+
+QString GitException::description() const {
+    return _description;
 }
