@@ -24,6 +24,11 @@ jobs:
           project: "libgit2/libgit2"
           commitish: "main"
       - uses: vicr123/libcontemporary/build-project@actions
+        name: "Build ttexteditor"
+        with:
+          project: "vicr123/ttexteditor"
+          commitish: "master"
+      - uses: vicr123/libcontemporary/build-project@actions
         name: "Build contemporary-theme"
         with:
           project: "vicr123/contemporary-theme"
