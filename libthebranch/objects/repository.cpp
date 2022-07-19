@@ -297,8 +297,8 @@ QList<RemotePtr> Repository::remotes() {
     return remotes;
 }
 
-QCoro::Task<> Repository::fetch(QString remote, InformationRequiredCallback callback) {
-    co_return co_await d->gitRepo->fetch(remote, callback);
+QCoro::Task<> Repository::fetch(QString remote, QStringList refs, InformationRequiredCallback callback) {
+    co_return co_await d->gitRepo->fetch(remote, refs, callback);
 }
 
 QString Repository::repositoryPath() {

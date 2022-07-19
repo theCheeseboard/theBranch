@@ -46,6 +46,7 @@ set(SOURCES
     popovers/snapins/informationrequestsnapin.cpp
     popovers/snapins/sshkeyselectionsnapin.cpp popovers/snapins/sshkeyselectionsnapin.ui
     popovers/snapins/sshcertchecksnapin.cpp popovers/snapins/sshcertchecksnapin.ui
+    popovers/snapins/usernamepasswordsnapin.cpp popovers/snapins/usernamepasswordsnapin.ui
 
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
@@ -134,6 +135,7 @@ set(PRIVATE_HEADERS
     popovers/snapins/informationrequestsnapin.h
     popovers/snapins/sshkeyselectionsnapin.h
     popovers/snapins/sshcertchecksnapin.h
+    popovers/snapins/usernamepasswordsnapin.h
 
 )
 

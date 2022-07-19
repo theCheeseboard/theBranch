@@ -48,7 +48,6 @@ NewRemoteSnapIn::NewRemoteSnapIn(RepositoryPtr repo, QWidget* parent) :
     ui->remoteErrorFrame->setState(tStatusFrame::Error);
     ui->remoteErrorFrame->setVisible(false);
     ui->remoteErrorFrame->setTitle(tr("Could not connect to the remote"));
-    ui->remoteErrorFrame->setText(tr("Ensure the URL is correct and that your Internet connection is working"));
 }
 
 NewRemoteSnapIn::~NewRemoteSnapIn() {
@@ -80,13 +79,24 @@ QCoro::Task<> NewRemoteSnapIn::on_addRemoteButton_clicked() {
 
     ui->stackedWidget->setCurrentWidget(ui->addingPage);
     try {
-        co_await remote->fetch(parentPopover()->getInformationRequiredCallback());
+        QStringList refs;
+        //        refs.append(QStringLiteral("+refs/heads/*:refs/remotes/%1/*").arg(remote->name()));
+        co_await remote->fetch(refs, parentPopover()->getInformationRequiredCallback());
         emit done();
+    } catch (GitException& ex) {
+        remote->remove();
+
+        QTimer::singleShot(500, this, [this, ex] {
+            ui->remoteErrorFrame->setVisible(true);
+            ui->remoteErrorFrame->setText(ex.description());
+            ui->stackedWidget->setCurrentWidget(ui->remoteOptionsPage);
+        });
     } catch (QException& ex) {
         remote->remove();
 
         QTimer::singleShot(500, this, [this] {
             ui->remoteErrorFrame->setVisible(true);
+            ui->remoteErrorFrame->setText(tr("Ensure the URL is correct and that your Internet connection is working"));
             ui->stackedWidget->setCurrentWidget(ui->remoteOptionsPage);
         });
     }

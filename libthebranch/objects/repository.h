@@ -78,7 +78,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         RemotePtr addRemote(QString name, QString url);
         QList<RemotePtr> remotes();
 
-        QCoro::Task<> fetch(QString remote, InformationRequiredCallback callback);
+        QCoro::Task<> fetch(QString remote, QStringList refs, InformationRequiredCallback callback);
 
         QString repositoryPath();
 

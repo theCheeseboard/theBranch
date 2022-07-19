@@ -47,13 +47,24 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
         params.insert("type", "credential");
         params.insert("url", QString(url));
         if (allowed_types & GIT_CREDENTIAL_SSH_KEY) {
-            params.insert("credType", "ssh_key");
+            params.insert("credType", "ssh-key");
 
             try {
                 auto response = parent->callInformationRequiredCallback(params);
                 auto pubkey = response.value("pubKey").toString().toUtf8();
                 auto privKey = response.value("privKey").toString().toUtf8();
                 git_credential_ssh_key_new(out, username_from_url, pubkey.data(), privKey.data(), "");
+            } catch (const QException& ex) {
+                return -1;
+            }
+        } else if (allowed_types & GIT_CREDENTIAL_USERPASS_PLAINTEXT) {
+            params.insert("credType", "username-password");
+
+            try {
+                auto response = parent->callInformationRequiredCallback(params);
+                auto username = response.value("username").toString().toUtf8();
+                auto password = response.value("password").toString().toUtf8();
+                git_credential_userpass_plaintext_new(out, username.data(), password.data());
             } catch (const QException& ex) {
                 return -1;
             }
@@ -165,12 +176,27 @@ QCoro::Task<> LGActiveRemote::connect(bool isPush) {
     error.throwIfError();
 }
 
-QCoro::Task<> LGActiveRemote::fetch() {
+QCoro::Task<> LGActiveRemote::fetch(QStringList refs) {
     auto callbacks = &d->callbacks;
-    auto error = co_await QtConcurrent::run([this, callbacks] {
-        git_remote_fetch(d->remote, nullptr, nullptr, nullptr);
+    auto error = co_await QtConcurrent::run([this, callbacks](QStringList refs) {
+        git_strarray refsToFetch;
+        refsToFetch.count = refs.length();
+        auto strings = new char*[refs.length()];
+        for (auto i = 0; i < refs.length(); i++) {
+            strings[i] = strdup(refs.at(i).toUtf8().data());
+        }
+        refsToFetch.strings = strings;
+
+        git_remote_fetch(d->remote, refs.isEmpty() ? nullptr : &refsToFetch, nullptr, nullptr);
+
+        for (auto i = 0; i < refs.length(); i++) {
+            free(strings[i]);
+        }
+        delete[] strings;
+
         return ErrorResponse::fromCurrentGitError();
-    });
+    },
+        refs);
     error.throwIfError();
 }
 

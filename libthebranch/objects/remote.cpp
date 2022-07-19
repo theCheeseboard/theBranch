@@ -39,8 +39,8 @@ QString Remote::url() {
     return d->remote->url();
 }
 
-QCoro::Task<> Remote::fetch(InformationRequiredCallback callback) {
-    co_await d->repo->fetch(d->remote->name(), callback);
+QCoro::Task<> Remote::fetch(QStringList refs, InformationRequiredCallback callback) {
+    co_await d->repo->fetch(d->remote->name(), refs, callback);
 }
 
 void Remote::remove() {

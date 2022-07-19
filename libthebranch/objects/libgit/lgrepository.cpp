@@ -216,14 +216,14 @@ QCoro::Task<> LGRepository::push(QString upstreamRemote, QStringList refs, Infor
     co_await activeRem->push(refs);
 }
 
-QCoro::Task<> LGRepository::fetch(QString remote, InformationRequiredCallback callback) {
+QCoro::Task<> LGRepository::fetch(QString remote, QStringList refs, InformationRequiredCallback callback) {
     auto rem = (new LGRemote(remote, this->sharedFromThis()))->sharedFromThis();
     if (!rem) throw QException();
 
     auto activeRem = rem->activeRemote();
     activeRem->setInformationRequiredCallback(callback);
     co_await activeRem->connect(false);
-    co_await activeRem->fetch();
+    co_await activeRem->fetch(refs);
 }
 
 QCoro::Task<std::tuple<int, QString>> LGRepository::runGit(QStringList args) {

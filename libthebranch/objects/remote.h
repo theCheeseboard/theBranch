@@ -35,7 +35,7 @@ class Remote : public QObject,
         QString name();
         QString url();
 
-        QCoro::Task<> fetch(InformationRequiredCallback callback);
+        QCoro::Task<> fetch(QStringList refs, InformationRequiredCallback callback);
 
         void remove();
 

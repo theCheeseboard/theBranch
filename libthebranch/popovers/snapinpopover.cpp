@@ -9,6 +9,7 @@
 
 #include "snapins/sshcertchecksnapin.h"
 #include "snapins/sshkeyselectionsnapin.h"
+#include "snapins/usernamepasswordsnapin.h"
 
 struct SnapInPopoverPrivate {
         int numSnapins = 0;
@@ -63,15 +64,19 @@ InformationRequiredCallback SnapInPopover::getInformationRequiredCallback() {
     return [this](QVariantMap params) -> QCoro::Task<QVariantMap> {
         InformationRequestSnapIn* snapin;
 
-        if (params.value("type").toString() == "credential") {
-            snapin = new SshKeySelectionSnapIn(params);
-        } else if (params.value("type").toString() == "certcheck") {
+        auto type = params.value("type").toString();
+        if (type == "credential") {
+            auto credType = params.value("credType").toString();
+            if (credType == "ssh-key") {
+                snapin = new SshKeySelectionSnapIn(params);
+            } else if (credType == "username-password") {
+                snapin = new UsernamePasswordSnapIn(params);
+            }
+        } else if (type == "certcheck") {
             snapin = new SshCertCheckSnapIn(params);
         }
 
         this->pushSnapIn(snapin);
-        //        auto parent = snapin->parent();
-        //        auto stacked = ui->stackedWidget;
         auto response = co_await qCoro(snapin, &InformationRequestSnapIn::response);
         if (response.isEmpty()) throw QException();
 
