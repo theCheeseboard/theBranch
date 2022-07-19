@@ -170,7 +170,8 @@ QCoro::Task<> LGActiveRemote::connect(bool isPush) {
         git_proxy_options proxyOptions = GIT_PROXY_OPTIONS_INIT;
         git_strarray customHeaders;
         customHeaders.count = 0;
-        git_remote_connect(d->remote, isPush ? GIT_DIRECTION_PUSH : GIT_DIRECTION_FETCH, callbacks, &proxyOptions, &customHeaders);
+        auto success = git_remote_connect(d->remote, isPush ? GIT_DIRECTION_PUSH : GIT_DIRECTION_FETCH, callbacks, &proxyOptions, &customHeaders) == 0;
+        if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     });
     error.throwIfError();
@@ -187,13 +188,14 @@ QCoro::Task<> LGActiveRemote::fetch(QStringList refs) {
         }
         refsToFetch.strings = strings;
 
-        git_remote_fetch(d->remote, refs.isEmpty() ? nullptr : &refsToFetch, nullptr, nullptr);
+        auto success = git_remote_fetch(d->remote, refs.isEmpty() ? nullptr : &refsToFetch, nullptr, nullptr) == 0;
 
         for (auto i = 0; i < refs.length(); i++) {
             free(strings[i]);
         }
         delete[] strings;
 
+        if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     },
         refs);
@@ -213,12 +215,14 @@ QCoro::Task<> LGActiveRemote::push(QStringList refs) {
         }
         refsToPush.strings = strings;
 
-        git_remote_push(d->remote, &refsToPush, &pushOptions);
+        auto success = git_remote_push(d->remote, &refsToPush, &pushOptions) == 0;
 
         for (auto i = 0; i < refs.length(); i++) {
             free(strings[i]);
         }
         delete[] strings;
+
+        if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     },
         refs, d->callbacks);
