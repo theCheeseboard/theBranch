@@ -2,8 +2,13 @@
 #include "ui_snapinpopover.h"
 
 #include "snapins/snapin.h"
+#include <QCoroSignal>
+#include <QException>
 #include <QTimer>
 #include <tpopover.h>
+
+#include "snapins/sshcertchecksnapin.h"
+#include "snapins/sshkeyselectionsnapin.h"
 
 struct SnapInPopoverPrivate {
         int numSnapins = 0;
@@ -52,6 +57,26 @@ void SnapInPopover::pushSnapIn(SnapIn* snapin) {
             }
         },
         Qt::QueuedConnection);
+}
+
+InformationRequiredCallback SnapInPopover::getInformationRequiredCallback() {
+    return [this](QVariantMap params) -> QCoro::Task<QVariantMap> {
+        InformationRequestSnapIn* snapin;
+
+        if (params.value("type").toString() == "credential") {
+            snapin = new SshKeySelectionSnapIn(params);
+        } else if (params.value("type").toString() == "certcheck") {
+            snapin = new SshCertCheckSnapIn(params);
+        }
+
+        this->pushSnapIn(snapin);
+        //        auto parent = snapin->parent();
+        //        auto stacked = ui->stackedWidget;
+        auto response = co_await qCoro(snapin, &InformationRequestSnapIn::response);
+        if (response.isEmpty()) throw QException();
+
+        co_return response;
+    };
 }
 
 void SnapInPopover::showSnapInPopover(QWidget* parent, SnapIn* snapin) {

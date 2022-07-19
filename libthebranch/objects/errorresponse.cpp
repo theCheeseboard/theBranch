@@ -23,7 +23,8 @@ QString ErrorResponse::errorString() {
             return tr("No Error");
         case ErrorResponse::UnspecifiedError:
             return tr("Unspecified Error");
-            break;
+        case ErrorResponse::UnableToPushNonFastForwardableReferenceError:
+            return tr("Unable to push non-fast-forwardable reference");
     }
 }
 
@@ -42,5 +43,11 @@ ErrorResponse::operator bool() {
 ErrorResponse ErrorResponse::fromCurrentGitError() {
     const git_error* err = git_error_last();
     if (err == nullptr) return ErrorResponse();
-    return ErrorResponse(UnspecifiedError, QString::fromUtf8(err->message));
+
+    ErrorResponse::ErrorType errorType = UnspecifiedError;
+    auto message = QString::fromUtf8(err->message);
+    if (message == "cannot push non-fastforwardable reference") {
+        errorType = UnableToPushNonFastForwardableReferenceError;
+    }
+    return ErrorResponse(errorType, message);
 }

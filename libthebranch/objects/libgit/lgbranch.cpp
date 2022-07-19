@@ -69,9 +69,9 @@ LGBranchPtr LGBranch::upstream() {
 
 bool LGBranch::setUpstream(LGBranchPtr upstream) {
     if (upstream) {
-        return git_branch_set_upstream(d->gitReference, nullptr) == 0;
-    } else {
         return git_branch_set_upstream(d->gitReference, (upstream->name()).toUtf8().data()) == 0;
+    } else {
+        return git_branch_set_upstream(d->gitReference, nullptr) == 0;
     }
 }
 

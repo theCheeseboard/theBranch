@@ -61,8 +61,8 @@ class LGRepository : public QObject,
         RepositoryState state();
         void cleanupState();
 
-        QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags);
-        QCoro::Task<> fetch(QString remote);
+        QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags, InformationRequiredCallback callback);
+        QCoro::Task<> fetch(QString remote, InformationRequiredCallback callback);
 
         QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
 

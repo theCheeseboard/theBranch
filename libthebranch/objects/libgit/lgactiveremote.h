@@ -17,31 +17,42 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#ifndef LGREMOTE_H
-#define LGREMOTE_H
+#ifndef LGACTIVEREMOTE_H
+#define LGACTIVEREMOTE_H
 
 #include "../forward_declares.h"
+#include <QCoroTask>
 #include <QObject>
 
-struct LGRemotePrivate;
-class LGRemote : public QObject,
-                 public tbSharedFromThis<LGRemote> {
+class git_remote;
+class LGRemote;
+struct LGActiveRemotePrivate;
+class LGActiveRemote : public QObject,
+                       public tbSharedFromThis<LGActiveRemote> {
         Q_OBJECT
     public:
-        explicit LGRemote(QString remoteName, LGRepositoryPtr repo, QObject* parent = nullptr);
-        ~LGRemote();
+        ~LGActiveRemote();
 
-        LGActiveRemotePtr activeRemote();
+        QCoro::Task<> connect(bool isPush);
+        QCoro::Task<> fetch();
+        QCoro::Task<> push(QStringList refs);
 
-        QString name();
-        QString url();
-
-        void remove();
+        void setInformationRequiredCallback(InformationRequiredCallback callback);
 
     signals:
+        void informationRequredResponse(QVariantMap response);
+
+    protected:
+        friend LGRemote;
+        explicit LGActiveRemote(git_remote* remote, QObject* parent = nullptr);
 
     private:
-        LGRemotePrivate* d;
+        LGActiveRemotePrivate* d;
+
+        QVariantMap callInformationRequiredCallback(QVariantMap params);
+
+    private slots:
+        QCoro::Task<> doCallInformationRequiredCallback(QVariantMap params);
 };
 
-#endif // LGREMOTE_H
+#endif // LGACTIVEREMOTE_H

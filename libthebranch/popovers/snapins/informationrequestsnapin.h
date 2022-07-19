@@ -17,44 +17,19 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#include "remote.h"
+#ifndef INFORMATIONREQUESTSNAPIN_H
+#define INFORMATIONREQUESTSNAPIN_H
 
-#include "libgit/lgremote.h"
-#include "libgit/lgrepository.h"
+#include "snapin.h"
+#include <QWidget>
 
-struct RemotePrivate {
-        LGRemotePtr remote;
-        LGRepositoryPtr repo;
+class InformationRequestSnapIn : public SnapIn {
+        Q_OBJECT
+    public:
+        explicit InformationRequestSnapIn(QWidget* parent = nullptr);
+
+    signals:
+        void response(QVariantMap response);
 };
 
-Remote::~Remote() {
-    delete d;
-}
-
-QString Remote::name() {
-    return d->remote->name();
-}
-
-QString Remote::url() {
-    return d->remote->url();
-}
-
-QCoro::Task<> Remote::fetch(InformationRequiredCallback callback) {
-    co_await d->repo->fetch(d->remote->name(), callback);
-}
-
-void Remote::remove() {
-    d->remote->remove();
-}
-
-RemotePtr Remote::remoteForLgRemote(LGRepositoryPtr repo, LGRemotePtr remote) {
-    Remote* r = new Remote();
-    r->d->remote = remote;
-    r->d->repo = repo;
-    return r->sharedFromThis();
-}
-
-Remote::Remote(QObject* parent) :
-    QObject{parent} {
-    d = new RemotePrivate();
-}
+#endif // INFORMATIONREQUESTSNAPIN_H

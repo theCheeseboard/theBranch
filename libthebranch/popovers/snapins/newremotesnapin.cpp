@@ -23,6 +23,7 @@
 #include "objects/errorresponse.h"
 #include "objects/remote.h"
 #include "objects/repository.h"
+#include "popovers/snapinpopover.h"
 #include <tcontentsizer.h>
 #include <terrorflash.h>
 
@@ -79,7 +80,7 @@ QCoro::Task<> NewRemoteSnapIn::on_addRemoteButton_clicked() {
 
     ui->stackedWidget->setCurrentWidget(ui->addingPage);
     try {
-        co_await remote->fetch();
+        co_await remote->fetch(parentPopover()->getInformationRequiredCallback());
         emit done();
     } catch (QException& ex) {
         remote->remove();

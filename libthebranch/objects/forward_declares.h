@@ -1,6 +1,7 @@
 #ifndef FORWARD_DECLARES_H
 #define FORWARD_DECLARES_H
 
+#include <QCoroTask>
 #include <QSharedPointer>
 
 #define FORWARD_DECLARE(cls) \
@@ -19,6 +20,7 @@ FORWARD_DECLARE(LGAnnotatedCommit)
 FORWARD_DECLARE(LGIndex)
 FORWARD_DECLARE(LGTree)
 FORWARD_DECLARE(LGRemote)
+FORWARD_DECLARE(LGActiveRemote)
 
 FORWARD_DECLARE(Repository)
 FORWARD_DECLARE(Index)
@@ -32,6 +34,8 @@ FORWARD_DECLARE(StatusList)
 FORWARD_DECLARE(Remote)
 
 #undef FORWARD_DECLARE
+
+typedef std::function<QCoro::Task<QVariantMap>(QVariantMap)> InformationRequiredCallback;
 
 namespace THEBRANCH {
     enum ListBranchFlags {

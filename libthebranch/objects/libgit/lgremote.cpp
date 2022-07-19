@@ -19,6 +19,7 @@
  * *************************************/
 #include "lgremote.h"
 
+#include "lgactiveremote.h"
 #include "lgrepository.h"
 #include <git2.h>
 
@@ -36,6 +37,14 @@ LGRemote::LGRemote(QString remoteName, LGRepositoryPtr repo, QObject* parent) :
 
 LGRemote::~LGRemote() {
     delete d;
+}
+
+LGActiveRemotePtr LGRemote::activeRemote() {
+    git_remote* remote;
+    if (git_remote_lookup(&remote, d->repo->gitRepository(), d->remoteName.toUtf8().data()) != 0) {
+        return nullptr;
+    }
+    return (new LGActiveRemote(remote))->sharedFromThis();
 }
 
 QString LGRemote::name() {

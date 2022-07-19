@@ -13,7 +13,8 @@ class ErrorResponse {
     public:
         enum ErrorType {
             NoError,
-            UnspecifiedError
+            UnspecifiedError,
+            UnableToPushNonFastForwardableReferenceError
         };
 
         ErrorResponse(ErrorType error, QString description, QVariantMap supplementaryData = {});

@@ -60,6 +60,7 @@ ErrorResponse Branch::deleteBranch() {
 }
 
 QCoro::Task<> Branch::deleteRemoteBranch() {
+    // TODO: Use push from LGRepository
     QStringList args = {
         "push",
         "-d",

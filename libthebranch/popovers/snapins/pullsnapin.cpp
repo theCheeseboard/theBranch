@@ -73,7 +73,7 @@ QCoro::Task<> PullSnapIn::on_pullButton_clicked() {
     ui->stackedWidget->setCurrentWidget(ui->pullingPage);
 
     try {
-        co_await d->repo->fetch(branch->remoteName());
+        co_await d->repo->fetch(branch->remoteName(), this->parentPopover()->getInformationRequiredCallback());
     } catch (const QException& ex) {
         ui->stackedWidget->setCurrentWidget(ui->pullOptionsPage);
         co_return;

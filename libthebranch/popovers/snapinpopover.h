@@ -1,8 +1,9 @@
 #ifndef SNAPINPOPOVER_H
 #define SNAPINPOPOVER_H
 
-#include <QWidget>
 #include "libthebranch_global.h"
+#include "objects/forward_declares.h"
+#include <QWidget>
 
 namespace Ui {
     class SnapInPopover;
@@ -18,6 +19,8 @@ class LIBTHEBRANCH_EXPORT SnapInPopover : public QWidget {
         ~SnapInPopover();
 
         void pushSnapIn(SnapIn* snapin);
+
+        InformationRequiredCallback getInformationRequiredCallback();
 
         static void showSnapInPopover(QWidget* parent, SnapIn* snapin);
 

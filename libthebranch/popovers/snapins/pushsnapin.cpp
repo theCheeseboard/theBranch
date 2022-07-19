@@ -14,6 +14,7 @@
 struct PushSnapInPrivate {
         RepositoryPtr repo;
         QModelIndex upstreamIndex;
+        bool awaitingPull = false;
 };
 
 PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
@@ -98,7 +99,7 @@ QCoro::Task<> PushSnapIn::on_pushButton_clicked() {
     ui->stackedWidget->setCurrentWidget(ui->pushingPage);
 
     try {
-        co_await d->repo->git_repository()->push(remoteName, localBranchName, ui->upstreamCheckbox->isChecked(), ui->tagsCheckbox->isChecked());
+        co_await d->repo->git_repository()->push(remoteName, localBranchName, ui->upstreamCheckbox->isChecked(), ui->tagsCheckbox->isChecked(), this->parentPopover()->getInformationRequiredCallback());
         emit done();
     } catch (const GitRepositoryOutOfDateException& ex) {
         ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
@@ -134,8 +135,12 @@ void PushSnapIn::on_titleLabel_2_backButtonClicked() {
 
 void PushSnapIn::on_pullButton_clicked() {
     this->parentPopover()->pushSnapIn(new PullSnapIn(d->repo));
+    d->awaitingPull = true;
 }
 
 void PushSnapIn::snapinShown() {
-    ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage, false);
+    if (d->awaitingPull) {
+        ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage, false);
+        d->awaitingPull = false;
+    }
 }

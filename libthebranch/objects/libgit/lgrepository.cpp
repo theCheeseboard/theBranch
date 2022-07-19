@@ -1,11 +1,13 @@
 #include "lgrepository.h"
 #include "lgremote.h"
 
+#include "lgactiveremote.h"
 #include "lgbranch.h"
 #include "lgcommit.h"
 #include "lgindex.h"
 #include "lgoid.h"
 #include "lgreference.h"
+#include "lgremote.h"
 #include "lgsignature.h"
 #include "lgtree.h"
 #include <QCoroProcess>
@@ -186,30 +188,58 @@ void LGRepository::cleanupState() {
     git_repository_state_cleanup(d->gitRepository);
 }
 
-QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags) {
+QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags, InformationRequiredCallback callback) {
     auto headBranch = (new LGBranch(this->head()->takeGitReference()))->sharedFromThis();
 
-    auto args = QStringList({"push"});
-    if (pushTags) args.append("--tags");
-    if (setUpstream) args.append("--set-upstream");
-    args.append({upstreamRemote, QStringLiteral("%1:%2").arg(headBranch->name(), upstreamBranch)});
-    auto [exitCode, output] = co_await this->runGit(args);
+    //    auto args = QStringList({"push"});
+    //    if (pushTags) args.append("--tags");
+    //    if (setUpstream) args.append("--set-upstream");
+    //    args.append({upstreamRemote, QStringLiteral("%1:%2").arg(headBranch->name(), upstreamBranch)});
+    //    auto [exitCode, output] = co_await this->runGit(args);
 
-    if (output.contains("[rejected]")) {
-        throw GitRepositoryOutOfDateException();
-    } else if (exitCode != 0) {
-        throw QException();
+    //    if (output.contains("[rejected]")) {
+    //        throw GitRepositoryOutOfDateException();
+    //    } else if (exitCode != 0) {
+    //        throw QException();
+    //    }
+
+    QStringList refs;
+    refs.append(QStringLiteral("refs/heads/%1:refs/heads/%2").arg(headBranch->name(), upstreamBranch));
+    if (pushTags) refs.append("refs/tags/*:refs/tags/*");
+
+    auto rem = (new LGRemote(upstreamRemote, this->sharedFromThis()))->sharedFromThis();
+    if (!rem) throw QException();
+
+    auto activeRem = rem->activeRemote();
+    activeRem->setInformationRequiredCallback(callback);
+    co_await activeRem->connect(true);
+    co_await activeRem->push(refs);
+
+    if (setUpstream) {
+        for (auto branch : this->branches(THEBRANCH::RemoteBranches)) {
+            if (branch->name() == QStringLiteral("%1/%2").arg(upstreamRemote, upstreamBranch)) {
+                headBranch->setUpstream(branch);
+            }
+        }
     }
 }
 
-QCoro::Task<> LGRepository::fetch(QString remote) {
+QCoro::Task<> LGRepository::fetch(QString remote, InformationRequiredCallback callback) {
     // TODO: Error checking
-    auto args = QStringList({"fetch", remote});
-    auto [exitCode, output] = co_await this->runGit(args);
+    //    auto args = QStringList({"fetch", remote});
+    //    auto [exitCode, output] = co_await this->runGit(args);
 
-    if (exitCode != 0) {
-        throw QException();
-    }
+    //    if (exitCode != 0) {
+    //        throw QException();
+    //    }
+
+    auto rem = (new LGRemote(remote, this->sharedFromThis()))->sharedFromThis();
+    if (!rem) throw QException();
+
+    auto activeRem = rem->activeRemote();
+    activeRem->setInformationRequiredCallback(callback);
+    co_await activeRem->connect(false);
+    co_await activeRem->fetch();
 }
 
 QCoro::Task<std::tuple<int, QString>> LGRepository::runGit(QStringList args) {

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4.0)
 
 project(lib VERSION 1.0.0 LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Concurrent)
 find_package(libcontemporary REQUIRED)
 find_package(ttexteditor REQUIRED)
 
@@ -43,6 +43,10 @@ set(SOURCES
     popovers/snapins/newremotesnapin.cpp popovers/snapins/newremotesnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
 
+    popovers/snapins/informationrequestsnapin.cpp
+    popovers/snapins/sshkeyselectionsnapin.cpp popovers/snapins/sshkeyselectionsnapin.ui
+    popovers/snapins/sshcertchecksnapin.cpp popovers/snapins/sshcertchecksnapin.ui
+
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
     widgets/commitbrowser.cpp
@@ -68,6 +72,7 @@ set(SOURCES
     objects/libgit/lgindex.cpp
     objects/libgit/lgtree.cpp
     objects/libgit/lgremote.cpp
+    objects/libgit/lgactiveremote.cpp
 )
 
 set(HEADERS
@@ -122,8 +127,13 @@ set(PRIVATE_HEADERS
     objects/libgit/lgindex.h
     objects/libgit/lgtree.h
     objects/libgit/lgremote.h
+    objects/libgit/lgactiveremote.h
     widgets/conflictresolution/conflictresolutionwidget.h
     widgets/conflictresolution/textconflictresolution.h
+
+    popovers/snapins/informationrequestsnapin.h
+    popovers/snapins/sshkeyselectionsnapin.h
+    popovers/snapins/sshcertchecksnapin.h
 
 )
 
@@ -138,7 +148,7 @@ set_target_properties(libthebranch PROPERTIES
         MACOSX_FRAMEWORK_IDENTIFIER com.vicr123.libthebranch
         VERSION 1.0.0)
 
-target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia libcontemporary ttexteditor PkgConfig::lgit)
+target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia Qt6::Concurrent libcontemporary ttexteditor PkgConfig::lgit)
 target_compile_definitions(libthebranch PRIVATE LIBTHEBRANCH_LIBRARY)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

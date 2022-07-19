@@ -17,44 +17,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#include "remote.h"
+#ifndef SSHCERTCHECKSNAPIN_H
+#define SSHCERTCHECKSNAPIN_H
 
-#include "libgit/lgremote.h"
-#include "libgit/lgrepository.h"
+#include "informationrequestsnapin.h"
+#include "objects/forward_declares.h"
+#include <QWidget>
 
-struct RemotePrivate {
-        LGRemotePtr remote;
-        LGRepositoryPtr repo;
+namespace Ui {
+    class SshCertCheckSnapIn;
+}
+
+struct SshCertCheckSnapInPrivate;
+class SshCertCheckSnapIn : public InformationRequestSnapIn {
+        Q_OBJECT
+
+    public:
+        explicit SshCertCheckSnapIn(QVariantMap params, QWidget* parent = nullptr);
+        ~SshCertCheckSnapIn();
+
+    private slots:
+        void on_titleLabel_backButtonClicked();
+
+        void on_acceptButton_clicked();
+
+    private:
+        Ui::SshCertCheckSnapIn* ui;
+        SshCertCheckSnapInPrivate* d;
 };
 
-Remote::~Remote() {
-    delete d;
-}
-
-QString Remote::name() {
-    return d->remote->name();
-}
-
-QString Remote::url() {
-    return d->remote->url();
-}
-
-QCoro::Task<> Remote::fetch(InformationRequiredCallback callback) {
-    co_await d->repo->fetch(d->remote->name(), callback);
-}
-
-void Remote::remove() {
-    d->remote->remove();
-}
-
-RemotePtr Remote::remoteForLgRemote(LGRepositoryPtr repo, LGRemotePtr remote) {
-    Remote* r = new Remote();
-    r->d->remote = remote;
-    r->d->repo = repo;
-    return r->sharedFromThis();
-}
-
-Remote::Remote(QObject* parent) :
-    QObject{parent} {
-    d = new RemotePrivate();
-}
+#endif // SSHCERTCHECKSNAPIN_H

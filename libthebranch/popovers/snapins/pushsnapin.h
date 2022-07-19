@@ -4,7 +4,6 @@
 #include "libthebranch_global.h"
 #include "objects/forward_declares.h"
 #include "snapin.h"
-#include <QCoroTask>
 
 namespace Ui {
     class PushSnapIn;

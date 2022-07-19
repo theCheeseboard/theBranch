@@ -17,44 +17,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#include "remote.h"
+#include "sshcertchecksnapin.h"
+#include "ui_sshcertchecksnapin.h"
 
-#include "libgit/lgremote.h"
-#include "libgit/lgrepository.h"
+#include <tcontentsizer.h>
 
-struct RemotePrivate {
-        LGRemotePtr remote;
-        LGRepositoryPtr repo;
-};
+SshCertCheckSnapIn::SshCertCheckSnapIn(QVariantMap params, QWidget* parent) :
+    InformationRequestSnapIn(parent),
+    ui(new Ui::SshCertCheckSnapIn) {
+    ui->setupUi(this);
 
-Remote::~Remote() {
-    delete d;
+    ui->titleLabel->setBackButtonShown(true);
+    new tContentSizer(ui->sshKeyOptionsWidget);
+    new tContentSizer(ui->acceptButton);
+
+    ui->hostLabel->setText(params.value("host").toString());
 }
 
-QString Remote::name() {
-    return d->remote->name();
+SshCertCheckSnapIn::~SshCertCheckSnapIn() {
+    delete ui;
 }
 
-QString Remote::url() {
-    return d->remote->url();
+void SshCertCheckSnapIn::on_titleLabel_backButtonClicked() {
+    emit response({});
+    emit done();
 }
 
-QCoro::Task<> Remote::fetch(InformationRequiredCallback callback) {
-    co_await d->repo->fetch(d->remote->name(), callback);
-}
-
-void Remote::remove() {
-    d->remote->remove();
-}
-
-RemotePtr Remote::remoteForLgRemote(LGRepositoryPtr repo, LGRemotePtr remote) {
-    Remote* r = new Remote();
-    r->d->remote = remote;
-    r->d->repo = repo;
-    return r->sharedFromThis();
-}
-
-Remote::Remote(QObject* parent) :
-    QObject{parent} {
-    d = new RemotePrivate();
+void SshCertCheckSnapIn::on_acceptButton_clicked() {
+    emit response({
+        {"ok", true}
+    });
+    emit done();
 }
