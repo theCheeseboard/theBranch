@@ -19,6 +19,7 @@ class Merge : public GitOperation {
             MergeNotPossible
         };
 
+        BranchPtr fromBranch();
         MergeType mergeType();
 
         enum MergeResult {

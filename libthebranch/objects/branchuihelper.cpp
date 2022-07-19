@@ -25,6 +25,7 @@
 #include "popovers/newbranchpopover.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/conflictresolutionsnapin.h"
+#include "popovers/snapins/mergesnapin.h"
 #include "reference.h"
 #include "repository.h"
 #include <QLocale>
@@ -134,45 +135,7 @@ void BranchUiHelper::merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent
         box->setIcon(QMessageBox::Critical);
         box->exec(true);
     } else {
-        tMessageBoxButton* affirmativeButton;
-        tMessageBox* box = new tMessageBox(parent->window());
-        box->setTitleBarText(tr("Merge"));
-        if (merge->mergeType() == Merge::FastForward) {
-            box->setMessageText(tr("Do you want to perform a fast-forward merge from %1?").arg(QLocale().quoteString(branch->name())));
-            affirmativeButton = box->addButton(tr("Fast-Forward"), QMessageBox::AcceptRole);
-        } else {
-            box->setMessageText(tr("Do you want to create a merge commit from %1?").arg(QLocale().quoteString(branch->name())));
-            affirmativeButton = box->addButton(tr("Merge"), QMessageBox::AcceptRole);
-        }
-
-        connect(affirmativeButton, &tMessageBoxButton::buttonPressed, parent, [=] {
-            Merge::MergeResult result = merge->performMerge();
-            if (result == Merge::MergeFailed) {
-                ErrorResponse error = merge->mergeFailureReason();
-
-                QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
-
-                if (conflicts.length() > 0) {
-                    tMessageBox* box = new tMessageBox(parent->window());
-                    box->setTitleBarText(tr("Unclean Working Directory"));
-                    box->setMessageText(tr("To perform a merge, you need to stash your uncommitted changes first."));
-                    box->exec(true);
-                    return;
-                }
-
-                tMessageBox* box = new tMessageBox(parent->window());
-                box->setTitleBarText(tr("Merge failed"));
-                box->setMessageText(error.description());
-                box->setIcon(QMessageBox::Critical);
-                box->exec(true);
-            } else if (result == Merge::MergeConflict) {
-                SnapInPopover::showSnapInPopover(parent, new ConflictResolutionSnapIn(merge));
-            }
-        });
-        box->setInformativeText(tr("All changes from %1 will be merged into the current branch.").arg(QLocale().quoteString(branch->name())));
-        box->addStandardButton(QMessageBox::Cancel);
-        box->setIcon(QMessageBox::Question);
-        box->exec(true);
+        SnapInPopover::showSnapInPopover(parent, new MergeSnapIn(merge));
     }
 }
 

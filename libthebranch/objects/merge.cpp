@@ -13,7 +13,7 @@ struct MergePrivate {
         git_merge_preference_t mergePreference;
 
         RepositoryPtr repo;
-        LGReferencePtr ref;
+        BranchPtr fromBranch;
         LGAnnotatedCommitPtr annotatedCommit;
 
         QString fromName;
@@ -26,8 +26,8 @@ Merge::Merge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :
     GitOperation{parent} {
     d = new MergePrivate();
     d->repo = repo;
-    d->ref = branch->toReference()->git_reference();
-    d->annotatedCommit = d->ref->toAnnotatedCommit(repo->git_repository());
+    d->fromBranch = branch;
+    d->annotatedCommit = d->fromBranch->toReference()->git_reference()->toAnnotatedCommit(repo->git_repository());
     d->errorResponse = ErrorResponse(ErrorResponse::UnspecifiedError, tr("Unspecified Error"));
 
     d->fromName = branch->name();
@@ -39,6 +39,10 @@ Merge::Merge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :
 
 Merge::~Merge() {
     delete d;
+}
+
+BranchPtr Merge::fromBranch() {
+    return d->fromBranch;
 }
 
 Merge::MergeType Merge::mergeType() {
@@ -84,7 +88,7 @@ Merge::MergeResult Merge::performMerge() {
                     return MergeFailed;
                 }
 
-                if (CHK_ERR(d->repo->git_repository()->checkoutTree(d->ref, {}))) {
+                if (CHK_ERR(d->repo->git_repository()->checkoutTree(d->fromBranch->toReference()->git_reference(), {}))) {
                     d->errorResponse = error;
                     return MergeFailed;
                 }

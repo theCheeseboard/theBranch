@@ -41,6 +41,7 @@ set(SOURCES
     popovers/snapins/pushsnapin.cpp popovers/snapins/pushsnapin.ui
     popovers/snapins/pullsnapin.cpp popovers/snapins/pullsnapin.ui
     popovers/snapins/newremotesnapin.cpp popovers/snapins/newremotesnapin.ui
+    popovers/snapins/mergesnapin.cpp popovers/snapins/mergesnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
 
     popovers/snapins/informationrequestsnapin.cpp
@@ -110,6 +111,7 @@ set(HEADERS
     popovers/snapins/pushsnapin.h
     popovers/snapins/pullsnapin.h
     popovers/snapins/newremotesnapin.h
+    popovers/snapins/mergesnapin.h
     popovers/newbranchpopover.h
 )
 
