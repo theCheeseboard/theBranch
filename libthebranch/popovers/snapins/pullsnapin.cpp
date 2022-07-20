@@ -23,14 +23,17 @@
 
 #include "../snapinpopover.h"
 #include "objects/branchmodel.h"
+#include "objects/libgit/lgrepository.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
 #include <objects/merge.h>
+#include <objects/rebase.h>
 #include <tcontentsizer.h>
 #include <tmessagebox.h>
 
 struct PullSnapInPrivate {
         RepositoryPtr repo;
+        GitOperationPtr mergeOperation;
 };
 
 PullSnapIn::PullSnapIn(RepositoryPtr repo, QWidget* parent) :
@@ -80,16 +83,26 @@ QCoro::Task<> PullSnapIn::on_pullButton_clicked() {
     }
 
     // TODO: Merge the repository
+    this->setEnabled(false);
     if (ui->rebaseCheckbox->isChecked()) {
+        PullRebasePtr rebase(new PullRebase(d->repo, d->repo->head()->asBranch(), branch));
+        rebase->setSignature(d->repo->git_repository()->defaultSignature());
+        connect(rebase.data(), &Rebase::conflictEncountered, this, [this, rebase] {
+            this->parentPopover()->pushSnapIn(new ConflictResolutionSnapIn(rebase));
+        });
+        connect(rebase.data(), &Rebase::rebaseComplete, this, [this] {
+            d->mergeOperation.clear();
+            emit done();
+        });
+
+        rebase->finaliseOperation();
+
+        // Keep a reference to the operation so it does not get deleted
+        d->mergeOperation = rebase;
     } else {
         PullMergePtr merge(new PullMerge(d->repo, branch));
         if (merge->mergeType() == Merge::UpToDate) {
             emit done();
-            tMessageBox* box = new tMessageBox(this->window());
-            box->setTitleBarText(tr("Up to date"));
-            box->setMessageText(tr("There are no changes to pull."));
-            box->setIcon(QMessageBox::Information);
-            box->exec(true);
         } else if (merge->mergeType() == Merge::MergeNotPossible) {
             emit done();
             tMessageBox* box = new tMessageBox(this->window());

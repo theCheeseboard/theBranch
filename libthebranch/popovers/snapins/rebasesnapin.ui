@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PullSnapIn</class>
- <widget class="QWidget" name="PullSnapIn">
+ <class>RebaseSnapIn</class>
+ <widget class="QWidget" name="RebaseSnapIn">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>696</width>
-    <height>462</height>
+    <width>842</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="pullOptionsPage">
+     <widget class="QWidget" name="mergePage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
         <number>0</number>
@@ -54,44 +54,34 @@
        <item>
         <widget class="tTitleLabel" name="titleLabel">
          <property name="text">
-          <string>Pull</string>
+          <string>Rebase</string>
          </property>
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QWidget" name="pullOptionsWidget" native="true">
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="2" column="0" colspan="2">
-           <widget class="QCheckBox" name="rebaseCheckbox">
-            <property name="text">
-             <string>Rebase local commits onto upstream</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Upstream Branch</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="2">
+        <widget class="QWidget" name="rebaseOptionsWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
            <widget class="tSubtitleLabel" name="label_2">
             <property name="text">
-             <string>Pull Options</string>
+             <string>Rebase Branches?</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="branchBox">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item>
+           <widget class="QLabel" name="rebaseDescription">
+            <property name="text">
+             <string notr="true">TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="rebaseInformation">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
             </property>
            </widget>
           </item>
@@ -99,9 +89,9 @@
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QPushButton" name="pullButton">
+        <widget class="QPushButton" name="rebaseButton">
          <property name="text">
-          <string>Pull</string>
+          <string notr="true">Rebase</string>
          </property>
         </widget>
        </item>
@@ -120,9 +110,58 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="pullingPage">
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="2" column="1">
+     <widget class="QWidget" name="mergeUnavailablePage">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="tTitleLabel" name="titleLabel_2">
+         <property name="text">
+          <string>Merge</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QWidget" name="mergeUnavailableWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="tSubtitleLabel" name="mergeUnavailableTitle">
+            <property name="text">
+             <string notr="true">Unable to merge</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="mergeUnavailableText">
+            <property name="text">
+             <string notr="true">TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QPushButton" name="mergeUnavailableButton">
+         <property name="text">
+          <string>OK</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -130,49 +169,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="tCircularSpinner" name="spinner" native="true"/>
-       </item>
-       <item row="0" column="1">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
+           <height>201</height>
           </size>
          </property>
         </spacer>
@@ -205,12 +202,6 @@
    <class>tSubtitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">tsubtitlelabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>tCircularSpinner</class>
-   <extends>QWidget</extends>
-   <header location="global">tcircularspinner.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

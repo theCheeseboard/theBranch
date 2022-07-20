@@ -165,18 +165,6 @@ void Merge::finaliseOperation() {
     LGReferencePtr head = repo->head();
 
     // Create a commit on the existing HEAD
-    LGIndexPtr index = repo->index();
-
-    for (auto item : d->repo->fileStatus()) {
-        if (item.flags & Repository::StatusItem::Conflicting) {
-            if (!index->addByPath(item.path)) {
-                // TODO: Error handling
-                return;
-            }
-        }
-    }
-
-    index->write();
 
     auto mergeMessage = tr("Merge %1 into %2").arg(d->fromName, d->toName);
     repo->commit(mergeMessage, sig);

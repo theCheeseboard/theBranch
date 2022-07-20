@@ -21,17 +21,52 @@
 
 #include "branch.h"
 #include "branchmodel.h"
+#include "commit.h"
 #include "merge.h"
 #include "popovers/newbranchpopover.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/conflictresolutionsnapin.h"
 #include "popovers/snapins/mergesnapin.h"
+#include "popovers/snapins/rebasesnapin.h"
+#include "rebase.h"
 #include "reference.h"
 #include "repository.h"
+#include <QClipboard>
 #include <QLocale>
 #include <QMenu>
+#include <tapplication.h>
 #include <tmessagebox.h>
 #include <tpopover.h>
+
+void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryPtr repo, QWidget* parent) {
+    menu->addSection(tr("For commit %1").arg(QLocale().quoteString(commit->commitHash())));
+    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [] {
+
+    });
+    menu->addSeparator();
+    menu->addAction(QIcon::fromTheme("edit-copy"), tr("Copy Commit Message"), parent, [commit] {
+        tApplication::clipboard()->setText(commit->commitMessage());
+    });
+    menu->addAction(QIcon::fromTheme("edit-copy"), tr("Copy Commit Hash"), [commit] {
+        tApplication::clipboard()->setText(commit->commitHash());
+    });
+    menu->addSeparator();
+    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
+    menu->addAction(QIcon::fromTheme("vcs-cherry-pick"), tr("Cherry Pick"), parent, [parent, commit] {
+        tMessageBox* box = new tMessageBox(parent->window());
+        box->setTitleBarText(tr("Kersen plukken?"));
+        box->setMessageText(tr("Wil je %1 als kers op de taart kiezen bovenop %2?").arg(QLocale().quoteString(commit->commitHash()), QLocale().quoteString("main")));
+        box->setInformativeText(tr("%1 wordt opnieuw afgespeeld bovenop %2.").arg(QLocale().quoteString(commit->commitHash()), QLocale().quoteString("main")));
+        box->addButton("Kersen plukken", QMessageBox::AcceptRole);
+        box->addButton(tr("Annuleren"), QMessageBox::RejectRole);
+        //        box->setIcon(QMessageBox::Critical);
+        box->exec(true);
+    });
+    menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), [parent, commit, repo] {
+        BranchUiHelper::branch(repo, commit, parent);
+    });
+    menu->addAction(QIcon::fromTheme("vcs-revert"), tr("Create Revert Commit"));
+}
 
 void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryPtr repo, QWidget* parent) {
     auto head = repo->head()->shorthand();
@@ -41,12 +76,16 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
         checkoutBranch(repo, branch, parent);
     });
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(branch->name()), QLocale().quoteString(head)), [repo, branch, parent] {
+    menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(branch->name()), QLocale().quoteString(head)), parent, [repo, branch, parent] {
         QTimer::singleShot(0, [repo, branch, parent] {
             merge(repo, branch, parent);
         });
     });                                                                                                                                             // Branch -> HEAD
     menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name()))); // HEAD -> Branch
+    menu->addSeparator();
+    menu->addAction(QIcon::fromTheme("vcs-rebase"), tr("Rebase %1 on top of %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name())), parent, [repo, branch, parent] {
+        BranchUiHelper::rebaseBranch(repo, repo->head()->asBranch(), branch, parent);
+    });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"));
     menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
@@ -137,6 +176,11 @@ void BranchUiHelper::merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent
     } else {
         SnapInPopover::showSnapInPopover(parent, new MergeSnapIn(merge));
     }
+}
+
+void BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent) {
+    RebasePtr rebase(new Rebase(repo, from, onto));
+    SnapInPopover::showSnapInPopover(parent, new RebaseSnapIn(rebase));
 }
 
 void BranchUiHelper::branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {

@@ -30,6 +30,7 @@ set(SOURCES
     objects/remote.cpp
     objects/repositorymodel.cpp
     objects/branchuihelper.cpp
+    objects/rebase.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -42,6 +43,7 @@ set(SOURCES
     popovers/snapins/pullsnapin.cpp popovers/snapins/pullsnapin.ui
     popovers/snapins/newremotesnapin.cpp popovers/snapins/newremotesnapin.ui
     popovers/snapins/mergesnapin.cpp popovers/snapins/mergesnapin.ui
+    popovers/snapins/rebasesnapin.cpp popovers/snapins/rebasesnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
 
     popovers/snapins/informationrequestsnapin.cpp
@@ -95,6 +97,7 @@ set(HEADERS
     objects/remote.h
     objects/repositorymodel.h
     objects/branchuihelper.h
+    objects/rebase.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -112,6 +115,7 @@ set(HEADERS
     popovers/snapins/pullsnapin.h
     popovers/snapins/newremotesnapin.h
     popovers/snapins/mergesnapin.h
+    popovers/snapins/rebasesnapin.h
     popovers/newbranchpopover.h
 )
 

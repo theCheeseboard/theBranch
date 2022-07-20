@@ -31,10 +31,12 @@ class BranchUiHelper : public QObject {
     public:
         BranchUiHelper(QObject* parent) = delete;
 
+        static void appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryPtr repo, QWidget* parent);
         static void appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryPtr repo, QWidget* parent);
 
         static void checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
+        static void rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent);
 
         static void branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
         static QCoro::Task<> deleteBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);

@@ -2,7 +2,10 @@
 #include "ui_conflictresolutionsnapin.h"
 
 #include "objects/gitoperation.h"
+#include "objects/libgit/lgindex.h"
+#include "objects/libgit/lgrepository.h"
 #include "objects/merge.h"
+#include "objects/rebase.h"
 #include "objects/statusitemlistmodel.h"
 #include "widgets/conflictresolution/textconflictresolution.h"
 #include <tcontentsizer.h>
@@ -33,7 +36,7 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
     ui->doAbortButton->setProperty("type", "destructive");
     new tContentSizer(ui->abortConfirmWidget);
 
-    if (gitOperation.objectCast<PullMerge>()) {
+    if (gitOperation.objectCast<PullMerge>() || gitOperation.objectCast<PullRebase>()) {
         ui->abortExplainText->setText(tr("Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost."));
         ui->continueConflictResolutionButton->setText(tr("Continue Pull"));
         ui->continueConflictResolutionButton->setIcon(QIcon::fromTheme("vcs-pull"));
@@ -47,6 +50,13 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
         ui->doAbortButton->setText(tr("Abort Merge"));
         ui->completeButton->setText(tr("Merge"));
         ui->completeButton->setIcon(QIcon::fromTheme("vcs-merge"));
+    } else if (gitOperation.objectCast<Rebase>()) {
+        ui->abortExplainText->setText(tr("Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started rebasing, and will also abort the rebase operation. Any conflict resolution will be lost."));
+        ui->continueConflictResolutionButton->setText(tr("Continue Rebase"));
+        ui->continueConflictResolutionButton->setIcon(QIcon::fromTheme("vcs-rebase"));
+        ui->doAbortButton->setText(tr("Abort Rebase"));
+        ui->completeButton->setText(tr("Rebase"));
+        ui->completeButton->setIcon(QIcon::fromTheme("vcs-rebase"));
     }
 
     StatusItemListModel* statusModel = new StatusItemListModel(this);
@@ -127,6 +137,19 @@ void ConflictResolutionSnapIn::on_completeButton_clicked() {
     for (auto* resolver : d->conflictResolutionWidgets) {
         resolver->applyConflictResolution();
     }
+
+    auto repo = d->gitOperation->repository();
+    auto index = repo->git_repository()->index();
+
+    for (auto item : repo->fileStatus()) {
+        if (item.flags & Repository::StatusItem::Conflicting) {
+            if (!index->addByPath(item.path)) {
+                // TODO: Error handling
+                return;
+            }
+        }
+    }
+    index->write();
 
     // Finalise the operation
     d->gitOperation->finaliseOperation();

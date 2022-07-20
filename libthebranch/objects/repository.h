@@ -15,6 +15,8 @@ class RemotesModel;
 class CommitSnapIn;
 class PushSnapIn;
 class PullSnapIn;
+class RebaseSnapIn;
+class ConflictResolutionSnapIn;
 
 struct RepositoryPrivate;
 class RepositoryOperation;
@@ -94,9 +96,12 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         friend BranchModel;
         friend RemotesModel;
         friend Merge;
+        friend Rebase;
         friend CommitSnapIn;
         friend PushSnapIn;
         friend PullSnapIn;
+        friend RebaseSnapIn;
+        friend ConflictResolutionSnapIn;
         LGRepositoryPtr git_repository();
 
     private:

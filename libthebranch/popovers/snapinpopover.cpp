@@ -13,6 +13,7 @@
 
 struct SnapInPopoverPrivate {
         int numSnapins = 0;
+        SnapIn* currentSnapIn;
 };
 
 SnapInPopover::SnapInPopover(QWidget* parent) :
@@ -22,6 +23,16 @@ SnapInPopover::SnapInPopover(QWidget* parent) :
     d = new SnapInPopoverPrivate();
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
+    connect(ui->stackedWidget, &tStackedWidget::switchingFrame, this, [this](int switchTo) {
+        auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(switchTo));
+        if (widget != d->currentSnapIn) widget->snapinShown();
+        d->currentSnapIn = widget;
+    });
+    connect(ui->stackedWidget, &tStackedWidget::currentChanged, this, [this](int switchTo) {
+        auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(switchTo));
+        if (widget != d->currentSnapIn) widget->snapinShown();
+        d->currentSnapIn = widget;
+    });
 }
 
 SnapInPopover::~SnapInPopover() {
@@ -48,7 +59,6 @@ void SnapInPopover::pushSnapIn(SnapIn* snapin) {
                     if (newIndex == ui->stackedWidget->count()) newIndex = ui->stackedWidget->count() - 2;
 
                     auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(newIndex));
-                    widget->snapinShown();
                     ui->stackedWidget->setCurrentWidget(widget);
                 }
 
