@@ -25,6 +25,8 @@ QString ErrorResponse::errorString() {
             return tr("Unspecified Error");
         case ErrorResponse::UnableToPushNonFastForwardableReferenceError:
             return tr("Unable to push non-fast-forwardable reference");
+        case ErrorResponse::WorkingDirectoryNotCleanError:
+            return tr("The working directory is not clean");
     }
 }
 
@@ -59,6 +61,8 @@ ErrorResponse ErrorResponse::fromCurrentGitError() {
     auto message = QString::fromUtf8(err->message);
     if (message == "cannot push non-fastforwardable reference") {
         errorType = UnableToPushNonFastForwardableReferenceError;
+    } else if (message == "unstaged changes exist in workdir") {
+        errorType = WorkingDirectoryNotCleanError;
     }
     return ErrorResponse(errorType, message);
 }

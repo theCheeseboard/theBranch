@@ -34,7 +34,8 @@ class ErrorResponse {
         enum ErrorType {
             NoError,
             UnspecifiedError,
-            UnableToPushNonFastForwardableReferenceError
+            UnableToPushNonFastForwardableReferenceError,
+            WorkingDirectoryNotCleanError
         };
 
         ErrorResponse(ErrorType error, QString description, QVariantMap supplementaryData = {});

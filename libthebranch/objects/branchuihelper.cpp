@@ -178,8 +178,24 @@ void BranchUiHelper::merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent
     }
 }
 
-void BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent) {
+QCoro::Task<> BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent) {
     RebasePtr rebase(new Rebase(repo, from, onto));
+    if (!rebase->isValid()) {
+        auto error = ErrorResponse::fromCurrentGitError();
+        
+        tMessageBox box(parent->window());
+        if (error.error() == ErrorResponse::WorkingDirectoryNotCleanError) {
+            box.setTitleBarText(tr("Unclean Working Directory"));
+            box.setMessageText(tr("To rebase, you need to stash your uncommitted changes first."));
+        } else {
+            box.setTitleBarText(tr("Rebase not possible"));
+            box.setMessageText(tr("Unable to rebase %1 onto %2.").arg(QLocale().quoteString(from->name()), QLocale().quoteString(onto->name())));
+            box.setInformativeText(error.description());
+        }
+        box.setIcon(QMessageBox::Critical);
+        co_await box.presentAsync();
+        co_return;
+    }
     SnapInPopover::showSnapInPopover(parent, new RebaseSnapIn(rebase));
 }
 
