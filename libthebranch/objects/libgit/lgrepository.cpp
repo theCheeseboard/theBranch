@@ -9,6 +9,7 @@
 #include "lgreference.h"
 #include "lgremote.h"
 #include "lgsignature.h"
+#include "lgstash.h"
 #include "lgtree.h"
 #include <QCoroProcess>
 #include <QException>
@@ -224,6 +225,27 @@ QCoro::Task<> LGRepository::fetch(QString remote, QStringList refs, InformationR
     activeRem->setInformationRequiredCallback(callback);
     co_await activeRem->connect(false);
     co_await activeRem->fetch(refs);
+}
+
+QCoro::Task<> LGRepository::stash(QString message, LGSignaturePtr signature) {
+    auto data = message.toUtf8();
+    git_oid oid;
+    if (git_stash_save(&oid, d->gitRepository, signature->gitSignature(), data.data(), 0) != 0) {
+        ErrorResponse::fromCurrentGitError().throwIfError();
+    }
+    co_return;
+}
+
+QList<LGStashPtr> LGRepository::stashes() {
+    QList<LGStashPtr> stashes;
+    git_stash_foreach(
+        d->gitRepository, [](size_t index, const char* message, const git_oid* oid, void* payload) -> int {
+            auto stashes = reinterpret_cast<QList<LGStashPtr>*>(payload);
+            stashes->append((new LGStash(index, QString::fromUtf8(message)))->sharedFromThis());
+            return 0;
+        },
+        &stashes);
+    return stashes;
 }
 
 QCoro::Task<std::tuple<int, QString>> LGRepository::runGit(QStringList args) {

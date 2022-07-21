@@ -39,13 +39,10 @@ void BranchBrowser::setRepository(RepositoryPtr repo) {
 
 void BranchBrowser::contextMenuEvent(QContextMenuEvent* event) {
     if (this->selectedIndexes().isEmpty()) return;
-
     QModelIndex index = this->selectedIndexes().first();
 
-    QString head = d->repo->head()->shorthand();
-
-    QMenu* menu = new QMenu();
+    auto* menu = new QMenu();
     BranchUiHelper::appendBranchMenu(menu, index.data(BranchModel::Branch).value<BranchPtr>(), d->repo, this);
-    //    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
+    connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(event->globalPos());
 }

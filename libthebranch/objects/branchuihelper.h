@@ -33,6 +33,7 @@ class BranchUiHelper : public QObject {
 
         static void appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryPtr repo, QWidget* parent);
         static void appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryPtr repo, QWidget* parent);
+        static void appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr repo, QWidget* parent);
 
         static void checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent);

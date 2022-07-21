@@ -10,6 +10,7 @@
 #include "private/repositorycloneoperation.h"
 #include "reference.h"
 #include "remote.h"
+#include "stash.h"
 #include <QCoroSignal>
 #include <QDirIterator>
 #include <QFileDialog>
@@ -299,6 +300,18 @@ QList<RemotePtr> Repository::remotes() {
 
 QCoro::Task<> Repository::fetch(QString remote, QStringList refs, InformationRequiredCallback callback) {
     co_return co_await d->gitRepo->fetch(remote, refs, callback);
+}
+
+QCoro::Task<> Repository::stash(QString message) {
+    co_await d->gitRepo->stash(message, this->git_repository()->defaultSignature());
+}
+
+QList<StashPtr> Repository::stashes() {
+    QList<StashPtr> stashes;
+    for (auto stash : d->gitRepo->stashes()) {
+        stashes.append(Stash::stashForLgStash(stash, d->gitRepo)->sharedFromThis());
+    }
+    return stashes;
 }
 
 QString Repository::repositoryPath() {

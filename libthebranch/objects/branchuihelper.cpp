@@ -31,6 +31,7 @@
 #include "rebase.h"
 #include "reference.h"
 #include "repository.h"
+#include "stash.h"
 #include <QClipboard>
 #include <QLocale>
 #include <QMenu>
@@ -95,6 +96,47 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), parent, [repo, branch, parent] {
         BranchUiHelper::deleteBranch(repo, branch, parent);
+    });
+}
+
+void BranchUiHelper::appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr repo, QWidget* parent) {
+    menu->addSection(tr("For stash"));
+    menu->addAction(QIcon::fromTheme("vcs-stash-pop"), tr("Pop Stash"), parent, [stash, parent]() -> QCoro::Task<> {
+        if (!stash->apply()) {
+            ErrorResponse error = ErrorResponse::fromCurrentGitError();
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Couldn't apply stash"));
+            box.setMessageText(error.description());
+            box.setIcon(QMessageBox::Critical);
+            co_await box.presentAsync();
+            co_return;
+        }
+
+        stash->drop();
+    });
+    menu->addAction(QIcon::fromTheme("vcs-stash-apply"), tr("Apply Stash"), parent, [stash, parent]() -> QCoro::Task<> {
+        if (!stash->apply()) {
+            ErrorResponse error = ErrorResponse::fromCurrentGitError();
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Couldn't apply stash"));
+            box.setMessageText(error.description());
+            box.setIcon(QMessageBox::Critical);
+            co_await box.presentAsync();
+        }
+    });
+    menu->addSeparator();
+    menu->addAction(QIcon::fromTheme("list-remove"), tr("Drop Stash"), parent, [stash, parent]() -> QCoro::Task<> {
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("Drop Stash?"));
+        box.setMessageText(tr("Do you want to drop the stash %1?").arg(QLocale().quoteString(stash->message())));
+
+        auto* dropButton = box.addButton(tr("Drop Stash"), QMessageBox::DestructiveRole);
+        box.addStandardButton(QMessageBox::Cancel);
+
+        auto* pressedButton = co_await box.presentAsync();
+        if (pressedButton == dropButton) {
+            stash->drop();
+        }
     });
 }
 
@@ -182,7 +224,7 @@ QCoro::Task<> BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, B
     RebasePtr rebase(new Rebase(repo, from, onto));
     if (!rebase->isValid()) {
         auto error = ErrorResponse::fromCurrentGitError();
-        
+
         tMessageBox box(parent->window());
         if (error.error() == ErrorResponse::WorkingDirectoryNotCleanError) {
             box.setTitleBarText(tr("Unclean Working Directory"));

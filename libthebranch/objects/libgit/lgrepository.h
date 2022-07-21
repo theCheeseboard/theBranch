@@ -59,6 +59,9 @@ class LGRepository : public QObject,
         QCoro::Task<> push(QString upstreamRemote, QStringList refs, InformationRequiredCallback callback);
         QCoro::Task<> fetch(QString remote, QStringList refs, InformationRequiredCallback callback);
 
+        QCoro::Task<> stash(QString message, LGSignaturePtr signature);
+        QList<LGStashPtr> stashes();
+
         QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
 
         git_repository* gitRepository();

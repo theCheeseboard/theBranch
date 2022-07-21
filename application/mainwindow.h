@@ -39,6 +39,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionPull_triggered();
 
+        void on_actionStash_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;

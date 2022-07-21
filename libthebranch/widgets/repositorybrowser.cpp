@@ -35,6 +35,7 @@ void RepositoryBrowser::setRepository(RepositoryPtr repository) {
     ui->commitsView->setRepository(repository);
     ui->branchesView->setRepository(repository);
     ui->remotesView->setRepository(repository);
+    ui->stashesView->setRepository(repository);
     ui->repositoryStatus->setRepository(repository);
 
     connect(d->repository.data(), &Repository::stateChanged, this, &RepositoryBrowser::updateRepositoryState);

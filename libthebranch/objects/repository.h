@@ -12,6 +12,7 @@
 class BranchModel;
 class CommitModel;
 class RemotesModel;
+class StashesModel;
 class CommitSnapIn;
 class PushSnapIn;
 class PullSnapIn;
@@ -82,6 +83,9 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
 
         QCoro::Task<> fetch(QString remote, QStringList refs, InformationRequiredCallback callback);
 
+        QCoro::Task<> stash(QString message);
+        QList<StashPtr> stashes();
+
         QString repositoryPath();
 
     signals:
@@ -95,6 +99,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         friend CommitModel;
         friend BranchModel;
         friend RemotesModel;
+        friend StashesModel;
         friend Merge;
         friend Rebase;
         friend CommitSnapIn;

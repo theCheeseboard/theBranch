@@ -31,6 +31,8 @@ set(SOURCES
     objects/repositorymodel.cpp
     objects/branchuihelper.cpp
     objects/rebase.cpp
+    objects/stashesmodel.cpp
+    objects/stash.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -45,6 +47,7 @@ set(SOURCES
     popovers/snapins/mergesnapin.cpp popovers/snapins/mergesnapin.ui
     popovers/snapins/rebasesnapin.cpp popovers/snapins/rebasesnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
+    popovers/snapins/stashsavesnapin.cpp popovers/snapins/stashsavesnapin.ui
 
     popovers/snapins/informationrequestsnapin.cpp
     popovers/snapins/sshkeyselectionsnapin.cpp popovers/snapins/sshkeyselectionsnapin.ui
@@ -57,6 +60,7 @@ set(SOURCES
     widgets/branchbrowser.cpp
     widgets/remotebrowser.cpp
     widgets/repositorybrowserlist.cpp
+    widgets/stashbrowser.cpp
 
     widgets/conflictresolution/conflictresolutionwidget.cpp
     widgets/conflictresolution/textconflictresolution.cpp
@@ -77,6 +81,7 @@ set(SOURCES
     objects/libgit/lgtree.cpp
     objects/libgit/lgremote.cpp
     objects/libgit/lgactiveremote.cpp
+    objects/libgit/lgstash.cpp
 )
 
 set(HEADERS
@@ -98,6 +103,8 @@ set(HEADERS
     objects/repositorymodel.h
     objects/branchuihelper.h
     objects/rebase.h
+    objects/stashesmodel.h
+    objects/stash.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -106,6 +113,7 @@ set(HEADERS
     widgets/repositorystatusbar.h
     widgets/remotebrowser.h
     widgets/repositorybrowserlist.h
+    widgets/stashbrowser.h
     objects/forward_declares.h
     popovers/snapinpopover.h
     popovers/snapins/snapin.h
@@ -116,6 +124,7 @@ set(HEADERS
     popovers/snapins/newremotesnapin.h
     popovers/snapins/mergesnapin.h
     popovers/snapins/rebasesnapin.h
+    popovers/snapins/stashsavesnapin.h
     popovers/newbranchpopover.h
 )
 
@@ -135,6 +144,7 @@ set(PRIVATE_HEADERS
     objects/libgit/lgtree.h
     objects/libgit/lgremote.h
     objects/libgit/lgactiveremote.h
+    objects/libgit/lgstash.h
     widgets/conflictresolution/conflictresolutionwidget.h
     widgets/conflictresolution/textconflictresolution.h
 

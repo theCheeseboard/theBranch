@@ -243,6 +243,11 @@
               <string>Remotes</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Stashes</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item>
@@ -366,6 +371,35 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="stashesPage">
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="tTitleLabel" name="label_5">
+             <property name="text">
+              <string>Stashes</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="StashBrowser" name="stashesView"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -376,20 +410,20 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>tTitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ttitlelabel.h</header>
+   <slots>
+    <signal>backButtonClicked()</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
    <class>tStackedWidget</class>
    <extends>QStackedWidget</extends>
    <header location="global">tstackedwidget.h</header>
    <container>1</container>
    <slots>
     <signal>switchingFrame(int)</signal>
-   </slots>
-  </customwidget>
-  <customwidget>
-   <class>tTitleLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">ttitlelabel.h</header>
-   <slots>
-    <signal>backButtonClicked()</signal>
    </slots>
   </customwidget>
   <customwidget>
@@ -412,6 +446,11 @@
    <class>RemoteBrowser</class>
    <extends>QListView</extends>
    <header>widgets/remotebrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StashBrowser</class>
+   <extends>QListView</extends>
+   <header>widgets/stashbrowser.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
