@@ -29,10 +29,10 @@ LGRepository::LGRepository(struct git_repository* git_repository) :
     d->gitRepository = git_repository;
 }
 
-LGRepository* LGRepository::open(QString path) {
+LGRepositoryPtr LGRepository::open(QString path) {
     struct git_repository* repo;
     if (git_repository_open(&repo, path.toUtf8().data()) != 0) return nullptr;
-    return new LGRepository(repo);
+    return (new LGRepository(repo))->sharedFromThis();
 }
 
 QString LGRepository::gitExecutable() {
@@ -264,6 +264,12 @@ QCoro::Task<std::tuple<int, QString>> LGRepository::runGit(QStringList args) {
 LGRepository::~LGRepository() {
     git_repository_free(d->gitRepository);
     delete d;
+}
+
+LGRepositoryPtr LGRepository::init(QString path) {
+    struct git_repository* repo;
+    if (git_repository_init(&repo, path.toUtf8().data(), false) != 0) return nullptr;
+    return (new LGRepository(repo))->sharedFromThis();
 }
 
 git_repository* LGRepository::gitRepository() {

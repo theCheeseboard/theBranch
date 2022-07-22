@@ -24,7 +24,8 @@ class LGRepository : public QObject,
             MergeRepositoryState
         };
 
-        static LGRepository* open(QString path);
+        static LGRepositoryPtr init(QString path);
+        static LGRepositoryPtr open(QString path);
         static QString gitExecutable();
 
         LGReferencePtr head();

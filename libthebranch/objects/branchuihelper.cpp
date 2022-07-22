@@ -70,21 +70,22 @@ void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryP
 }
 
 void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryPtr repo, QWidget* parent) {
-    auto head = repo->head()->shorthand();
+    QString head;
+    if (repo->head()) head = repo->head()->shorthand();
 
     menu->addSection(tr("For branch %1").arg(QLocale().quoteString(branch->name())));
     menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [branch, repo, parent] {
         checkoutBranch(repo, branch, parent);
     });
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(branch->name()), QLocale().quoteString(head)), parent, [repo, branch, parent] {
-        QTimer::singleShot(0, [repo, branch, parent] {
+    auto merge1 = menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(branch->name()), QLocale().quoteString(head)), parent, [repo, branch, parent] {
+        QTimer::singleShot(0, parent, [repo, branch, parent] {
             merge(repo, branch, parent);
         });
-    });                                                                                                                                             // Branch -> HEAD
-    menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name()))); // HEAD -> Branch
+    });                                                                                                                                                           // Branch -> HEAD
+    auto merge2 = menu->addAction(QIcon::fromTheme("vcs-merge"), tr("Merge %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name()))); // HEAD -> Branch
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("vcs-rebase"), tr("Rebase %1 on top of %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name())), parent, [repo, branch, parent] {
+    auto rebase = menu->addAction(QIcon::fromTheme("vcs-rebase"), tr("Rebase %1 on top of %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name())), parent, [repo, branch, parent] {
         BranchUiHelper::rebaseBranch(repo, repo->head()->asBranch(), branch, parent);
     });
     menu->addSeparator();
@@ -97,6 +98,12 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), parent, [repo, branch, parent] {
         BranchUiHelper::deleteBranch(repo, branch, parent);
     });
+
+    if (!repo->head()) {
+        merge1->setEnabled(false);
+        merge2->setEnabled(false);
+        rebase->setEnabled(false);
+    }
 }
 
 void BranchUiHelper::appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr repo, QWidget* parent) {

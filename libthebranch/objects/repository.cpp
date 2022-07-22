@@ -182,34 +182,44 @@ QCoro::Task<RepositoryPtr> Repository::repositoryForDirectoryUi(QWidget* parent)
     dialog->open();
 
     const auto result = co_await qCoro(dialog, &QFileDialog::finished);
+
+    QString path = dialog->selectedFiles().first();
+
     dialog->deleteLater();
+
     if (result == QFileDialog::Rejected) throw QException();
 
-    RepositoryPtr repo = Repository::repositoryForDirectory(dialog->selectedFiles().first());
+    RepositoryPtr repo = Repository::repositoryForDirectory(path);
     if (repo) {
         co_return repo;
     } else {
-        tMessageBox* box = new tMessageBox(parent->window());
-        box->setTitleBarText(tr("No Git Repository Available"));
-        box->setMessageText(tr("The folder that you selected does not contain a Git repository. Do you want to create an empty Git repository there?"));
-        box->setIcon(QMessageBox::Question);
-        tMessageBoxButton* createButton = box->addButton(tr("Create and Open Git Repository"), QMessageBox::AcceptRole);
-        tMessageBoxButton* cancelButton = box->addStandardButton(QMessageBox::Cancel);
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("No Git Repository Available"));
+        box.setMessageText(tr("The folder that you selected does not contain a Git repository. Do you want to create an empty Git repository there?"));
+        box.setIcon(QMessageBox::Question);
+        tMessageBoxButton* createButton = box.addButton(tr("Create and Open Git Repository"), QMessageBox::AcceptRole);
+        tMessageBoxButton* cancelButton = box.addStandardButton(QMessageBox::Cancel);
 
-        bool create = false;
-        connect(createButton, &tMessageBoxButton::buttonPressed, parent, [&create] {
-            create = true;
-        });
-        connect(cancelButton, &tMessageBoxButton::buttonPressed, parent, [=] {
-        });
+        auto clickedButton = co_await box.presentAsync();
 
-        box->exec(true);
-
-        if (create) {
-            throw QException();
-        } else {
+        if (clickedButton == cancelButton) {
             throw QException();
         }
+
+        // Create repository at that path
+        repo = Repository::repositoryForInit(path);
+        if (!repo) {
+            ErrorResponse err = ErrorResponse::fromCurrentGitError();
+
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Could not create Git repository"));
+            box.setMessageText(err.description());
+            box.setIcon(QMessageBox::Critical);
+            co_await box.presentAsync();
+            throw QException();
+        }
+
+        co_return repo;
     }
 }
 
@@ -223,7 +233,17 @@ RepositoryPtr Repository::repositoryForDirectory(QString directory) {
     git_buf_dispose(&buf);
 
     Repository* repo = new Repository();
-    repo->d->gitRepo.reset(LGRepository::open(path));
+    repo->d->gitRepo = LGRepository::open(path);
+    repo->reloadRepositoryState();
+    return repo->sharedFromThis();
+}
+
+RepositoryPtr Repository::repositoryForInit(QString directory) {
+    auto lgrepo = LGRepository::init(directory);
+    if (!lgrepo) return nullptr;
+
+    Repository* repo = new Repository();
+    repo->d->gitRepo = lgrepo;
     repo->reloadRepositoryState();
     return repo->sharedFromThis();
 }
