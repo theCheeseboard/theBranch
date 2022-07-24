@@ -25,6 +25,11 @@ QString Commit::commitHash() {
     return d->commit->oid()->toHex();
 }
 
+QString Commit::shortCommitHash() {
+    // HACK: We should go through the repo and find the shortest string to uniquely identify a commit
+    return d->commit->oid()->toHex().left(7);
+}
+
 QString Commit::authorName() {
     return d->commit->committer()->name();
 }

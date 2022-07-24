@@ -114,6 +114,8 @@ QVariant CommitModel::data(const QModelIndex& index, int role) const {
             return commit->commitMessage();
         case CommitHash:
             return commit->commitHash();
+        case ShortCommitHash:
+            return commit->shortCommitHash();
         case AuthorName:
             return commit->authorName();
         case Commit:
@@ -148,8 +150,6 @@ QSize CommitDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelI
 }
 
 tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& option, const QModelIndex& index, QPainter* painter) const {
-    if (painter) painter->setRenderHint(QPainter::Antialiasing);
-
     tPaintCalculator calculator;
     calculator.setPainter(painter);
     calculator.setLayoutDirection(option.direction);
@@ -181,10 +181,14 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     messageBox.setWidth(dataRect.width() - SC_DPI_W(18, option.widget));
     messageBox.moveTopLeft(dataRect.topLeft() + SC_DPI_WT(QPointF(9, 9), QPointF, option.widget));
 
-    QString author = index.data(CommitModel::AuthorName).toString();
+    QStringList subtext;
+    subtext.append(index.data(CommitModel::AuthorName).toString());
+    subtext.append(index.data(CommitModel::ShortCommitHash).toString());
+    QString author = subtext.join(libContemporaryCommon::humanReadablePartJoinString());
+
     QRectF authorNameBox;
     authorNameBox.setHeight(lowerFontMetrics.height());
-    authorNameBox.setWidth(lowerFontMetrics.horizontalAdvance(author) + 1);
+    authorNameBox.setWidth(lowerFontMetrics.horizontalAdvance(author) + 2);
     authorNameBox.moveLeft(messageBox.left());
     authorNameBox.moveTop(messageBox.bottom() + SC_DPI_W(3, option.widget));
 
@@ -192,6 +196,7 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
 
     auto mainCommitPoint = this->commitPoint(commitCol, bounding, option.widget);
     calculator.addRect(mainCommitPoint, [painter, option](QRectF drawBounds) {
+        painter->setRenderHint(QPainter::Antialiasing);
         painter->setBrush(option.palette.color(QPalette::WindowText));
         painter->drawEllipse(drawBounds);
     });
@@ -199,24 +204,27 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     for (auto from : fromCols) {
         auto point = this->commitPoint(from, bounding, option.widget);
         calculator.addRect(QRect::span(mainCommitPoint.center().toPoint(), QPoint(point.center().toPoint().x(), option.rect.top())), [painter, option](QRectF drawBounds) {
+            painter->setRenderHint(QPainter::Antialiasing, false);
             painter->setPen(option.palette.color(QPalette::WindowText));
-            painter->drawLine(drawBounds.topRight(), drawBounds.bottomLeft());
+            painter->drawLine(drawBounds.topRight().toPoint(), drawBounds.bottomLeft().toPoint());
         });
     }
 
     for (auto to : toCols) {
         auto point = this->commitPoint(to, bounding, option.widget);
         calculator.addRect(QRect::span(mainCommitPoint.center().toPoint(), QPoint(point.center().toPoint().x(), option.rect.top())).translated(0, point.center().y() - option.rect.top()), [painter, option](QRectF drawBounds) {
+            painter->setRenderHint(QPainter::Antialiasing, false);
             painter->setPen(option.palette.color(QPalette::WindowText));
-            painter->drawLine(drawBounds.topLeft(), drawBounds.bottomRight());
+            painter->drawLine(drawBounds.topLeft().toPoint(), drawBounds.bottomRight().toPoint());
         });
     }
 
     for (auto passthrough : passthroughCols) {
         auto point = this->commitPoint(passthrough, bounding, option.widget);
         calculator.addRect(QRect::span(QPoint(point.center().toPoint().x(), option.rect.top()), QPoint(point.center().toPoint().x(), option.rect.top() + (point.center().y() - option.rect.top()) * 2)), [painter, option](QRectF drawBounds) {
+            painter->setRenderHint(QPainter::Antialiasing, false);
             painter->setPen(option.palette.color(QPalette::WindowText));
-            painter->drawLine(drawBounds.topLeft(), drawBounds.bottomRight());
+            painter->drawLine(drawBounds.topLeft().toPoint(), drawBounds.bottomRight().toPoint());
         });
     }
 

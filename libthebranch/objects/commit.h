@@ -16,6 +16,7 @@ class Commit : public QObject,
 
         QString commitMessage();
         QString commitHash();
+        QString shortCommitHash();
         QString authorName();
 
         QList<CommitPtr> parents();

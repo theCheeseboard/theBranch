@@ -17,6 +17,7 @@ class CommitModel : public QAbstractListModel {
         enum CommitModelRole {
             CommitHash = Qt::UserRole,
             CommitMessage,
+            ShortCommitHash,
             AuthorName,
             Commit,
             GraphColumn,

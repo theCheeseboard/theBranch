@@ -19,6 +19,8 @@ class CommitBrowser : public QListView {
     private:
         CommitBrowserPrivate* d;
 
+        void reloadData();
+
         // QWidget interface
     protected:
         void contextMenuEvent(QContextMenuEvent* event);

@@ -12,6 +12,8 @@
 struct CommitBrowserPrivate {
         RepositoryPtr repo = nullptr;
         CommitModel* model;
+
+        BranchPtr startPoint;
 };
 
 CommitBrowser::CommitBrowser(QWidget* parent) :
@@ -31,10 +33,17 @@ CommitBrowser::~CommitBrowser() {
 void CommitBrowser::setRepository(RepositoryPtr repo) {
     d->repo = repo;
     d->model->setRepository(repo);
+    connect(repo.data(), &Repository::repositoryUpdated, this, &CommitBrowser::reloadData);
+    this->reloadData();
 }
 
 void CommitBrowser::setStartBranch(BranchPtr branch) {
-    d->model->setStartPoint(branch->lastCommit());
+    d->startPoint = branch;
+    this->reloadData();
+}
+
+void CommitBrowser::reloadData() {
+    d->model->setStartPoint(d->startPoint ? d->startPoint->lastCommit() : nullptr);
 }
 
 void CommitBrowser::contextMenuEvent(QContextMenuEvent* event) {
