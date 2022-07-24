@@ -21,6 +21,8 @@ class LGCommit : public QObject,
         LGSignaturePtr committer();
         LGOidPtr oid();
         LGTreePtr tree();
+        int parentCount();
+        LGCommitPtr parent(int n);
 
     signals:
 

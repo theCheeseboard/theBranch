@@ -13,6 +13,8 @@ class LGOid : public QObject,
         explicit LGOid(git_oid git_oid);
         ~LGOid();
 
+        bool equal(LGOidPtr other);
+
         struct ::git_oid& gitOid();
         QString toHex();
 

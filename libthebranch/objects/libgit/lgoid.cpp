@@ -16,6 +16,10 @@ LGOid::~LGOid() {
     delete d;
 }
 
+bool LGOid::equal(LGOidPtr other) {
+    return this->toHex() == other->toHex();
+}
+
 git_oid& LGOid::gitOid() {
     return d->git_oid;
 }

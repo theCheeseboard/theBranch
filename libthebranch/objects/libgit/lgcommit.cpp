@@ -49,3 +49,13 @@ LGTreePtr LGCommit::tree() {
     if (git_commit_tree(&tree, d->git_commit) != 0) return nullptr;
     return (new LGTree(tree))->sharedFromThis();
 }
+
+int LGCommit::parentCount() {
+    return git_commit_parentcount(d->git_commit);
+}
+
+LGCommitPtr LGCommit::parent(int n) {
+    git_commit* parent;
+    if (git_commit_parent(&parent, d->git_commit, n) != 0) return nullptr;
+    return (new LGCommit(parent))->sharedFromThis();
+}

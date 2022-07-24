@@ -12,9 +12,13 @@ class Commit : public QObject,
     public:
         ~Commit();
 
+        bool equal(CommitPtr other);
+
         QString commitMessage();
         QString commitHash();
         QString authorName();
+
+        QList<CommitPtr> parents();
 
     signals:
 
