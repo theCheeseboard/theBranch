@@ -18,7 +18,10 @@ class CommitModel : public QAbstractListModel {
             CommitHash = Qt::UserRole,
             CommitMessage,
             AuthorName,
-            Commit
+            Commit,
+            GraphColumn,
+            ParentGraphColumns,
+            PassthroughGraphColumns
         };
 
         void setStartPoint(CommitPtr startPoint);
@@ -47,6 +50,7 @@ class CommitDelegate : public QStyledItemDelegate {
 
     private:
         tPaintCalculator paintCalculator(const QStyleOptionViewItem& option, const QModelIndex& index, QPainter* painter = nullptr) const;
+        QRectF commitPoint(int col, QRectF bounding, const QWidget* parent) const;
 };
 
 #endif // COMMITMODEL_H

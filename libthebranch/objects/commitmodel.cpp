@@ -14,6 +14,10 @@ struct CommitModelPrivate {
         RepositoryPtr repo = nullptr;
         QList<CommitPtr> commits;
 
+        QList<QList<int>> graphColumns;
+        QList<QList<int>> parentGraphColumns;
+        QList<QList<int>> passthroughGraphColumns;
+
         CommitPtr startPoint;
 };
 
@@ -56,6 +60,39 @@ void CommitModel::reloadData() {
     }
 
     d->commits = commits;
+
+    d->graphColumns.clear();
+    d->parentGraphColumns.clear();
+    d->passthroughGraphColumns.clear();
+    if (!commits.isEmpty()) {
+        QMap<int, CommitPtr> parents;
+        parents.insert(0, commits.first());
+        for (auto commit : commits) {
+            QList<int> myParentCols;
+            for (auto parentCommit : parents.values()) {
+                if (parentCommit->equal(commit)) myParentCols.append(parents.key(parentCommit));
+            }
+
+            int firstParentCol = myParentCols.first();
+            for (auto parent : myParentCols) {
+                parents.remove(parent);
+                firstParentCol = qMin(firstParentCol, parent);
+            }
+            d->graphColumns.append(myParentCols);
+
+            d->passthroughGraphColumns.append(parents.keys());
+
+            QList<int> childrenCols;
+            for (const auto& child : commit->parents()) {
+                int i = firstParentCol;
+                while (parents.contains(i)) i++;
+                parents.insert(i, child);
+                childrenCols.append(i);
+            }
+            d->parentGraphColumns.append(childrenCols);
+        }
+    }
+
     emit dataChanged(index(0), index(rowCount()));
 }
 
@@ -81,6 +118,12 @@ QVariant CommitModel::data(const QModelIndex& index, int role) const {
             return commit->authorName();
         case Commit:
             return QVariant::fromValue(commit);
+        case GraphColumn:
+            return QVariant::fromValue(d->graphColumns.at(index.row()));
+        case ParentGraphColumns:
+            return QVariant::fromValue(d->parentGraphColumns.at(index.row()));
+        case PassthroughGraphColumns:
+            return QVariant::fromValue(d->passthroughGraphColumns.at(index.row()));
     }
 
     return QVariant();
@@ -105,23 +148,38 @@ QSize CommitDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelI
 }
 
 tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& option, const QModelIndex& index, QPainter* painter) const {
+    if (painter) painter->setRenderHint(QPainter::Antialiasing);
+
     tPaintCalculator calculator;
     calculator.setPainter(painter);
     calculator.setLayoutDirection(option.direction);
     calculator.setDrawBounds(option.rect);
 
-    QString message = index.data(CommitModel::CommitMessage).toString();
-    QRectF messageBox;
-    messageBox.setHeight(option.fontMetrics.height());
-    messageBox.setWidth(option.rect.width() - SC_DPI_W(18, option.widget));
-    messageBox.moveTopLeft(option.rect.topLeft() + SC_DPI_WT(QPointF(9, 9), QPointF, option.widget));
-    calculator.addRect("name", messageBox, [&, message, painter, option](QRectF drawBounds) {
-        painter->drawText(drawBounds, option.fontMetrics.elidedText(message, Qt::ElideRight, drawBounds.width()));
-    });
-
     QFont lowerFont = option.font;
     lowerFont.setPointSize(lowerFont.pointSizeF() * 0.8);
     QFontMetrics lowerFontMetrics(lowerFont);
+
+    // Build the commit graph
+    QList<int> fromCols = index.data(CommitModel::GraphColumn).value<QList<int>>();
+    QList<int> toCols = index.data(CommitModel::ParentGraphColumns).value<QList<int>>();
+    QList<int> passthroughCols = index.data(CommitModel::PassthroughGraphColumns).value<QList<int>>();
+
+    // Find the extremities of the commit graph
+    int commitCol = fromCols.first();
+    int extremCol = fromCols.first();
+    for (auto col : fromCols) commitCol = qMin(commitCol, col);
+    for (auto col : fromCols) extremCol = qMax(extremCol, col);
+    for (auto col : toCols) extremCol = qMax(extremCol, col);
+    for (auto col : passthroughCols) extremCol = qMax(extremCol, col);
+
+    QRectF dataRect = option.rect;
+    dataRect.setLeft(SC_DPI_W(20, option.widget) * extremCol + SC_DPI_W(26, option.widget));
+
+    QString message = index.data(CommitModel::CommitMessage).toString();
+    QRectF messageBox;
+    messageBox.setHeight(option.fontMetrics.height());
+    messageBox.setWidth(dataRect.width() - SC_DPI_W(18, option.widget));
+    messageBox.moveTopLeft(dataRect.topLeft() + SC_DPI_WT(QPointF(9, 9), QPointF, option.widget));
 
     QString author = index.data(CommitModel::AuthorName).toString();
     QRectF authorNameBox;
@@ -129,10 +187,54 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     authorNameBox.setWidth(lowerFontMetrics.horizontalAdvance(author) + 1);
     authorNameBox.moveLeft(messageBox.left());
     authorNameBox.moveTop(messageBox.bottom() + SC_DPI_W(3, option.widget));
+
+    QRectF bounding(messageBox.topLeft(), authorNameBox.bottomRight());
+
+    auto mainCommitPoint = this->commitPoint(commitCol, bounding, option.widget);
+    calculator.addRect(mainCommitPoint, [painter, option](QRectF drawBounds) {
+        painter->setBrush(option.palette.color(QPalette::WindowText));
+        painter->drawEllipse(drawBounds);
+    });
+
+    for (auto from : fromCols) {
+        auto point = this->commitPoint(from, bounding, option.widget);
+        calculator.addRect(QRect::span(mainCommitPoint.center().toPoint(), QPoint(point.center().toPoint().x(), option.rect.top())), [painter, option](QRectF drawBounds) {
+            painter->setPen(option.palette.color(QPalette::WindowText));
+            painter->drawLine(drawBounds.topRight(), drawBounds.bottomLeft());
+        });
+    }
+
+    for (auto to : toCols) {
+        auto point = this->commitPoint(to, bounding, option.widget);
+        calculator.addRect(QRect::span(mainCommitPoint.center().toPoint(), QPoint(point.center().toPoint().x(), option.rect.top())).translated(0, point.center().y() - option.rect.top()), [painter, option](QRectF drawBounds) {
+            painter->setPen(option.palette.color(QPalette::WindowText));
+            painter->drawLine(drawBounds.topLeft(), drawBounds.bottomRight());
+        });
+    }
+
+    for (auto passthrough : passthroughCols) {
+        auto point = this->commitPoint(passthrough, bounding, option.widget);
+        calculator.addRect(QRect::span(QPoint(point.center().toPoint().x(), option.rect.top()), QPoint(point.center().toPoint().x(), option.rect.top() + (point.center().y() - option.rect.top()) * 2)), [painter, option](QRectF drawBounds) {
+            painter->setPen(option.palette.color(QPalette::WindowText));
+            painter->drawLine(drawBounds.topLeft(), drawBounds.bottomRight());
+        });
+    }
+
+    calculator.addRect("name", messageBox, [&, message, painter, option](QRectF drawBounds) {
+        painter->drawText(drawBounds, option.fontMetrics.elidedText(message, Qt::ElideRight, drawBounds.width()));
+    });
+
     calculator.addRect("author", authorNameBox, [&, author, painter, lowerFont](QRectF drawBounds) {
         painter->setFont(lowerFont);
         painter->drawText(drawBounds, author);
     });
 
     return calculator;
+}
+
+QRectF CommitDelegate::commitPoint(int col, QRectF bounding, const QWidget* parent) const {
+    QRectF commitPoint;
+    commitPoint.setSize(SC_DPI_WT(QSizeF(16, 16), QSizeF, parent));
+    commitPoint.moveCenter(QPoint(SC_DPI_W(20, parent) * col + SC_DPI_W(15, parent), bounding.center().y()));
+    return commitPoint;
 }
