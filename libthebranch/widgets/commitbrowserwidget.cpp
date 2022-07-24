@@ -17,36 +17,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#ifndef REPOSITORYBROWSERLIST_H
-#define REPOSITORYBROWSERLIST_H
+#include "commitbrowserwidget.h"
+#include "ui_commitbrowserwidget.h"
 
-#include "objects/forward_declares.h"
-#include <QCoroTask>
-#include <QTreeView>
+CommitBrowserWidget::CommitBrowserWidget(QWidget* parent) :
+    QWidget(parent),
+    ui(new Ui::CommitBrowserWidget) {
+    ui->setupUi(this);
+}
 
-struct RepositoryBrowserListPrivate;
-class RepositoryBrowserList : public QTreeView {
-        Q_OBJECT
-    public:
-        explicit RepositoryBrowserList(QWidget* parent = nullptr);
-        ~RepositoryBrowserList();
+CommitBrowserWidget::~CommitBrowserWidget() {
+    delete ui;
+}
 
-        void setRepository(RepositoryPtr repo);
-        void updateData();
+void CommitBrowserWidget::setRepository(RepositoryPtr repo) {
+    ui->listView->setRepository(repo);
+}
 
-        void setBeforeActionPerformedHandler(std::function<QCoro::Task<>()> handler);
-
-    signals:
-        void showWidget(QWidget* widget);
-
-    private:
-        RepositoryBrowserListPrivate* d;
-
-        QCoro::Task<> showContextMenu(QPoint pos);
-
-        // QWidget interface
-    protected:
-        void contextMenuEvent(QContextMenuEvent* event);
-};
-
-#endif // REPOSITORYBROWSERLIST_H
+void CommitBrowserWidget::setStartBranch(BranchPtr branch) {
+    ui->listView->setStartBranch(branch);
+}

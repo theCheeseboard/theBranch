@@ -30,6 +30,7 @@
 #include "popovers/snapins/rebasesnapin.h"
 #include "rebase.h"
 #include "reference.h"
+#include "remote.h"
 #include "repository.h"
 #include "stash.h"
 #include <QClipboard>
@@ -143,6 +144,27 @@ void BranchUiHelper::appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr 
         auto* pressedButton = co_await box.presentAsync();
         if (pressedButton == dropButton) {
             stash->drop();
+        }
+    });
+}
+
+void BranchUiHelper::appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryPtr repo, QWidget* parent) {
+    menu->addSection(tr("For remote %1").arg(QLocale().quoteString(remote->name())));
+    menu->addAction(QIcon::fromTheme("vcs-pull"), tr("Fetch"), parent, [] {
+
+    });
+    menu->addAction(QIcon::fromTheme("list-remove"), tr("Delete Remote"), parent, [parent, remote]() -> QCoro::Task<> {
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("Delete Remote"));
+        box.setMessageText(tr("Do you want to delete %1?").arg(QLocale().quoteString(remote->name())));
+        box.setInformativeText(tr("Items on the remote will remain, but you won't be able to push or pull from it unless you add the remote again."));
+        auto affirmativeButton = box.addButton(tr("Delete"), QMessageBox::DestructiveRole);
+        box.addStandardButton(QMessageBox::Cancel);
+        box.setIcon(QMessageBox::Question);
+        auto button = co_await box.presentAsync();
+
+        if (button == affirmativeButton) {
+            remote->remove();
         }
     });
 }

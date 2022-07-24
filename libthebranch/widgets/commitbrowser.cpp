@@ -33,6 +33,10 @@ void CommitBrowser::setRepository(RepositoryPtr repo) {
     d->model->setRepository(repo);
 }
 
+void CommitBrowser::setStartBranch(BranchPtr branch) {
+    d->model->setStartPoint(branch->lastCommit());
+}
+
 void CommitBrowser::contextMenuEvent(QContextMenuEvent* event) {
     if (this->selectedIndexes().isEmpty()) return;
 

@@ -17,36 +17,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-#ifndef REPOSITORYBROWSERLIST_H
-#define REPOSITORYBROWSERLIST_H
+#ifndef COMMITBROWSERWIDGET_H
+#define COMMITBROWSERWIDGET_H
 
 #include "objects/forward_declares.h"
-#include <QCoroTask>
-#include <QTreeView>
+#include <QWidget>
 
-struct RepositoryBrowserListPrivate;
-class RepositoryBrowserList : public QTreeView {
+namespace Ui {
+    class CommitBrowserWidget;
+}
+
+class CommitBrowserWidget : public QWidget {
         Q_OBJECT
+
     public:
-        explicit RepositoryBrowserList(QWidget* parent = nullptr);
-        ~RepositoryBrowserList();
+        explicit CommitBrowserWidget(QWidget* parent = nullptr);
+        ~CommitBrowserWidget();
 
         void setRepository(RepositoryPtr repo);
-        void updateData();
-
-        void setBeforeActionPerformedHandler(std::function<QCoro::Task<>()> handler);
-
-    signals:
-        void showWidget(QWidget* widget);
+        void setStartBranch(BranchPtr branch);
 
     private:
-        RepositoryBrowserListPrivate* d;
-
-        QCoro::Task<> showContextMenu(QPoint pos);
-
-        // QWidget interface
-    protected:
-        void contextMenuEvent(QContextMenuEvent* event);
+        Ui::CommitBrowserWidget* ui;
 };
 
-#endif // REPOSITORYBROWSERLIST_H
+#endif // COMMITBROWSERWIDGET_H

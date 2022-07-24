@@ -62,6 +62,8 @@ set(SOURCES
     widgets/repositorybrowserlist.cpp
     widgets/stashbrowser.cpp
 
+    widgets/commitbrowserwidget.cpp widgets/commitbrowserwidget.ui
+
     settingspanes/commitspane.cpp settingspanes/commitspane.ui
     settingspanes/accountspane.cpp settingspanes/accountspane.ui
 
@@ -117,6 +119,7 @@ set(HEADERS
     widgets/remotebrowser.h
     widgets/repositorybrowserlist.h
     widgets/stashbrowser.h
+    widgets/commitbrowserwidget.h
     objects/forward_declares.h
     popovers/snapinpopover.h
     popovers/snapins/snapin.h

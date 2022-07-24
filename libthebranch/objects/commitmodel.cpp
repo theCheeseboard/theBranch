@@ -5,6 +5,7 @@
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
 #include "libgit/lgrevwalk.h"
+#include "reference.h"
 #include "repository.h"
 #include <QPainter>
 #include <git2.h>
@@ -13,7 +14,7 @@ struct CommitModelPrivate {
         RepositoryPtr repo = nullptr;
         QList<CommitPtr> commits;
 
-        QString startPoint = "HEAD";
+        CommitPtr startPoint;
 };
 
 CommitModel::CommitModel(QObject* parent) :
@@ -25,7 +26,7 @@ CommitModel::~CommitModel() {
     delete d;
 }
 
-void CommitModel::setStartPoint(QString startPoint) {
+void CommitModel::setStartPoint(CommitPtr startPoint) {
     d->startPoint = startPoint;
     reloadData();
 }
@@ -40,7 +41,8 @@ void CommitModel::reloadData() {
     if (!d->repo) return;
     if (!d->repo->git_repository()) return;
 
-    LGOidPtr headOid = LGReference::nameToId(d->repo->git_repository(), d->startPoint);
+    LGOidPtr headOid = d->repo->head()->git_reference()->resolve()->target();
+    if (d->startPoint) headOid = d->startPoint->gitCommit()->oid();
 
     LGRevwalkPtr revwalk = LGRevwalk::revwalk_new(d->repo->git_repository());
     revwalk->sorting(GIT_SORT_TOPOLOGICAL);

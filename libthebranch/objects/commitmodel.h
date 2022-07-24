@@ -21,7 +21,7 @@ class CommitModel : public QAbstractListModel {
             Commit
         };
 
-        void setStartPoint(QString startPoint);
+        void setStartPoint(CommitPtr startPoint);
         void setRepository(RepositoryPtr repo);
         void reloadData();
 

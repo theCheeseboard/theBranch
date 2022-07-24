@@ -19,6 +19,7 @@
  * *************************************/
 #include "remotebrowser.h"
 
+#include "objects/branchuihelper.h"
 #include "objects/remote.h"
 #include "objects/remotesmodel.h"
 #include "objects/repository.h"
@@ -58,25 +59,7 @@ void RemoteBrowser::contextMenuEvent(QContextMenuEvent* event) {
 
     if (!this->selectedIndexes().isEmpty()) {
         QModelIndex index = this->selectedIndexes().first();
-        menu->addSection(tr("For remote %1").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-        menu->addAction(QIcon::fromTheme("vcs-pull"), tr("Fetch"), this, [] {
-
-        });
-        menu->addAction(QIcon::fromTheme("list-remove"), tr("Delete Remote"), this, [this, index]() -> QCoro::Task<> {
-            auto remote = index.data(RemotesModel::Remote).value<RemotePtr>();
-            tMessageBox box(this->window());
-            box.setTitleBarText(tr("Delete Remote"));
-            box.setMessageText(tr("Do you want to delete %1?").arg(QLocale().quoteString(index.data(Qt::DisplayRole).toString())));
-            box.setInformativeText(tr("Items on the remote will remain, but you won't be able to push or pull from it unless you add the remote again."));
-            auto affirmativeButton = box.addButton(tr("Delete"), QMessageBox::DestructiveRole);
-            box.addStandardButton(QMessageBox::Cancel);
-            box.setIcon(QMessageBox::Question);
-            auto button = co_await box.presentAsync();
-
-            if (button == affirmativeButton) {
-                remote->remove();
-            }
-        });
+        BranchUiHelper::appendRemoteMenu(menu, index.data(RemotesModel::Remote).value<RemotePtr>(), d->repo, this);
     }
 
     menu->addSection(tr("For repository"));

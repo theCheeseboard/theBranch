@@ -224,30 +224,10 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QListWidget" name="listWidget">
+           <widget class="RepositoryBrowserList" name="leftView">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
-            <item>
-             <property name="text">
-              <string>Commits</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Branches</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Remotes</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Stashes</string>
-             </property>
-            </item>
            </widget>
           </item>
           <item>
@@ -283,124 +263,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QStackedWidget" name="stackedWidget_2">
-         <widget class="QWidget" name="commitsPage">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="tTitleLabel" name="label_2">
-             <property name="text">
-              <string>Commits</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="CommitBrowser" name="commitsView"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="branchesPage">
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="tTitleLabel" name="label_3">
-             <property name="text">
-              <string>Branches</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="BranchBrowser" name="branchesView"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="remotesPage">
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="tTitleLabel" name="label_4">
-             <property name="text">
-              <string>Remotes</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="RemoteBrowser" name="remotesView"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="stashesPage">
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="tTitleLabel" name="label_5">
-             <property name="text">
-              <string>Stashes</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="StashBrowser" name="stashesView"/>
-           </item>
-          </layout>
-         </widget>
-        </widget>
+        <widget class="tStackedWidget" name="stackedWidget_2"/>
        </item>
       </layout>
      </widget>
@@ -409,14 +272,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>tTitleLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">ttitlelabel.h</header>
-   <slots>
-    <signal>backButtonClicked()</signal>
-   </slots>
-  </customwidget>
   <customwidget>
    <class>tStackedWidget</class>
    <extends>QStackedWidget</extends>
@@ -427,49 +282,17 @@
    </slots>
   </customwidget>
   <customwidget>
-   <class>CommitBrowser</class>
-   <extends>QListView</extends>
-   <header>widgets/commitbrowser.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BranchBrowser</class>
-   <extends>QListView</extends>
-   <header>widgets/branchbrowser.h</header>
-  </customwidget>
-  <customwidget>
    <class>RepositoryStatusBar</class>
    <extends>QWidget</extends>
    <header>widgets/repositorystatusbar.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>RemoteBrowser</class>
-   <extends>QListView</extends>
-   <header>widgets/remotebrowser.h</header>
-  </customwidget>
-  <customwidget>
-   <class>StashBrowser</class>
-   <extends>QListView</extends>
-   <header>widgets/stashbrowser.h</header>
+   <class>RepositoryBrowserList</class>
+   <extends>QTreeView</extends>
+   <header location="global">widgets/repositorybrowserlist.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>listWidget</sender>
-   <signal>currentRowChanged(int)</signal>
-   <receiver>stackedWidget_2</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>141</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>551</x>
-     <y>145</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

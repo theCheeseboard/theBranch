@@ -20,7 +20,13 @@ RepositoryBrowser::RepositoryBrowser(QWidget* parent) :
 
     ui->stackedWidget->setCurrentWidget(ui->initialPage, false);
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::Fade);
+    ui->stackedWidget_2->setCurrentAnimation(tStackedWidget::Lift);
     ui->leftWidget->setFixedWidth(SC_DPI_W(300, this));
+
+    connect(ui->leftView, &RepositoryBrowserList::showWidget, this, [this](QWidget* widget) {
+        ui->stackedWidget_2->addWidget(widget);
+        ui->stackedWidget_2->setCurrentWidget(widget);
+    });
 }
 
 RepositoryBrowser::~RepositoryBrowser() {
@@ -32,10 +38,7 @@ void RepositoryBrowser::setRepository(RepositoryPtr repository) {
     if (d->repository) d->repository->disconnect(this);
     d->repository = repository;
 
-    ui->commitsView->setRepository(repository);
-    ui->branchesView->setRepository(repository);
-    ui->remotesView->setRepository(repository);
-    ui->stashesView->setRepository(repository);
+    ui->leftView->setRepository(repository);
     ui->repositoryStatus->setRepository(repository);
 
     connect(d->repository.data(), &Repository::stateChanged, this, &RepositoryBrowser::updateRepositoryState);
