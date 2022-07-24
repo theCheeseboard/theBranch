@@ -62,6 +62,9 @@ set(SOURCES
     widgets/repositorybrowserlist.cpp
     widgets/stashbrowser.cpp
 
+    settingspanes/commitspane.cpp settingspanes/commitspane.ui
+    settingspanes/accountspane.cpp settingspanes/accountspane.ui
+
     widgets/conflictresolution/conflictresolutionwidget.cpp
     widgets/conflictresolution/textconflictresolution.cpp
 
@@ -126,6 +129,8 @@ set(HEADERS
     popovers/snapins/rebasesnapin.h
     popovers/snapins/stashsavesnapin.h
     popovers/newbranchpopover.h
+    settingspanes/commitspane.h
+    settingspanes/accountspane.h
 )
 
 set(PRIVATE_HEADERS

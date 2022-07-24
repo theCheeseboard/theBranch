@@ -8,6 +8,7 @@
 #include <thelpmenu.h>
 #include <tjobmanager.h>
 #include <tpopover.h>
+#include <tsettingswindow/tsettingswindow.h>
 #include <twindowtabberbutton.h>
 
 #include <objects/repository.h>
@@ -19,6 +20,9 @@
 #include <popovers/snapins/pushsnapin.h>
 #include <popovers/snapins/stashsavesnapin.h>
 #include <widgets/repositorybrowser.h>
+
+#include <settingspanes/accountspane.h>
+#include <settingspanes/commitspane.h>
 
 #include "printcontroller.h"
 
@@ -83,10 +87,11 @@ MainWindow::MainWindow(QWidget* parent) :
     menu->addAction(ui->actionPrint);
     menu->addSeparator();
     menu->addMenu(helpMenu);
+    menu->addAction(ui->actionSettings);
     menu->addAction(ui->actionExit);
 
     ui->menuButton->setIcon(tApplication::applicationIcon());
-    ui->menuButton->setIconSize(SC_DPI_T(QSize(24, 24), QSize));
+    ui->menuButton->setIconSize(SC_DPI_WT(QSize(24, 24), QSize, this));
     ui->menuButton->setMenu(menu);
 #endif
 
@@ -226,4 +231,12 @@ void MainWindow::on_actionPull_triggered() {
 
 void MainWindow::on_actionStash_triggered() {
     SnapInPopover::showSnapInPopover(this, new StashSaveSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
+}
+
+void MainWindow::on_actionSettings_triggered() {
+    tSettingsWindow window(this);
+    window.appendSection(tr("Git"));
+    window.appendPane(new CommitsPane());
+    window.appendPane(new AccountsPane());
+    window.exec();
 }

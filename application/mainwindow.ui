@@ -121,6 +121,7 @@
     <addaction name="actionPrint"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuRepository">
     <property name="title">
@@ -316,6 +317,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
    </property>
   </action>
  </widget>
