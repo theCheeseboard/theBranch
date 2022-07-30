@@ -19,6 +19,7 @@
  * *************************************/
 #include "remote.h"
 
+#include "accounts/abstractaccount.h"
 #include "libgit/lgremote.h"
 #include "libgit/lgrepository.h"
 
@@ -37,6 +38,10 @@ QString Remote::name() {
 
 QString Remote::url() {
     return d->remote->url();
+}
+
+QString Remote::slugForAccount(AbstractAccount* account) {
+    return account->slugForCloneUrl(d->remote->url());
 }
 
 QCoro::Task<> Remote::fetch(QStringList refs, InformationRequiredCallback callback) {

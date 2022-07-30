@@ -41,7 +41,11 @@ TextConflictResolution::TextConflictResolution(QString file, QWidget* parent) :
         }
     }
 
+    //    d->mergeTool->setLeftSide(leftContent);
+    //    d->mergeTool->setRightSide(rightContent);
+
     d->mergeTool->loadDiff(leftContent, rightContent);
+
     initialFile.close();
 
     auto* layout = new QBoxLayout(QBoxLayout::TopToBottom);

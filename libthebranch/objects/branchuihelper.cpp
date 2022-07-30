@@ -19,6 +19,9 @@
  * *************************************/
 #include "branchuihelper.h"
 
+#include "accounts/accountsmanager.h"
+#include "accounts/github/githubaccount.h"
+#include "accounts/github/pr/githubcreatepullrequestpopover.h"
 #include "branch.h"
 #include "branchmodel.h"
 #include "commit.h"
@@ -89,6 +92,40 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     auto rebase = menu->addAction(QIcon::fromTheme("vcs-rebase"), tr("Rebase %1 on top of %2").arg(QLocale().quoteString(head), QLocale().quoteString(branch->name())), parent, [repo, branch, parent] {
         BranchUiHelper::rebaseBranch(repo, repo->head()->asBranch(), branch, parent);
     });
+    menu->addSeparator();
+
+    auto prBranch = branch;
+    if (!branch->isRemoteBranch()) prBranch = branch->upstream();
+
+    if (prBranch && prBranch->isRemoteBranch()) {
+        for (auto account : AccountsManager::instance()->accounts()) {
+            if (auto gh = qobject_cast<GitHubAccount*>(account)) {
+                for (auto remote : repo->remotes()) {
+                    if (remote->name() != prBranch->remoteName()) continue;
+
+                    auto slug = remote->slugForAccount(gh);
+                    if (slug.isEmpty()) continue;
+
+                    // This remote is a GitHub remote
+                    auto upstreamOfHead = repo->head()->asBranch()->upstream();
+                    if (upstreamOfHead->remoteName() != remote->name()) continue;
+
+                    // This branch has an upstream on the same remote
+                    menu->addAction(QIcon::fromTheme("vcs-pull-request-create"), tr("Request Pull from %1 into %2").arg(QLocale().quoteString(head), QLocale().quoteString(prBranch->name())), parent, [gh, prBranch, repo, parent, remote] {
+                        auto* jp = new GitHubCreatePullRequestPopover(gh, repo->head()->asBranch(), prBranch, remote);
+                        auto* popover = new tPopover(jp);
+                        popover->setPopoverWidth(SC_DPI_W(-200, parent));
+                        popover->setPopoverSide(tPopover::Bottom);
+                        connect(jp, &GitHubCreatePullRequestPopover::done, popover, &tPopover::dismiss);
+                        connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+                        connect(popover, &tPopover::dismissed, jp, &GitHubCreatePullRequestPopover::deleteLater);
+                        popover->show(parent->window());
+                    });
+                }
+            }
+        }
+    }
+
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"));
     menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));

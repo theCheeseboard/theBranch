@@ -25,6 +25,7 @@
 #include <QObject>
 
 class Repository;
+class AbstractAccount;
 struct RemotePrivate;
 class Remote : public QObject,
                public tbSharedFromThis<Remote> {
@@ -34,6 +35,8 @@ class Remote : public QObject,
 
         QString name();
         QString url();
+
+        QString slugForAccount(AbstractAccount* account);
 
         QCoro::Task<> fetch(QStringList refs, InformationRequiredCallback callback);
 

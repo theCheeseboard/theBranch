@@ -85,6 +85,8 @@ void MergeSnapIn::on_mergeButton_clicked() {
     } else if (result == Merge::MergeConflict) {
         this->parentPopover()->pushSnapIn(new ConflictResolutionSnapIn(d->merge));
         emit done();
+    } else {
+        emit done();
     }
 }
 

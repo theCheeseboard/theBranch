@@ -39,9 +39,14 @@ class LIBTHEBRANCH_EXPORT AccountsPane : public tSettingsPane {
         Ui::AccountsPane* ui;
         AccountsPanePrivate* d;
 
+        void loadAccounts();
+
         // tSettingsPane interface
     public:
         QString paneName();
+    private slots:
+        void on_commandLinkButton_clicked();
+        void on_accountsList_customContextMenuRequested(const QPoint& pos);
 };
 
 #endif // ACCOUNTSPANE_H

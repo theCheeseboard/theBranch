@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4.0)
 
 project(lib VERSION 1.0.0 LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Concurrent)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Concurrent Network)
 find_package(libcontemporary REQUIRED)
 find_package(ttexteditor REQUIRED)
 
@@ -70,6 +70,14 @@ set(SOURCES
     widgets/conflictresolution/conflictresolutionwidget.cpp
     widgets/conflictresolution/textconflictresolution.cpp
 
+    accounts/accountsmanager.cpp
+    accounts/abstractaccount.cpp
+    accounts/github/githubhttp.cpp
+    accounts/github/githubaccount.cpp
+    accounts/github/addgithubaccountpopover.cpp accounts/github/addgithubaccountpopover.ui
+    accounts/github/pr/githubcreatepullrequestpopover.cpp accounts/github/pr/githubcreatepullrequestpopover.ui
+    accounts/github/pr/githubpullrequestapi.cpp
+
     objects/private/repositoryoperation.cpp
     objects/private/repositorycloneoperation.cpp
 
@@ -134,6 +142,10 @@ set(HEADERS
     popovers/newbranchpopover.h
     settingspanes/commitspane.h
     settingspanes/accountspane.h
+    accounts/accountsmanager.h
+    accounts/abstractaccount.h
+    accounts/github/githubaccount.h
+    accounts/github/githubhttp.h
 )
 
 set(PRIVATE_HEADERS
@@ -161,6 +173,10 @@ set(PRIVATE_HEADERS
     popovers/snapins/sshcertchecksnapin.h
     popovers/snapins/usernamepasswordsnapin.h
 
+    accounts/github/addgithubaccountpopover.h
+    accounts/github/pr/githubcreatepullrequestpopover.h
+    accounts/github/pr/githubpullrequestapi.h
+
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
@@ -174,7 +190,7 @@ set_target_properties(libthebranch PROPERTIES
         MACOSX_FRAMEWORK_IDENTIFIER com.vicr123.libthebranch
         VERSION 1.0.0)
 
-target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia Qt6::Concurrent libcontemporary ttexteditor PkgConfig::lgit)
+target_link_libraries(libthebranch Qt6::Widgets Qt6::DBus Qt6::Multimedia Qt6::Concurrent Qt6::Network libcontemporary ttexteditor PkgConfig::lgit)
 target_compile_definitions(libthebranch PRIVATE LIBTHEBRANCH_LIBRARY)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
