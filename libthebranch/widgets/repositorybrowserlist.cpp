@@ -41,6 +41,7 @@ struct RepositoryBrowserListPrivate {
         QStandardItem *branchParent, *remoteParent, *stashParent;
 
         QList<BranchPtr> branches;
+        QList<BranchPtr> remoteBranches;
         QList<RemotePtr> remotes;
         QList<StashPtr> stashes;
 
@@ -89,6 +90,7 @@ void RepositoryBrowserList::setRepository(RepositoryPtr repo) {
 
 void RepositoryBrowserList::updateData() {
     d->branches = d->repo->branches(THEBRANCH::LocalBranches);
+    d->remoteBranches = d->repo->branches(THEBRANCH::RemoteBranches);
     d->remotes = d->repo->remotes();
     d->stashes = d->repo->stashes();
 
@@ -104,6 +106,14 @@ void RepositoryBrowserList::updateData() {
         auto item = new QStandardItem(remote->name());
         item->setData(QVariant::fromValue(remote.staticCast<QObject>()));
         d->remoteParent->appendRow(item);
+
+        for (auto remoteBranch : d->remoteBranches) {
+            if (remoteBranch->remoteName() == remote->name()) {
+                auto branchItem = new QStandardItem(remoteBranch->name());
+                branchItem->setData(QVariant::fromValue(remoteBranch.staticCast<QObject>()));
+                item->appendRow(branchItem);
+            }
+        }
     }
 
     d->stashParent->removeRows(0, d->stashParent->rowCount());
