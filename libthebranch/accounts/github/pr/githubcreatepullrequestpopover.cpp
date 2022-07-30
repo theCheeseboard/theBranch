@@ -2,6 +2,7 @@
 #include "ui_githubcreatepullrequestpopover.h"
 
 #include "accounts/github/githubaccount.h"
+#include "accounts/github/githubhttp.h"
 #include "githubpullrequestapi.h"
 #include "objects/branch.h"
 #include <tcontentsizer.h>
@@ -45,14 +46,14 @@ void GitHubCreatePullRequestPopover::on_titleLabel_backButtonClicked() {
 
 QCoro::Task<> GitHubCreatePullRequestPopover::on_createPrButton_clicked() {
     ui->stackedWidget->setCurrentWidget(ui->loadingPage);
-    auto error = co_await d->account->pr().createPullRequest(d->toRemote, d->from, d->to, ui->titleEdit->text(), ui->commentEdit->toPlainText());
-    if (error.isEmpty()) {
+    try {
+        co_await d->account->pr()->createPullRequest(d->toRemote, d->from, d->to, ui->titleEdit->text(), ui->commentEdit->toPlainText());
         emit done();
-    } else {
-        QTimer::singleShot(500, this, [this, error] {
+    } catch (GitHubException& ex) {
+        QTimer::singleShot(500, this, [this, ex] {
             ui->prFailedFrame->setState(tStatusFrame::Error);
             ui->prFailedFrame->setTitle(tr("Could not create Pull Request"));
-            ui->prFailedFrame->setText(error);
+            ui->prFailedFrame->setText(ex.error());
             ui->prFailedFrame->setVisible(true);
 
             ui->stackedWidget->setCurrentWidget(ui->initialPage);

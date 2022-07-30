@@ -14,26 +14,27 @@ struct GitHubAccountPrivate {
         QString description;
 
         GitHubHttp* http;
+        GitHubPullRequestApi* pr;
 };
 
-GitHubAccount::GitHubAccount(QString username, QString token, QObject* parent) {
-    d = new GitHubAccountPrivate();
+GitHubAccount::GitHubAccount(QString username, QString token, QObject* parent) :
+    AbstractAccount{parent} {
+    this->init();
     d->username = username;
     d->token = token;
     d->description = "GitHub";
-    d->http = new GitHubHttp(this);
 }
 
 GitHubAccount::GitHubAccount(QJsonObject account, QObject* parent) :
     AbstractAccount{parent} {
-    d = new GitHubAccountPrivate();
+    this->init();
     d->username = account.value("username").toString();
     d->token = account.value("token").toString();
     d->description = account.value("description").toString();
-    d->http = new GitHubHttp(this);
 }
 
 GitHubAccount::~GitHubAccount() {
+    delete d->pr;
     d->http->deleteLater();
     delete d;
 }
@@ -58,13 +59,19 @@ QString GitHubAccount::slugForCloneUrl(QString cloneUrl) {
     return "";
 }
 
-GitHubPullRequestApi GitHubAccount::pr() {
-    return GitHubPullRequestApi(d->http);
+GitHubPullRequestApi* GitHubAccount::pr() {
+    return d->pr;
 }
 
 QCoro::Task<bool> GitHubAccount::testConnection() {
     QNetworkReply* reply = co_await d->http->get("/user");
     co_return reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
+}
+
+void GitHubAccount::init() {
+    d = new GitHubAccountPrivate();
+    d->http = new GitHubHttp(this);
+    d->pr = new GitHubPullRequestApi(d->http);
 }
 
 QJsonObject GitHubAccount::save() {

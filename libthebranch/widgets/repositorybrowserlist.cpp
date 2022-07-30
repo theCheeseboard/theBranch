@@ -19,6 +19,9 @@
  * *************************************/
 #include "repositorybrowserlist.h"
 
+#include "accounts/accountsmanager.h"
+#include "accounts/github/githubaccount.h"
+#include "accounts/github/pr/githubpullrequestlistcontroller.h"
 #include "commitbrowserwidget.h"
 #include "objects/branch.h"
 #include "objects/branchuihelper.h"
@@ -38,12 +41,14 @@ struct RepositoryBrowserListPrivate {
         QStandardItemModel* model;
         RepositoryPtr repo;
 
-        QStandardItem *branchParent, *remoteParent, *stashParent;
+        QStandardItem *branchParent, *remoteParent, *stashParent, *prsParent;
 
         QList<BranchPtr> branches;
         QList<BranchPtr> remoteBranches;
         QList<RemotePtr> remotes;
         QList<StashPtr> stashes;
+
+        QList<GitHubPullRequestListController*> ghPrControllers;
 
         std::function<QCoro::Task<>()> handler = nullptr;
 };
@@ -61,9 +66,10 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     d->branchParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), tr("Branches"));
     d->remoteParent = new QStandardItem(QIcon::fromTheme("cloud-download"), tr("Remotes"));
     d->stashParent = new QStandardItem(QIcon::fromTheme("vcs-stash"), tr("Stashes"));
+    d->prsParent = new QStandardItem(QIcon::fromTheme("vcs-pull-request"), tr("Pull Requests"));
 
     auto rootItem = d->model->invisibleRootItem();
-    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent});
+    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->prsParent});
 
     connect(this, &QTreeView::clicked, this, [this](QModelIndex index) {
         auto itemData = index.data(Qt::UserRole + 1).value<QSharedPointer<QObject>>();
@@ -76,6 +82,8 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     });
 
     this->setHeaderHidden(true);
+
+    connect(AccountsManager::instance(), &AccountsManager::accountsChanged, this, &RepositoryBrowserList::updateData);
 }
 
 RepositoryBrowserList::~RepositoryBrowserList() {
@@ -121,6 +129,22 @@ void RepositoryBrowserList::updateData() {
         auto item = new QStandardItem(stash->message());
         item->setData(QVariant::fromValue(stash.staticCast<QObject>()));
         d->stashParent->appendRow(item);
+    }
+
+    for (auto controller : d->ghPrControllers) controller->deleteLater();
+    for (auto account : AccountsManager::instance()->accounts()) {
+        if (auto gh = qobject_cast<GitHubAccount*>(account)) {
+            for (auto remote : d->remotes) {
+                auto slug = remote->slugForAccount(gh);
+                if (slug.isEmpty()) continue;
+
+                auto controller = new GitHubPullRequestListController(gh, remote);
+                connect(controller, &GitHubPullRequestListController::destroyed, this, [controller, this] {
+                    d->ghPrControllers.removeAll(controller);
+                });
+                d->prsParent->appendRow(controller->rootItem());
+            }
+        }
     }
 }
 

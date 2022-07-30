@@ -18,7 +18,7 @@ class GitHubAccount : public AbstractAccount {
         QString description();
         QString slugForCloneUrl(QString cloneUrl);
 
-        GitHubPullRequestApi pr();
+        GitHubPullRequestApi* pr();
 
         QCoro::Task<bool> testConnection();
 
@@ -26,6 +26,7 @@ class GitHubAccount : public AbstractAccount {
 
     private:
         GitHubAccountPrivate* d;
+        void init();
 
         // AbstractAccount interface
     public:

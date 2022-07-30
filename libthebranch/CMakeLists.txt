@@ -77,6 +77,7 @@ set(SOURCES
     accounts/github/addgithubaccountpopover.cpp accounts/github/addgithubaccountpopover.ui
     accounts/github/pr/githubcreatepullrequestpopover.cpp accounts/github/pr/githubcreatepullrequestpopover.ui
     accounts/github/pr/githubpullrequestapi.cpp
+    accounts/github/pr/githubpullrequestlistcontroller.cpp
 
     objects/private/repositoryoperation.cpp
     objects/private/repositorycloneoperation.cpp
@@ -176,6 +177,7 @@ set(PRIVATE_HEADERS
     accounts/github/addgithubaccountpopover.h
     accounts/github/pr/githubcreatepullrequestpopover.h
     accounts/github/pr/githubpullrequestapi.h
+    accounts/github/pr/githubpullrequestlistcontroller.h
 
 )
 
