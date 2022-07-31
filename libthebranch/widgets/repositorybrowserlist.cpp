@@ -21,6 +21,7 @@
 
 #include "accounts/accountsmanager.h"
 #include "accounts/github/githubaccount.h"
+#include "accounts/github/issues/githubissuelistcontroller.h"
 #include "accounts/github/pr/githubpullrequestlistcontroller.h"
 #include "commitbrowserwidget.h"
 #include "objects/branch.h"
@@ -41,13 +42,14 @@ struct RepositoryBrowserListPrivate {
         QStandardItemModel* model;
         RepositoryPtr repo;
 
-        QStandardItem *branchParent, *remoteParent, *stashParent, *prsParent;
+        QStandardItem *branchParent, *remoteParent, *stashParent, *issuesParent, *prsParent;
 
         QList<BranchPtr> branches;
         QList<BranchPtr> remoteBranches;
         QList<RemotePtr> remotes;
         QList<StashPtr> stashes;
 
+        QList<GitHubIssueListController*> ghIssueControllers;
         QList<GitHubPullRequestListController*> ghPrControllers;
 
         std::function<QCoro::Task<>()> handler = nullptr;
@@ -66,10 +68,11 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     d->branchParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), tr("Branches"));
     d->remoteParent = new QStandardItem(QIcon::fromTheme("cloud-download"), tr("Remotes"));
     d->stashParent = new QStandardItem(QIcon::fromTheme("vcs-stash"), tr("Stashes"));
+    d->issuesParent = new QStandardItem(QIcon::fromTheme("tools-report-bug"), tr("Issues"));
     d->prsParent = new QStandardItem(QIcon::fromTheme("vcs-pull-request"), tr("Pull Requests"));
 
     auto rootItem = d->model->invisibleRootItem();
-    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->prsParent});
+    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->issuesParent, d->prsParent});
 
     connect(this, &QTreeView::clicked, this, [this](QModelIndex index) {
         auto itemData = index.data(Qt::UserRole + 1).value<QSharedPointer<QObject>>();
@@ -131,6 +134,7 @@ void RepositoryBrowserList::updateData() {
         d->stashParent->appendRow(item);
     }
 
+    for (auto controller : d->ghIssueControllers) controller->deleteLater();
     for (auto controller : d->ghPrControllers) controller->deleteLater();
     for (auto account : AccountsManager::instance()->accounts()) {
         if (auto gh = qobject_cast<GitHubAccount*>(account)) {
@@ -138,11 +142,17 @@ void RepositoryBrowserList::updateData() {
                 auto slug = remote->slugForAccount(gh);
                 if (slug.isEmpty()) continue;
 
-                auto controller = new GitHubPullRequestListController(gh, remote);
-                connect(controller, &GitHubPullRequestListController::destroyed, this, [controller, this] {
-                    d->ghPrControllers.removeAll(controller);
+                auto issuesController = new GitHubIssueListController(gh, remote);
+                connect(issuesController, &GitHubIssueListController::destroyed, this, [issuesController, this] {
+                    d->ghIssueControllers.removeAll(issuesController);
                 });
-                d->prsParent->appendRow(controller->rootItem());
+                d->issuesParent->appendRow(issuesController->rootItem());
+
+                auto prController = new GitHubPullRequestListController(gh, remote);
+                connect(prController, &GitHubPullRequestListController::destroyed, this, [prController, this] {
+                    d->ghPrControllers.removeAll(prController);
+                });
+                d->prsParent->appendRow(prController->rootItem());
             }
         }
     }

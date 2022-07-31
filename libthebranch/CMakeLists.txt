@@ -75,6 +75,11 @@ set(SOURCES
     accounts/github/githubhttp.cpp
     accounts/github/githubaccount.cpp
     accounts/github/addgithubaccountpopover.cpp accounts/github/addgithubaccountpopover.ui
+    accounts/github/githubitem.cpp
+    accounts/github/githubitemdatabase.cpp
+    accounts/github/issues/githubissuesapi.cpp
+    accounts/github/issues/githubissue.cpp
+    accounts/github/issues/githubissuelistcontroller.cpp
     accounts/github/pr/githubcreatepullrequestpopover.cpp accounts/github/pr/githubcreatepullrequestpopover.ui
     accounts/github/pr/githubpullrequestapi.cpp
     accounts/github/pr/githubpullrequestlistcontroller.cpp
@@ -175,6 +180,11 @@ set(PRIVATE_HEADERS
     popovers/snapins/usernamepasswordsnapin.h
 
     accounts/github/addgithubaccountpopover.h
+    accounts/github/githubitem.h
+    accounts/github/githubitemdatabase.h
+    accounts/github/issues/githubissuesapi.h
+    accounts/github/issues/githubissue.h
+    accounts/github/issues/githubissuelistcontroller.h
     accounts/github/pr/githubcreatepullrequestpopover.h
     accounts/github/pr/githubpullrequestapi.h
     accounts/github/pr/githubpullrequestlistcontroller.h

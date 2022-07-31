@@ -1,6 +1,8 @@
 #include "githubaccount.h"
 
 #include "githubhttp.h"
+#include "githubitemdatabase.h"
+#include "issues/githubissuesapi.h"
 #include "pr/githubpullrequestapi.h"
 #include <QCoroNetworkReply>
 #include <QNetworkAccessManager>
@@ -13,8 +15,10 @@ struct GitHubAccountPrivate {
         QString token;
         QString description;
 
+        GitHubItemDatabase* itemDb;
         GitHubHttp* http;
         GitHubPullRequestApi* pr;
+        GitHubIssuesApi* issues;
 };
 
 GitHubAccount::GitHubAccount(QString username, QString token, QObject* parent) :
@@ -35,6 +39,7 @@ GitHubAccount::GitHubAccount(QJsonObject account, QObject* parent) :
 
 GitHubAccount::~GitHubAccount() {
     delete d->pr;
+    delete d->issues;
     d->http->deleteLater();
     delete d;
 }
@@ -59,8 +64,16 @@ QString GitHubAccount::slugForCloneUrl(QString cloneUrl) {
     return "";
 }
 
+GitHubItemDatabase* GitHubAccount::itemDb() {
+    return d->itemDb;
+}
+
 GitHubPullRequestApi* GitHubAccount::pr() {
     return d->pr;
+}
+
+GitHubIssuesApi* GitHubAccount::issues() {
+    return d->issues;
 }
 
 QCoro::Task<bool> GitHubAccount::testConnection() {
@@ -71,6 +84,8 @@ QCoro::Task<bool> GitHubAccount::testConnection() {
 void GitHubAccount::init() {
     d = new GitHubAccountPrivate();
     d->http = new GitHubHttp(this);
+    d->itemDb = new GitHubItemDatabase();
+    d->issues = new GitHubIssuesApi(d->http);
     d->pr = new GitHubPullRequestApi(d->http);
 }
 

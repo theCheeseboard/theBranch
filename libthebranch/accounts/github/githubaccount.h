@@ -4,6 +4,8 @@
 #include "../abstractaccount.h"
 #include <QCoroTask>
 
+class GitHubItemDatabase;
+class GitHubIssuesApi;
 class GitHubPullRequestApi;
 struct GitHubAccountPrivate;
 class GitHubAccount : public AbstractAccount {
@@ -18,7 +20,10 @@ class GitHubAccount : public AbstractAccount {
         QString description();
         QString slugForCloneUrl(QString cloneUrl);
 
+        GitHubItemDatabase* itemDb();
+
         GitHubPullRequestApi* pr();
+        GitHubIssuesApi* issues();
 
         QCoro::Task<bool> testConnection();
 
