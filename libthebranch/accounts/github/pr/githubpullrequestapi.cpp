@@ -7,6 +7,8 @@
 
 #include "../githubaccount.h"
 #include "../githubhttp.h"
+#include "../githubitemdatabase.h"
+#include "githubpullrequest.h"
 #include "objects/branch.h"
 #include "objects/remote.h"
 
@@ -31,7 +33,7 @@ QCoro::Task<> GitHubPullRequestApi::createPullRequest(RemotePtr remote, BranchPt
     }
 }
 
-QCoro::AsyncGenerator<GitHubPullRequestApi::PullRequest> GitHubPullRequestApi::listPullRequests(RemotePtr remote, QString state) {
+QCoro::AsyncGenerator<GitHubPullRequestPtr> GitHubPullRequestApi::listPullRequests(RemotePtr remote, QString state) {
     auto slug = remote->slugForAccount(http->account());
 
     for (auto page = 1;; page++) {
@@ -51,18 +53,12 @@ QCoro::AsyncGenerator<GitHubPullRequestApi::PullRequest> GitHubPullRequestApi::l
             if (prs.isEmpty()) co_return;
 
             for (auto pr : prs) {
-                co_yield PullRequest(pr.toObject());
+                auto ghIssue = http->account()->itemDb()->update<GitHubPullRequest>(pr.toObject());
+                co_yield ghIssue;
             }
         } else {
             QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
             throw GitHubException(obj, tr("Could not create Pull Request"));
         }
     }
-}
-
-GitHubPullRequestApi::PullRequest::PullRequest(QJsonObject def) {
-    this->id = def.value("id").toInteger();
-    this->number = def.value("number").toInteger();
-    this->title = def.value("title").toString();
-    this->body = def.value("body").toString();
 }

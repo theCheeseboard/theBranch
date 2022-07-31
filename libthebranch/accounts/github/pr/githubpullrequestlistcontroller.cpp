@@ -1,6 +1,7 @@
 #include "githubpullrequestlistcontroller.h"
 
 #include "../githubaccount.h"
+#include "githubpullrequest.h"
 #include "githubpullrequestapi.h"
 #include "objects/remote.h"
 #include <QStandardItem>
@@ -41,7 +42,7 @@ QStandardItem* GitHubPullRequestListController::rootItem() {
 QCoro::Task<> GitHubPullRequestListController::updateItems() {
     QList<QStandardItem*> items;
     QCORO_FOREACH(auto pr, d->account->pr()->listPullRequests(d->remote, "open")) {
-        auto item = new QStandardItem(QStringLiteral("%1: %2").arg(pr.number).arg(pr.title));
+        auto item = new QStandardItem(QStringLiteral("%1: %2").arg(pr->number()).arg(pr->title()));
         item->setData(QVariant::fromValue(pr), Qt::UserRole);
         items.append(item);
     }

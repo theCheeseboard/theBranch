@@ -64,6 +64,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     this->setModel(d->model);
     //    this->setItemDelegate(new CommitDelegate(this));
     this->setFrameShape(QFrame::NoFrame);
+    this->setEditTriggers(NoEditTriggers);
 
     d->branchParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), tr("Branches"));
     d->remoteParent = new QStandardItem(QIcon::fromTheme("cloud-download"), tr("Remotes"));

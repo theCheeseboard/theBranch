@@ -5,6 +5,7 @@
 struct GitHubIssuePrivate {
         qint64 number;
         QString title;
+        QString body;
 };
 
 GitHubIssue::GitHubIssue() :
@@ -24,8 +25,13 @@ QString GitHubIssue::title() {
     return d->title;
 }
 
+QString GitHubIssue::body() {
+    return d->body;
+}
+
 void GitHubIssue::update(QJsonObject data) {
     d->number = data.value("number").toInteger();
     d->title = data.value("title").toString();
+    d->body = data.value("body").toString();
     GitHubItem::update(data);
 }

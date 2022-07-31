@@ -12,6 +12,7 @@ class GitHubIssue : public GitHubItem {
 
         qint64 number();
         QString title();
+        QString body();
 
     signals:
 

@@ -83,6 +83,7 @@ set(SOURCES
     accounts/github/pr/githubcreatepullrequestpopover.cpp accounts/github/pr/githubcreatepullrequestpopover.ui
     accounts/github/pr/githubpullrequestapi.cpp
     accounts/github/pr/githubpullrequestlistcontroller.cpp
+    accounts/github/pr/githubpullrequest.cpp
 
     objects/private/repositoryoperation.cpp
     objects/private/repositorycloneoperation.cpp
@@ -188,6 +189,7 @@ set(PRIVATE_HEADERS
     accounts/github/pr/githubcreatepullrequestpopover.h
     accounts/github/pr/githubpullrequestapi.h
     accounts/github/pr/githubpullrequestlistcontroller.h
+    accounts/github/pr/githubpullrequest.h
 
 )
 

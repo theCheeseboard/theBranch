@@ -5,23 +5,18 @@
 #include <QCoroAsyncGenerator>
 #include <QCoroTask>
 
+class GitHubPullRequest;
+
+typedef QSharedPointer<GitHubPullRequest> GitHubPullRequestPtr;
+
 class GitHubHttp;
 class GitHubPullRequestApi {
         Q_DECLARE_TR_FUNCTIONS(GitHubPullRequestApi)
     public:
         GitHubPullRequestApi(GitHubHttp* http);
 
-        struct PullRequest {
-                PullRequest(QJsonObject def);
-
-                quint64 id;
-                quint64 number;
-                QString title;
-                QString body;
-        };
-
         QCoro::Task<> createPullRequest(RemotePtr remote, BranchPtr from, BranchPtr to, QString title, QString body);
-        QCoro::AsyncGenerator<PullRequest> listPullRequests(RemotePtr remote, QString state = "all");
+        QCoro::AsyncGenerator<GitHubPullRequestPtr> listPullRequests(RemotePtr remote, QString state = "all");
 
     private:
         GitHubHttp* http;
