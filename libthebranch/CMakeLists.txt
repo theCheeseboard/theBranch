@@ -80,6 +80,7 @@ set(SOURCES
     accounts/github/issues/githubissuesapi.cpp
     accounts/github/issues/githubissue.cpp
     accounts/github/issues/githubissuelistcontroller.cpp
+    accounts/github/issues/githubissuebrowser.cpp accounts/github/issues/githubissuebrowser.ui
     accounts/github/pr/githubcreatepullrequestpopover.cpp accounts/github/pr/githubcreatepullrequestpopover.ui
     accounts/github/pr/githubpullrequestapi.cpp
     accounts/github/pr/githubpullrequestlistcontroller.cpp
@@ -186,6 +187,7 @@ set(PRIVATE_HEADERS
     accounts/github/issues/githubissuesapi.h
     accounts/github/issues/githubissue.h
     accounts/github/issues/githubissuelistcontroller.h
+    accounts/github/issues/githubissuebrowser.h
     accounts/github/pr/githubcreatepullrequestpopover.h
     accounts/github/pr/githubpullrequestapi.h
     accounts/github/pr/githubpullrequestlistcontroller.h

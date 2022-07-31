@@ -22,6 +22,7 @@ class GitHubIssue : public GitHubItem {
         // GitHubItem interface
     public:
         void update(QJsonObject data);
+        void contextMenu(QMenu* menu);
 };
 
 typedef QSharedPointer<GitHubIssue> GitHubIssuePtr;

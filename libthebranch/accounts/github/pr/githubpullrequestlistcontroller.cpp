@@ -1,9 +1,11 @@
 #include "githubpullrequestlistcontroller.h"
 
 #include "../githubaccount.h"
+#include "../issues/githubissuebrowser.h"
 #include "githubpullrequest.h"
 #include "githubpullrequestapi.h"
 #include "objects/remote.h"
+#include "widgets/repositorybrowserlist.h"
 #include <QStandardItem>
 #include <QTimer>
 
@@ -27,6 +29,10 @@ GitHubPullRequestListController::GitHubPullRequestListController(GitHubAccount* 
     connect(d->timer, &QTimer::timeout, this, &GitHubPullRequestListController::updateItems);
     d->timer->start();
 
+    RepositoryBrowserList::addWidgetFunction(d->rootItem, [account, remote] {
+        return new GitHubIssueBrowser(account, remote, true);
+    });
+
     updateItems();
 }
 
@@ -43,7 +49,12 @@ QCoro::Task<> GitHubPullRequestListController::updateItems() {
     QList<QStandardItem*> items;
     QCORO_FOREACH(auto pr, d->account->pr()->listPullRequests(d->remote, "open")) {
         auto item = new QStandardItem(QStringLiteral("%1: %2").arg(pr->number()).arg(pr->title()));
-        item->setData(QVariant::fromValue(pr), Qt::UserRole);
+        RepositoryBrowserList::addContextMenuFunction(item, [pr](QMenu* menu) {
+            pr->contextMenu(menu);
+        });
+        RepositoryBrowserList::addWidgetFunction(item, [pr] {
+            return pr->widget();
+        });
         items.append(item);
     }
 

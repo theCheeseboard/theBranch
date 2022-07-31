@@ -4,6 +4,7 @@
 
 struct GitHubItemPrivate {
         QString nodeId;
+        QUrl htmlUrl;
 };
 
 GitHubItem::GitHubItem() :
@@ -19,7 +20,20 @@ QString GitHubItem::nodeId() {
     return d->nodeId;
 }
 
+QUrl GitHubItem::htmlUrl() {
+    return d->htmlUrl;
+}
+
 void GitHubItem::update(QJsonObject data) {
     d->nodeId = data.value("node_id").toString();
+    d->htmlUrl = data.value("html_url").toString();
     emit updated();
+}
+
+void GitHubItem::contextMenu(QMenu* menu) {
+    // noop
+}
+
+QWidget* GitHubItem::widget() {
+    return nullptr;
 }

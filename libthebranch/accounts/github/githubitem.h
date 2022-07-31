@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+class QMenu;
 struct GitHubItemPrivate;
 class GitHubItem : public QObject {
         Q_OBJECT
@@ -11,8 +12,11 @@ class GitHubItem : public QObject {
         ~GitHubItem();
 
         QString nodeId();
+        QUrl htmlUrl();
 
         virtual void update(QJsonObject data);
+        virtual void contextMenu(QMenu* menu);
+        virtual QWidget* widget();
 
     signals:
         void updated();
