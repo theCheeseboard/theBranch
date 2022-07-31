@@ -72,16 +72,27 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     d->issuesParent = new QStandardItem(QIcon::fromTheme("tools-report-bug"), tr("Issues"));
     d->prsParent = new QStandardItem(QIcon::fromTheme("vcs-pull-request"), tr("Pull Requests"));
 
+    addContextMenuFunction(d->remoteParent, [this](QMenu* menu) {
+        menu->addSection(tr("For repository"));
+        menu->addAction(QIcon::fromTheme("list-add"), tr("Add Remote"), this, [this] {
+            SnapInPopover::showSnapInPopover(this->window(), new NewRemoteSnapIn(d->repo));
+        });
+    });
+    addContextMenuFunction(d->stashParent, [this](QMenu* menu) {
+        menu->addSection(tr("For repository"));
+        menu->addAction(QIcon::fromTheme("vcs-stash"), tr("Stash"), this, [this] {
+            SnapInPopover::showSnapInPopover(this->window(), new StashSaveSnapIn(d->repo));
+        });
+    });
+
     auto rootItem = d->model->invisibleRootItem();
     rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->issuesParent, d->prsParent});
 
     connect(this, &QTreeView::clicked, this, [this](QModelIndex index) {
-        auto itemData = index.data(Qt::UserRole + 1).value<QSharedPointer<QObject>>();
-        if (auto branch = itemData.objectCast<Branch>()) {
-            auto commitBrowser = new CommitBrowserWidget();
-            commitBrowser->setRepository(d->repo);
-            commitBrowser->setStartBranch(branch);
-            emit showWidget(commitBrowser);
+        auto widgetFn = index.data(static_cast<int>(Roles::WidgetFunction)).value<WidgetFunction>();
+        if (widgetFn) {
+            auto widget = widgetFn();
+            if (widget) emit showWidget(widget);
         }
     });
 
@@ -92,6 +103,16 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
 
 RepositoryBrowserList::~RepositoryBrowserList() {
     delete d;
+}
+
+void RepositoryBrowserList::addContextMenuFunction(QStandardItem* item, ContextMenuFunction fn) {
+    item->setData(QVariant::fromValue(ContextMenuFunction(fn)),
+        static_cast<int>(Roles::ContextMenuFunction));
+}
+
+void RepositoryBrowserList::addWidgetFunction(QStandardItem* item, WidgetFunction fn) {
+    item->setData(QVariant::fromValue(WidgetFunction(fn)),
+        static_cast<int>(Roles::WidgetFunction));
 }
 
 void RepositoryBrowserList::setRepository(RepositoryPtr repo) {
@@ -109,20 +130,44 @@ void RepositoryBrowserList::updateData() {
     d->branchParent->removeRows(0, d->branchParent->rowCount());
     for (auto branch : d->branches) {
         auto item = new QStandardItem(branch->name());
-        item->setData(QVariant::fromValue(branch.staticCast<QObject>()));
+        addContextMenuFunction(item, [branch, this](QMenu* menu) {
+            BranchUiHelper::appendBranchMenu(menu, branch, d->repo, this);
+        });
+        addWidgetFunction(item, [branch, this] {
+            auto commitBrowser = new CommitBrowserWidget();
+            commitBrowser->setRepository(d->repo);
+            commitBrowser->setStartBranch(branch);
+            return commitBrowser;
+        });
+        item->setData(QVariant::fromValue(branch.staticCast<QObject>()),
+            static_cast<int>(Roles::Data));
         d->branchParent->appendRow(item);
     }
 
     d->remoteParent->removeRows(0, d->remoteParent->rowCount());
     for (auto remote : d->remotes) {
         auto item = new QStandardItem(remote->name());
-        item->setData(QVariant::fromValue(remote.staticCast<QObject>()));
+        addContextMenuFunction(item, [remote, this](QMenu* menu) {
+            BranchUiHelper::appendRemoteMenu(menu, remote, d->repo, this);
+        });
+        item->setData(QVariant::fromValue(remote.staticCast<QObject>()),
+            static_cast<int>(Roles::Data));
         d->remoteParent->appendRow(item);
 
         for (auto remoteBranch : d->remoteBranches) {
             if (remoteBranch->remoteName() == remote->name()) {
                 auto branchItem = new QStandardItem(remoteBranch->name());
-                branchItem->setData(QVariant::fromValue(remoteBranch.staticCast<QObject>()));
+                addContextMenuFunction(branchItem, [remoteBranch, this](QMenu* menu) {
+                    BranchUiHelper::appendBranchMenu(menu, remoteBranch, d->repo, this);
+                });
+                addWidgetFunction(branchItem, [remoteBranch, this] {
+                    auto commitBrowser = new CommitBrowserWidget();
+                    commitBrowser->setRepository(d->repo);
+                    commitBrowser->setStartBranch(remoteBranch);
+                    return commitBrowser;
+                });
+                branchItem->setData(QVariant::fromValue(remoteBranch.staticCast<QObject>()),
+                    static_cast<int>(Roles::Data));
                 item->appendRow(branchItem);
             }
         }
@@ -131,7 +176,11 @@ void RepositoryBrowserList::updateData() {
     d->stashParent->removeRows(0, d->stashParent->rowCount());
     for (auto stash : d->stashes) {
         auto item = new QStandardItem(stash->message());
-        item->setData(QVariant::fromValue(stash.staticCast<QObject>()));
+        addContextMenuFunction(item, [stash, this](QMenu* menu) {
+            BranchUiHelper::appendStashMenu(menu, stash, d->repo, this);
+        });
+        item->setData(QVariant::fromValue(stash.staticCast<QObject>()),
+            static_cast<int>(Roles::Data));
         d->stashParent->appendRow(item);
     }
 
@@ -172,25 +221,8 @@ QCoro::Task<> RepositoryBrowserList::showContextMenu(QPoint pos) {
     QMenu* menu = new QMenu();
 
     auto item = d->model->itemFromIndex(index);
-    auto itemData = index.data(Qt::UserRole + 1).value<QSharedPointer<QObject>>();
-
-    if (item == d->remoteParent) {
-        menu->addSection(tr("For repository"));
-        menu->addAction(QIcon::fromTheme("list-add"), tr("Add Remote"), this, [this] {
-            SnapInPopover::showSnapInPopover(this->window(), new NewRemoteSnapIn(d->repo));
-        });
-    } else if (item == d->stashParent) {
-        menu->addSection(tr("For repository"));
-        menu->addAction(QIcon::fromTheme("vcs-stash"), tr("Stash"), this, [this] {
-            SnapInPopover::showSnapInPopover(this->window(), new StashSaveSnapIn(d->repo));
-        });
-    } else if (auto branch = itemData.objectCast<Branch>()) {
-        BranchUiHelper::appendBranchMenu(menu, branch, d->repo, this);
-    } else if (auto remote = itemData.objectCast<Remote>()) {
-        BranchUiHelper::appendRemoteMenu(menu, remote, d->repo, this);
-    } else if (auto stash = itemData.objectCast<Stash>()) {
-        BranchUiHelper::appendStashMenu(menu, stash, d->repo, this);
-    }
+    auto menuFn = item->data(static_cast<int>(Roles::ContextMenuFunction)).value<ContextMenuFunction>();
+    if (menuFn) menuFn(menu);
 
     connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(this->mapToGlobal(pos));

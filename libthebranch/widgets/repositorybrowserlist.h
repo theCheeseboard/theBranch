@@ -24,12 +24,25 @@
 #include <QCoroTask>
 #include <QTreeView>
 
+class QStandardItem;
 struct RepositoryBrowserListPrivate;
 class RepositoryBrowserList : public QTreeView {
         Q_OBJECT
     public:
         explicit RepositoryBrowserList(QWidget* parent = nullptr);
         ~RepositoryBrowserList();
+
+        enum class Roles : int {
+            ContextMenuFunction = Qt::UserRole,
+            WidgetFunction,
+            Data
+        };
+
+        typedef std::function<void(QMenu*)> ContextMenuFunction;
+        typedef std::function<QWidget*()> WidgetFunction;
+
+        static void addContextMenuFunction(QStandardItem* item, ContextMenuFunction fn);
+        static void addWidgetFunction(QStandardItem* item, WidgetFunction fn);
 
         void setRepository(RepositoryPtr repo);
         void updateData();
