@@ -1,11 +1,13 @@
 #ifndef GITHUBITEMDATABASE_H
 #define GITHUBITEMDATABASE_H
 
+#include "objects/forward_declares.h"
 #include <QJsonObject>
 #include <QMap>
 #include <QObject>
 #include <concepts>
 
+class GitHubAccount;
 class GitHubItem;
 
 typedef QSharedPointer<GitHubItem> GitHubItemPtr;
@@ -20,14 +22,14 @@ class GitHubItemDatabase : public QObject {
         ~GitHubItemDatabase();
 
         GitHubItemPtr item(QString nodeId);
-        template<IsGithubItem T> QSharedPointer<T> update(QJsonObject data) {
+        template<IsGithubItem T> QSharedPointer<T> update(GitHubAccount* account, RemotePtr remote, QJsonObject data) {
             auto nodeId = data.value("node_id").toString();
 
             QSharedPointer<T> type;
             if (this->items.contains(nodeId)) {
                 type = this->items.value(nodeId).objectCast<T>();
             } else {
-                type = QSharedPointer<T>(new T());
+                type = QSharedPointer<T>(new T(account, remote));
                 items.insert(nodeId, type);
             }
 

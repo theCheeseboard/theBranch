@@ -5,8 +5,8 @@
 struct GitHubPullRequestPrivate {
 };
 
-GitHubPullRequest::GitHubPullRequest() :
-    GitHubIssue{} {
+GitHubPullRequest::GitHubPullRequest(GitHubAccount* account, RemotePtr remote) :
+    GitHubIssue{account, remote} {
     d = new GitHubPullRequestPrivate();
 }
 

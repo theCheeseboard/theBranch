@@ -7,7 +7,7 @@ struct GitHubPullRequestPrivate;
 class GitHubPullRequest : public GitHubIssue {
         Q_OBJECT
     public:
-        explicit GitHubPullRequest();
+        explicit GitHubPullRequest(GitHubAccount* account, RemotePtr remote);
         ~GitHubPullRequest();
 
     signals:

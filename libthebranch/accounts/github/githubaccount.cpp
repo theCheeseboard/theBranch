@@ -9,6 +9,7 @@
 #include <QNetworkReply>
 
 static QRegularExpression sshCloneUrl = QRegularExpression(QRegularExpression::anchoredPattern("git@github\\.com:(\\w+\\/\\w+)(?:\\.git)?"));
+static QRegularExpression pathRegex = QRegularExpression(QRegularExpression::anchoredPattern("\/(\\w+\\/\\w+)(?:\\.git)?"));
 
 struct GitHubAccountPrivate {
         QString username;
@@ -60,6 +61,12 @@ QString GitHubAccount::slugForCloneUrl(QString cloneUrl) {
     auto sshMatch = sshCloneUrl.match(cloneUrl);
     if (sshMatch.hasMatch()) {
         return sshMatch.captured(1);
+    }
+
+    QUrl cloneUrlUrl(cloneUrl);
+    if (cloneUrlUrl.host() == "github.com") {
+        auto pathMatch = pathRegex.match(cloneUrlUrl.path());
+        if (pathMatch.hasMatch()) return pathMatch.captured(1);
     }
     return "";
 }

@@ -4,6 +4,7 @@
 #include <QJsonArray>
 #include <QNetworkAccessManager>
 #include <QUrlQuery>
+#include <tapplication.h>
 
 struct GitHubHttpPrivate {
         QNetworkAccessManager mgr;
@@ -40,6 +41,7 @@ QNetworkReply* GitHubHttp::get(QString path) {
 
 QNetworkReply* GitHubHttp::get(QUrl url) {
     QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("%1/%2").arg(tApplication::applicationName(), tApplication::applicationVersion()));
     req.setRawHeader("Authorization", QByteArray("Basic ").append(QStringLiteral("%1:%2").arg(d->account->username(), d->account->token()).toUtf8().toBase64()));
     return d->mgr.get(req);
 }
@@ -50,6 +52,7 @@ QNetworkReply* GitHubHttp::post(QString path, QByteArray payload) {
 
 QNetworkReply* GitHubHttp::post(QUrl url, QByteArray payload) {
     QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("%1/%2").arg(tApplication::applicationName(), tApplication::applicationVersion()));
     req.setRawHeader("Authorization", QByteArray("Basic ").append(QStringLiteral("%1:%2").arg(d->account->username(), d->account->token()).toUtf8().toBase64()));
     return d->mgr.post(req, payload);
 }

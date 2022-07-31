@@ -3,6 +3,7 @@
 #include "../githubaccount.h"
 #include "../githubhttp.h"
 #include "../githubitemdatabase.h"
+#include "../pr/githubpullrequest.h"
 #include "githubissue.h"
 #include "objects/remote.h"
 #include <QCoroNetworkReply>
@@ -35,12 +36,30 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubIssuesApi::listIssues(RemotePtr remo
             for (auto issue : issues) {
                 auto issueObj = issue.toObject();
                 if (issueObj.contains("pull_request")) continue; // Ignore PRs
-                auto ghIssue = http->account()->itemDb()->update<GitHubIssue>(issueObj);
+                auto ghIssue = http->account()->itemDb()->update<GitHubIssue>(http->account(), remote, issueObj);
                 co_yield ghIssue;
             }
         } else {
             QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
             throw GitHubException(obj, tr("Could not get issues"));
         }
+    }
+}
+
+QCoro::Task<GitHubIssuePtr> GitHubIssuesApi::issue(RemotePtr remote, qint64 issueNumber) {
+    auto slug = remote->slugForAccount(http->account());
+    QNetworkReply* reply = co_await http->get(QStringLiteral("/repos/%1/issues/%2").arg(slug).arg(issueNumber));
+
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+        auto issue = QJsonDocument::fromJson(reply->readAll()).object();
+
+        if (issue.contains("pull_request")) {
+            co_return http->account()->itemDb()->update<GitHubPullRequest>(http->account(), remote, issue);
+        } else {
+            co_return http->account()->itemDb()->update<GitHubIssue>(http->account(), remote, issue);
+        }
+    } else {
+        QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
+        throw GitHubException(obj, tr("Could not get issues"));
     }
 }

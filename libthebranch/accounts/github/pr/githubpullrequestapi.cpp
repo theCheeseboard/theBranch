@@ -33,7 +33,7 @@ QCoro::Task<> GitHubPullRequestApi::createPullRequest(RemotePtr remote, BranchPt
     }
 }
 
-QCoro::AsyncGenerator<GitHubPullRequestPtr> GitHubPullRequestApi::listPullRequests(RemotePtr remote, QString state) {
+QCoro::AsyncGenerator<GitHubIssuePtr> GitHubPullRequestApi::listPullRequests(RemotePtr remote, QString state) {
     auto slug = remote->slugForAccount(http->account());
 
     for (auto page = 1;; page++) {
@@ -53,7 +53,7 @@ QCoro::AsyncGenerator<GitHubPullRequestPtr> GitHubPullRequestApi::listPullReques
             if (prs.isEmpty()) co_return;
 
             for (auto pr : prs) {
-                auto ghIssue = http->account()->itemDb()->update<GitHubPullRequest>(pr.toObject());
+                auto ghIssue = http->account()->itemDb()->update<GitHubPullRequest>(http->account(), remote, pr.toObject());
                 co_yield ghIssue;
             }
         } else {

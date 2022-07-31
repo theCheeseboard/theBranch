@@ -5,9 +5,9 @@
 #include <QCoroAsyncGenerator>
 #include <QCoroTask>
 
-class GitHubPullRequest;
+class GitHubIssue;
 
-typedef QSharedPointer<GitHubPullRequest> GitHubPullRequestPtr;
+typedef QSharedPointer<GitHubIssue> GitHubIssuePtr;
 
 class GitHubHttp;
 class GitHubPullRequestApi {
@@ -16,7 +16,7 @@ class GitHubPullRequestApi {
         GitHubPullRequestApi(GitHubHttp* http);
 
         QCoro::Task<> createPullRequest(RemotePtr remote, BranchPtr from, BranchPtr to, QString title, QString body);
-        QCoro::AsyncGenerator<GitHubPullRequestPtr> listPullRequests(RemotePtr remote, QString state = "all");
+        QCoro::AsyncGenerator<GitHubIssuePtr> listPullRequests(RemotePtr remote, QString state = "all");
 
     private:
         GitHubHttp* http;

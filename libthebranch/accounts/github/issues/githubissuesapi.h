@@ -15,6 +15,7 @@ class GitHubIssuesApi {
         explicit GitHubIssuesApi(GitHubHttp* http);
 
         QCoro::AsyncGenerator<GitHubIssuePtr> listIssues(RemotePtr remote, QString state = "all");
+        QCoro::Task<GitHubIssuePtr> issue(RemotePtr remote, qint64 issueNumber);
 
     private:
         GitHubHttp* http;

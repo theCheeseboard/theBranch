@@ -47,7 +47,8 @@ QStandardItem* GitHubPullRequestListController::rootItem() {
 
 QCoro::Task<> GitHubPullRequestListController::updateItems() {
     QList<QStandardItem*> items;
-    QCORO_FOREACH(auto pr, d->account->pr()->listPullRequests(d->remote, "open")) {
+    QCORO_FOREACH(auto issue, d->account->pr()->listPullRequests(d->remote, "open")) {
+        auto pr = issue.objectCast<GitHubPullRequest>();
         auto item = new QStandardItem(QStringLiteral("%1: %2").arg(pr->number()).arg(pr->title()));
         RepositoryBrowserList::addContextMenuFunction(item, [pr](QMenu* menu) {
             pr->contextMenu(menu);

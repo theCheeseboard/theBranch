@@ -3,17 +3,29 @@
 #include <QJsonObject>
 
 struct GitHubItemPrivate {
+        GitHubAccount* account;
+        RemotePtr remote;
         QString nodeId;
         QUrl htmlUrl;
 };
 
-GitHubItem::GitHubItem() :
+GitHubItem::GitHubItem(GitHubAccount* account, RemotePtr remote) :
     QObject{nullptr} {
     d = new GitHubItemPrivate();
+    d->account = account;
+    d->remote = remote;
 }
 
 GitHubItem::~GitHubItem() {
     delete d;
+}
+
+GitHubAccount* GitHubItem::account() {
+    return d->account;
+}
+
+RemotePtr GitHubItem::remote() {
+    return d->remote;
 }
 
 QString GitHubItem::nodeId() {

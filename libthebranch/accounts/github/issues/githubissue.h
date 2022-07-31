@@ -7,12 +7,19 @@ struct GitHubIssuePrivate;
 class GitHubIssue : public GitHubItem {
         Q_OBJECT
     public:
-        explicit GitHubIssue();
+        explicit GitHubIssue(GitHubAccount* account, RemotePtr remote);
         ~GitHubIssue();
+
+        enum class State {
+            Open,
+            Closed,
+            Merged
+        };
 
         qint64 number();
         QString title();
         QString body();
+        State state();
 
     signals:
 
@@ -23,6 +30,7 @@ class GitHubIssue : public GitHubItem {
     public:
         void update(QJsonObject data);
         void contextMenu(QMenu* menu);
+        QCoro::Task<> fetchLatest();
 };
 
 typedef QSharedPointer<GitHubIssue> GitHubIssuePtr;
