@@ -2,6 +2,7 @@
 #include "ui_githubissuecommentbubble.h"
 
 #include "../githubissue.h"
+#include "../githubissuecommentevent.h"
 
 struct GitHubIssueCommentBubblePrivate {
         GitHubItemPtr item;
@@ -26,5 +27,7 @@ GitHubIssueCommentBubble::~GitHubIssueCommentBubble() {
 void GitHubIssueCommentBubble::updateData() {
     if (auto issue = d->item.objectCast<GitHubIssue>()) {
         ui->commentText->setText(issue->body());
+    } else if (auto event = d->item.objectCast<GitHubIssueCommentEvent>()) {
+        ui->commentText->setText(event->body());
     }
 }

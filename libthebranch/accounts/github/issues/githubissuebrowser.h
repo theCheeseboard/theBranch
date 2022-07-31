@@ -32,6 +32,7 @@ class GitHubIssueBrowser : public QWidget {
         GitHubIssueBrowserPrivate* d;
 
         void readCurrentIssue();
+        QCoro::Task<> addItemsIfNeeded();
 };
 
 #endif // GITHUBISSUEBROWSER_H

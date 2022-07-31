@@ -5,8 +5,10 @@
 #include <QCoroAsyncGenerator>
 
 class GitHubIssue;
+class GitHubIssueEvent;
 
 typedef QSharedPointer<GitHubIssue> GitHubIssuePtr;
+typedef QSharedPointer<GitHubIssueEvent> GitHubIssueEventPtr;
 
 class GitHubHttp;
 class GitHubIssuesApi {
@@ -16,6 +18,8 @@ class GitHubIssuesApi {
 
         QCoro::AsyncGenerator<GitHubIssuePtr> listIssues(RemotePtr remote, QString state = "all");
         QCoro::Task<GitHubIssuePtr> issue(RemotePtr remote, qint64 issueNumber);
+
+        QCoro::AsyncGenerator<GitHubIssueEventPtr> listIssueEvents(RemotePtr remote, qint64 issueNumber);
 
     private:
         GitHubHttp* http;

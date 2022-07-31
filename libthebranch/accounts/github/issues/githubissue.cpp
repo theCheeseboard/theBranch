@@ -39,6 +39,10 @@ GitHubIssue::State GitHubIssue::state() {
     return d->state;
 }
 
+QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssue::listIssueEvents() {
+    return this->account()->issues()->listIssueEvents(this->remote(), d->number);
+}
+
 QCoro::Task<> GitHubIssue::fetchLatest() {
     this->account()->issues()->issue(this->remote(), d->number);
     co_return;

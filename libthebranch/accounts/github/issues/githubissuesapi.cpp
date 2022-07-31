@@ -5,6 +5,8 @@
 #include "../githubitemdatabase.h"
 #include "../pr/githubpullrequest.h"
 #include "githubissue.h"
+#include "githubissuecommentevent.h"
+#include "githubissueevent.h"
 #include "objects/remote.h"
 #include <QCoroNetworkReply>
 #include <QJsonArray>
@@ -21,7 +23,7 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubIssuesApi::listIssues(RemotePtr remo
         auto query = QUrlQuery({
             {"state",    state                },
             {"page",     QString::number(page)},
-            {"per_page", "10"                 }
+            {"per_page", "100"                }
         });
 
         // ?? Looks like some compiler bug prevents us from co_await-ing this directly in AppleClang
@@ -61,5 +63,39 @@ QCoro::Task<GitHubIssuePtr> GitHubIssuesApi::issue(RemotePtr remote, qint64 issu
     } else {
         QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
         throw GitHubException(obj, tr("Could not get issues"));
+    }
+}
+
+QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssuesApi::listIssueEvents(RemotePtr remote, qint64 issueNumber) {
+    auto slug = remote->slugForAccount(http->account());
+
+    for (auto page = 1;; page++) {
+        auto query = QUrlQuery({
+            {"page",     QString::number(page)},
+            {"per_page", "100"                }
+        });
+
+        // ?? Looks like some compiler bug prevents us from co_await-ing this directly in AppleClang
+        auto url = http->makeUrl(QStringLiteral("/repos/%1/issues/%2/timeline").arg(slug).arg(issueNumber), query);
+        QNetworkReply* reply = http->get(url);
+        co_await qCoro(reply).waitForFinished();
+
+        if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+            auto events = QJsonDocument::fromJson(reply->readAll()).array();
+            if (events.isEmpty()) co_return;
+
+            for (auto event : events) {
+                auto eventObj = event.toObject();
+
+                if (eventObj.value("event").toString() == "commented") {
+                    co_yield http->account()->itemDb()->update<GitHubIssueCommentEvent>(http->account(), remote, eventObj);
+                } else {
+                    co_yield http->account()->itemDb()->update<GitHubIssueEvent>(http->account(), remote, eventObj);
+                }
+            }
+        } else {
+            QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
+            throw GitHubException(obj, tr("Could not get issue timeline"));
+        }
     }
 }

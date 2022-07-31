@@ -82,7 +82,10 @@ set(SOURCES
     accounts/github/issues/githubissuelistcontroller.cpp
     accounts/github/issues/githubissuebrowser.cpp accounts/github/issues/githubissuebrowser.ui
     accounts/github/issues/githubissuemodel.cpp
+    accounts/github/issues/githubissueevent.cpp
+    accounts/github/issues/githubissuecommentevent.cpp
     accounts/github/issues/events/githubissuecommentbubble.cpp accounts/github/issues/events/githubissuecommentbubble.ui
+    accounts/github/issues/events/githubissueeventbubble.cpp accounts/github/issues/events/githubissueeventbubble.ui
     accounts/github/pr/githubcreatepullrequestpopover.cpp accounts/github/pr/githubcreatepullrequestpopover.ui
     accounts/github/pr/githubpullrequestapi.cpp
     accounts/github/pr/githubpullrequestlistcontroller.cpp
@@ -192,6 +195,9 @@ set(PRIVATE_HEADERS
     accounts/github/issues/githubissuebrowser.h
     accounts/github/issues/githubissuemodel.h
     accounts/github/issues/events/githubissuecommentbubble.h
+    accounts/github/issues/events/githubissueeventbubble.h
+    accounts/github/issues/githubissueevent.h
+    accounts/github/issues/githubissuecommentevent.h
     accounts/github/pr/githubcreatepullrequestpopover.h
     accounts/github/pr/githubpullrequestapi.h
     accounts/github/pr/githubpullrequestlistcontroller.h

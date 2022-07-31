@@ -2,6 +2,10 @@
 #define GITHUBISSUE_H
 
 #include "../githubitem.h"
+#include <QCoroAsyncGenerator>
+
+class GitHubIssueEvent;
+typedef QSharedPointer<GitHubIssueEvent> GitHubIssueEventPtr;
 
 struct GitHubIssuePrivate;
 class GitHubIssue : public GitHubItem {
@@ -20,6 +24,8 @@ class GitHubIssue : public GitHubItem {
         QString title();
         QString body();
         State state();
+
+        QCoro::AsyncGenerator<GitHubIssueEventPtr> listIssueEvents();
 
     signals:
 
