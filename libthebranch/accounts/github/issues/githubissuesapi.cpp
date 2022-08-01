@@ -26,13 +26,10 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubIssuesApi::listIssues(RemotePtr remo
             {"per_page", "100"                }
         });
 
-        // ?? Looks like some compiler bug prevents us from co_await-ing this directly in AppleClang
-        auto url = http->makeUrl(QStringLiteral("/repos/%1/issues").arg(slug), query);
-        QNetworkReply* reply = http->get(url);
-        co_await qCoro(reply).waitForFinished();
+        auto reply = co_await http->get(http->makeUrl(QStringLiteral("/repos/%1/issues").arg(slug), query));
 
-        if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-            auto issues = QJsonDocument::fromJson(reply->readAll()).array();
+        if (reply.statusCode == 200) {
+            auto issues = QJsonDocument::fromJson(reply.body).array();
             if (issues.isEmpty()) co_return;
 
             for (auto issue : issues) {
@@ -42,7 +39,7 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubIssuesApi::listIssues(RemotePtr remo
                 co_yield ghIssue;
             }
         } else {
-            QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
+            QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
             throw GitHubException(obj, tr("Could not get issues"));
         }
     }
@@ -50,10 +47,10 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubIssuesApi::listIssues(RemotePtr remo
 
 QCoro::Task<GitHubIssuePtr> GitHubIssuesApi::issue(RemotePtr remote, qint64 issueNumber) {
     auto slug = remote->slugForAccount(http->account());
-    QNetworkReply* reply = co_await http->get(QStringLiteral("/repos/%1/issues/%2").arg(slug).arg(issueNumber));
+    auto reply = co_await http->get(QStringLiteral("/repos/%1/issues/%2").arg(slug).arg(issueNumber));
 
-    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-        auto issue = QJsonDocument::fromJson(reply->readAll()).object();
+    if (reply.statusCode == 200) {
+        auto issue = QJsonDocument::fromJson(reply.body).object();
 
         if (issue.contains("pull_request")) {
             co_return http->account()->itemDb()->update<GitHubPullRequest>(http->account(), remote, issue);
@@ -61,7 +58,7 @@ QCoro::Task<GitHubIssuePtr> GitHubIssuesApi::issue(RemotePtr remote, qint64 issu
             co_return http->account()->itemDb()->update<GitHubIssue>(http->account(), remote, issue);
         }
     } else {
-        QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
+        QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
         throw GitHubException(obj, tr("Could not get issues"));
     }
 }
@@ -75,13 +72,10 @@ QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssuesApi::listIssueEvents(Remo
             {"per_page", "100"                }
         });
 
-        // ?? Looks like some compiler bug prevents us from co_await-ing this directly in AppleClang
-        auto url = http->makeUrl(QStringLiteral("/repos/%1/issues/%2/timeline").arg(slug).arg(issueNumber), query);
-        QNetworkReply* reply = http->get(url);
-        co_await qCoro(reply).waitForFinished();
+        auto reply = co_await http->get(http->makeUrl(QStringLiteral("/repos/%1/issues/%2/timeline").arg(slug).arg(issueNumber), query));
 
-        if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-            auto events = QJsonDocument::fromJson(reply->readAll()).array();
+        if (reply.statusCode == 200) {
+            auto events = QJsonDocument::fromJson(reply.body).array();
             if (events.isEmpty()) co_return;
 
             for (auto event : events) {
@@ -94,8 +88,23 @@ QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssuesApi::listIssueEvents(Remo
                 }
             }
         } else {
-            QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
+            QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
             throw GitHubException(obj, tr("Could not get issue timeline"));
         }
+    }
+}
+
+QCoro::Task<> GitHubIssuesApi::postComment(RemotePtr remote, qint64 issueNumber, QString commentBody) {
+    QJsonObject payload;
+    payload.insert("body", commentBody);
+
+    auto slug = remote->slugForAccount(http->account());
+    auto reply = co_await http->post(QStringLiteral("/repos/%1/issues/%2/comments").arg(slug).arg(issueNumber), QJsonDocument(payload).toJson());
+
+    if (reply.statusCode == 201) {
+        co_return;
+    } else {
+        QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
+        throw GitHubException(obj, tr("Could not post comment"));
     }
 }

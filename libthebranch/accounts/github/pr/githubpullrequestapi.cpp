@@ -24,11 +24,11 @@ QCoro::Task<> GitHubPullRequestApi::createPullRequest(RemotePtr remote, BranchPt
     root.insert("body", body);
 
     auto slug = remote->slugForAccount(http->account());
-    QNetworkReply* reply = co_await this->http->post(QStringLiteral("/repos/%1/pulls").arg(slug), QJsonDocument(root).toJson());
-    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 201) {
+    auto reply = co_await this->http->post(QStringLiteral("/repos/%1/pulls").arg(slug), QJsonDocument(root).toJson());
+    if (reply.statusCode == 201) {
         co_return;
     } else {
-        QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
+        QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
         throw GitHubException(obj, tr("Could not create Pull Request"));
     }
 }
@@ -43,13 +43,10 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubPullRequestApi::listPullRequests(Rem
             {"per_page", "10"                 }
         });
 
-        // ?? Looks like some compiler bug prevents us from co_await-ing this directly in AppleClang
-        auto url = http->makeUrl(QStringLiteral("/repos/%1/pulls").arg(slug), query);
-        QNetworkReply* reply = http->get(url);
-        co_await qCoro(reply).waitForFinished();
+        auto reply = co_await http->get(http->makeUrl(QStringLiteral("/repos/%1/pulls").arg(slug), query));
 
-        if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-            auto prs = QJsonDocument::fromJson(reply->readAll()).array();
+        if (reply.statusCode == 200) {
+            auto prs = QJsonDocument::fromJson(reply.body).array();
             if (prs.isEmpty()) co_return;
 
             for (auto pr : prs) {
@@ -57,8 +54,8 @@ QCoro::AsyncGenerator<GitHubIssuePtr> GitHubPullRequestApi::listPullRequests(Rem
                 co_yield ghIssue;
             }
         } else {
-            QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
-            throw GitHubException(obj, tr("Could not create Pull Request"));
+            QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
+            throw GitHubException(obj, tr("Could not get Pull Requests"));
         }
     }
 }

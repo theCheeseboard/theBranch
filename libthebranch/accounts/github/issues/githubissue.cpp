@@ -43,6 +43,10 @@ QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssue::listIssueEvents() {
     return this->account()->issues()->listIssueEvents(this->remote(), d->number);
 }
 
+QCoro::Task<> GitHubIssue::postComment(QString comment) {
+    return this->account()->issues()->postComment(this->remote(), d->number, comment);
+}
+
 QCoro::Task<> GitHubIssue::fetchLatest() {
     this->account()->issues()->issue(this->remote(), d->number);
     co_return;

@@ -27,6 +27,10 @@ class GitHubIssueBrowser : public QWidget {
 
         void on_listView_clicked(const QModelIndex& index);
 
+        void on_commentBox_textChanged();
+
+        QCoro::Task<> on_commentButton_clicked();
+
     private:
         Ui::GitHubIssueBrowser* ui;
         GitHubIssueBrowserPrivate* d;

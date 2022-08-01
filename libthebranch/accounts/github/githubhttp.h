@@ -1,6 +1,7 @@
 #ifndef GITHUBHTTP_H
 #define GITHUBHTTP_H
 
+#include <QCoroTask>
 #include <QException>
 #include <QObject>
 #include <QUrlQuery>
@@ -28,15 +29,24 @@ class GitHubHttp : public QObject {
         explicit GitHubHttp(GitHubAccount* account, QObject* parent = nullptr);
         ~GitHubHttp();
 
+        struct HttpResponse {
+                HttpResponse() = default;
+                HttpResponse(QNetworkReply* reply);
+                HttpResponse(const HttpResponse& other) = default;
+
+                QByteArray body;
+                int statusCode;
+        };
+
         GitHubAccount* account();
 
         QUrl makeUrl(QString path, QUrlQuery query = {});
 
-        QNetworkReply* get(QString path);
-        QNetworkReply* get(QUrl url);
+        QCoro::Task<HttpResponse> get(QString path);
+        QCoro::Task<HttpResponse> get(QUrl url);
 
-        QNetworkReply* post(QString path, QByteArray payload);
-        QNetworkReply* post(QUrl url, QByteArray payload);
+        QCoro::Task<HttpResponse> post(QString path, QByteArray payload);
+        QCoro::Task<HttpResponse> post(QUrl url, QByteArray payload);
 
     signals:
 

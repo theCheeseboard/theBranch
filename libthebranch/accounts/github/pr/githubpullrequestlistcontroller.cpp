@@ -6,6 +6,7 @@
 #include "githubpullrequestapi.h"
 #include "objects/remote.h"
 #include "widgets/repositorybrowserlist.h"
+#include <QPointer>
 #include <QStandardItem>
 #include <QTimer>
 
@@ -46,6 +47,7 @@ QStandardItem* GitHubPullRequestListController::rootItem() {
 }
 
 QCoro::Task<> GitHubPullRequestListController::updateItems() {
+    QPointer<GitHubPullRequestListController> thisPtr = this;
     QList<QStandardItem*> items;
     QCORO_FOREACH(auto issue, d->account->pr()->listPullRequests(d->remote, "open")) {
         auto pr = issue.objectCast<GitHubPullRequest>();
@@ -59,6 +61,7 @@ QCoro::Task<> GitHubPullRequestListController::updateItems() {
         items.append(item);
     }
 
+    if (!thisPtr) co_return;
     d->rootItem->removeRows(0, d->rootItem->rowCount());
     d->rootItem->appendRows(items);
 }

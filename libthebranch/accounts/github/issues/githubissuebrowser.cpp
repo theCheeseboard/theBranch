@@ -1,6 +1,8 @@
 #include "githubissuebrowser.h"
 #include "ui_githubissuebrowser.h"
 
+#include "../githubhttp.h"
+#include "../pr/githubpullrequest.h"
 #include "events/githubissuecommentbubble.h"
 #include "events/githubissueeventbubble.h"
 #include "githubissue.h"
@@ -9,6 +11,7 @@
 #include "githubissuemodel.h"
 #include <QScrollBar>
 #include <QTimer>
+#include <tmessagebox.h>
 
 struct GitHubIssueBrowserPrivate {
         GitHubAccount* account;
@@ -45,6 +48,7 @@ GitHubIssueBrowser::GitHubIssueBrowser(GitHubAccount* account, RemotePtr remote,
     ui->titleLabel_2->setBackButtonShown(true);
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
     ui->stackedWidget->setCurrentWidget(ui->browserPage, false);
+    ui->commentBox->setMinimumHeight(SC_DPI_W(100, this));
 
     d->issues = new GitHubIssueModel(account, remote, isPr);
     ui->listView->setModel(d->issues);
@@ -74,6 +78,7 @@ void GitHubIssueBrowser::openIssue(GitHubIssuePtr issue) {
         widget->deleteLater();
     }
     d->timelineWidgets.clear();
+    ui->commentBox->clear();
 
     d->currentIssue = issue;
     ui->stackedWidget->setCurrentWidget(ui->issuePage);
@@ -81,6 +86,12 @@ void GitHubIssueBrowser::openIssue(GitHubIssuePtr issue) {
     auto* firstCommentBubble = new GitHubIssueCommentBubble(issue);
     ui->timelineLayout->addWidget(firstCommentBubble);
     d->timelineWidgets.append(firstCommentBubble);
+
+    if (issue.objectCast<GitHubPullRequest>()) {
+        ui->mergeButton->setVisible(true);
+    } else {
+        ui->mergeButton->setVisible(false);
+    }
 
     connect(issue.data(), &GitHubIssue::updated, this, [this] {
         readCurrentIssue();
@@ -114,14 +125,21 @@ void GitHubIssueBrowser::readCurrentIssue() {
             ui->openState->setText(tr("Open"));
             pal.setColor(QPalette::Window, QColor(0, 100, 0));
             pal.setColor(QPalette::WindowText, Qt::white);
+            ui->closeButton->setVisible(true);
+            ui->reopenButton->setVisible(false);
             break;
         case GitHubIssue::State::Closed:
             ui->openState->setText(tr("Closed"));
             pal.setColor(QPalette::Window, QColor(200, 0, 0));
             pal.setColor(QPalette::WindowText, Qt::white);
+            ui->closeButton->setVisible(false);
+            ui->reopenButton->setVisible(true);
             break;
         case GitHubIssue::State::Merged:
             ui->openState->setText(tr("Merged"));
+            ui->mergeButton->setVisible(false);
+            ui->closeButton->setVisible(false);
+            ui->reopenButton->setVisible(false);
             break;
     }
     ui->openState->setPalette(pal);
@@ -141,7 +159,10 @@ QCoro::Task<> GitHubIssueBrowser::addItemsIfNeeded() {
         d->addingItems = false;
 
         // Resume reading the current issue if it was cancelled due to items being added
-        if (d->readReqiured) this->readCurrentIssue();
+        if (d->readReqiured) {
+            d->readReqiured = false;
+            this->readCurrentIssue();
+        }
     });
 
     while (ui->leftScrollArea->verticalScrollBar()->value() > ui->leftScrollArea->verticalScrollBar()->maximum() - 300) {
@@ -175,5 +196,30 @@ QCoro::Task<> GitHubIssueBrowser::addItemsIfNeeded() {
         d->timelineWidgets.append(bubble);
 
         d->issueGeneratorIndex++;
+    }
+}
+
+void GitHubIssueBrowser::on_commentBox_textChanged() {
+    ui->commentButton->setEnabled(!ui->commentBox->toPlainText().isEmpty());
+}
+
+QCoro::Task<> GitHubIssueBrowser::on_commentButton_clicked() {
+    ui->commentButton->setEnabled(false);
+    ui->commentBox->setEnabled(false);
+
+    try {
+        co_await d->currentIssue->postComment(ui->commentBox->toPlainText());
+        this->readCurrentIssue();
+        ui->commentBox->clear();
+        ui->commentBox->setEnabled(true);
+    } catch (GitHubException& ex) {
+        auto box = new tMessageBox(this->window());
+        box->setTitleBarText(tr("Could not create comment"));
+        box->setMessageText(ex.error());
+        box->setIcon(QMessageBox::Critical);
+        box->show(true);
+
+        ui->commentButton->setEnabled(true);
+        ui->commentBox->setEnabled(true);
     }
 }

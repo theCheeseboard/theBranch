@@ -9,7 +9,7 @@
 #include <QNetworkReply>
 
 static QRegularExpression sshCloneUrl = QRegularExpression(QRegularExpression::anchoredPattern("git@github\\.com:(\\w+\\/\\w+)(?:\\.git)?"));
-static QRegularExpression pathRegex = QRegularExpression(QRegularExpression::anchoredPattern("\/(\\w+\\/\\w+)(?:\\.git)?"));
+static QRegularExpression pathRegex = QRegularExpression(QRegularExpression::anchoredPattern("\\/(\\w+\\/\\w+)(?:\\.git)?"));
 
 struct GitHubAccountPrivate {
         QString username;
@@ -84,8 +84,8 @@ GitHubIssuesApi* GitHubAccount::issues() {
 }
 
 QCoro::Task<bool> GitHubAccount::testConnection() {
-    QNetworkReply* reply = co_await d->http->get("/user");
-    co_return reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
+    auto reply = co_await d->http->get("/user");
+    co_return reply.statusCode == 200;
 }
 
 void GitHubAccount::init() {

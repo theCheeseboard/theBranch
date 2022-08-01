@@ -108,6 +108,7 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
 
                     // This remote is a GitHub remote
                     auto upstreamOfHead = repo->head()->asBranch()->upstream();
+                    if (!upstreamOfHead) continue;
                     if (upstreamOfHead->remoteName() != remote->name()) continue;
 
                     // This branch has an upstream on the same remote

@@ -6,6 +6,7 @@
 #include "githubissuesapi.h"
 #include "objects/remote.h"
 #include "widgets/repositorybrowserlist.h"
+#include <QPointer>
 #include <QStandardItem>
 #include <QTimer>
 
@@ -46,6 +47,7 @@ QStandardItem* GitHubIssueListController::rootItem() {
 }
 
 QCoro::Task<> GitHubIssueListController::updateItems() {
+    QPointer<GitHubIssueListController> thisPtr = this;
     QList<QStandardItem*> items;
     QCORO_FOREACH(auto issue, d->account->issues()->listIssues(d->remote, "open")) {
         auto item = new QStandardItem(QStringLiteral("%1: %2").arg(issue->number()).arg(issue->title()));
@@ -58,6 +60,7 @@ QCoro::Task<> GitHubIssueListController::updateItems() {
         items.append(item);
     }
 
+    if (!thisPtr) co_return;
     d->rootItem->removeRows(0, d->rootItem->rowCount());
     d->rootItem->appendRows(items);
     co_return;

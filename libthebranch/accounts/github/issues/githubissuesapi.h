@@ -20,6 +20,7 @@ class GitHubIssuesApi {
         QCoro::Task<GitHubIssuePtr> issue(RemotePtr remote, qint64 issueNumber);
 
         QCoro::AsyncGenerator<GitHubIssueEventPtr> listIssueEvents(RemotePtr remote, qint64 issueNumber);
+        QCoro::Task<> postComment(RemotePtr remote, qint64 issueNumber, QString commentBody);
 
     private:
         GitHubHttp* http;

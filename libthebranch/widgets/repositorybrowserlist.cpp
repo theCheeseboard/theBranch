@@ -197,12 +197,14 @@ void RepositoryBrowserList::updateData() {
                     d->ghIssueControllers.removeAll(issuesController);
                 });
                 d->issuesParent->appendRow(issuesController->rootItem());
+                d->ghIssueControllers.append(issuesController);
 
                 auto prController = new GitHubPullRequestListController(gh, remote);
                 connect(prController, &GitHubPullRequestListController::destroyed, this, [prController, this] {
                     d->ghPrControllers.removeAll(prController);
                 });
                 d->prsParent->appendRow(prController->rootItem());
+                d->ghPrControllers.append(prController);
             }
         }
     }

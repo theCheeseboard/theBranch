@@ -26,6 +26,7 @@ class GitHubIssue : public GitHubItem {
         State state();
 
         QCoro::AsyncGenerator<GitHubIssueEventPtr> listIssueEvents();
+        QCoro::Task<> postComment(QString comment);
 
     signals:
 
