@@ -48,6 +48,9 @@ class GitHubHttp : public QObject {
         QCoro::Task<HttpResponse> post(QString path, QByteArray payload);
         QCoro::Task<HttpResponse> post(QUrl url, QByteArray payload);
 
+        QCoro::Task<HttpResponse> patch(QString path, QByteArray payload);
+        QCoro::Task<HttpResponse> patch(QUrl url, QByteArray payload);
+
     signals:
 
     private:

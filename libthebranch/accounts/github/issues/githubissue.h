@@ -4,8 +4,10 @@
 #include "../githubitem.h"
 #include <QCoroAsyncGenerator>
 
+class GitHubUser;
 class GitHubIssueEvent;
 typedef QSharedPointer<GitHubIssueEvent> GitHubIssueEventPtr;
+typedef QSharedPointer<GitHubUser> GitHubUserPtr;
 
 struct GitHubIssuePrivate;
 class GitHubIssue : public GitHubItem {
@@ -24,9 +26,11 @@ class GitHubIssue : public GitHubItem {
         QString title();
         QString body();
         State state();
+        GitHubUserPtr user();
 
         QCoro::AsyncGenerator<GitHubIssueEventPtr> listIssueEvents();
         QCoro::Task<> postComment(QString comment);
+        QCoro::Task<> setState(State state);
 
     signals:
 

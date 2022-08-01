@@ -23,6 +23,7 @@ class GitHubItemDatabase : public QObject {
 
         GitHubItemPtr item(QString nodeId);
         template<IsGithubItem T> QSharedPointer<T> update(GitHubAccount* account, RemotePtr remote, QJsonObject data) {
+            if (!data.contains("node_id")) return nullptr;
             auto nodeId = data.value("node_id").toString();
 
             QSharedPointer<T> type;

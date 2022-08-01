@@ -151,6 +151,12 @@ void GitHubIssueBrowser::readCurrentIssue() {
     this->addItemsIfNeeded();
 }
 
+void GitHubIssueBrowser::setActionsEnabled(bool enabled) {
+    ui->mergeButton->setEnabled(enabled);
+    ui->closeButton->setEnabled(enabled);
+    ui->reopenButton->setEnabled(enabled);
+}
+
 QCoro::Task<> GitHubIssueBrowser::addItemsIfNeeded() {
     if (d->addingItems) co_return;
 
@@ -221,5 +227,39 @@ QCoro::Task<> GitHubIssueBrowser::on_commentButton_clicked() {
 
         ui->commentButton->setEnabled(true);
         ui->commentBox->setEnabled(true);
+    }
+}
+
+QCoro::Task<> GitHubIssueBrowser::on_closeButton_clicked() {
+    setActionsEnabled(false);
+    try {
+        co_await d->currentIssue->setState(GitHubIssue::State::Closed);
+        this->readCurrentIssue();
+        setActionsEnabled(true);
+    } catch (GitHubException& ex) {
+        auto box = new tMessageBox(this->window());
+        box->setTitleBarText(tr("Could not close ticket"));
+        box->setMessageText(ex.error());
+        box->setIcon(QMessageBox::Critical);
+        box->show(true);
+
+        setActionsEnabled(true);
+    }
+}
+
+QCoro::Task<> GitHubIssueBrowser::on_reopenButton_clicked() {
+    setActionsEnabled(false);
+    try {
+        co_await d->currentIssue->setState(GitHubIssue::State::Open);
+        this->readCurrentIssue();
+        setActionsEnabled(true);
+    } catch (GitHubException& ex) {
+        auto box = new tMessageBox(this->window());
+        box->setTitleBarText(tr("Could not reopen ticket"));
+        box->setMessageText(ex.error());
+        box->setIcon(QMessageBox::Critical);
+        box->show(true);
+
+        setActionsEnabled(true);
     }
 }

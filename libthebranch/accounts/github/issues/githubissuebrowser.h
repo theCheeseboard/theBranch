@@ -31,11 +31,16 @@ class GitHubIssueBrowser : public QWidget {
 
         QCoro::Task<> on_commentButton_clicked();
 
+        QCoro::Task<> on_closeButton_clicked();
+
+        QCoro::Task<> on_reopenButton_clicked();
+
     private:
         Ui::GitHubIssueBrowser* ui;
         GitHubIssueBrowserPrivate* d;
 
         void readCurrentIssue();
+        void setActionsEnabled(bool enabled);
         QCoro::Task<> addItemsIfNeeded();
 };
 

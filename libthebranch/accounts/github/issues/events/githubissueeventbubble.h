@@ -18,9 +18,16 @@ class GitHubIssueEventBubble : public QWidget {
         explicit GitHubIssueEventBubble(GitHubIssueEventPtr item, QWidget* parent = nullptr);
         ~GitHubIssueEventBubble();
 
+    private slots:
+        void on_descriptionLabel_linkActivated(const QString& link);
+
     private:
         Ui::GitHubIssueEventBubble* ui;
         GitHubIssueEventBubblePrivate* d;
+
+        static QString embolden(QString text);
+        static QString link(QString text, QUrl link);
+        static QString commit(QString id);
 
         void updateData();
 };

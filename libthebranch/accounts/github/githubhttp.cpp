@@ -78,6 +78,18 @@ QCoro::Task<GitHubHttp::HttpResponse> GitHubHttp::post(QUrl url, QByteArray payl
     co_return reply;
 }
 
+QCoro::Task<GitHubHttp::HttpResponse> GitHubHttp::patch(QString path, QByteArray payload) {
+    return patch(makeUrl(path), payload);
+}
+
+QCoro::Task<GitHubHttp::HttpResponse> GitHubHttp::patch(QUrl url, QByteArray payload) {
+    QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("%1/%2").arg(tApplication::applicationName(), tApplication::applicationVersion()));
+    req.setRawHeader("Authorization", QByteArray("Basic ").append(QStringLiteral("%1:%2").arg(d->account->username(), d->account->token()).toUtf8().toBase64()));
+    auto* reply = co_await d->mgr.sendCustomRequest(req, "PATCH", payload);
+    co_return reply;
+}
+
 GitHubException::GitHubException(QString error) {
     this->_error = error;
 }

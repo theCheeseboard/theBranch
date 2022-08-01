@@ -81,7 +81,7 @@ QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssuesApi::listIssueEvents(Remo
             for (auto event : events) {
                 auto eventObj = event.toObject();
 
-                if (eventObj.value("event").toString() == "commented") {
+                if (QStringList({"commented", "reviewed"}).contains(eventObj.value("event").toString())) {
                     co_yield http->account()->itemDb()->update<GitHubIssueCommentEvent>(http->account(), remote, eventObj);
                 } else {
                     co_yield http->account()->itemDb()->update<GitHubIssueEvent>(http->account(), remote, eventObj);
@@ -91,6 +91,24 @@ QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssuesApi::listIssueEvents(Remo
             QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
             throw GitHubException(obj, tr("Could not get issue timeline"));
         }
+    }
+}
+
+QCoro::Task<> GitHubIssuesApi::updateIssue(RemotePtr remote, qint64 issueNumber, QJsonObject fieldsToUpdate) {
+    auto slug = remote->slugForAccount(http->account());
+    auto reply = co_await http->patch(QStringLiteral("/repos/%1/issues/%2").arg(slug).arg(issueNumber), QJsonDocument(fieldsToUpdate).toJson());
+
+    if (reply.statusCode == 200) {
+        auto issue = QJsonDocument::fromJson(reply.body).object();
+
+        if (issue.contains("pull_request")) {
+            http->account()->itemDb()->update<GitHubPullRequest>(http->account(), remote, issue);
+        } else {
+            http->account()->itemDb()->update<GitHubIssue>(http->account(), remote, issue);
+        }
+    } else {
+        QJsonObject obj = QJsonDocument::fromJson(reply.body).object();
+        throw GitHubException(obj, tr("Could not update issue"));
     }
 }
 

@@ -11,6 +11,7 @@ class GitHubIssueCommentEvent : public GitHubIssueEvent {
         ~GitHubIssueCommentEvent();
 
         QString body();
+        GitHubUserPtr user();
 
     signals:
 

@@ -3,6 +3,9 @@
 
 #include "../githubitem.h"
 
+class GitHubUser;
+typedef QSharedPointer<GitHubUser> GitHubUserPtr;
+
 struct GitHubIssueEventPrivate;
 class GitHubIssueEvent : public GitHubItem {
         Q_OBJECT
@@ -11,6 +14,8 @@ class GitHubIssueEvent : public GitHubItem {
         ~GitHubIssueEvent();
 
         QString event();
+        QVariant eventProperty(QString property);
+        GitHubUserPtr actor();
 
     signals:
 

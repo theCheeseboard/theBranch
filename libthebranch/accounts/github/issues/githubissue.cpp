@@ -1,7 +1,9 @@
 #include "githubissue.h"
 
 #include "../githubaccount.h"
+#include "../githubitemdatabase.h"
 #include "../pr/githubpullrequest.h"
+#include "../users/githubuser.h"
 #include "githubissuesapi.h"
 #include <QDesktopServices>
 #include <QJsonObject>
@@ -12,6 +14,7 @@ struct GitHubIssuePrivate {
         QString title;
         QString body;
         GitHubIssue::State state;
+        GitHubUserPtr user;
 };
 
 GitHubIssue::GitHubIssue(GitHubAccount* account, RemotePtr remote) :
@@ -39,6 +42,10 @@ GitHubIssue::State GitHubIssue::state() {
     return d->state;
 }
 
+GitHubUserPtr GitHubIssue::user() {
+    return d->user;
+}
+
 QCoro::AsyncGenerator<GitHubIssueEventPtr> GitHubIssue::listIssueEvents() {
     return this->account()->issues()->listIssueEvents(this->remote(), d->number);
 }
@@ -47,8 +54,16 @@ QCoro::Task<> GitHubIssue::postComment(QString comment) {
     return this->account()->issues()->postComment(this->remote(), d->number, comment);
 }
 
+QCoro::Task<> GitHubIssue::setState(State state) {
+    if (state == State::Merged) co_return; // This doesn't make sense
+    QJsonObject fieldsToUpdate = {
+        {"state", state == State::Open ? "open" : "closed"}
+    };
+    co_await this->account()->issues()->updateIssue(this->remote(), d->number, fieldsToUpdate);
+}
+
 QCoro::Task<> GitHubIssue::fetchLatest() {
-    this->account()->issues()->issue(this->remote(), d->number);
+    co_await this->account()->issues()->issue(this->remote(), d->number);
     co_return;
 }
 
@@ -64,6 +79,7 @@ void GitHubIssue::update(QJsonObject data) {
         d->state = State::Closed;
     }
 
+    d->user = this->account()->itemDb()->update<GitHubUser>(this->account(), this->remote(), data.value("user").toObject());
     GitHubItem::update(data);
 }
 
