@@ -55,6 +55,33 @@ void GitHubIssueEventBubble::updateData() {
         } else {
             ui->descriptionLabel->setText(tr("Assigned to %1 by %2").arg(embolden(assignee->login()), embolden(d->item->actor()->login())));
         }
+    } else if (event == "unassigned") {
+        auto assignee = d->item->account()->itemDb()->update<GitHubUser>(d->item->account(), d->item->remote(), d->item->eventProperty("assignee").toJsonObject());
+        if (assignee == d->item->actor()) {
+            ui->descriptionLabel->setText(tr("Unassigned to %1 by themselves").arg(embolden(assignee->login())));
+        } else {
+            ui->descriptionLabel->setText(tr("Unassigned to %1 by %2").arg(embolden(assignee->login()), embolden(d->item->actor()->login())));
+        }
+    } else if (event == "locked") {
+        ui->descriptionLabel->setText(tr("Locked by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "unlocked") {
+        ui->descriptionLabel->setText(tr("Unlocked by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "head_ref_deleted") {
+        ui->descriptionLabel->setText(tr("Source branch deleted by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "head_ref_restored") {
+        ui->descriptionLabel->setText(tr("Source branch restored by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "head_ref_force_pushed") {
+        ui->descriptionLabel->setText(tr("Source branch force pushed to by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "pinned") {
+        ui->descriptionLabel->setText(tr("Pinned by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "unpinned") {
+        ui->descriptionLabel->setText(tr("Unpinned by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "ready_for_review") {
+        ui->descriptionLabel->setText(tr("Marked ready for review by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "convert_to_draft") {
+        ui->descriptionLabel->setText(tr("Converted to draft by %1").arg(embolden(d->item->actor()->login())));
+    } else if (event == "deployed") {
+        ui->descriptionLabel->setText(tr("Deployed by %1").arg(embolden(d->item->actor()->login())));
     } else {
         ui->descriptionLabel->setText(d->item->event());
     }

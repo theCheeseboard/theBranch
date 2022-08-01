@@ -125,6 +125,7 @@ void GitHubIssueBrowser::readCurrentIssue() {
             ui->openState->setText(tr("Open"));
             pal.setColor(QPalette::Window, QColor(0, 100, 0));
             pal.setColor(QPalette::WindowText, Qt::white);
+            ui->mergeButton->setVisible(!d->currentIssue.objectCast<GitHubPullRequest>().isNull());
             ui->closeButton->setVisible(true);
             ui->reopenButton->setVisible(false);
             break;
@@ -132,6 +133,7 @@ void GitHubIssueBrowser::readCurrentIssue() {
             ui->openState->setText(tr("Closed"));
             pal.setColor(QPalette::Window, QColor(200, 0, 0));
             pal.setColor(QPalette::WindowText, Qt::white);
+            ui->mergeButton->setVisible(false);
             ui->closeButton->setVisible(false);
             ui->reopenButton->setVisible(true);
             break;
