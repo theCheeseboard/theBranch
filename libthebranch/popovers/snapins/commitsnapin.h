@@ -1,9 +1,9 @@
 #ifndef COMMITSNAPIN_H
 #define COMMITSNAPIN_H
 
+#include "libthebranch_global.h"
 #include "objects/forward_declares.h"
 #include "snapin.h"
-#include "libthebranch_global.h"
 
 namespace Ui {
     class CommitSnapIn;
@@ -26,11 +26,18 @@ class LIBTHEBRANCH_EXPORT CommitSnapIn : public SnapIn {
 
         void on_commitButton_2_clicked();
 
+        void on_promoteLabel_linkActivated(const QString& link);
+
+        void on_selectAllModifiedCheckbox_stateChanged(int arg1);
+
+        void on_viewUntrackedCheckbox_toggled(bool checked);
+
     private:
         Ui::CommitSnapIn* ui;
         CommitSnapInPrivate* d;
 
         void performCommit();
+        void updateState();
 };
 
 #endif // COMMITSNAPIN_H

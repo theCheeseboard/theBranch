@@ -50,6 +50,8 @@ class StatusItemListFilterView : public QSortFilterProxyModel {
 
         void setFlagFilters(int flagFilters);
 
+        bool acceptRowWithFlags(int flagFilters, int source_row, const QModelIndex& source_parent) const;
+
     private:
         StatusItemListFilterViewPrivate* d;
 

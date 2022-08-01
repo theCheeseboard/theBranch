@@ -18,7 +18,11 @@ struct CommitSnapInPrivate {
         StatusItemListFilterView* statusModelFilter;
 
         LGSignaturePtr signature;
+
+        static int StandardFlagFilters;
 };
+
+int CommitSnapInPrivate::StandardFlagFilters = Repository::StatusItem::Modified | Repository::StatusItem::Renamed | Repository::StatusItem::Deleted | Repository::StatusItem::Conflicting;
 
 CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     SnapIn(parent),
@@ -42,11 +46,15 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
 
     d->statusModelFilter = new StatusItemListFilterView(this);
     d->statusModelFilter->setSourceModel(d->statusModel);
-    d->statusModelFilter->setFlagFilters(Repository::StatusItem::Modified | Repository::StatusItem::Renamed | Repository::StatusItem::Deleted | Repository::StatusItem::Conflicting);
+    d->statusModelFilter->setFlagFilters(CommitSnapInPrivate::StandardFlagFilters);
     ui->modifiedFilesEdit->setModel(d->statusModelFilter);
     ui->modifiedFilesEdit->setItemDelegate(new StatusItemListDelegate(this));
 
-    connect(d->statusModel, &StatusItemListModel::checkedItemsChanged, this, [=] {
+    connect(d->statusModel, &StatusItemListModel::dataChanged, this, [this] {
+        this->updateState();
+    });
+    connect(d->statusModel, &StatusItemListModel::checkedItemsChanged, this, [this] {
+        this->updateState();
         int count = d->statusModel->checkedItems().count();
         ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
         ui->commitButton->setEnabled(count != 0);
@@ -55,6 +63,8 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     int count = d->statusModel->checkedItems().count();
     ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
     ui->commitButton->setEnabled(count != 0);
+
+    this->updateState();
 }
 
 CommitSnapIn::~CommitSnapIn() {
@@ -115,6 +125,30 @@ void CommitSnapIn::performCommit() {
     emit done();
 }
 
+void CommitSnapIn::updateState() {
+    bool haveSelected = false;
+    bool haveUnselected = false;
+
+    auto count = 0;
+    for (auto i = 0; i < d->statusModel->rowCount(); i++) {
+        if (d->statusModelFilter->acceptRowWithFlags(CommitSnapInPrivate::StandardFlagFilters, i, QModelIndex())) {
+            count++;
+            auto checkState = d->statusModel->index(i).data(Qt::CheckStateRole).value<Qt::CheckState>();
+            if (checkState == Qt::Checked) haveSelected = true;
+            if (checkState == Qt::Unchecked) haveUnselected = true;
+        }
+    }
+    ui->selectAllModifiedCheckbox->setText(tr("Select %n modified files", nullptr, count));
+
+    if (haveSelected && haveUnselected) {
+        ui->selectAllModifiedCheckbox->setCheckState(Qt::PartiallyChecked);
+    } else if (haveSelected) {
+        ui->selectAllModifiedCheckbox->setCheckState(Qt::Checked);
+    } else {
+        ui->selectAllModifiedCheckbox->setCheckState(Qt::Unchecked);
+    }
+}
+
 void CommitSnapIn::on_titleLabel_2_backButtonClicked() {
     ui->stackedWidget->setCurrentWidget(ui->commitPage);
 }
@@ -137,4 +171,25 @@ void CommitSnapIn::on_commitButton_2_clicked() {
     LGRepositoryPtr repo = d->repository->git_repository();
     d->signature = LGSignature::signatureForNow(ui->nameBox->text(), ui->emailBox->text());
     performCommit();
+}
+
+void CommitSnapIn::on_promoteLabel_linkActivated(const QString& link) {
+}
+
+void CommitSnapIn::on_selectAllModifiedCheckbox_stateChanged(int arg1) {
+    if (arg1 == Qt::PartiallyChecked) return;
+
+    for (auto i = 0; i < d->statusModel->rowCount(); i++) {
+        if (d->statusModelFilter->acceptRowWithFlags(CommitSnapInPrivate::StandardFlagFilters, i, QModelIndex())) {
+            d->statusModel->setData(d->statusModel->index(i, 0), arg1, Qt::CheckStateRole);
+        }
+    }
+
+    ui->selectAllModifiedCheckbox->setTristate(false);
+}
+
+void CommitSnapIn::on_viewUntrackedCheckbox_toggled(bool checked) {
+    int flagFilters = CommitSnapInPrivate::StandardFlagFilters;
+    if (checked) flagFilters |= Repository::StatusItem::New;
+    d->statusModelFilter->setFlagFilters(flagFilters);
 }

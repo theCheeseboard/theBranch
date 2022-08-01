@@ -77,15 +77,19 @@ void StatusItemListFilterView::setFlagFilters(int flagFilters) {
     invalidateFilter();
 }
 
-bool StatusItemListFilterView::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const {
+bool StatusItemListFilterView::acceptRowWithFlags(int flagFilters, int source_row, const QModelIndex& source_parent) const {
     QModelIndex index = sourceModel()->index(source_row, 0, source_parent);
     int status = index.data(StatusItemListModel::StatusRole).toInt();
 
     for (int statusFlag = Repository::StatusItem::FirstStatusFlag; statusFlag <= Repository::StatusItem::LastStatusFlag; statusFlag <<= 1) {
-        if (d->flagFilters & statusFlag && status & statusFlag) return true;
+        if (flagFilters & statusFlag && status & statusFlag) return true;
     }
 
     return false;
+}
+
+bool StatusItemListFilterView::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const {
+    return acceptRowWithFlags(d->flagFilters, source_row, source_parent);
 }
 
 StatusItemListDelegate::StatusItemListDelegate(QObject* parent) :
