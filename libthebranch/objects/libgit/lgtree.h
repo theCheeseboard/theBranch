@@ -15,6 +15,8 @@ class LGTree : public QObject,
 
         git_tree* gitTree();
 
+        LGObjectPtr objectForPath(LGRepositoryPtr repo, QString path);
+
     signals:
 
     private:

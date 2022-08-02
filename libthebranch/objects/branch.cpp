@@ -33,7 +33,7 @@ ReferencePtr Branch::toReference() {
 CommitPtr Branch::lastCommit() {
     auto ref = this->toReference()->git_reference();
     auto oid = ref->resolve()->target();
-    return Commit::commitForLgCommit(LGCommit::lookup(d->repo, oid));
+    return Commit::commitForLgCommit(d->repo, LGCommit::lookup(d->repo, oid));
 }
 
 QString Branch::name() {

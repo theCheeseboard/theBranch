@@ -6,10 +6,16 @@ struct LGOidPrivate {
         ::git_oid git_oid;
 };
 
-LGOid::LGOid(struct git_oid git_oid) :
+LGOid::LGOid(git_oid git_oid) :
     QObject{nullptr} {
     d = new LGOidPrivate;
-    d->git_oid = git_oid;
+    git_oid_cpy(&d->git_oid, &git_oid);
+}
+
+LGOid::LGOid(const git_oid* git_oid) :
+    QObject{nullptr} {
+    d = new LGOidPrivate;
+    git_oid_cpy(&d->git_oid, git_oid);
 }
 
 LGOid::~LGOid() {

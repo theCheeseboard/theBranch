@@ -33,6 +33,8 @@ set(SOURCES
     objects/rebase.cpp
     objects/stashesmodel.cpp
     objects/stash.cpp
+    objects/tree.cpp
+    objects/blob.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -109,6 +111,8 @@ set(SOURCES
     objects/libgit/lgremote.cpp
     objects/libgit/lgactiveremote.cpp
     objects/libgit/lgstash.cpp
+    objects/libgit/lgobject.cpp
+    objects/libgit/lgblob.cpp
 )
 
 set(HEADERS
@@ -132,6 +136,8 @@ set(HEADERS
     objects/rebase.h
     objects/stashesmodel.h
     objects/stash.h
+    objects/tree.h
+    objects/blob.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -177,8 +183,10 @@ set(PRIVATE_HEADERS
     objects/libgit/lgindex.h
     objects/libgit/lgtree.h
     objects/libgit/lgremote.h
+    objects/libgit/lgobject.h
     objects/libgit/lgactiveremote.h
     objects/libgit/lgstash.h
+    objects/libgit/lgblob.h
     widgets/conflictresolution/conflictresolutionwidget.h
     widgets/conflictresolution/textconflictresolution.h
 

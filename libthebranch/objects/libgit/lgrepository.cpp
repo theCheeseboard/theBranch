@@ -2,6 +2,7 @@
 #include "lgremote.h"
 
 #include "lgactiveremote.h"
+#include "lgblob.h"
 #include "lgbranch.h"
 #include "lgcommit.h"
 #include "lgindex.h"
@@ -122,6 +123,12 @@ QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
     auto [exitCode, output] = co_await this->runGit(args);
 
     tDebug("LGRepository") << output;
+}
+
+LGBlobPtr LGRepository::lookupBlob(LGOidPtr oid) {
+    git_blob* blob;
+    if (git_blob_lookup(&blob, d->gitRepository, &oid->gitOid()) != 0) return nullptr;
+    return (new LGBlob(blob))->sharedFromThis();
 }
 
 LGSignaturePtr LGRepository::defaultSignature() {

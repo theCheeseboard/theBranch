@@ -3,12 +3,16 @@
 #include "pushsnapin.h"
 #include "ui_commitsnapin.h"
 
+#include "objects/blob.h"
+#include "objects/commit.h"
 #include "objects/libgit/lgcommit.h"
 #include "objects/libgit/lgindex.h"
 #include "objects/libgit/lgreference.h"
 #include "objects/libgit/lgrepository.h"
 #include "objects/libgit/lgsignature.h"
+#include "objects/reference.h"
 #include "objects/statusitemlistmodel.h"
+#include "objects/tree.h"
 #include <tcontentsizer.h>
 #include <terrorflash.h>
 
@@ -37,6 +41,7 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     libContemporaryCommon::fixateHeight(ui->commitMessageEdit, [=] {
         return SC_DPI_W(100, this);
     });
+    ui->textDiffPage->setReadOnly(true);
     new tContentSizer(ui->signatureWidget);
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
@@ -64,7 +69,10 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
     ui->commitButton->setEnabled(count != 0);
 
+    connect(ui->modifiedFilesEdit->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CommitSnapIn::updateSelection);
+
     this->updateState();
+    this->updateSelection();
 }
 
 CommitSnapIn::~CommitSnapIn() {
@@ -146,6 +154,34 @@ void CommitSnapIn::updateState() {
         ui->selectAllModifiedCheckbox->setCheckState(Qt::Checked);
     } else {
         ui->selectAllModifiedCheckbox->setCheckState(Qt::Unchecked);
+    }
+}
+
+void CommitSnapIn::updateSelection() {
+    auto selection = ui->modifiedFilesEdit->selectionModel()->selectedIndexes();
+    if (selection.isEmpty()) {
+        ui->diffStack->setCurrentWidget(ui->noFilePage);
+    } else {
+        auto first = selection.first();
+        auto path = first.data(StatusItemListModel::PathRole).toString();
+
+        auto commit = d->repository->head()->asCommit();
+        auto tree = commit->tree();
+        auto blob = tree->blobForPath(path);
+
+        QFile file(QDir(d->repository->repositoryPath()).filePath(path));
+        file.open(QFile::ReadOnly);
+        auto localChanges = file.readAll();
+        file.close();
+
+        if (blob) {
+            ui->textDiffPage->setTitles(commit->shortCommitHash(), tr("Local Changes"));
+            ui->textDiffPage->loadDiff(blob->contents(), localChanges);
+        } else {
+            // File is untracked
+            ui->textDiffPage->loadDiff("", localChanges);
+        }
+        ui->diffStack->setCurrentWidget(ui->textDiffPage);
     }
 }
 

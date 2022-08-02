@@ -12,6 +12,7 @@ class Reference : public QObject,
         ~Reference();
 
         BranchPtr asBranch();
+        CommitPtr asCommit();
 
         LGReferencePtr git_reference();
 

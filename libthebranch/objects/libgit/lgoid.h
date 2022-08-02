@@ -11,6 +11,7 @@ class LGOid : public QObject,
         Q_OBJECT
     public:
         explicit LGOid(git_oid git_oid);
+        explicit LGOid(const git_oid* git_oid);
         ~LGOid();
 
         bool equal(LGOidPtr other);

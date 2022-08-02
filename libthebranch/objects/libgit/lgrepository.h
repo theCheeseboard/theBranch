@@ -45,6 +45,8 @@ class LGRepository : public QObject,
         LGCommitPtr lookupCommit(LGOidPtr oid);
         QCoro::Task<> commit(QString message, LGSignaturePtr committer);
 
+        LGBlobPtr lookupBlob(LGOidPtr oid);
+
         LGSignaturePtr defaultSignature();
 
         ErrorResponse checkoutTree(LGReferencePtr revision, QVariantMap options);

@@ -56,7 +56,7 @@ void CommitModel::reloadData() {
     QList<LGOidPtr> oids = revwalk->walk();
     for (LGOidPtr oid : oids) {
         LGCommitPtr commit = LGCommit::lookup(d->repo->git_repository(), oid);
-        commits.append(Commit::commitForLgCommit(commit)->sharedFromThis());
+        commits.append(Commit::commitForLgCommit(d->repo->git_repository(), commit)->sharedFromThis());
     }
 
     d->commits = commits;

@@ -1,7 +1,9 @@
 #include "reference.h"
 
 #include "branch.h"
+#include "commit.h"
 #include "libgit/lgbranch.h"
+#include "libgit/lgcommit.h"
 #include "libgit/lgreference.h"
 
 struct ReferencePrivate {
@@ -23,6 +25,11 @@ BranchPtr Reference::asBranch() {
         return Branch::branchForLgBranch(d->repo, (new LGBranch(d->reference->dup()->takeGitReference()))->sharedFromThis());
     }
     return nullptr;
+}
+
+CommitPtr Reference::asCommit() {
+    auto oid = d->reference->resolve()->target();
+    return Commit::commitForLgCommit(d->repo, LGCommit::lookup(d->repo, oid));
 }
 
 LGReferencePtr Reference::git_reference() {

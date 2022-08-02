@@ -201,7 +201,55 @@
           </widget>
          </item>
          <item>
-          <widget class="QWidget" name="widget_2" native="true"/>
+          <widget class="tStackedWidget" name="diffStack">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <widget class="TextMergeTool" name="textDiffPage">
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="noFilePage">
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>No File Selected</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
          </item>
         </layout>
        </item>
@@ -338,6 +386,12 @@
    <class>tSubtitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">tsubtitlelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TextMergeTool</class>
+   <extends>QWidget</extends>
+   <header location="global">merge/textmergetool.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

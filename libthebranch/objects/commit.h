@@ -19,6 +19,8 @@ class Commit : public QObject,
         QString shortCommitHash();
         QString authorName();
 
+        TreePtr tree();
+
         QList<CommitPtr> parents();
 
     signals:
@@ -27,7 +29,8 @@ class Commit : public QObject,
         friend CommitModel;
         friend Repository;
         friend Branch;
-        static CommitPtr commitForLgCommit(LGCommitPtr commit);
+        friend Reference;
+        static CommitPtr commitForLgCommit(LGRepositoryPtr repo, LGCommitPtr commit);
         LGCommitPtr gitCommit();
 
     private:
