@@ -1,6 +1,8 @@
 #include "index.h"
 
 #include "libgit/lgindex.h"
+#include "libgit/lgrepository.h".h "
+#include "repository.h"
 #include <git2.h>
 
 struct IndexPrivate {
@@ -22,6 +24,23 @@ bool Index::hasConflicts() {
 
 void Index::conflictCleanup() {
     d->index->conflictCleanup();
+}
+
+bool Index::hasChangesFromWorkdir(RepositoryPtr repo) {
+    git_diff* diff;
+    if (git_diff_index_to_workdir(&diff, repo->git_repository()->gitRepository(), d->index->gitIndex(), nullptr) != 0) {
+        return true;
+    }
+
+    git_diff_stats* stats;
+    git_diff_get_stats(&stats, diff);
+
+    auto changedFiles = git_diff_stats_files_changed(stats);
+
+    git_diff_stats_free(stats);
+    git_diff_free(diff);
+
+    return changedFiles > 0;
 }
 
 QList<Index::IndexItem> Index::items() {

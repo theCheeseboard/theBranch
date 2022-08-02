@@ -1,6 +1,7 @@
 #include "conflictresolutionsnapin.h"
 #include "ui_conflictresolutionsnapin.h"
 
+#include "objects/cherrypick.h"
 #include "objects/gitoperation.h"
 #include "objects/libgit/lgindex.h"
 #include "objects/libgit/lgrepository.h"
@@ -57,6 +58,13 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
         ui->doAbortButton->setText(tr("Abort Rebase"));
         ui->completeButton->setText(tr("Rebase"));
         ui->completeButton->setIcon(QIcon::fromTheme("vcs-rebase"));
+    } else if (gitOperation.objectCast<CherryPick>()) {
+        ui->abortExplainText->setText(tr("Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started cherry picking, and will also abort the cherry pick operation. Any conflict resolution will be lost."));
+        ui->continueConflictResolutionButton->setText(tr("Continue Cherry Pick"));
+        ui->continueConflictResolutionButton->setIcon(QIcon::fromTheme("vcs-cherry-pick"));
+        ui->doAbortButton->setText(tr("Abort Cherry Pick"));
+        ui->completeButton->setText(tr("Cherry Pick"));
+        ui->completeButton->setIcon(QIcon::fromTheme("vcs-cherry-pick"));
     }
 
     StatusItemListModel* statusModel = new StatusItemListModel(this);

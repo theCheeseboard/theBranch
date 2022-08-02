@@ -24,10 +24,12 @@
 #include "accounts/github/pr/githubcreatepullrequestpopover.h"
 #include "branch.h"
 #include "branchmodel.h"
+#include "cherrypick.h"
 #include "commit.h"
 #include "merge.h"
 #include "popovers/newbranchpopover.h"
 #include "popovers/snapinpopover.h"
+#include "popovers/snapins/cherrypicksnapin.h"
 #include "popovers/snapins/conflictresolutionsnapin.h"
 #include "popovers/snapins/mergesnapin.h"
 #include "popovers/snapins/rebasesnapin.h"
@@ -57,15 +59,10 @@ void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryP
     });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
-    menu->addAction(QIcon::fromTheme("vcs-cherry-pick"), tr("Cherry Pick"), parent, [parent, commit] {
-        tMessageBox* box = new tMessageBox(parent->window());
-        box->setTitleBarText(tr("Kersen plukken?"));
-        box->setMessageText(tr("Wil je %1 als kers op de taart kiezen bovenop %2?").arg(QLocale().quoteString(commit->commitHash()), QLocale().quoteString("main")));
-        box->setInformativeText(tr("%1 wordt opnieuw afgespeeld bovenop %2.").arg(QLocale().quoteString(commit->commitHash()), QLocale().quoteString("main")));
-        box->addButton("Kersen plukken", QMessageBox::AcceptRole);
-        box->addButton(tr("Annuleren"), QMessageBox::RejectRole);
-        //        box->setIcon(QMessageBox::Critical);
-        box->exec(true);
+    menu->addAction(QIcon::fromTheme("vcs-cherry-pick"), tr("Cherry Pick"), parent, [parent, commit, repo] {
+        QTimer::singleShot(0, parent, [repo, commit, parent] {
+            cherryPick(repo, commit, parent);
+        });
     });
     menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), [parent, commit, repo] {
         BranchUiHelper::branch(repo, commit, parent);
@@ -285,6 +282,40 @@ void BranchUiHelper::merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent
     } else {
         SnapInPopover::showSnapInPopover(parent, new MergeSnapIn(merge));
     }
+}
+
+void BranchUiHelper::cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {
+    auto head = repo->head()->shorthand();
+
+    CherryPickPtr cherryPick(new CherryPick(repo, commit));
+    //    if (cherryPick->mergeType() == Merge::UpToDate) {
+    //        tMessageBox* box = new tMessageBox(parent->window());
+    //        box->setTitleBarText(tr("Up to date"));
+    //        box->setMessageText(tr("There are no changes to merge from %1.").arg(QLocale().quoteString(branch->name())));
+    //        box->setIcon(QMessageBox::Information);
+    //        box->exec(true);
+    //    } else if (cherryPick->mergeType() == Merge::MergeNotPossible) {
+    //        tMessageBox* box = new tMessageBox(parent->window());
+    //        box->setTitleBarText(tr("Merge not possible"));
+
+    //        switch (cherryPick->mergeNotPossibleReason()) {
+    //            case Merge::MergeNotPossibleBecauseHeadDetached:
+    //                box->setTitleBarText(tr("HEAD is detached"));
+    //                box->setMessageText(tr("There is no branch to merge onto. Checkout a branch first, and then merge your changes."));
+    //                break;
+    //            case Merge::MergeNotPossibleBecauseRepositoryNotIdle:
+    //                box->setTitleBarText(tr("Ongoing operation"));
+    //                box->setMessageText(tr("There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then merge your changes."));
+    //                break;
+    //            case Merge::MergeNotPossibleUnknownReason:
+    //                box->setMessageText(tr("Unable to merge from %1 into %2.").arg(QLocale().quoteString(branch->name()), QLocale().quoteString(head)));
+    //                break;
+    //        }
+    //        box->setIcon(QMessageBox::Critical);
+    //        box->exec(true);
+    //    } else {
+    SnapInPopover::showSnapInPopover(parent, new CherryPickSnapIn(cherryPick));
+    //    }
 }
 
 QCoro::Task<> BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent) {

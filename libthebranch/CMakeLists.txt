@@ -35,6 +35,7 @@ set(SOURCES
     objects/stash.cpp
     objects/tree.cpp
     objects/blob.cpp
+    objects/cherrypick.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -50,6 +51,7 @@ set(SOURCES
     popovers/snapins/rebasesnapin.cpp popovers/snapins/rebasesnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
     popovers/snapins/stashsavesnapin.cpp popovers/snapins/stashsavesnapin.ui
+    popovers/snapins/cherrypicksnapin.cpp popovers/snapins/cherrypicksnapin.ui
 
     popovers/snapins/informationrequestsnapin.cpp
     popovers/snapins/sshkeyselectionsnapin.cpp popovers/snapins/sshkeyselectionsnapin.ui
@@ -138,6 +140,7 @@ set(HEADERS
     objects/stash.h
     objects/tree.h
     objects/blob.h
+    objects/cherrypick.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h
@@ -159,6 +162,7 @@ set(HEADERS
     popovers/snapins/mergesnapin.h
     popovers/snapins/rebasesnapin.h
     popovers/snapins/stashsavesnapin.h
+    popovers/snapins/cherrypicksnapin.h
     popovers/newbranchpopover.h
     settingspanes/commitspane.h
     settingspanes/accountspane.h

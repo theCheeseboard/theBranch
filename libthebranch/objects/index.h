@@ -18,6 +18,8 @@ class Index : public QObject,
         bool hasConflicts();
         void conflictCleanup();
 
+        bool hasChangesFromWorkdir(RepositoryPtr repo);
+
         QList<IndexItem> items();
 
     signals:

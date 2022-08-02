@@ -30,6 +30,7 @@ class Commit : public QObject,
         friend Repository;
         friend Branch;
         friend Reference;
+        friend CherryPick;
         static CommitPtr commitForLgCommit(LGRepositoryPtr repo, LGCommitPtr commit);
         LGCommitPtr gitCommit();
 
