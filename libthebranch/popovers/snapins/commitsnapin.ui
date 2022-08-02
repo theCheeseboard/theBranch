@@ -122,6 +122,9 @@
             </item>
             <item>
              <widget class="QListView" name="modifiedFilesEdit">
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>

@@ -32,6 +32,8 @@ class LIBTHEBRANCH_EXPORT CommitSnapIn : public SnapIn {
 
         void on_viewUntrackedCheckbox_toggled(bool checked);
 
+        void on_modifiedFilesEdit_customContextMenuRequested(const QPoint& pos);
+
     private:
         Ui::CommitSnapIn* ui;
         CommitSnapInPrivate* d;

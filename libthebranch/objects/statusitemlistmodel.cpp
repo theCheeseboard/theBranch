@@ -2,7 +2,7 @@
 
 struct StatusItemListModelPrivate {
         QList<Repository::StatusItem> statusItems;
-        QSet<QPersistentModelIndex> checkedItems;
+        QSet<QString> checkedItems;
 
         bool userCheckable = true;
 };
@@ -32,7 +32,7 @@ QVariant StatusItemListModel::data(const QModelIndex& index, int role) const {
     Repository::StatusItem statusItem = d->statusItems.at(index.row());
     switch (role) {
         case Qt::CheckStateRole:
-            return d->checkedItems.contains(index) ? Qt::Checked : Qt::Unchecked;
+            return d->checkedItems.contains(statusItem.path) ? Qt::Checked : Qt::Unchecked;
         case Qt::DisplayRole:
         case PathRole:
             return statusItem.path;
@@ -44,14 +44,28 @@ QVariant StatusItemListModel::data(const QModelIndex& index, int role) const {
 
 QModelIndexList StatusItemListModel::checkedItems() {
     QModelIndexList indices;
-    for (QPersistentModelIndex index : d->checkedItems) {
-        indices.append(index);
+    for (const auto& path : qAsConst(d->checkedItems)) {
+        for (auto i = 0; i < d->statusItems.length(); i++) {
+            if (d->statusItems.at(i).path == path) {
+                indices.append(index(i));
+                break;
+            }
+        }
     }
     return indices;
 }
 
 void StatusItemListModel::setStatusItems(QList<Repository::StatusItem> items) {
     d->statusItems = items;
+
+    // Remove any checked items without a corresponding status item
+    d->checkedItems.removeIf([this](QString path) {
+        for (auto i = 0; i < d->statusItems.length(); i++) {
+            if (d->statusItems.at(i).path == path) return false;
+        }
+        return true;
+    });
+    emit dataChanged(index(0), index(rowCount()));
 }
 
 void StatusItemListModel::setUserCheckable(bool userCheckable) {
@@ -119,9 +133,9 @@ bool StatusItemListModel::setData(const QModelIndex& index, const QVariant& valu
     if (role != Qt::CheckStateRole) return false;
 
     if (value == Qt::Checked) {
-        d->checkedItems.insert(index);
+        d->checkedItems.insert(index.data(PathRole).toString());
     } else {
-        d->checkedItems.remove(index);
+        d->checkedItems.remove(index.data(PathRole).toString());
     }
 
     emit dataChanged(index, index);

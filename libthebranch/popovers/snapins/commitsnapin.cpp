@@ -13,6 +13,7 @@
 #include "objects/reference.h"
 #include "objects/statusitemlistmodel.h"
 #include "objects/tree.h"
+#include <QMenu>
 #include <tcontentsizer.h>
 #include <terrorflash.h>
 
@@ -47,6 +48,9 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
 
     d->statusModel = new StatusItemListModel(this);
+    connect(d->repository.data(), &Repository::repositoryUpdated, this, [=] {
+        d->statusModel->setStatusItems(repository->fileStatus());
+    });
     d->statusModel->setStatusItems(repository->fileStatus());
 
     d->statusModelFilter = new StatusItemListFilterView(this);
@@ -56,6 +60,7 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     ui->modifiedFilesEdit->setItemDelegate(new StatusItemListDelegate(this));
 
     connect(d->statusModel, &StatusItemListModel::dataChanged, this, [this] {
+        d->statusModelFilter->invalidate();
         this->updateState();
     });
     connect(d->statusModel, &StatusItemListModel::checkedItemsChanged, this, [this] {
@@ -174,8 +179,8 @@ void CommitSnapIn::updateSelection() {
         auto localChanges = file.readAll();
         file.close();
 
+        ui->textDiffPage->setTitles(commit->shortCommitHash(), tr("Local Changes"));
         if (blob) {
-            ui->textDiffPage->setTitles(commit->shortCommitHash(), tr("Local Changes"));
             ui->textDiffPage->loadDiff(blob->contents(), localChanges);
         } else {
             // File is untracked
@@ -228,4 +233,54 @@ void CommitSnapIn::on_viewUntrackedCheckbox_toggled(bool checked) {
     int flagFilters = CommitSnapInPrivate::StandardFlagFilters;
     if (checked) flagFilters |= Repository::StatusItem::New;
     d->statusModelFilter->setFlagFilters(flagFilters);
+}
+
+void CommitSnapIn::on_modifiedFilesEdit_customContextMenuRequested(const QPoint& pos) {
+    auto selected = ui->modifiedFilesEdit->selectionModel()->selectedIndexes();
+    if (selected.isEmpty()) return;
+
+    auto tree = d->repository->head()->asCommit()->tree();
+
+    QMap<QString, QByteArray> filesToRevert;
+    QStringList filesToDelete;
+    for (auto index : selected) {
+        auto path = index.data(StatusItemListModel::PathRole).toString();
+        auto blob = tree->blobForPath(path);
+        if (blob) {
+            filesToRevert.insert(path, blob->contents());
+        } else {
+            filesToDelete.append(path);
+        }
+    }
+
+    auto performRevert = [filesToRevert, filesToDelete, this] {
+        for (auto filename : filesToRevert.keys()) {
+            auto contents = filesToRevert.value(filename);
+            QFile file(QDir(d->repository->repositoryPath()).absoluteFilePath(filename));
+            file.open(QFile::WriteOnly);
+            file.write(contents);
+            file.close();
+        }
+
+        for (auto filename : filesToDelete) {
+            QFile::remove(filename);
+        }
+
+        d->statusModel->setStatusItems(d->repository->fileStatus());
+    };
+
+    auto* menu = new QMenu();
+
+    if (!filesToDelete.isEmpty() && !filesToRevert.isEmpty()) {
+        menu->addSection(tr("For %n files", nullptr, filesToDelete.count() + filesToRevert.count()));
+        menu->addAction(QIcon::fromTheme("edit-undo"), tr("Discard Changes and Delete New Files"), this, performRevert);
+    } else if (filesToDelete.isEmpty()) {
+        menu->addSection(tr("For %n files", nullptr, filesToDelete.count() + filesToRevert.count()));
+        menu->addAction(QIcon::fromTheme("edit-undo"), tr("Discard Changes"), this, performRevert);
+    } else {
+        menu->addSection(tr("For %n untracked files", nullptr, filesToDelete.count() + filesToRevert.count()));
+        menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete from Repository"), this, performRevert);
+    }
+
+    menu->popup(ui->modifiedFilesEdit->mapToGlobal(pos));
 }
