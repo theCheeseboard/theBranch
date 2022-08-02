@@ -152,6 +152,7 @@ void CommitSnapIn::updateState() {
         }
     }
     ui->selectAllModifiedCheckbox->setText(tr("Select %n modified files", nullptr, count));
+    ui->selectAllModifiedCheckbox->setEnabled(count != 0);
 
     if (haveSelected && haveUnselected) {
         ui->selectAllModifiedCheckbox->setCheckState(Qt::PartiallyChecked);

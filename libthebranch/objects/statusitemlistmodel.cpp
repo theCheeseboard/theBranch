@@ -1,5 +1,7 @@
 #include "statusitemlistmodel.h"
 
+#include <QPainter>
+
 struct StatusItemListModelPrivate {
         QList<Repository::StatusItem> statusItems;
         QSet<QString> checkedItems;
@@ -116,6 +118,22 @@ tPaintCalculator StatusItemListDelegate::paintCalculator(QPainter* painter, cons
 
 void StatusItemListDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
     QStyledItemDelegate::paint(painter, option, index);
+
+    QStringList statusText;
+    auto status = index.data(StatusItemListModel::StatusRole).toInt();
+
+    if (status & Repository::StatusItem::New) statusText.append("N");
+    if (status & Repository::StatusItem::Deleted) statusText.append("D");
+    if (status & Repository::StatusItem::Modified) statusText.append("M");
+    if (status & Repository::StatusItem::Renamed) statusText.append("R");
+    if (status & Repository::StatusItem::Conflicting) statusText.append("C");
+
+    QRect statusTextRect;
+    statusTextRect.setHeight(painter->fontMetrics().height());
+    statusTextRect.setWidth(painter->fontMetrics().horizontalAdvance(statusText.join(" ")));
+    statusTextRect.moveRight(option.rect.right() - SC_DPI_W(9, option.widget));
+    statusTextRect.moveTop(option.rect.top() + option.rect.height() / 2 - statusTextRect.height() / 2);
+    painter->drawText(statusTextRect, Qt::AlignVCenter | Qt::AlignRight, statusText.join(" "));
 }
 
 QSize StatusItemListDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const {
