@@ -23,6 +23,7 @@ class LGCommit : public QObject,
         LGTreePtr tree();
         int parentCount();
         LGCommitPtr parent(int n);
+        QDateTime date();
 
     signals:
 

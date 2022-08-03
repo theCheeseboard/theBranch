@@ -22,7 +22,8 @@ class CommitModel : public QAbstractListModel {
             Commit,
             GraphColumn,
             ParentGraphColumns,
-            PassthroughGraphColumns
+            PassthroughGraphColumns,
+            CommitDate
         };
 
         void setStartPoint(CommitPtr startPoint);

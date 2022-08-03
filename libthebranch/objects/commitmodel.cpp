@@ -45,29 +45,18 @@ void CommitModel::reloadData() {
     if (!d->repo) return;
     if (!d->repo->git_repository()) return;
 
-    LGOidPtr headOid = d->repo->head()->git_reference()->resolve()->target();
-    if (d->startPoint) headOid = d->startPoint->gitCommit()->oid();
+    CommitPtr startPoint = d->repo->head()->asCommit();
+    if (d->startPoint) startPoint = d->startPoint;
 
-    LGRevwalkPtr revwalk = LGRevwalk::revwalk_new(d->repo->git_repository());
-    revwalk->sorting(GIT_SORT_TOPOLOGICAL);
-    revwalk->push(headOid);
-
-    QList<CommitPtr> commits;
-    QList<LGOidPtr> oids = revwalk->walk();
-    for (LGOidPtr oid : oids) {
-        LGCommitPtr commit = LGCommit::lookup(d->repo->git_repository(), oid);
-        commits.append(Commit::commitForLgCommit(d->repo->git_repository(), commit)->sharedFromThis());
-    }
-
-    d->commits = commits;
+    d->commits = startPoint->history();
 
     d->graphColumns.clear();
     d->parentGraphColumns.clear();
     d->passthroughGraphColumns.clear();
-    if (!commits.isEmpty()) {
+    if (!d->commits.isEmpty()) {
         QMap<int, CommitPtr> parents;
-        parents.insert(0, commits.first());
-        for (auto commit : commits) {
+        parents.insert(0, d->commits.first());
+        for (auto commit : d->commits) {
             QList<int> myParentCols;
             for (auto parentCommit : parents.values()) {
                 if (parentCommit->equal(commit)) myParentCols.append(parents.key(parentCommit));
@@ -126,6 +115,8 @@ QVariant CommitModel::data(const QModelIndex& index, int role) const {
             return QVariant::fromValue(d->parentGraphColumns.at(index.row()));
         case PassthroughGraphColumns:
             return QVariant::fromValue(d->passthroughGraphColumns.at(index.row()));
+        case CommitDate:
+            return commit->date();
     }
 
     return QVariant();
@@ -183,6 +174,7 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
 
     QStringList subtext;
     subtext.append(index.data(CommitModel::AuthorName).toString());
+    subtext.append(QLocale().toString(index.data(CommitModel::CommitDate).toDateTime()));
     subtext.append(index.data(CommitModel::ShortCommitHash).toString());
     QString author = subtext.join(libContemporaryCommon::humanReadablePartJoinString());
 

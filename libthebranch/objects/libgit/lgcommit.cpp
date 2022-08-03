@@ -4,6 +4,7 @@
 #include "lgrepository.h"
 #include "lgsignature.h"
 #include "lgtree.h"
+#include <QDateTime>
 #include <git2.h>
 
 struct LGCommitPrivate {
@@ -58,4 +59,10 @@ LGCommitPtr LGCommit::parent(int n) {
     git_commit* parent;
     if (git_commit_parent(&parent, d->git_commit, n) != 0) return nullptr;
     return (new LGCommit(parent))->sharedFromThis();
+}
+
+QDateTime LGCommit::date() {
+    auto time = git_commit_time(d->git_commit);
+    auto offset = git_commit_time_offset(d->git_commit);
+    return QDateTime::fromSecsSinceEpoch(time, Qt::OffsetFromUTC, offset * 60);
 }

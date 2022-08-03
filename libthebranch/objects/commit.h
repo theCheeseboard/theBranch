@@ -18,10 +18,15 @@ class Commit : public QObject,
         QString commitHash();
         QString shortCommitHash();
         QString authorName();
+        QDateTime date();
 
         TreePtr tree();
 
         QList<CommitPtr> parents();
+        QList<CommitPtr> history();
+        CommitPtr lastCommonAncestor(CommitPtr commit);
+        int commitsUntil(CommitPtr commit);
+        int missingCommits(CommitPtr commit);
 
     signals:
 

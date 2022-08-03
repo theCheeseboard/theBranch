@@ -5,6 +5,7 @@
 #include "../snapinpopover.h"
 #include "objects/branch.h"
 #include "objects/branchmodel.h"
+#include "objects/commit.h"
 #include "objects/libgit/lgrepository.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
@@ -134,6 +135,16 @@ void PushSnapIn::updateUpstreamBox() {
 
 void PushSnapIn::updatePushButton() {
     ui->pushButton->setEnabled(ui->branchBox->currentIndex() != -1);
+
+    auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+    if (!branch) {
+        ui->pushButton->setText(tr("Publish Branch"));
+        return;
+    }
+
+    auto lastCommitOnBranch = branch->lastCommit();
+    auto headCommit = d->repo->head()->asCommit();
+    ui->pushButton->setText(tr("Push %n commits", nullptr, headCommit->missingCommits(lastCommitOnBranch)));
 }
 
 void PushSnapIn::on_titleLabel_2_backButtonClicked() {
