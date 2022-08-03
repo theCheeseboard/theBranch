@@ -19,6 +19,8 @@ class LGOid : public QObject,
         struct ::git_oid& gitOid();
         QString toHex();
 
+        static LGOidPtr fromHex(QString hex);
+
     signals:
 
     private:

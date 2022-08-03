@@ -29,6 +29,10 @@ TreePtr Tree::treeForLgTree(LGRepositoryPtr repo, LGTreePtr tree) {
     return t->sharedFromThis();
 }
 
+LGTreePtr Tree::gitTree() {
+    return d->tree;
+}
+
 Tree::Tree(QObject* parent) :
     QObject{parent} {
     d = new TreePrivate;

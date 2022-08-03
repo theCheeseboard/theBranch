@@ -27,6 +27,7 @@ namespace Ui {
     class CommitBrowserWidget;
 }
 
+struct CommitBrowserWidgetPrivate;
 class CommitBrowserWidget : public QWidget {
         Q_OBJECT
 
@@ -37,8 +38,12 @@ class CommitBrowserWidget : public QWidget {
         void setRepository(RepositoryPtr repo);
         void setStartBranch(BranchPtr branch);
 
+    private slots:
+        void on_listView_clicked(const QModelIndex& index);
+
     private:
         Ui::CommitBrowserWidget* ui;
+        CommitBrowserWidgetPrivate* d;
 };
 
 #endif // COMMITBROWSERWIDGET_H

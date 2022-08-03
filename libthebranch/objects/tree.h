@@ -18,7 +18,9 @@ class LIBTHEBRANCH_EXPORT Tree : public QObject,
 
     protected:
         friend Commit;
+        friend Diff;
         static TreePtr treeForLgTree(LGRepositoryPtr repo, LGTreePtr tree);
+        LGTreePtr gitTree();
 
     private:
         explicit Tree(QObject* parent = nullptr);

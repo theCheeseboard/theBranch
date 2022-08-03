@@ -36,6 +36,7 @@ set(SOURCES
     objects/tree.cpp
     objects/blob.cpp
     objects/cherrypick.cpp
+    objects/diff.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
@@ -141,6 +142,7 @@ set(HEADERS
     objects/tree.h
     objects/blob.h
     objects/cherrypick.h
+    objects/diff.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     widgets/repositorybrowser.h

@@ -110,6 +110,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         friend ConflictResolutionSnapIn;
         friend CherryPick;
         friend Index;
+        friend Diff;
         LGRepositoryPtr git_repository();
 
     private:

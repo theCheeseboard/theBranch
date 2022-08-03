@@ -33,3 +33,12 @@ git_oid& LGOid::gitOid() {
 QString LGOid::toHex() {
     return QByteArray(reinterpret_cast<const char*>(d->git_oid.id), 20).toHex();
 }
+
+LGOidPtr LGOid::fromHex(QString hex) {
+    auto bytes = QByteArray::fromHex(hex.toUtf8());
+    if (bytes.length() != 20) return nullptr;
+
+    git_oid oid;
+    memcpy(oid.id, bytes.data(), 20);
+    return (new LGOid(oid))->sharedFromThis();
+}

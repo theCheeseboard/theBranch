@@ -20,20 +20,51 @@
 #include "commitbrowserwidget.h"
 #include "ui_commitbrowserwidget.h"
 
+#include "objects/commit.h"
+#include "objects/commitmodel.h"
+#include "objects/diff.h"
+#include <tlogger.h>
+
+struct CommitBrowserWidgetPrivate {
+        RepositoryPtr repo;
+};
+
 CommitBrowserWidget::CommitBrowserWidget(QWidget* parent) :
     QWidget(parent),
     ui(new Ui::CommitBrowserWidget) {
     ui->setupUi(this);
+
+    d = new CommitBrowserWidgetPrivate();
 }
 
 CommitBrowserWidget::~CommitBrowserWidget() {
+    delete d;
     delete ui;
 }
 
 void CommitBrowserWidget::setRepository(RepositoryPtr repo) {
+    d->repo = repo;
     ui->listView->setRepository(repo);
 }
 
 void CommitBrowserWidget::setStartBranch(BranchPtr branch) {
     ui->listView->setStartBranch(branch);
+}
+
+void CommitBrowserWidget::on_listView_clicked(const QModelIndex& index) {
+    auto commit = index.data(CommitModel::Commit).value<CommitPtr>();
+    DiffPtr diff;
+    if (commit->parents().isEmpty()) {
+        diff = Diff::diffTrees(d->repo, nullptr, commit->tree());
+    } else if (commit->parents().length() == 1) {
+        auto diffCommit = commit->parents().first();
+        diff = Diff::diffTrees(d->repo, diffCommit->tree(), commit->tree());
+    } else {
+        // TODO
+    }
+
+    if (!diff) return;
+    for (auto file : diff->diffFiles()) {
+        tDebug("CommitBrowserWidget") << file.oldFilePath << " -> " << file.newFilePath;
+    }
 }
