@@ -28,6 +28,7 @@ class LGIndex : public QObject,
         bool addByPath(QString path);
         bool addAll(QStringList globs);
         bool addBuffer(QFileInfo fileInfo, QString pathspec, QByteArray data);
+        bool removeByPath(QString path);
 
         bool removeAll(QStringList globs);
 

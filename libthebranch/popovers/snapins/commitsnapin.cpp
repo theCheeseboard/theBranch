@@ -116,13 +116,23 @@ void CommitSnapIn::performCommit() {
     // Reset the index to the state of the tree
     index->readTree(head->asCommit()->tree()->gitTree());
 
-    for (QModelIndex selected : d->statusModel->checkedItems()) {
-        QString pathspec = selected.data(StatusItemListModel::PathRole).toString();
-        if (!index->addByPath(pathspec)) {
-            ui->stackedWidget->setCurrentWidget(ui->commitPage);
-            ErrorResponse err = ErrorResponse::fromCurrentGitError();
-            tErrorFlash::flashError(ui->commitMessageEdit, err.description());
-            return;
+    for (auto selected : d->statusModel->checkedItems()) {
+        auto pathspec = selected.data(StatusItemListModel::PathRole).toString();
+        auto flags = selected.data(StatusItemListModel::StatusRole).value<Repository::StatusItem::StatusFlag>();
+        if (flags & Repository::StatusItem::Deleted) {
+            if (!index->removeByPath(pathspec)) {
+                ui->stackedWidget->setCurrentWidget(ui->commitPage);
+                auto err = ErrorResponse::fromCurrentGitError();
+                tErrorFlash::flashError(ui->commitMessageEdit, err.description());
+                return;
+            }
+        } else {
+            if (!index->addByPath(pathspec)) {
+                ui->stackedWidget->setCurrentWidget(ui->commitPage);
+                auto err = ErrorResponse::fromCurrentGitError();
+                tErrorFlash::flashError(ui->commitMessageEdit, err.description());
+                return;
+            }
         }
     }
 
@@ -138,6 +148,7 @@ void CommitSnapIn::performCommit() {
 
     auto commitOid = repo->git_repository()->createCommit(sig, sig, ui->commitMessageEdit->toPlainText(), tree, {head->asCommit()->gitCommit()});
     if (!commitOid) {
+        ui->stackedWidget->setCurrentWidget(ui->commitPage);
         auto error = ErrorResponse::fromCurrentGitError();
         tErrorFlash::flashError(ui->commitMessageEdit, error.description());
         return;

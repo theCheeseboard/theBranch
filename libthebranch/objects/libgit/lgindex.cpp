@@ -96,6 +96,10 @@ bool LGIndex::addBuffer(QFileInfo fileInfo, QString pathspec, QByteArray data) {
     return git_index_add_from_buffer(d->gitIndex, &indexEntry, data.data(), data.length()) == 0;
 }
 
+bool LGIndex::removeByPath(QString path) {
+    return git_index_remove_bypath(d->gitIndex, path.toUtf8().data()) == 0;
+}
+
 bool LGIndex::removeAll(QStringList globs) {
     git_strarray strarray;
     strarray.strings = new char*[globs.count()];
