@@ -1,6 +1,7 @@
 #ifndef STATUSITEMLISTMODEL_H
 #define STATUSITEMLISTMODEL_H
 
+#include "diff.h"
 #include "repository.h"
 #include <QAbstractListModel>
 #include <QStyledItemDelegate>
@@ -16,10 +17,15 @@ class StatusItemListModel : public QAbstractListModel {
 
         enum Roles {
             PathRole = Qt::UserRole,
-            StatusRole
+            StatusRole,
+            RenamedPathRole,
+
+            BlobOldSide,
+            BlobNewSide
         };
 
         void setStatusItems(QList<Repository::StatusItem> items);
+        void setDiffResult(QList<Diff::DiffFile> results);
         void setUserCheckable(bool userCheckable);
 
         // Basic functionality:

@@ -2,6 +2,7 @@
 
 #include "blob.h"
 #include "libgit/lgobject.h"
+#include "libgit/lgoid.h"
 #include "libgit/lgrepository.h"
 #include "libgit/lgtree.h"
 
@@ -20,6 +21,10 @@ BlobPtr Tree::blobForPath(QString path) {
 
     auto oid = object->oid();
     return Blob::blobForLgBlob(d->repo->lookupBlob(oid));
+}
+
+QString Tree::treeHash() {
+    return d->tree->oid()->toHex();
 }
 
 TreePtr Tree::treeForLgTree(LGRepositoryPtr repo, LGTreePtr tree) {

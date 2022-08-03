@@ -4,6 +4,7 @@
 
 struct StatusItemListModelPrivate {
         QList<Repository::StatusItem> statusItems;
+        QList<Diff::DiffFile> diffResults;
         QSet<QString> checkedItems;
 
         bool userCheckable = true;
@@ -24,22 +25,44 @@ int StatusItemListModel::rowCount(const QModelIndex& parent) const {
     if (parent.isValid())
         return 0;
 
-    return d->statusItems.count();
+    if (d->diffResults.isEmpty()) return d->statusItems.count();
+    return d->diffResults.count();
 }
 
 QVariant StatusItemListModel::data(const QModelIndex& index, int role) const {
     if (!index.isValid())
         return QVariant();
 
-    Repository::StatusItem statusItem = d->statusItems.at(index.row());
-    switch (role) {
-        case Qt::CheckStateRole:
-            return d->checkedItems.contains(statusItem.path) ? Qt::Checked : Qt::Unchecked;
-        case Qt::DisplayRole:
-        case PathRole:
-            return statusItem.path;
-        case StatusRole:
-            return statusItem.flags;
+    if (!d->diffResults.isEmpty()) {
+        auto diffResult = d->diffResults.at(index.row());
+        switch (role) {
+            case Qt::CheckStateRole:
+                return Qt::Unchecked;
+            case Qt::DisplayRole:
+            case PathRole:
+                return diffResult.oldFilePath;
+            case RenamedPathRole:
+                return diffResult.newFilePath;
+            case StatusRole:
+                return diffResult.statusFlag;
+            case BlobOldSide:
+                return diffResult.oldBlob;
+            case BlobNewSide:
+                return diffResult.newBlob;
+        }
+    } else if (!d->statusItems.isEmpty()) {
+        auto statusItem = d->statusItems.at(index.row());
+        switch (role) {
+            case Qt::CheckStateRole:
+                return d->checkedItems.contains(statusItem.path) ? Qt::Checked : Qt::Unchecked;
+            case Qt::DisplayRole:
+            case PathRole:
+                return statusItem.path;
+            case RenamedPathRole:
+                return statusItem.path;
+            case StatusRole:
+                return statusItem.flags;
+        }
     }
     return QVariant();
 }
@@ -67,6 +90,15 @@ void StatusItemListModel::setStatusItems(QList<Repository::StatusItem> items) {
         }
         return true;
     });
+    emit dataChanged(index(0), index(rowCount()));
+    d->diffResults.clear();
+}
+
+void StatusItemListModel::setDiffResult(QList<Diff::DiffFile> results) {
+    d->statusItems.clear();
+    d->diffResults = results;
+
+    d->checkedItems.clear();
     emit dataChanged(index(0), index(rowCount()));
 }
 
@@ -142,7 +174,11 @@ QSize StatusItemListDelegate::sizeHint(const QStyleOptionViewItem& option, const
 
 Qt::ItemFlags StatusItemListModel::flags(const QModelIndex& index) const {
     Qt::ItemFlags flags = QAbstractListModel::flags(index);
-    if (d->userCheckable) flags |= Qt::ItemIsUserCheckable;
+    if (d->userCheckable) {
+        flags |= Qt::ItemIsUserCheckable;
+    } else {
+        flags &= ~Qt::ItemIsUserCheckable;
+    }
     return flags;
 }
 

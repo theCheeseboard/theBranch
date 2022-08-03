@@ -14,6 +14,8 @@ class LIBTHEBRANCH_EXPORT Tree : public QObject,
 
         BlobPtr blobForPath(QString path);
 
+        QString treeHash();
+
     signals:
 
     protected:

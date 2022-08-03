@@ -23,7 +23,9 @@
 #include "objects/commit.h"
 #include "objects/commitmodel.h"
 #include "objects/diff.h"
+#include "popovers/diffpopover.h"
 #include <tlogger.h>
+#include <tpopover.h>
 
 struct CommitBrowserWidgetPrivate {
         RepositoryPtr repo;
@@ -55,16 +57,22 @@ void CommitBrowserWidget::on_listView_clicked(const QModelIndex& index) {
     auto commit = index.data(CommitModel::Commit).value<CommitPtr>();
     DiffPtr diff;
     if (commit->parents().isEmpty()) {
-        diff = Diff::diffTrees(d->repo, nullptr, commit->tree());
+        diff = Diff::diffCommits(d->repo, nullptr, commit);
     } else if (commit->parents().length() == 1) {
         auto diffCommit = commit->parents().first();
-        diff = Diff::diffTrees(d->repo, diffCommit->tree(), commit->tree());
+        diff = Diff::diffCommits(d->repo, diffCommit, commit);
     } else {
         // TODO
     }
 
     if (!diff) return;
-    for (auto file : diff->diffFiles()) {
-        tDebug("CommitBrowserWidget") << file.oldFilePath << " -> " << file.newFilePath;
-    }
+
+    auto* jp = new DiffPopover(diff);
+    tPopover* popover = new tPopover(jp);
+    popover->setPopoverWidth(SC_DPI_W(-200, this));
+    popover->setPopoverSide(tPopover::Bottom);
+    connect(jp, &DiffPopover::done, popover, &tPopover::dismiss);
+    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+    connect(popover, &tPopover::dismissed, jp, &DiffPopover::deleteLater);
+    popover->show(this->window());
 }

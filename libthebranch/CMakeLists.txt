@@ -39,6 +39,7 @@ set(SOURCES
     objects/diff.cpp
 
     popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
+    popovers/diffpopover.cpp popovers/diffpopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
 
     popovers/snapins/snapin.cpp
@@ -145,6 +146,7 @@ set(HEADERS
     objects/diff.h
     popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
+    popovers/diffpopover.h
     widgets/repositorybrowser.h
     widgets/commitbrowser.h
     widgets/branchbrowser.h

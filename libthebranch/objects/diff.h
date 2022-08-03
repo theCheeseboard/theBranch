@@ -21,7 +21,11 @@ class Diff : public QObject,
         };
 
         static DiffPtr diffTrees(RepositoryPtr repo, TreePtr base, TreePtr compare);
+        static DiffPtr diffCommits(RepositoryPtr repo, CommitPtr base, CommitPtr compare);
+
         QList<DiffFile> diffFiles();
+        QString oldSideDescription();
+        QString newSideDescription();
 
     signals:
 

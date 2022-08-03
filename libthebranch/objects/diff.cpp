@@ -1,5 +1,6 @@
 #include "diff.h"
 
+#include "commit.h"
 #include "libgit/lgblob.h"
 #include "libgit/lgoid.h"
 #include "libgit/lgrepository.h"
@@ -11,6 +12,9 @@
 struct DiffPrivate {
         RepositoryPtr repo;
         git_diff* diff;
+
+        QString oldSideDescription;
+        QString newSideDescription;
 };
 
 Diff::Diff(QObject* parent) :
@@ -34,7 +38,16 @@ DiffPtr Diff::diffTrees(RepositoryPtr repo, TreePtr base, TreePtr compare) {
     auto* d = new Diff();
     d->d->diff = diff;
     d->d->repo = repo;
+    d->d->oldSideDescription = base.isNull() ? tr("Original") : base->treeHash();
+    d->d->newSideDescription = compare.isNull() ? tr("Modified") : compare->treeHash();
     return d->sharedFromThis();
+}
+
+DiffPtr Diff::diffCommits(RepositoryPtr repo, CommitPtr base, CommitPtr compare) {
+    auto diff = diffTrees(repo, base.isNull() ? nullptr : base->tree(), compare.isNull() ? nullptr : compare->tree());
+    if (base) diff->d->oldSideDescription = base->shortCommitHash();
+    if (compare) diff->d->newSideDescription = compare->shortCommitHash();
+    return diff;
 }
 
 QList<Diff::DiffFile> Diff::diffFiles() {
@@ -90,4 +103,12 @@ QList<Diff::DiffFile> Diff::diffFiles() {
         nullptr, nullptr, nullptr, &payload);
 
     return files;
+}
+
+QString Diff::oldSideDescription() {
+    return d->oldSideDescription;
+}
+
+QString Diff::newSideDescription() {
+    return d->newSideDescription;
 }

@@ -1,6 +1,7 @@
 #include "lgtree.h"
 
 #include "lgobject.h"
+#include "lgoid.h"
 #include "lgrepository.h"
 #include <git2.h>
 
@@ -21,6 +22,10 @@ LGTree::~LGTree() {
 
 git_tree* LGTree::gitTree() {
     return d->tree;
+}
+
+LGOidPtr LGTree::oid() {
+    return (new LGOid(git_tree_id(d->tree)))->sharedFromThis();
 }
 
 LGObjectPtr LGTree::objectForPath(LGRepositoryPtr repo, QString path) {
