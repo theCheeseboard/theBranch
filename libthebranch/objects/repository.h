@@ -53,6 +53,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         ReferencePtr reference(QString name);
 
         ErrorResponse setHeadAndCheckout(ReferencePtr reference);
+        void resetFileToHead(QString file);
 
         void reloadRepositoryState();
         IndexPtr index();

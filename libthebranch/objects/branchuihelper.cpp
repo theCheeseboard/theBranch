@@ -391,3 +391,24 @@ QCoro::Task<> BranchUiHelper::deleteBranch(RepositoryPtr repo, BranchPtr branch,
         }
     }
 }
+
+QCoro::Task<> BranchUiHelper::discardRepositoryChanges(RepositoryPtr repo, QWidget* parent) {
+    tMessageBox box(parent->window());
+    box.setTitleBarText(tr("Discard Changes?"));
+    box.setMessageText(tr("Do you want to discard all uncommitted changes in the repository?"));
+    box.setInformativeText(tr("All uncommitted changes will be gone forever."));
+    box.setCheckboxText(tr("Also delete untracked files"));
+    tMessageBoxButton* discardButton = box.addButton(tr("Discard Changes"), QMessageBox::DestructiveRole);
+    box.addStandardButton(QMessageBox::Cancel);
+    box.setIcon(QMessageBox::Question);
+
+    bool checked;
+    auto button = co_await box.presentAsync(&checked);
+    if (button == discardButton) {
+        auto status = repo->fileStatus();
+        for (auto item : status) {
+            if (!checked && item.flags & Repository::StatusItem::New) continue; // Don't remove any untracked files
+            repo->resetFileToHead(item.path);
+        }
+    }
+}

@@ -11,6 +11,7 @@
 #include <tsettingswindow/tsettingswindow.h>
 #include <twindowtabberbutton.h>
 
+#include <objects/branchuihelper.h>
 #include <objects/repository.h>
 #include <popovers/clonerepositorypopover.h>
 #include <popovers/snapinpopover.h>
@@ -83,6 +84,7 @@ MainWindow::MainWindow(QWidget* parent) :
     menu->addAction(ui->actionPull);
     menu->addSeparator();
     menu->addAction(ui->actionStash);
+    menu->addAction(ui->actionDiscard_All_Changes);
     menu->addSeparator();
     menu->addAction(ui->actionPrint);
     menu->addSeparator();
@@ -239,4 +241,8 @@ void MainWindow::on_actionSettings_triggered() {
     window.appendPane(new CommitsPane());
     window.appendPane(new AccountsPane());
     window.exec();
+}
+
+void MainWindow::on_actionDiscard_All_Changes_triggered() {
+    BranchUiHelper::discardRepositoryChanges(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository(), this->window());
 }

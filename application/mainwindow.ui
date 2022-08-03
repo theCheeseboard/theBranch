@@ -108,7 +108,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -149,6 +149,8 @@
     <addaction name="actionCheckout"/>
     <addaction name="separator"/>
     <addaction name="actionStash"/>
+    <addaction name="separator"/>
+    <addaction name="actionDiscard_All_Changes"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuRepository"/>
@@ -328,6 +330,11 @@
    </property>
    <property name="menuRole">
     <enum>QAction::PreferencesRole</enum>
+   </property>
+  </action>
+  <action name="actionDiscard_All_Changes">
+   <property name="text">
+    <string>Discard All Changes</string>
    </property>
   </action>
  </widget>

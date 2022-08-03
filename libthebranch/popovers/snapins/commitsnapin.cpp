@@ -242,29 +242,25 @@ void CommitSnapIn::on_modifiedFilesEdit_customContextMenuRequested(const QPoint&
 
     auto tree = d->repository->head()->asCommit()->tree();
 
-    QMap<QString, QByteArray> filesToRevert;
+    QStringList filesToRevert;
     QStringList filesToDelete;
     for (auto index : selected) {
         auto path = index.data(StatusItemListModel::PathRole).toString();
         auto blob = tree->blobForPath(path);
         if (blob) {
-            filesToRevert.insert(path, blob->contents());
+            filesToRevert.append(path);
         } else {
             filesToDelete.append(path);
         }
     }
 
     auto performRevert = [filesToRevert, filesToDelete, this] {
-        for (auto filename : filesToRevert.keys()) {
-            auto contents = filesToRevert.value(filename);
-            QFile file(QDir(d->repository->repositoryPath()).absoluteFilePath(filename));
-            file.open(QFile::WriteOnly);
-            file.write(contents);
-            file.close();
+        for (const auto &filename : filesToRevert) {
+            d->repository->resetFileToHead(filename);
         }
 
-        for (auto filename : filesToDelete) {
-            QFile::remove(filename);
+        for (const auto &filename : filesToDelete) {
+            d->repository->resetFileToHead(filename);
         }
 
         d->statusModel->setStatusItems(d->repository->fileStatus());

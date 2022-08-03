@@ -43,6 +43,8 @@ class BranchUiHelper : public QObject {
 
         static void branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
         static QCoro::Task<> deleteBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
+
+        static QCoro::Task<> discardRepositoryChanges(RepositoryPtr repo, QWidget* parent);
 };
 
 #endif // BRANCHUIHELPER_H

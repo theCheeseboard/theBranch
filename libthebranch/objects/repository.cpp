@@ -7,10 +7,12 @@
 #include "libgit/lgcommit.h"
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
+#include "objects/blob.h"
 #include "private/repositorycloneoperation.h"
 #include "reference.h"
 #include "remote.h"
 #include "stash.h"
+#include "tree.h"
 #include <QCoroSignal>
 #include <QDirIterator>
 #include <QFileDialog>
@@ -164,6 +166,26 @@ ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {
 
     d->gitRepo->setHead(reference->name());
     return ErrorResponse();
+}
+
+void Repository::resetFileToHead(QString file) {
+    auto head = this->head();
+    if (!head) return;
+
+    QFileInfo fileInfo(QDir(this->repositoryPath()).absoluteFilePath(file));
+    auto tree = head->asCommit()->tree();
+    auto blob = tree->blobForPath(file);
+
+    if (blob) {
+        fileInfo.dir().mkpath(".");
+
+        QFile f(fileInfo.filePath());
+        f.open(QFile::WriteOnly);
+        f.write(blob->contents());
+        f.close();
+    } else {
+        QFile::remove(fileInfo.filePath());
+    }
 }
 
 RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, QVariantMap options) {
