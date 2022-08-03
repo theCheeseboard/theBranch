@@ -111,18 +111,30 @@ LGCommitPtr LGRepository::lookupCommit(LGOidPtr oid) {
     return (new LGCommit(commit))->sharedFromThis();
 }
 
-#include <tlogger.h>
-QCoro::Task<> LGRepository::commit(QString message, LGSignaturePtr committer) {
-    // Use git command to write commits
-    QTemporaryFile messageFile;
-    messageFile.open();
-    messageFile.write(message.toUtf8());
-    messageFile.close();
+LGOidPtr LGRepository::createCommit(LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
+    return createCommit("HEAD", author, committer, message, tree, parents);
+}
 
-    auto args = QStringList({"commit", QStringLiteral("--file=%1").arg(messageFile.fileName()), QStringLiteral("--author=%1 <%2>").arg(committer->name(), committer->email())});
-    auto [exitCode, output] = co_await this->runGit(args);
+LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
+    git_oid oid;
+    const char* update_ref;
+    if (refToUpdate.isEmpty()) {
+        update_ref = nullptr;
+    } else {
+        update_ref = refToUpdate.toUtf8().data();
+    }
 
-    tDebug("LGRepository") << output;
+    const git_commit** commit_parents = new const git_commit*[parents.count()];
+    for (int i = 0; i < parents.length(); i++) {
+        commit_parents[i] = parents.at(i)->gitCommit();
+    }
+
+    if (git_commit_create(&oid, d->gitRepository, update_ref, author->gitSignature(), committer->gitSignature(), "UTF-8", message.toUtf8().data(), tree->gitTree(), parents.count(), commit_parents) != 0) {
+        delete[] commit_parents;
+        return LGOidPtr();
+    }
+
+    return (new LGOid(oid))->sharedFromThis();
 }
 
 LGBlobPtr LGRepository::lookupBlob(LGOidPtr oid) {

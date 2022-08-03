@@ -1,6 +1,8 @@
 #include "merge.h"
 
+#include "commit.h"
 #include "libgit/lgannotatedcommit.h"
+#include "libgit/lgcommit.h"
 #include "libgit/lgindex.h"
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
@@ -159,15 +161,15 @@ void Merge::abortOperation() {
 
 void Merge::finaliseOperation() {
     // Create the merge commit
-
-    LGRepositoryPtr repo = d->repo->git_repository();
-    LGSignaturePtr sig = repo->defaultSignature();
-    LGReferencePtr head = repo->head();
+    auto repo = d->repo->git_repository();
+    auto sig = repo->defaultSignature();
+    auto treeOid = repo->index()->writeTree(repo);
+    auto tree = repo->lookupTree(treeOid);
 
     // Create a commit on the existing HEAD
 
     auto mergeMessage = tr("Merge %1 into %2").arg(d->fromName, d->toName);
-    repo->commit(mergeMessage, sig);
+    repo->createCommit(sig, sig, mergeMessage, tree, {d->repo->head()->asCommit()->gitCommit(), d->fromBranch->lastCommit()->gitCommit()});
 }
 
 PullMerge::PullMerge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :

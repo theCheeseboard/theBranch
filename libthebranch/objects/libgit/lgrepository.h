@@ -43,7 +43,8 @@ class LGRepository : public QObject,
         LGTreePtr lookupTree(LGOidPtr oid);
 
         LGCommitPtr lookupCommit(LGOidPtr oid);
-        QCoro::Task<> commit(QString message, LGSignaturePtr committer);
+        LGOidPtr createCommit(LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents);
+        LGOidPtr createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents);
 
         LGBlobPtr lookupBlob(LGOidPtr oid);
 

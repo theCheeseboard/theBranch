@@ -4,6 +4,7 @@
 #include "index.h"
 #include "libgit/lgcommit.h"
 #include "libgit/lgrepository.h"
+#include "objects/libgit/lgindex.h"
 #include "reference.h"
 #include "repository.h"
 #include <git2.h>
@@ -85,8 +86,10 @@ void CherryPick::finaliseOperation() {
     auto repo = d->repo->git_repository();
     auto sig = repo->defaultSignature();
     auto head = d->repo->head();
+    auto treeOid = repo->index()->writeTree(repo);
+    auto tree = repo->lookupTree(treeOid);
 
     // Create a commit on the existing HEAD
     auto commitMessage = tr("Cherry pick %1 into %2").arg(d->commit->commitHash(), head->asBranch()->name());
-    repo->commit(commitMessage, sig);
+    repo->createCommit(sig, sig, commitMessage, tree, {head->asCommit()->gitCommit()});
 }

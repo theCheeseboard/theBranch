@@ -4,6 +4,7 @@
 #include "forward_declares.h"
 #include <QObject>
 
+class CommitSnapIn;
 class CommitModel;
 struct CommitPrivate;
 class Commit : public QObject,
@@ -36,6 +37,8 @@ class Commit : public QObject,
         friend Branch;
         friend Reference;
         friend CherryPick;
+        friend Merge;
+        friend CommitSnapIn;
         static CommitPtr commitForLgCommit(LGRepositoryPtr repo, LGCommitPtr commit);
         LGCommitPtr gitCommit();
 

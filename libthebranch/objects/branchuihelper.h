@@ -20,12 +20,13 @@
 #ifndef BRANCHUIHELPER_H
 #define BRANCHUIHELPER_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QCoroTask>
 
 class QMenu;
 
-class BranchUiHelper : public QObject {
+class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         Q_OBJECT
 
     public:

@@ -106,12 +106,15 @@ void CommitSnapIn::on_commitButton_clicked() {
 }
 
 void CommitSnapIn::performCommit() {
-    LGRepositoryPtr repo = d->repository->git_repository();
-    LGSignaturePtr sig = d->signature;
-    LGReferencePtr head = repo->head();
+    auto repo = d->repository;
+    auto sig = d->signature;
+    auto head = repo->head();
 
     // Create a commit on the existing HEAD
-    LGIndexPtr index = repo->index();
+    auto index = repo->git_repository()->index();
+
+    // Reset the index to the state of the tree
+    index->readTree(head->asCommit()->tree()->gitTree());
 
     for (QModelIndex selected : d->statusModel->checkedItems()) {
         QString pathspec = selected.data(StatusItemListModel::PathRole).toString();
@@ -130,7 +133,15 @@ void CommitSnapIn::performCommit() {
         return;
     }
 
-    repo->commit(ui->commitMessageEdit->toPlainText(), sig);
+    auto treeOid = repo->git_repository()->index()->writeTree(repo->git_repository());
+    auto tree = repo->git_repository()->lookupTree(treeOid);
+
+    auto commitOid = repo->git_repository()->createCommit(sig, sig, ui->commitMessageEdit->toPlainText(), tree, {head->asCommit()->gitCommit()});
+    if (!commitOid) {
+        auto error = ErrorResponse::fromCurrentGitError();
+        tErrorFlash::flashError(ui->commitMessageEdit, error.description());
+        return;
+    }
 
     if (ui->pushBox->isChecked()) {
         this->parentPopover()->pushSnapIn(new PushSnapIn(d->repository));
@@ -255,11 +266,11 @@ void CommitSnapIn::on_modifiedFilesEdit_customContextMenuRequested(const QPoint&
     }
 
     auto performRevert = [filesToRevert, filesToDelete, this] {
-        for (const auto &filename : filesToRevert) {
+        for (const auto& filename : filesToRevert) {
             d->repository->resetFileToHead(filename);
         }
 
-        for (const auto &filename : filesToDelete) {
+        for (const auto& filename : filesToDelete) {
             d->repository->resetFileToHead(filename);
         }
 
