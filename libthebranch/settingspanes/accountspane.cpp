@@ -23,6 +23,7 @@
 #include "accounts/abstractaccount.h"
 #include "accounts/accountsmanager.h"
 #include "accounts/github/addgithubaccountpopover.h"
+#include "branchservices.h"
 #include <QMenu>
 #include <tpopover.h>
 
@@ -35,7 +36,7 @@ AccountsPane::AccountsPane(QWidget* parent) :
     ui->setupUi(this);
     d = new AccountsPanePrivate();
 
-    connect(AccountsManager::instance(), &AccountsManager::accountsChanged, this, &AccountsPane::loadAccounts);
+    connect(BranchServices::accounts(), &AccountsManager::accountsChanged, this, &AccountsPane::loadAccounts);
     loadAccounts();
 }
 
@@ -46,7 +47,7 @@ AccountsPane::~AccountsPane() {
 
 void AccountsPane::loadAccounts() {
     ui->accountsList->clear();
-    for (auto* account : AccountsManager::instance()->accounts()) {
+    for (auto* account : BranchServices::accounts()->accounts()) {
         auto* item = new QListWidgetItem();
         item->setText(account->description());
         item->setData(Qt::UserRole, QVariant::fromValue(account));
@@ -75,8 +76,8 @@ void AccountsPane::on_accountsList_customContextMenuRequested(const QPoint& pos)
 
     auto* menu = new QMenu();
     menu->addAction(QIcon::fromTheme("list-remove"), tr("Remove Account"), this, [this, selected] {
-        auto *account = selected.first()->data(Qt::UserRole).value<AbstractAccount*>();
-        AccountsManager::instance()->removeAccount(account);
+        auto* account = selected.first()->data(Qt::UserRole).value<AbstractAccount*>();
+        BranchServices::accounts()->removeAccount(account);
     });
     menu->popup(ui->accountsList->mapToGlobal(pos));
 }

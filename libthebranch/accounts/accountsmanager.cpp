@@ -18,11 +18,6 @@ AccountsManager::~AccountsManager() {
     delete d;
 }
 
-AccountsManager* AccountsManager::instance() {
-    static auto* manager = new AccountsManager();
-    return manager;
-}
-
 void AccountsManager::addAccount(AbstractAccount* account) {
     d->accounts.append(account);
     this->save();

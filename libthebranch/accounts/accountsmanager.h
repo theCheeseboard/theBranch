@@ -4,24 +4,26 @@
 #include <QObject>
 
 class AbstractAccount;
+class BranchServices;
 struct AccountsManagerPrivate;
 class AccountsManager : public QObject {
         Q_OBJECT
     public:
         ~AccountsManager();
 
-        static AccountsManager* instance();
-
         void addAccount(AbstractAccount* account);
         void removeAccount(AbstractAccount* account);
 
         QList<AbstractAccount*> accounts();
 
+    protected:
+        friend BranchServices;
+        explicit AccountsManager(QObject* parent = nullptr);
+
     signals:
         void accountsChanged();
 
     private:
-        explicit AccountsManager(QObject* parent = nullptr);
         AccountsManagerPrivate* d;
 
         void save();

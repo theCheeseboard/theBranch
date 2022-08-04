@@ -23,6 +23,7 @@
 #include "accounts/github/githubaccount.h"
 #include "accounts/github/issues/githubissuelistcontroller.h"
 #include "accounts/github/pr/githubpullrequestlistcontroller.h"
+#include "branchservices.h"
 #include "commitbrowserwidget.h"
 #include "objects/branch.h"
 #include "objects/branchuihelper.h"
@@ -98,7 +99,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
 
     this->setHeaderHidden(true);
 
-    connect(AccountsManager::instance(), &AccountsManager::accountsChanged, this, &RepositoryBrowserList::updateData);
+    connect(BranchServices::accounts(), &AccountsManager::accountsChanged, this, &RepositoryBrowserList::updateData);
 }
 
 RepositoryBrowserList::~RepositoryBrowserList() {
@@ -186,7 +187,7 @@ void RepositoryBrowserList::updateData() {
 
     for (auto controller : d->ghIssueControllers) controller->deleteLater();
     for (auto controller : d->ghPrControllers) controller->deleteLater();
-    for (auto account : AccountsManager::instance()->accounts()) {
+    for (auto account : BranchServices::accounts()->accounts()) {
         if (auto gh = qobject_cast<GitHubAccount*>(account)) {
             for (auto remote : d->remotes) {
                 auto slug = remote->slugForAccount(gh);

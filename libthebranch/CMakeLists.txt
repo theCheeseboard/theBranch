@@ -14,6 +14,8 @@ cntp_find_pkgconfig(lgit libgit2 REQUIRED
 set(SOURCES
     libthebranch_global.cpp
 
+    branchservices.cpp
+
     objects/repository.cpp
     objects/commitmodel.cpp
     objects/branchmodel.cpp
@@ -121,6 +123,7 @@ set(SOURCES
 
 set(HEADERS
     libthebranch_global.h
+    branchservices.h
     objects/repository.h
     objects/commitmodel.h
     objects/commit.h

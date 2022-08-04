@@ -2,6 +2,7 @@
 #include "ui_addgithubaccountpopover.h"
 
 #include "../accountsmanager.h"
+#include "branchservices.h"
 #include "githubaccount.h"
 #include <QDesktopServices>
 
@@ -27,7 +28,7 @@ QCoro::Task<> AddGithubAccountPopover::on_addButton_clicked() {
     auto* account = new GitHubAccount(ui->usernameBox->text(), ui->patBox->text());
     auto success = co_await account->testConnection();
     if (success) {
-        AccountsManager::instance()->addAccount(account);
+        BranchServices::accounts()->addAccount(account);
         emit done();
     } else {
         account->deleteLater();

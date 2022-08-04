@@ -23,14 +23,13 @@
 #include "accounts/github/githubaccount.h"
 #include "accounts/github/pr/githubcreatepullrequestpopover.h"
 #include "branch.h"
-#include "branchmodel.h"
+#include "branchservices.h"
 #include "cherrypick.h"
 #include "commit.h"
 #include "merge.h"
 #include "popovers/newbranchpopover.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/cherrypicksnapin.h"
-#include "popovers/snapins/conflictresolutionsnapin.h"
 #include "popovers/snapins/mergesnapin.h"
 #include "popovers/snapins/rebasesnapin.h"
 #include "rebase.h"
@@ -95,7 +94,7 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     if (!branch->isRemoteBranch()) prBranch = branch->upstream();
 
     if (prBranch && prBranch->isRemoteBranch()) {
-        for (auto account : AccountsManager::instance()->accounts()) {
+        for (auto account : BranchServices::accounts()->accounts()) {
             if (auto gh = qobject_cast<GitHubAccount*>(account)) {
                 for (auto remote : repo->remotes()) {
                     if (remote->name() != prBranch->remoteName()) continue;
