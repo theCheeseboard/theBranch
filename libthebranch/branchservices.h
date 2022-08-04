@@ -4,6 +4,7 @@
 #include "libthebranch_global.h"
 #include <QObject>
 
+class GitCredentialManager;
 class AccountsManager;
 struct BranchServicesPrivate;
 class LIBTHEBRANCH_EXPORT BranchServices : public QObject {
@@ -14,6 +15,7 @@ class LIBTHEBRANCH_EXPORT BranchServices : public QObject {
         static BranchServices* instance();
 
         static AccountsManager* accounts();
+        static GitCredentialManager* cred();
 
     signals:
 

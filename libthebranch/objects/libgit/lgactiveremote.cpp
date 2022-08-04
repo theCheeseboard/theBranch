@@ -19,8 +19,8 @@
  * *************************************/
 #include "lgactiveremote.h"
 
-#include "../errorresponse.h"
-#include "lgrepository.h"
+#include "branchservices.h"
+#include "cred/gitcredentialmanager.h"
 #include <QCoroFuture>
 #include <QCoroSignal>
 #include <QtConcurrent>
@@ -37,6 +37,9 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
     QObject{parent} {
     d = new LGActiveRemotePrivate();
     d->remote = remote;
+
+    // Ensure cred manager is available
+    BranchServices::cred();
 
     d->callbacks = GIT_REMOTE_CALLBACKS_INIT;
     d->callbacks.payload = this;
@@ -76,66 +79,18 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
     d->callbacks.certificate_check = [](git_cert* cert, int valid, const char* host, void* payload) -> int {
         auto parent = reinterpret_cast<LGActiveRemote*>(payload);
 
-        QVariantMap params;
-        params.insert("type", "certcheck");
-        params.insert("host", QString(host));
-
-        if (valid) return 0;
-        switch (cert->cert_type) {
-            case GIT_CERT_NONE:
-                return -1;
-            case GIT_CERT_X509:
-                {
-                    return -1;
-                    break;
-                }
-            case GIT_CERT_HOSTKEY_LIBSSH2:
-                {
-                    auto* hostKeyCert = reinterpret_cast<git_cert_hostkey*>(cert);
-                    params.insert("certType", "ssh");
-                    if (hostKeyCert->type & GIT_CERT_SSH_MD5) params.insert("hash-md5", QString(QByteArray::fromRawData(reinterpret_cast<const char*>(hostKeyCert->hash_md5), sizeof(hostKeyCert->hash_md5)).toHex()));
-                    if (hostKeyCert->type & GIT_CERT_SSH_SHA1) params.insert("hash-sha1", QString(QByteArray::fromRawData(reinterpret_cast<const char*>(hostKeyCert->hash_sha1), sizeof(hostKeyCert->hash_sha1)).toHex()));
-                    if (hostKeyCert->type & GIT_CERT_SSH_SHA256) params.insert("hash-sha256", QString(QByteArray::fromRawData(reinterpret_cast<const char*>(hostKeyCert->hash_sha256), sizeof(hostKeyCert->hash_sha256)).toHex()));
-                    if (hostKeyCert->type & GIT_CERT_SSH_RAW) {
-                        params.insert("hostkey", QString(QByteArray::fromRawData(reinterpret_cast<const char*>(hostKeyCert->hostkey), sizeof(hostKeyCert->hostkey_len)).toHex()));
-
-                        QString type;
-                        switch (hostKeyCert->raw_type) {
-                            case GIT_CERT_SSH_RAW_TYPE_UNKNOWN:
-                                type = tr("Unknown");
-                                break;
-                            case GIT_CERT_SSH_RAW_TYPE_RSA:
-                                type = "RSA";
-                                break;
-                            case GIT_CERT_SSH_RAW_TYPE_DSS:
-                                type = "DSS";
-                                break;
-                            case GIT_CERT_SSH_RAW_TYPE_KEY_ECDSA_256:
-                                type = "ECDSA256";
-                                break;
-                            case GIT_CERT_SSH_RAW_TYPE_KEY_ECDSA_384:
-                                type = "ECDSA384";
-                                break;
-                            case GIT_CERT_SSH_RAW_TYPE_KEY_ECDSA_521:
-                                type = "ECDSA521";
-                                break;
-                            case GIT_CERT_SSH_RAW_TYPE_KEY_ED25519:
-                                type = "ED25519";
-                                break;
-                        }
-                        params.insert("hostkeyType", type);
-                    }
-                    break;
-                }
-            case GIT_CERT_STRARRAY:
-                {
-                    return -1;
-                    break;
-                }
+        auto params = BranchServices::cred()->certParams(cert, host);
+        auto trust = BranchServices::cred()->checkCert(params);
+        if (trust == GitCredentialManager::GitCertCheckResult::Passed) {
+            return 0;
         }
+
+        if (trust == GitCredentialManager::GitCertCheckResult::UnexpectedCert) params.insert("unexpected", true);
+        if (valid) return 0;
 
         try {
             parent->callInformationRequiredCallback(params);
+            BranchServices::cred()->trustCert(params);
             return 0;
         } catch (const QException& ex) {
             return -1;

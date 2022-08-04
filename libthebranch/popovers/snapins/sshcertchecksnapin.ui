@@ -59,13 +59,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="sshKeyAuthenticationPrompt">
-        <property name="text">
-         <string notr="true">You should ensure that the fingerprint for the server is correct</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0" colspan="2">
        <widget class="tSubtitleLabel" name="label">
         <property name="text">
@@ -73,7 +66,38 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="sshKeyAuthenticationPrompt">
+        <property name="text">
+         <string notr="true">You should ensure that the fingerprint for the server is correct</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Fingerprint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="fingerprintLabel">
+        <property name="text">
+         <string notr="true">TextLabel</string>
+        </property>
+       </widget>
+      </item>
      </layout>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter">
+    <widget class="tStatusFrame" name="warningFrame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
     </widget>
    </item>
    <item alignment="Qt::AlignHCenter">
@@ -111,6 +135,12 @@
    <class>tSubtitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">tsubtitlelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>tStatusFrame</class>
+   <extends>QFrame</extends>
+   <header location="global">tstatusframe.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

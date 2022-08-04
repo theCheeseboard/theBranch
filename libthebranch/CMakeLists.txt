@@ -13,8 +13,9 @@ cntp_find_pkgconfig(lgit libgit2 REQUIRED
 
 set(SOURCES
     libthebranch_global.cpp
-
     branchservices.cpp
+
+    cred/gitcredentialmanager.cpp
 
     objects/repository.cpp
     objects/commitmodel.cpp
@@ -177,6 +178,7 @@ set(HEADERS
     accounts/abstractaccount.h
     accounts/github/githubaccount.h
     accounts/github/githubhttp.h
+    cred/gitcredentialmanager.h
 )
 
 set(PRIVATE_HEADERS

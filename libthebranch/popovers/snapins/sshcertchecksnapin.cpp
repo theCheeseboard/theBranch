@@ -29,9 +29,36 @@ SshCertCheckSnapIn::SshCertCheckSnapIn(QVariantMap params, QWidget* parent) :
 
     ui->titleLabel->setBackButtonShown(true);
     new tContentSizer(ui->sshKeyOptionsWidget);
+    new tContentSizer(ui->warningFrame);
     new tContentSizer(ui->acceptButton);
 
     ui->hostLabel->setText(params.value("host").toString());
+    ui->fingerprintLabel->setText(params.value("hash-sha256").toString());
+
+    if (params.value("unexpected").toBool()) {
+        ui->warningFrame->setState(tStatusFrame::Error);
+        ui->warningFrame->setTitle(tr("Remote Host Identification has changed"));
+        ui->warningFrame->setText(tr("IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY.\nSomeone could be eavesdropping on you right now!\n\nIt is also possible that a host key has just been changed."));
+
+        auto continueButton = ui->warningFrame->addButton();
+        continueButton->setFlat(true);
+        continueButton->setText(tr("Continue Nevertheless"));
+        connect(continueButton, &QPushButton::clicked, this, [this] {
+            ui->warningFrame->setVisible(false);
+            ui->acceptButton->setEnabled(true);
+        });
+
+        auto stopButton = ui->warningFrame->addButton();
+        stopButton->setText(tr("Abort Operation"));
+        connect(stopButton, &QPushButton::clicked, this, [this] {
+            emit response({});
+            emit done();
+        });
+
+        ui->acceptButton->setEnabled(false);
+    } else {
+        ui->warningFrame->setVisible(false);
+    }
 }
 
 SshCertCheckSnapIn::~SshCertCheckSnapIn() {
