@@ -37,7 +37,7 @@ jobs:
         with:
           project: "vicr123/libgit2"
           commitish: "embed-ssh"
-          extra-cmake-args: "-DEMBED_SSH_PATH=\"${{ env.GITHUB_WORKSPACE }}/libssh2\""
+          extra-cmake-args: "-DEMBED_SSH_PATH=${{ github.workspace }}/libssh2"
       - uses: vicr123/libcontemporary/build-project@actions
         name: "Build ttexteditor"
         with:
