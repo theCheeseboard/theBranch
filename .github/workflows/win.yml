@@ -27,11 +27,17 @@ jobs:
         with:
           sdk: 10.0.22000.0
       - uses: vicr123/libcontemporary/install-libcontemporary@actions
+      - uses: actions/checkout@v3
+        with:
+          repository: libssh2/libssh2
+          path: "libssh2"
+          ref: refs/tags/libssh2-1.10.0
       - uses: vicr123/libcontemporary/build-project@actions
         name: "Build libgit2"
         with:
-          project: "libgit2/libgit2"
-          commitish: "main"
+          project: "vicr123/libgit2"
+          commitish: "embed-ssh"
+          extra-cmake-args: "-DEMBED_SSH_PATH=\"${{ env.GITHUB_WORKSPACE }}/libssh2\""
       - uses: vicr123/libcontemporary/build-project@actions
         name: "Build ttexteditor"
         with:
@@ -42,7 +48,7 @@ jobs:
         with:
           project: "vicr123/contemporary-theme"
           commitish: "blueprint"
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
       - uses: vicr123/libcontemporary/build-project@actions
