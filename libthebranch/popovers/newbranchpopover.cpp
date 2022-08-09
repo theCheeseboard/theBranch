@@ -25,8 +25,8 @@
 #include <terrorflash.h>
 
 struct NewBranchPopoverPrivate {
-        RepositoryPtr repo;
-        CommitPtr commit;
+    RepositoryPtr repo;
+    CommitPtr commit;
 };
 
 NewBranchPopover::NewBranchPopover(RepositoryPtr repo, CommitPtr commit, QWidget* parent) :
@@ -62,6 +62,10 @@ void NewBranchPopover::on_branchButton_clicked() {
         auto error = ErrorResponse::fromCurrentGitError();
         tErrorFlash::flashError(ui->nameContainer, error.description());
         return;
+    }
+
+    if (ui->checkoutBox->isChecked()) {
+        d->repo->setHeadAndCheckout(branch->toReference());
     }
 
     emit done();
