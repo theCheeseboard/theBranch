@@ -3,6 +3,7 @@
 
 #include "objects/forward_declares.h"
 #include <QObject>
+#include <concepts>
 
 class GitHubAccount;
 class QMenu;
@@ -31,5 +32,8 @@ class GitHubItem : public QObject {
 };
 
 typedef QSharedPointer<GitHubItem> GitHubItemPtr;
+
+template<typename T>
+concept IsGithubItem = std::is_base_of<GitHubItem, T>::value;
 
 #endif // GITHUBITEM_H

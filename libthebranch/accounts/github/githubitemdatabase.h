@@ -1,20 +1,16 @@
 #ifndef GITHUBITEMDATABASE_H
 #define GITHUBITEMDATABASE_H
 
+#include "githubitem.h"
 #include "objects/forward_declares.h"
 #include <QJsonObject>
 #include <QMap>
 #include <QObject>
-#include <concepts>
 
 class GitHubAccount;
 class GitHubItem;
 
 typedef QSharedPointer<GitHubItem> GitHubItemPtr;
-
-template<typename T>
-concept IsGithubItem = std::is_base_of<GitHubItem, T>::value;
-
 class GitHubItemDatabase : public QObject {
         Q_OBJECT
     public:

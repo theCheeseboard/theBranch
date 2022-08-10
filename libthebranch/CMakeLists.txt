@@ -220,6 +220,7 @@ set(PRIVATE_HEADERS
     accounts/github/addgithubaccountpopover.h
     accounts/github/githubitem.h
     accounts/github/githubitemdatabase.h
+    accounts/github/githubasyncgeneratormodel.h
     accounts/github/issues/githubissuesapi.h
     accounts/github/issues/githubissue.h
     accounts/github/issues/githubissuelistcontroller.h
