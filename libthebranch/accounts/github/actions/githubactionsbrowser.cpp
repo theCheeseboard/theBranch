@@ -2,7 +2,7 @@
 #include "ui_githubactionsbrowser.h"
 
 #include "githubactionsmodel.h"
-#include "githubactionsrunsbrowser.h"
+#include "githubactionsworkflowbrowser.h"
 #include <QTimer>
 
 struct GitHubActionsBrowserPrivate {
@@ -27,8 +27,8 @@ GitHubActionsBrowser::~GitHubActionsBrowser() {
 }
 
 void GitHubActionsBrowser::showWorkflow(GitHubWorkflowPtr workflow) {
-    auto runsWidget = new GitHubActionsRunsBrowser(workflow);
-    connect(runsWidget, &GitHubActionsRunsBrowser::goBack, this, [this, runsWidget] {
+    auto runsWidget = new GitHubActionsWorkflowBrowser(workflow);
+    connect(runsWidget, &GitHubActionsWorkflowBrowser::goBack, this, [this, runsWidget] {
         ui->stackedWidget->setCurrentWidget(ui->workflowsPage);
         QTimer::singleShot(500, this, [this, runsWidget] {
             ui->stackedWidget->removeWidget(runsWidget);

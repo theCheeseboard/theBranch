@@ -2,6 +2,10 @@
 #define GITHUBWORKFLOWRUN_H
 
 #include "../githubitem.h"
+#include <QCoroAsyncGenerator>
+
+class GitHubWorkflowJob;
+typedef QSharedPointer<GitHubWorkflowJob> GitHubWorkflowJobPtr;
 
 struct GitHubWorkflowRunPrivate;
 class GitHubWorkflowRun : public GitHubItem {
@@ -14,6 +18,8 @@ class GitHubWorkflowRun : public GitHubItem {
         qint64 runNumber();
 
         QString headCommitMessage();
+
+        QCoro::AsyncGenerator<GitHubWorkflowJobPtr> listWorkflowJobs();
 
     private:
         GitHubWorkflowRunPrivate* d;

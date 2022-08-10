@@ -7,9 +7,11 @@
 
 class GitHubWorkflow;
 class GitHubWorkflowRun;
+class GitHubWorkflowJob;
 
 typedef QSharedPointer<GitHubWorkflow> GitHubWorkflowPtr;
 typedef QSharedPointer<GitHubWorkflowRun> GitHubWorkflowRunPtr;
+typedef QSharedPointer<GitHubWorkflowJob> GitHubWorkflowJobPtr;
 
 class GitHubHttp;
 class GitHubActionsApi {
@@ -22,6 +24,9 @@ class GitHubActionsApi {
 
         QCoro::AsyncGenerator<GitHubWorkflowRunPtr> listWorkflowRuns(RemotePtr remote, qint64 workflowId);
         QCoro::Task<GitHubWorkflowRunPtr> workflowRun(RemotePtr remote, qint64 workflowRunId);
+
+        QCoro::AsyncGenerator<GitHubWorkflowJobPtr> listWorkflowJobs(RemotePtr remote, qint64 workflowRunId);
+        QCoro::Task<GitHubWorkflowJobPtr> workflowJob(RemotePtr remote, qint64 workflowJobId);
 
     private:
         GitHubHttp* http;

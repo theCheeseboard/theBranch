@@ -32,6 +32,10 @@ QString GitHubWorkflowRun::headCommitMessage() {
     return d->headCommitMessage;
 }
 
+QCoro::AsyncGenerator<GitHubWorkflowJobPtr> GitHubWorkflowRun::listWorkflowJobs() {
+    return this->account()->actions()->listWorkflowJobs(this->remote(), d->id);
+}
+
 void GitHubWorkflowRun::update(QJsonObject data) {
     d->id = data.value("id").toInteger();
     d->name = data.value("name").toString();

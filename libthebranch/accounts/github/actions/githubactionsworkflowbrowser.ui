@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GitHubActionsRunsBrowser</class>
- <widget class="QWidget" name="GitHubActionsRunsBrowser">
+ <class>GitHubActionsWorkflowBrowser</class>
+ <widget class="QWidget" name="GitHubActionsWorkflowBrowser">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,8 +27,8 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QStackedWidget" name="stackedWidget">
-     <widget class="QWidget" name="page">
+    <widget class="tStackedWidget" name="stackedWidget">
+     <widget class="QWidget" name="runsPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
         <number>0</number>
@@ -61,12 +61,20 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2"/>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>tStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">tstackedwidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>switchingFrame(int)</signal>
+   </slots>
+  </customwidget>
   <customwidget>
    <class>tTitleLabel</class>
    <extends>QLabel</extends>

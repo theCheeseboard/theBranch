@@ -103,10 +103,13 @@ set(SOURCES
     accounts/github/actions/githubworkflow.cpp
     accounts/github/actions/githubactionslistcontroller.cpp
     accounts/github/actions/githubactionsbrowser.cpp accounts/github/actions/githubactionsbrowser.ui
-    accounts/github/actions/githubactionsrunsbrowser.cpp accounts/github/actions/githubactionsrunsbrowser.ui
+    accounts/github/actions/githubactionsworkflowbrowser.cpp accounts/github/actions/githubactionsworkflowbrowser.ui
+    accounts/github/actions/githubactionsrunbrowser.cpp accounts/github/actions/githubactionsrunbrowser.ui
     accounts/github/actions/githubactionsmodel.cpp
     accounts/github/actions/githubworkflowrun.cpp
     accounts/github/actions/githubworkflowmodel.cpp
+    accounts/github/actions/githubworkflowjob.cpp
+    accounts/github/actions/githubworkflowrunmodel.cpp
     accounts/github/users/githubuser.cpp
 
     objects/private/repositoryoperation.cpp
@@ -239,10 +242,13 @@ set(PRIVATE_HEADERS
     accounts/github/actions/githubworkflow.h
     accounts/github/actions/githubactionslistcontroller.h
     accounts/github/actions/githubactionsbrowser.h
-    accounts/github/actions/githubactionsrunsbrowser.h
+    accounts/github/actions/githubactionsworkflowbrowser.h
     accounts/github/actions/githubworkflowrun.h
+    accounts/github/actions/githubworkflowjob.h
     accounts/github/actions/githubactionsmodel.h
     accounts/github/actions/githubworkflowmodel.h
+    accounts/github/actions/githubactionsrunbrowser.h
+    accounts/github/actions/githubworkflowrunmodel.h
     accounts/github/users/githubuser.h
 )
 
