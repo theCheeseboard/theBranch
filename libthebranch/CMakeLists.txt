@@ -99,6 +99,13 @@ set(SOURCES
     accounts/github/pr/githubpullrequestapi.cpp
     accounts/github/pr/githubpullrequestlistcontroller.cpp
     accounts/github/pr/githubpullrequest.cpp
+    accounts/github/actions/githubactionsapi.cpp
+    accounts/github/actions/githubworkflow.cpp
+    accounts/github/actions/githubactionslistcontroller.cpp
+    accounts/github/actions/githubactionsbrowser.cpp accounts/github/actions/githubactionsbrowser.ui
+    accounts/github/actions/githubactionsrunsbrowser.cpp accounts/github/actions/githubactionsrunsbrowser.ui
+    accounts/github/actions/githubactionsmodel.cpp
+    accounts/github/actions/githubworkflowrun.cpp
     accounts/github/users/githubuser.cpp
 
     objects/private/repositoryoperation.cpp
@@ -226,8 +233,14 @@ set(PRIVATE_HEADERS
     accounts/github/pr/githubpullrequestapi.h
     accounts/github/pr/githubpullrequestlistcontroller.h
     accounts/github/pr/githubpullrequest.h
+    accounts/github/actions/githubactionsapi.h
+    accounts/github/actions/githubworkflow.h
+    accounts/github/actions/githubactionslistcontroller.h
+    accounts/github/actions/githubactionsbrowser.h
+    accounts/github/actions/githubactionsrunsbrowser.h
+    accounts/github/actions/githubworkflowrun.h
+    accounts/github/actions/githubactionsmodel.h
     accounts/github/users/githubuser.h
-
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})

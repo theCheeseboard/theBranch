@@ -20,6 +20,7 @@
 #include "repositorybrowserlist.h"
 
 #include "accounts/accountsmanager.h"
+#include "accounts/github/actions/githubactionslistcontroller.h"
 #include "accounts/github/githubaccount.h"
 #include "accounts/github/issues/githubissuelistcontroller.h"
 #include "accounts/github/pr/githubpullrequestlistcontroller.h"
@@ -43,7 +44,7 @@ struct RepositoryBrowserListPrivate {
         QStandardItemModel* model;
         RepositoryPtr repo;
 
-        QStandardItem *branchParent, *remoteParent, *stashParent, *issuesParent, *prsParent;
+        QStandardItem *branchParent, *remoteParent, *stashParent, *issuesParent, *prsParent, *actionsParent;
 
         QList<BranchPtr> branches;
         QList<BranchPtr> remoteBranches;
@@ -52,6 +53,7 @@ struct RepositoryBrowserListPrivate {
 
         QList<GitHubIssueListController*> ghIssueControllers;
         QList<GitHubPullRequestListController*> ghPrControllers;
+        QList<GitHubActionsListController*> ghActionsControllers;
 
         std::function<QCoro::Task<>()> handler = nullptr;
 };
@@ -72,6 +74,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     d->stashParent = new QStandardItem(QIcon::fromTheme("vcs-stash"), tr("Stashes"));
     d->issuesParent = new QStandardItem(QIcon::fromTheme("tools-report-bug"), tr("Issues"));
     d->prsParent = new QStandardItem(QIcon::fromTheme("vcs-pull-request"), tr("Pull Requests"));
+    d->actionsParent = new QStandardItem(QIcon::fromTheme("package"), tr("Actions"));
 
     addContextMenuFunction(d->remoteParent, [this](QMenu* menu) {
         menu->addSection(tr("For repository"));
@@ -87,7 +90,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     });
 
     auto rootItem = d->model->invisibleRootItem();
-    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->issuesParent, d->prsParent});
+    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->actionsParent, d->issuesParent, d->prsParent});
 
     connect(this, &QTreeView::clicked, this, [this](QModelIndex index) {
         auto widgetFn = index.data(static_cast<int>(Roles::WidgetFunction)).value<WidgetFunction>();
@@ -187,11 +190,19 @@ void RepositoryBrowserList::updateData() {
 
     for (auto controller : d->ghIssueControllers) controller->deleteLater();
     for (auto controller : d->ghPrControllers) controller->deleteLater();
+    for (auto controller : d->ghActionsControllers) controller->deleteLater();
     for (auto account : BranchServices::accounts()->accounts()) {
         if (auto gh = qobject_cast<GitHubAccount*>(account)) {
             for (auto remote : d->remotes) {
                 auto slug = remote->slugForAccount(gh);
                 if (slug.isEmpty()) continue;
+
+                auto actionsController = new GitHubActionsListController(gh, remote);
+                connect(actionsController, &GitHubActionsListController::destroyed, this, [actionsController, this] {
+                    d->ghActionsControllers.removeAll(actionsController);
+                });
+                d->actionsParent->appendRow(actionsController->rootItem());
+                d->ghActionsControllers.append(actionsController);
 
                 auto issuesController = new GitHubIssueListController(gh, remote);
                 connect(issuesController, &GitHubIssueListController::destroyed, this, [issuesController, this] {

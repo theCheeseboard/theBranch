@@ -1,5 +1,6 @@
 #include "githubaccount.h"
 
+#include "actions/githubactionsapi.h"
 #include "githubhttp.h"
 #include "githubitemdatabase.h"
 #include "issues/githubissuesapi.h"
@@ -20,6 +21,7 @@ struct GitHubAccountPrivate {
         GitHubHttp* http;
         GitHubPullRequestApi* pr;
         GitHubIssuesApi* issues;
+        GitHubActionsApi* actions;
 };
 
 GitHubAccount::GitHubAccount(QString username, QString token, QObject* parent) :
@@ -41,6 +43,7 @@ GitHubAccount::GitHubAccount(QJsonObject account, QObject* parent) :
 GitHubAccount::~GitHubAccount() {
     delete d->pr;
     delete d->issues;
+    delete d->actions;
     d->http->deleteLater();
     delete d;
 }
@@ -83,6 +86,10 @@ GitHubIssuesApi* GitHubAccount::issues() {
     return d->issues;
 }
 
+GitHubActionsApi* GitHubAccount::actions() {
+    return d->actions;
+}
+
 QCoro::Task<bool> GitHubAccount::testConnection() {
     auto reply = co_await d->http->get("/user");
     co_return reply.statusCode == 200;
@@ -94,6 +101,7 @@ void GitHubAccount::init() {
     d->itemDb = new GitHubItemDatabase();
     d->issues = new GitHubIssuesApi(d->http);
     d->pr = new GitHubPullRequestApi(d->http);
+    d->actions = new GitHubActionsApi(d->http);
 }
 
 QJsonObject GitHubAccount::save() {

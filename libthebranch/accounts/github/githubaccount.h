@@ -7,6 +7,7 @@
 class GitHubItemDatabase;
 class GitHubIssuesApi;
 class GitHubPullRequestApi;
+class GitHubActionsApi;
 struct GitHubAccountPrivate;
 class GitHubAccount : public AbstractAccount {
         Q_OBJECT
@@ -24,6 +25,7 @@ class GitHubAccount : public AbstractAccount {
 
         GitHubPullRequestApi* pr();
         GitHubIssuesApi* issues();
+        GitHubActionsApi* actions();
 
         QCoro::Task<bool> testConnection();
 
