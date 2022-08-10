@@ -18,6 +18,10 @@ class GitHubActionsModel : public QAbstractListModel,
         explicit GitHubActionsModel(GitHubAccount* account, RemotePtr remote, QObject* parent = nullptr);
         ~GitHubActionsModel();
 
+        enum Roles {
+            WorkflowRole = Qt::UserRole
+        };
+
         QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
     private:

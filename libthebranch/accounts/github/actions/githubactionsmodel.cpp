@@ -25,8 +25,11 @@ QVariant GitHubActionsModel::data(const QModelIndex& index, int role) const {
         return QVariant();
 
     auto workflow = item(index);
-    if (role == Qt::DisplayRole) {
-        return workflow->name();
+    switch (role) {
+        case Qt::DisplayRole:
+            return workflow->name();
+        case WorkflowRole:
+            return QVariant::fromValue(workflow);
     }
     return QVariant();
 }

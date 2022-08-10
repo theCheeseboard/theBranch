@@ -106,6 +106,7 @@ set(SOURCES
     accounts/github/actions/githubactionsrunsbrowser.cpp accounts/github/actions/githubactionsrunsbrowser.ui
     accounts/github/actions/githubactionsmodel.cpp
     accounts/github/actions/githubworkflowrun.cpp
+    accounts/github/actions/githubworkflowmodel.cpp
     accounts/github/users/githubuser.cpp
 
     objects/private/repositoryoperation.cpp
@@ -241,6 +242,7 @@ set(PRIVATE_HEADERS
     accounts/github/actions/githubactionsrunsbrowser.h
     accounts/github/actions/githubworkflowrun.h
     accounts/github/actions/githubactionsmodel.h
+    accounts/github/actions/githubworkflowmodel.h
     accounts/github/users/githubuser.h
 )
 

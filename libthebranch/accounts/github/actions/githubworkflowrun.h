@@ -10,6 +10,11 @@ class GitHubWorkflowRun : public GitHubItem {
         GitHubWorkflowRun(GitHubAccount* account, RemotePtr remote);
         ~GitHubWorkflowRun();
 
+        QString name();
+        qint64 runNumber();
+
+        QString headCommitMessage();
+
     private:
         GitHubWorkflowRunPrivate* d;
 
@@ -18,5 +23,7 @@ class GitHubWorkflowRun : public GitHubItem {
         void update(QJsonObject data);
         QCoro::Task<> fetchLatest();
 };
+
+typedef QSharedPointer<GitHubWorkflowRun> GitHubWorkflowRunPtr;
 
 #endif // GITHUBWORKFLOWRUN_H

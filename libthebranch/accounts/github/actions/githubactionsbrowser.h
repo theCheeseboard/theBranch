@@ -4,6 +4,9 @@
 #include "objects/forward_declares.h"
 #include <QWidget>
 
+class GitHubWorkflow;
+typedef QSharedPointer<GitHubWorkflow> GitHubWorkflowPtr;
+
 namespace Ui {
     class GitHubActionsBrowser;
 }
@@ -16,6 +19,11 @@ class GitHubActionsBrowser : public QWidget {
     public:
         explicit GitHubActionsBrowser(GitHubAccount* account, RemotePtr remote, QWidget* parent = nullptr);
         ~GitHubActionsBrowser();
+
+        void showWorkflow(GitHubWorkflowPtr workflow);
+
+    private slots:
+        void on_listView_clicked(const QModelIndex& index);
 
     private:
         Ui::GitHubActionsBrowser* ui;

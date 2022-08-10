@@ -3,20 +3,30 @@
 
 #include <QWidget>
 
+class GitHubWorkflow;
+typedef QSharedPointer<GitHubWorkflow> GitHubWorkflowPtr;
+
 namespace Ui {
-class GitHubActionsRunsBrowser;
+    class GitHubActionsRunsBrowser;
 }
 
-class GitHubActionsRunsBrowser : public QWidget
-{
-    Q_OBJECT
+struct GitHubActionsRunsBrowserPrivate;
+class GitHubActionsRunsBrowser : public QWidget {
+        Q_OBJECT
 
-public:
-    explicit GitHubActionsRunsBrowser(QWidget *parent = nullptr);
-    ~GitHubActionsRunsBrowser();
+    public:
+        explicit GitHubActionsRunsBrowser(GitHubWorkflowPtr workflow, QWidget* parent = nullptr);
+        ~GitHubActionsRunsBrowser();
 
-private:
-    Ui::GitHubActionsRunsBrowser *ui;
+    signals:
+        void goBack();
+
+    private slots:
+        void on_titleLabel_backButtonClicked();
+
+    private:
+        Ui::GitHubActionsRunsBrowser* ui;
+        GitHubActionsRunsBrowserPrivate* d;
 };
 
 #endif // GITHUBACTIONSRUNSBROWSER_H
