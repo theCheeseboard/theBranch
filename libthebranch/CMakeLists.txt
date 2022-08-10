@@ -120,6 +120,7 @@ set(SOURCES
     objects/libgit/lgstash.cpp
     objects/libgit/lgobject.cpp
     objects/libgit/lgblob.cpp
+    objects/libgit/lgconfig.cpp
 )
 
 set(HEADERS
@@ -200,6 +201,7 @@ set(PRIVATE_HEADERS
     objects/libgit/lgactiveremote.h
     objects/libgit/lgstash.h
     objects/libgit/lgblob.h
+    objects/libgit/lgconfig.h
     widgets/conflictresolution/conflictresolutionwidget.h
     widgets/conflictresolution/textconflictresolution.h
 

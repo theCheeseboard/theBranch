@@ -20,10 +20,10 @@
 #include "commitspane.h"
 #include "ui_commitspane.h"
 
-#include <git2.h>
+#include "objects/libgit/lgconfig.h"
 
 struct CommitsPanePrivate {
-        git_config* config;
+    LGConfigPtr config;
 };
 
 CommitsPane::CommitsPane(QWidget* parent) :
@@ -31,24 +31,15 @@ CommitsPane::CommitsPane(QWidget* parent) :
     ui(new Ui::CommitsPane) {
     ui->setupUi(this);
     d = new CommitsPanePrivate();
+    d->config = LGConfig::defaultConfig();
 
-    git_config_open_default(&d->config);
-    git_config* snapshot;
-    git_config_snapshot(&snapshot, d->config);
+    auto snapshot = d->config->snapshot();
 
-    const char *name, *email;
-    if (git_config_get_string(&name, snapshot, "user.name") == 0) {
-        ui->nameEdit->setText(QString::fromUtf8(name));
-    }
-
-    if (git_config_get_string(&email, snapshot, "user.email") == 0) {
-        ui->emailEdit->setText(QString::fromUtf8(email));
-    }
-    git_config_free(snapshot);
+    ui->nameEdit->setText(snapshot->getString("user.name"));
+    ui->emailEdit->setText(snapshot->getString("user.email"));
 }
 
 CommitsPane::~CommitsPane() {
-    git_config_free(d->config);
     delete d;
     delete ui;
 }
@@ -58,9 +49,9 @@ QString CommitsPane::paneName() {
 }
 
 void CommitsPane::on_nameEdit_textChanged(const QString& arg1) {
-    git_config_set_string(d->config, "user.name", arg1.toUtf8().data());
+    d->config->setString("user.name", arg1);
 }
 
 void CommitsPane::on_emailEdit_textChanged(const QString& arg1) {
-    git_config_set_string(d->config, "user.email", arg1.toUtf8().data());
+    d->config->setString("user.email", arg1);
 }

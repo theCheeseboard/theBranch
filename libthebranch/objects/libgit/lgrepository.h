@@ -12,7 +12,7 @@ struct git_checkout_options;
 struct git_repository;
 struct LGRepositoryPrivate;
 class LGRepository : public QObject,
-                     public tbSharedFromThis<LGRepository> {
+    public tbSharedFromThis<LGRepository> {
         Q_OBJECT
     public:
         LGRepository(git_repository* git_repository);
@@ -67,6 +67,8 @@ class LGRepository : public QObject,
         QList<LGStashPtr> stashes();
 
         QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
+
+        LGConfigPtr config();
 
         git_repository* gitRepository();
 
