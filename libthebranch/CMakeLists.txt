@@ -110,6 +110,8 @@ set(SOURCES
     accounts/github/actions/githubworkflowmodel.cpp
     accounts/github/actions/githubworkflowjob.cpp
     accounts/github/actions/githubworkflowrunmodel.cpp
+    accounts/github/actions/githubworkflowjobmodel.cpp
+    accounts/github/actions/githubworkflowjobbrowser.cpp accounts/github/actions/githubworkflowjobbrowser.ui
     accounts/github/users/githubuser.cpp
 
     objects/private/repositoryoperation.cpp
@@ -249,6 +251,8 @@ set(PRIVATE_HEADERS
     accounts/github/actions/githubworkflowmodel.h
     accounts/github/actions/githubactionsrunbrowser.h
     accounts/github/actions/githubworkflowrunmodel.h
+    accounts/github/actions/githubworkflowjobmodel.h
+    accounts/github/actions/githubworkflowjobbrowser.h
     accounts/github/users/githubuser.h
 )
 

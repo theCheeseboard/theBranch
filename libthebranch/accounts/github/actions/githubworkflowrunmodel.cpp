@@ -24,6 +24,8 @@ QVariant GitHubWorkflowRunModel::data(const QModelIndex& index, int role) const 
     switch (role) {
         case Qt::DisplayRole:
             return job->name();
+        case WorkflowRunRole:
+            return QVariant::fromValue(job);
     }
 
     return QVariant();

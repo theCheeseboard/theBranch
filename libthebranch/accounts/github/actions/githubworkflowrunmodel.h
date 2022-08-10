@@ -18,6 +18,10 @@ class GitHubWorkflowRunModel : public QAbstractListModel,
         explicit GitHubWorkflowRunModel(GitHubWorkflowRunPtr workflowRun, QObject* parent = nullptr);
         ~GitHubWorkflowRunModel();
 
+        enum Roles {
+            WorkflowRunRole = Qt::UserRole
+        };
+
         QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
     private:

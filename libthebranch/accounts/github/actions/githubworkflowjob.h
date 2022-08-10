@@ -2,6 +2,7 @@
 #define GITHUBWORKFLOWJOB_H
 
 #include "../githubitem.h"
+#include <QDateTime>
 
 struct GitHubWorkflowJobPrivate;
 class GitHubWorkflowJob : public GitHubItem {
@@ -10,7 +11,30 @@ class GitHubWorkflowJob : public GitHubItem {
         GitHubWorkflowJob(GitHubAccount* account, RemotePtr remote);
         ~GitHubWorkflowJob();
 
+        struct JobStep {
+                enum class Status {
+                    Completed,
+                    InProgress,
+                    Queued,
+                    Pending
+                };
+
+                enum class Conclusion {
+                    Success,
+                    Failure,
+                    Skipped
+                };
+
+                QString name;
+                QDateTime started;
+                QDateTime completed;
+                Status status;
+                Conclusion conclusion;
+        };
+
         QString name();
+
+        QList<JobStep> steps();
 
     private:
         GitHubWorkflowJobPrivate* d;
