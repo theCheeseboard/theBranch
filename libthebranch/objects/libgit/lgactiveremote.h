@@ -28,7 +28,7 @@ class git_remote;
 class LGRemote;
 struct LGActiveRemotePrivate;
 class LGActiveRemote : public QObject,
-                       public tbSharedFromThis<LGActiveRemote> {
+    public tbSharedFromThis<LGActiveRemote> {
         Q_OBJECT
     public:
         ~LGActiveRemote();
@@ -44,7 +44,7 @@ class LGActiveRemote : public QObject,
 
     protected:
         friend LGRemote;
-        explicit LGActiveRemote(git_remote* remote, QObject* parent = nullptr);
+        explicit LGActiveRemote(git_remote* remote, LGRepositoryPtr repo, QObject* parent = nullptr);
 
     private:
         LGActiveRemotePrivate* d;

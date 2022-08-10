@@ -188,6 +188,7 @@ void BranchUiHelper::appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryP
 
     });
     menu->addAction(QIcon::fromTheme("list-remove"), tr("Delete Remote"), parent, [parent, remote]() -> QCoro::Task<> {
+        auto rm = remote;
         tMessageBox box(parent->window());
         box.setTitleBarText(tr("Delete Remote"));
         box.setMessageText(tr("Do you want to delete %1?").arg(QLocale().quoteString(remote->name())));
@@ -198,13 +199,13 @@ void BranchUiHelper::appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryP
         auto button = co_await box.presentAsync();
 
         if (button == affirmativeButton) {
-            remote->remove();
+            rm->remove();
         }
     });
 }
 
 void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent) {
-    auto performCheckout = [=] {
+    auto performCheckout = [ = ] {
         if (CHK_ERR(repo->setHeadAndCheckout(branch->toReference()))) {
             QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
 
@@ -237,7 +238,7 @@ void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidge
             box->setTitleBarText(tr("Checkout Remote Branch"));
             box->setMessageText(tr("Do you want to checkout this remote branch?"));
             box->setInformativeText(tr("A new branch, %1, will be created and checked out.")
-                                        .arg(QLocale().quoteString(branch->localBranchName())));
+                .arg(QLocale().quoteString(branch->localBranchName())));
             box->setIcon(QMessageBox::Question);
             tMessageBoxButton* checkoutButton = box->addButton(tr("Checkout"), QMessageBox::AcceptRole);
             connect(checkoutButton, &tMessageBoxButton::buttonPressed, parent, performCheckout);

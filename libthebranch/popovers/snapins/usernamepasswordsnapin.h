@@ -22,6 +22,8 @@ class UsernamePasswordSnapIn : public InformationRequestSnapIn {
 
         void on_authenticateButton_clicked();
 
+        QCoro::Task<> on_useCredentialHelperButton_clicked();
+
     private:
         Ui::UsernamePasswordSnapIn* ui;
         UsernamePasswordSnapInPrivate* d;

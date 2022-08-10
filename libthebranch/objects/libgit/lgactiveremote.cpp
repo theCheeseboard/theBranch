@@ -21,22 +21,26 @@
 
 #include "branchservices.h"
 #include "cred/gitcredentialmanager.h"
+#include "lgrepository.h"
 #include <QCoroFuture>
 #include <QCoroSignal>
 #include <QtConcurrent>
 #include <git2.h>
 
 struct LGActiveRemotePrivate {
-        git_remote* remote;
-        git_remote_callbacks callbacks;
+    git_remote* remote;
+    git_remote_callbacks callbacks;
 
-        InformationRequiredCallback informationRequiredCallback;
+    LGRepositoryPtr repo;
+
+    InformationRequiredCallback informationRequiredCallback;
 };
 
-LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
+LGActiveRemote::LGActiveRemote(git_remote* remote, LGRepositoryPtr repo, QObject* parent) :
     QObject{parent} {
     d = new LGActiveRemotePrivate();
     d->remote = remote;
+    d->repo = repo;
 
     // Ensure cred manager is available
     BranchServices::cred();
@@ -48,6 +52,7 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
 
         QVariantMap params;
         params.insert("type", "credential");
+        params.insert("repo", QVariant::fromValue(parent->d->repo));
         params.insert("url", QString(url));
         if (allowed_types & GIT_CREDENTIAL_SSH_KEY) {
             params.insert("credType", "ssh-key");
@@ -76,7 +81,7 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
         }
         return 0;
     };
-    d->callbacks.certificate_check = [](git_cert* cert, int valid, const char* host, void* payload) -> int {
+    d->callbacks.certificate_check = [](git_cert * cert, int valid, const char* host, void* payload) -> int {
         auto parent = reinterpret_cast<LGActiveRemote*>(payload);
 
         auto params = BranchServices::cred()->certParams(cert, host);
@@ -89,7 +94,10 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, QObject* parent) :
         if (valid) return 0;
 
         try {
+            params.insert("repo", QVariant::fromValue(parent->d->repo));
             parent->callInformationRequiredCallback(params);
+            params.remove("repo");
+
             BranchServices::cred()->trustCert(params);
             return 0;
         } catch (const QException& ex) {
@@ -137,7 +145,7 @@ QCoro::Task<> LGActiveRemote::fetch(QStringList refs) {
     auto error = co_await QtConcurrent::run([this, callbacks](QStringList refs) {
         git_strarray refsToFetch;
         refsToFetch.count = refs.length();
-        auto strings = new char*[refs.length()];
+        auto strings = new char* [refs.length()];
         for (auto i = 0; i < refs.length(); i++) {
             strings[i] = strdup(refs.at(i).toUtf8().data());
         }
@@ -153,7 +161,7 @@ QCoro::Task<> LGActiveRemote::fetch(QStringList refs) {
         if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     },
-        refs);
+    refs);
     error.throwIfError();
 }
 
@@ -164,7 +172,7 @@ QCoro::Task<> LGActiveRemote::push(QStringList refs) {
 
         git_strarray refsToPush;
         refsToPush.count = refs.length();
-        auto strings = new char*[refs.length()];
+        auto strings = new char* [refs.length()];
         for (auto i = 0; i < refs.length(); i++) {
             strings[i] = strdup(refs.at(i).toUtf8().data());
         }
@@ -180,7 +188,7 @@ QCoro::Task<> LGActiveRemote::push(QStringList refs) {
         if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     },
-        refs, d->callbacks);
+    refs, d->callbacks);
     error.throwIfError();
 }
 

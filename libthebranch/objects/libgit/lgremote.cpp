@@ -24,8 +24,8 @@
 #include <git2.h>
 
 struct LGRemotePrivate {
-        QString remoteName;
-        LGRepositoryPtr repo;
+    QString remoteName;
+    LGRepositoryPtr repo;
 };
 
 LGRemote::LGRemote(QString remoteName, LGRepositoryPtr repo, QObject* parent) :
@@ -44,7 +44,7 @@ LGActiveRemotePtr LGRemote::activeRemote() {
     if (git_remote_lookup(&remote, d->repo->gitRepository(), d->remoteName.toUtf8().data()) != 0) {
         return nullptr;
     }
-    return (new LGActiveRemote(remote))->sharedFromThis();
+    return (new LGActiveRemote(remote, d->repo))->sharedFromThis();
 }
 
 QString LGRemote::name() {
