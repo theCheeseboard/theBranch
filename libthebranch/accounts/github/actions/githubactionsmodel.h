@@ -1,35 +1,31 @@
 #ifndef GITHUBACTIONSMODEL_H
 #define GITHUBACTIONSMODEL_H
 
+#include "../githubasyncgeneratormodel.h"
+#include "githubworkflow.h"
 #include "objects/forward_declares.h"
 #include <QAbstractListModel>
 #include <QCoroTask>
 
 class GitHubAccount;
 struct GitHubActionsModelPrivate;
-class GitHubActionsModel : public QAbstractListModel {
+class GitHubActionsModel : public QAbstractListModel,
+                           public GitHubAsyncGeneratorModelEngine<GitHubWorkflow> {
         Q_OBJECT
+        GENERATOR_ENGINE
 
     public:
         explicit GitHubActionsModel(GitHubAccount* account, RemotePtr remote, QObject* parent = nullptr);
         ~GitHubActionsModel();
-
-        // Basic functionality:
-        int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-
-        // Fetch data dynamically:
-        bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
-
-        bool canFetchMore(const QModelIndex& parent) const override;
-        void fetchMore(const QModelIndex& parent) override;
 
         QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
     private:
         GitHubActionsModelPrivate* d;
 
-        QCoro::Task<> startFetch();
-        QCoro::Task<> fetchNext();
+        // GitHubAsyncGeneratorModelEngine interface
+    protected:
+        QCoro::AsyncGenerator<GitHubWorkflowPtr> createGenerator() override;
 };
 
 #endif // GITHUBACTIONSMODEL_H
