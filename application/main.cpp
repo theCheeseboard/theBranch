@@ -32,13 +32,9 @@
 
 int main(int argc, char* argv[]) {
     tApplication a(argc, argv);
-
-    if (QDir(QStringLiteral("%1/share/thebranch/").arg(SYSTEM_PREFIX_DIRECTORY)).exists()) {
-        a.setShareDir(QStringLiteral("%1/share/thebranch/").arg(SYSTEM_PREFIX_DIRECTORY));
-    } else if (QDir(QDir::cleanPath(QApplication::applicationDirPath() + "/../share/thebranch/")).exists()) {
-        a.setShareDir(QDir::cleanPath(QApplication::applicationDirPath() + "/../share/thebranch/"));
-    }
+    a.setApplicationShareDir("thebranch");
     a.installTranslators();
+    a.addLibraryTranslator(LIBTHEBRANCH_TRANSLATOR);
 
     a.setApplicationVersion("1.0");
     a.setGenericName(QApplication::translate("main", "Git Client"));

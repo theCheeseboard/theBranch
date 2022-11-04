@@ -9,6 +9,8 @@
     #define LIBTHEBRANCH_EXPORT Q_DECL_IMPORT
 #endif
 
+#define LIBTHEBRANCH_TRANSLATOR "thebranch/libthebranch"
+
 namespace theBranch {
     LIBTHEBRANCH_EXPORT void init();
     LIBTHEBRANCH_EXPORT void teardown();
