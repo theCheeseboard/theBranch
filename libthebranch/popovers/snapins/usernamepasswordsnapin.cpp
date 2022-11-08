@@ -67,7 +67,7 @@ QCoro::Task<> UsernamePasswordSnapIn::on_useCredentialHelperButton_clicked() {
     details.append({
         {"protocol", url.scheme()},
         {"host", url.host()},
-        {"path", url.path()}
+        {"path", url.path().mid(1)}
     });
 
     QString process;
