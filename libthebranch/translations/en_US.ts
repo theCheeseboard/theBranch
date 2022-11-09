@@ -457,6 +457,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="89"/>
+        <source>You are cherry picking a merge commit. Select the mainline commit:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="112"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
@@ -1632,6 +1637,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
     </message>
     <message>
         <location filename="../popovers/snapins/rebasesnapin.ui" line="57"/>
+        <location filename="../popovers/snapins/rebasesnapin.ui" line="94"/>
         <source>Rebase</source>
         <translation type="unfinished"></translation>
     </message>

@@ -91,7 +91,7 @@
        <item alignment="Qt::AlignHCenter">
         <widget class="QPushButton" name="rebaseButton">
          <property name="text">
-          <string notr="true">Rebase</string>
+          <string>Rebase</string>
          </property>
         </widget>
        </item>
@@ -182,20 +182,20 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>tTitleLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">ttitlelabel.h</header>
-   <slots>
-    <signal>backButtonClicked()</signal>
-   </slots>
-  </customwidget>
-  <customwidget>
    <class>tStackedWidget</class>
    <extends>QStackedWidget</extends>
    <header location="global">tstackedwidget.h</header>
    <container>1</container>
    <slots>
     <signal>switchingFrame(int)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>tTitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ttitlelabel.h</header>
+   <slots>
+    <signal>backButtonClicked()</signal>
    </slots>
   </customwidget>
   <customwidget>
