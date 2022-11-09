@@ -12,10 +12,8 @@ CloneRepositoryPopover::CloneRepositoryPopover(QWidget* parent) :
     ui->setupUi(this);
 
     ui->titleLabel->setBackButtonShown(true);
-    ui->titleLabel_2->setBackButtonShown(true);
 
     new tContentSizer(ui->cloneOptionsWidget);
-    new tContentSizer(ui->burnConfirmWidget);
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
 }

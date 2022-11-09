@@ -510,22 +510,22 @@
         <translation>Nhân bản</translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="34"/>
+        <location filename="../popovers/clonerepositorypopover.cpp" line="32"/>
         <source>Clone URL cannot be blank</source>
         <translation>URL nhân bản không được để trống</translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="39"/>
+        <location filename="../popovers/clonerepositorypopover.cpp" line="37"/>
         <source>Clone Directory cannot be blank</source>
         <translation>Thư mục nhân bản không được để trống</translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="45"/>
+        <location filename="../popovers/clonerepositorypopover.cpp" line="43"/>
         <source>Clone Directory does not exist</source>
         <translation>Thư mục nhân bản không có tồn tại</translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="50"/>
+        <location filename="../popovers/clonerepositorypopover.cpp" line="48"/>
         <source>Clone Directory is not empty</source>
         <translation>Thư mục nhân bản không có trống</translation>
     </message>
@@ -868,11 +868,6 @@
 </context>
 <context>
     <name>GitHubActionsRunBrowser</name>
-    <message>
-        <location filename="../accounts/github/actions/githubactionsrunbrowser.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../accounts/github/actions/githubactionsrunbrowser.ui" line="102"/>
         <source>Run Summary</source>
