@@ -340,37 +340,37 @@
       <source>Do you want to delete the branch %1?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xóa nhánh</translation>
       <location filename="../objects/branchuihelper.cpp" line="368" />
       <source>Delete Branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể xóa nhánh phục vụ</translation>
       <location filename="../objects/branchuihelper.cpp" line="380" />
       <source>Failed to delete the remote branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bỏ thay đổi?</translation>
       <location filename="../objects/branchuihelper.cpp" line="397" />
       <source>Discard Changes?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bạn có muốn bỏ các thay đổi chưa chuyển giao trong kho không?</translation>
       <location filename="../objects/branchuihelper.cpp" line="398" />
       <source>Do you want to discard all uncommitted changes in the repository?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Các thay đổi chưa chuyển giao sẽ bị mất mãi mãi.</translation>
       <location filename="../objects/branchuihelper.cpp" line="399" />
       <source>All uncommitted changes will be gone forever.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cũng xoá tệp chưa theo dõi</translation>
       <location filename="../objects/branchuihelper.cpp" line="400" />
       <source>Also delete untracked files</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bỏ thay đổi</translation>
       <location filename="../objects/branchuihelper.cpp" line="401" />
       <source>Discard Changes</source>
     </message>
@@ -383,47 +383,47 @@
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lấy ra điểm xét</translation>
       <location filename="../popovers/snapins/checkoutsnapin.ui" line="57" />
       <source>Checkout Revision</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lần chuyển giao</translation>
       <location filename="../popovers/snapins/checkoutsnapin.ui" line="67" />
       <source>Commit</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lấy ra:</translation>
       <location filename="../popovers/snapins/checkoutsnapin.ui" line="74" />
       <source>Checkout:</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhánh</translation>
       <location filename="../popovers/snapins/checkoutsnapin.ui" line="81" />
       <source>Branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tùy chọn lấy ra</translation>
       <location filename="../popovers/snapins/checkoutsnapin.ui" line="94" />
       <source>Checkout Options</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lấy ra</translation>
       <location filename="../popovers/snapins/checkoutsnapin.ui" line="107" />
       <source>Checkout</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục đang làm việc không sạch</translation>
       <location filename="../popovers/snapins/checkoutsnapin.cpp" line="52" />
       <source>Unclean Working Directory</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Để lấy ra nhánh này, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
       <location filename="../popovers/snapins/checkoutsnapin.cpp" line="53" />
       <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể lấy ra nhánh đó</translation>
       <location filename="../popovers/snapins/checkoutsnapin.cpp" line="59" />
       <source>Can't checkout that branch</source>
     </message>
@@ -431,12 +431,12 @@
   <context>
     <name>CherryPick</name>
     <message>
-      <translation></translation>
+      <translation>Kết quả cherry-pick trống rỗng</translation>
       <location filename="../objects/cherrypick.cpp" line="60" />
       <source>The result of the cherry pick was empty</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chery-pick %1 vào %2</translation>
       <location filename="../objects/cherrypick.cpp" line="93" />
       <source>Cherry pick %1 into %2</source>
     </message>
@@ -449,7 +449,7 @@
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cherry-pick</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.ui" line="57" />
       <location filename="../popovers/snapins/cherrypicksnapin.ui" line="122" />
       <location filename="../popovers/snapins/cherrypicksnapin.ui" line="161" />
@@ -461,42 +461,42 @@
       <source>TextLabel</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>OK</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.ui" line="188" />
       <source>OK</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cherry-pick chuyển giao hòa trộn</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="37" />
       <source>Cherry pick merge commit</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cherry-pick lần chuyển giao?</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="53" />
       <source>Cherry pick commit?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Ban co muon cherry-pick %1 vào %2?</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="57" />
       <source>Do you want to cherry-pick %1 onto %2?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>%1 sẽ bị chép sang %2.</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="58" />
       <source>%1 will be copied to %2.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục đang làm việc không sạch</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="74" />
       <source>Unclean Working Directory</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Để thực hiện hoạt động cherry-pick, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="75" />
       <source>To perform a cherry pick, you need to stash your uncommitted changes first.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể cherry-pick</translation>
       <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="78" />
       <source>Cherry Pick failed</source>
     </message>
@@ -509,27 +509,27 @@
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>TÙY CHỌN NHÂN BẢN</translation>
       <location filename="../popovers/clonerepositorypopover.ui" line="79" />
       <source>CLONE OPTIONS</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhân bản vào</translation>
       <location filename="../popovers/clonerepositorypopover.ui" line="86" />
       <source>Clone to</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>URL nhân bản</translation>
       <location filename="../popovers/clonerepositorypopover.ui" line="93" />
       <source>Clone URL</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Duyệt...</translation>
       <location filename="../popovers/clonerepositorypopover.ui" line="100" />
       <source>Browse...</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhân bản</translation>
       <location filename="../popovers/clonerepositorypopover.ui" line="114" />
       <source>Clone</source>
     </message>
@@ -556,22 +556,22 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Erase and Burn</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>URL nhân bản không được để trống</translation>
       <location filename="../popovers/clonerepositorypopover.cpp" line="34" />
       <source>Clone URL cannot be blank</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục nhân bản không được để trống</translation>
       <location filename="../popovers/clonerepositorypopover.cpp" line="39" />
       <source>Clone Directory cannot be blank</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục nhân bản không có tồn tại</translation>
       <location filename="../popovers/clonerepositorypopover.cpp" line="45" />
       <source>Clone Directory does not exist</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục nhân bản không có trống</translation>
       <location filename="../popovers/clonerepositorypopover.cpp" line="50" />
       <source>Clone Directory is not empty</source>
     </message>
@@ -584,7 +584,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lần chuyển giao</translation>
       <location filename="../widgets/commitbrowserwidget.ui" line="35" />
       <source>Commits</source>
     </message>
@@ -597,64 +597,64 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chuyển giao</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="57" />
       <location filename="../popovers/snapins/commitsnapin.ui" line="333" />
       <source>Commit</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xem tệp chưa theo dõi</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="103" />
       <source>View Untracked Files</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Ghi chú của lần chuyển giao</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="152" />
       <source>Commit Message</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đẩy lên máy chủ</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="173" />
       <source>Push to remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không có tệp nào đã chọn</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="246" />
       <source>No File Selected</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kết thúc lần chuyển giao</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="281" />
       <source>Finalise Commit</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Địa chỉ Email</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="298" />
       <source>Email Address</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thông tin về người làm chuyển giao</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="312" />
       <source>Committer Information</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tên</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="319" />
       <source>Name</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Điền vào thông tin sau về bạn để hoàn thành lần chuyển giao này</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="326" />
       <source>Enter the following information about yourself to finalise this commit</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lưu trong cài đặt Git toàn cục</translation>
       <location filename="../popovers/snapins/commitsnapin.ui" line="344" />
       <source>Save in global Git configuration</source>
     </message>
     <message numerus="yes">
       <translation>
-        <numerusform></numerusform>
+        <numerusform>Chuyển giao %n tệp</numerusform>
       </translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="69" />
       <location filename="../popovers/snapins/commitsnapin.cpp" line="74" />
@@ -662,43 +662,43 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
     </message>
     <message numerus="yes">
       <translation>
-        <numerusform></numerusform>
+        <numerusform>Chọn %n tệp có thay đổi</numerusform>
       </translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="176" />
       <source>Select %n modified files</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thay đổi nội bộ</translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="205" />
       <source>Local Changes</source>
     </message>
     <message numerus="yes">
       <translation>
-        <numerusform></numerusform>
+        <numerusform>Cho %n tệp</numerusform>
       </translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="294" />
       <location filename="../popovers/snapins/commitsnapin.cpp" line="297" />
       <source>For %n files</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bỏ thay đổi và xóa tệp mới</translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="295" />
       <source>Discard Changes and Delete New Files</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bỏ thay đổi</translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="298" />
       <source>Discard Changes</source>
     </message>
     <message numerus="yes">
       <translation>
-        <numerusform></numerusform>
+        <numerusform>Cho %n tệp chưa theo dõi</numerusform>
       </translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="300" />
       <source>For %n untracked files</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xóa khỏi kho</translation>
       <location filename="../popovers/snapins/commitsnapin.cpp" line="301" />
       <source>Delete from Repository</source>
     </message>
@@ -711,27 +711,27 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tên</translation>
       <location filename="../settingspanes/commitspane.ui" line="23" />
       <source>Name</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Các lần chuyển giao cần phải được ký với một tên và email, và chi tiết này sẽ hiển thị cho bất kỳ ai nhìn vào kho này.</translation>
       <location filename="../settingspanes/commitspane.ui" line="30" />
       <source>Each commit needs to be signed with a name and an email, and these details will be visible to anyone looking at the repository.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Địa chỉ email</translation>
       <location filename="../settingspanes/commitspane.ui" line="43" />
       <source>Email</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cài đặt này sẽ bị lưu trong cài đặt Git toàn cục</translation>
       <location filename="../settingspanes/commitspane.ui" line="50" />
       <source>These settings will be saved in your global Git configuration</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lần chuyển giao</translation>
       <location filename="../settingspanes/commitspane.cpp" line="48" />
       <source>Commits</source>
     </message>
@@ -744,97 +744,97 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy phân giải xung đột</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="54" />
       <source>Abort Conflict Resolution</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy phân giải xung đột?</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="64" />
       <source>Abort Conflict Resolution?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Phân giải xung đột</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="155" />
       <source>Conflict Resolution</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hoạt động hủy phân giải xung đột ngay bay giờ sẽ trả lại tất cả các tệp trong kho về trạng thái chúng ở trạng thái trước khi bạn bắt đầu kéo và cũng sẽ hủy bỏ hoạt động kéo. Mọi giải quyết xung đột sẽ bị mất.</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="41" />
       <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tiếp tục kéo</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="42" />
       <source>Continue Pull</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy kéo</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="44" />
       <source>Abort Pull</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kéo</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="45" />
       <source>Pull</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hoạt động hủy phân giải xung đột ngay bay giờ sẽ trả lại tất cả các tệp trong kho về trạng thái chúng ở trạng thái trước khi bạn bắt đầu hòa trộn và cũng sẽ hủy bỏ hoạt động hòa trộn. Mọi giải quyết xung đột sẽ bị mất.</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="48" />
       <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started merging, and will also abort the merge operation. Any conflict resolution will be lost.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tiếp tục hòa trộn</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="49" />
       <source>Continue Merge</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy hòa trộn</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="51" />
       <source>Abort Merge</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hòa trộn</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="52" />
       <source>Merge</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hoạt động hủy phân giải xung đột ngay bay giờ sẽ trả lại tất cả các tệp trong kho về trạng thái chúng ở trạng thái trước khi bạn bắt đầu cải tổ và cũng sẽ hủy bỏ hoạt động cải tổ. Mọi giải quyết xung đột sẽ bị mất.</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="55" />
       <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started rebasing, and will also abort the rebase operation. Any conflict resolution will be lost.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tiếp tục cải tổ</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="56" />
       <source>Continue Rebase</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy cải tổ</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="58" />
       <source>Abort Rebase</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cải tổ</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="59" />
       <source>Rebase</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hoạt động hủy phân giải xung đột ngay bay giờ sẽ trả lại tất cả các tệp trong kho về trạng thái chúng ở trạng thái trước khi bạn bắt đầu cherry-pick và cũng sẽ hủy bỏ hoạt động cherry-pick. Mọi giải quyết xung đột sẽ bị mất.</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="62" />
       <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started cherry picking, and will also abort the cherry pick operation. Any conflict resolution will be lost.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tiếp tục cherry-pick</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="63" />
       <source>Continue Cherry Pick</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy cherry-pick</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="65" />
       <source>Abort Cherry Pick</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cherry-pick</translation>
       <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="66" />
       <source>Cherry Pick</source>
     </message>
@@ -842,12 +842,12 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>Diff</name>
     <message>
-      <translation></translation>
+      <translation>Phiên bản nguyên</translation>
       <location filename="../objects/diff.cpp" line="41" />
       <source>Original</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Phiên bản chỉnh sửa</translation>
       <location filename="../objects/diff.cpp" line="42" />
       <source>Modified</source>
     </message>
@@ -860,7 +860,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Khác biệt</translation>
       <location filename="../popovers/diffpopover.ui" line="35" />
       <source>Diff</source>
     </message>
@@ -868,22 +868,22 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>ErrorResponse</name>
     <message>
-      <translation></translation>
+      <translation>Không có lỗi</translation>
       <location filename="../objects/errorresponse.cpp" line="23" />
       <source>No Error</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lỗi không xác định</translation>
       <location filename="../objects/errorresponse.cpp" line="25" />
       <source>Unspecified Error</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể đẩy thần chiếu không-phải-chuyển-tiếp-nhanh</translation>
       <location filename="../objects/errorresponse.cpp" line="27" />
       <source>Unable to push non-fast-forwardable reference</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục đang làm việc không sạch</translation>
       <location filename="../objects/errorresponse.cpp" line="29" />
       <source>The working directory is not clean</source>
     </message>
@@ -1281,17 +1281,17 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>Merge</name>
     <message>
-      <translation></translation>
+      <translation>Lỗi không xác định</translation>
       <location filename="../objects/merge.cpp" line="33" />
       <source>Unspecified Error</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cố hòa trọn HEAD chưa sinh</translation>
       <location filename="../objects/merge.cpp" line="89" />
       <source>Tried to merge an unborn HEAD</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hòa trộn %1 vào %2</translation>
       <location filename="../objects/merge.cpp" line="171" />
       <source>Merge %1 into %2</source>
     </message>
@@ -1304,14 +1304,14 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hòa trộn</translation>
       <location filename="../popovers/snapins/mergesnapin.ui" line="57" />
       <location filename="../popovers/snapins/mergesnapin.ui" line="133" />
       <location filename="../popovers/snapins/mergesnapin.cpp" line="53" />
       <source>Merge</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hòa trộn nhánh?</translation>
       <location filename="../popovers/snapins/mergesnapin.ui" line="67" />
       <source>Merge Branches?</source>
     </message>
@@ -1321,42 +1321,42 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>TextLabel</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>OK</translation>
       <location filename="../popovers/snapins/mergesnapin.ui" line="160" />
       <source>OK</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bạn có muốn chuyển-tiếp-nhanh từ %1 không?</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="49" />
       <source>Do you want to perform a fast-forward merge from %1?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chuyển-tiếp-nhanh</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="50" />
       <source>Fast-Forward</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bạn có muốn tạo lần chuyển giao hòa trộn từ %1 không?</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="52" />
       <source>Do you want to create a merge commit from %1?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Các thay đổi từ %1 sẽ bị hòa trộn vào nhánh hiện tại</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="56" />
       <source>All changes from %1 will be merged into the current branch.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục đang làm việc không sạch</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="76" />
       <source>Unclean Working Directory</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Để thực hiện hoạt động hòa trộn, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="77" />
       <source>To perform a merge, you need to stash your uncommitted changes first.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể hòa trộn</translation>
       <location filename="../popovers/snapins/mergesnapin.cpp" line="80" />
       <source>Merge failed</source>
     </message>
@@ -1369,27 +1369,27 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhánh mới</translation>
       <location filename="../popovers/newbranchpopover.ui" line="35" />
       <source>New Branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tên</translation>
       <location filename="../popovers/newbranchpopover.ui" line="45" />
       <source>Name</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tùy chọn nhánh</translation>
       <location filename="../popovers/newbranchpopover.ui" line="76" />
       <source>Branch Options</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Lấy ra nhánh này</translation>
       <location filename="../popovers/newbranchpopover.ui" line="110" />
       <source>Checkout this branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhánh</translation>
       <location filename="../popovers/newbranchpopover.ui" line="123" />
       <source>Branch</source>
     </message>
@@ -1402,37 +1402,37 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Máy chủ mới</translation>
       <location filename="../popovers/snapins/newremotesnapin.ui" line="57" />
       <source>New Remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tên</translation>
       <location filename="../popovers/snapins/newremotesnapin.ui" line="67" />
       <source>Name</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tùy chọn máy chủ</translation>
       <location filename="../popovers/snapins/newremotesnapin.ui" line="74" />
       <source>Remote Options</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>URL</translation>
       <location filename="../popovers/snapins/newremotesnapin.ui" line="81" />
       <source>URL</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thêm máy chủ</translation>
       <location filename="../popovers/snapins/newremotesnapin.ui" line="155" />
       <source>Add Remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể kết nối với máy chủ</translation>
       <location filename="../popovers/snapins/newremotesnapin.cpp" line="50" />
       <source>Could not connect to the remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đảm bảo URL chính xác và kết nối Internet của bạn đang hoạt động</translation>
       <location filename="../popovers/snapins/newremotesnapin.cpp" line="99" />
       <source>Ensure the URL is correct and that your Internet connection is working</source>
     </message>
@@ -1445,68 +1445,68 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kéo</translation>
       <location filename="../popovers/snapins/pullsnapin.ui" line="57" />
       <location filename="../popovers/snapins/pullsnapin.ui" line="104" />
       <source>Pull</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cải tổ lần chuyển giao nội bộ trên thượng nguồn</translation>
       <location filename="../popovers/snapins/pullsnapin.ui" line="67" />
       <source>Rebase local commits onto upstream</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhánh thượng nguồn</translation>
       <location filename="../popovers/snapins/pullsnapin.ui" line="77" />
       <source>Upstream Branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tùy chọn kéo</translation>
       <location filename="../popovers/snapins/pullsnapin.ui" line="84" />
       <source>Pull Options</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Khong the kéo</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="109" />
       <source>Pull not possible</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>HEAD bị tách rời</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="113" />
       <source>HEAD is detached</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không có nhánh nào để hòa trộn trên. Hãy lấy ra một nhánh trước, rồi kéo.</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="114" />
       <source>There is no branch to merge onto. Checkout a branch first, and then pull.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hoạt động đang xử lý</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="117" />
       <source>Ongoing operation</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đã có một hoạt động đang xử lý trong kho này. Hoành thánh hoặc hủy hoạt động đó trước, rồi kéo.</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="118" />
       <source>There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then pull.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể kéo tại vì hoạt động hòa trộn không thành công.</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="121" />
       <source>Unable to pull because the merge operation failed.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục đang làm việc không sạch</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="136" />
       <source>Unclean Working Directory</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Để kéo các thay đổi này, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="137" />
       <source>To pull these changes, you need to stash your uncommitted changes first.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể kéo</translation>
       <location filename="../popovers/snapins/pullsnapin.cpp" line="143" />
       <source>Pull failed</source>
     </message>
@@ -1519,7 +1519,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đẩy</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="57" />
       <location filename="../popovers/snapins/pushsnapin.ui" line="131" />
       <location filename="../popovers/snapins/pushsnapin.ui" line="236" />
@@ -1527,97 +1527,97 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Push</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đẩy thẻ</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="67" />
       <source>Push Tags</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tùy chọn đẩy</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="84" />
       <source>Push Options</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhánh thượng nguồn</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="91" />
       <source>Upstream Branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đặt nhánh thượng nguồn cho nhánh này</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="98" />
       <source>Set as upstream for this branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bắt buộc đẩy</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="138" />
       <location filename="../popovers/snapins/pushsnapin.ui" line="270" />
       <location filename="../popovers/snapins/pushsnapin.ui" line="326" />
       <source>Force Push</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể đẩy</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="246" />
       <source>Push Failed</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Dữ liệu nội bộ đã củ.</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="253" />
       <source>Your local repository is out of date. </source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kéo</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="263" />
       <source>Pull</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Họat động đẩy bát buộc có thể khiến bạn mất lần chuyển giao trên máy chủ.</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="319" />
       <source>Force Pushing may cause you to lose commits on the remote.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bắt buộc đẩy và ghi đề lên nhánh trên máy chủ?</translation>
       <location filename="../popovers/snapins/pushsnapin.ui" line="333" />
       <source>Force Push and overwrite the branch on the remote?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không có máy chủ nào đã cấu hình</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="65" />
       <source>No Remotes Configured</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Để đẩy từ kho này, bạn cần cấu hình một máy chủ.</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="66" />
       <source>To push from this repository, you need to add a remote.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thêm máy chủ</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="73" />
       <source>Add Remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể đẩy</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="80" />
       <source>Failed to push</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể đẩy kho lên máy chủ</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="81" />
       <location filename="../popovers/snapins/pushsnapin.cpp" line="166" />
       <source>Unable to push the repository to the remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xuất bản nhánh</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="121" />
       <source>Publish Branch</source>
     </message>
     <message numerus="yes">
       <translation>
-        <numerusform></numerusform>
+        <numerusform>Đẩy %n lần chuyển giao</numerusform>
       </translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="127" />
       <source>Push %n commits</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bắt buộc đẩy %1 đến %2</translation>
       <location filename="../popovers/snapins/pushsnapin.cpp" line="132" />
       <source>Force Push %1 to %2</source>
     </message>
@@ -1630,12 +1630,12 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cải tổ</translation>
       <location filename="../popovers/snapins/rebasesnapin.ui" line="57" />
       <source>Rebase</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cải tổ nhánh?</translation>
       <location filename="../popovers/snapins/rebasesnapin.ui" line="67" />
       <source>Rebase Branches?</source>
     </message>
@@ -1645,23 +1645,23 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>TextLabel</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hòa trộn</translation>
       <location filename="../popovers/snapins/rebasesnapin.ui" line="133" />
       <source>Merge</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>OK</translation>
       <location filename="../popovers/snapins/rebasesnapin.ui" line="160" />
       <source>OK</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Bạn có muốn cải tổ %1 trên %2?</translation>
       <location filename="../popovers/snapins/rebasesnapin.cpp" line="52" />
       <source>Do you want to rebase %1 onto %2?</source>
     </message>
     <message numerus="yes">
       <translation>
-        <numerusform></numerusform>
+        <numerusform>%n lần chuyển giao từ %1 sẽ bị phát lại trên %2</numerusform>
       </translation>
       <location filename="../popovers/snapins/rebasesnapin.cpp" line="53" />
       <source>%n commits from %1 will be replayed onto %2</source>
@@ -1670,12 +1670,12 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>RemoteBrowser</name>
     <message>
-      <translation></translation>
+      <translation>Cho kho</translation>
       <location filename="../widgets/remotebrowser.cpp" line="65" />
       <source>For repository</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thêm máy chủ</translation>
       <location filename="../widgets/remotebrowser.cpp" line="66" />
       <source>Add Remote</source>
     </message>
@@ -1683,27 +1683,27 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>Repository</name>
     <message>
-      <translation></translation>
+      <translation>Nhánh nội bộ %1 đã tồn tại.</translation>
       <location filename="../objects/repository.cpp" line="147" />
       <source>The local branch %1 already exists.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không có kho git sẵn sàng</translation>
       <location filename="../objects/repository.cpp" line="219" />
       <source>No Git Repository Available</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thư mục bạn đã chọn không có chứa một kho Git. Bạn có muốn tạo một kho git mới ở đó không?</translation>
       <location filename="../objects/repository.cpp" line="220" />
       <source>The folder that you selected does not contain a Git repository. Do you want to create an empty Git repository there?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tạo và mở kho Git</translation>
       <location filename="../objects/repository.cpp" line="222" />
       <source>Create and Open Git Repository</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể tạo kho git</translation>
       <location filename="../objects/repository.cpp" line="237" />
       <source>Could not create Git repository</source>
     </message>
@@ -1721,27 +1721,27 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Git Stuffs</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Mở kho</translation>
       <location filename="../widgets/repositorybrowser.ui" line="85" />
       <source>Open Repository</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhân bản kho</translation>
       <location filename="../widgets/repositorybrowser.ui" line="92" />
       <source>Clone Repository</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chào mừng</translation>
       <location filename="../widgets/repositorybrowser.cpp" line="72" />
       <source>Welcome</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kho không hợp lệ</translation>
       <location filename="../widgets/repositorybrowser.cpp" line="76" />
       <source>Invalid Repository</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đang nhân bản...</translation>
       <location filename="../widgets/repositorybrowser.cpp" line="78" />
       <source>Cloning...</source>
     </message>
@@ -1749,48 +1749,48 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>RepositoryBrowserList</name>
     <message>
-      <translation></translation>
+      <translation>Nhánh</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="72" />
       <source>Branches</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Máy chủ</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="73" />
       <source>Remotes</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Mục tạm cất</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="74" />
       <source>Stashes</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Vấn đề</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="75" />
       <source>Issues</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Yêu cầu kéo</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="76" />
       <source>Pull Requests</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hoạt động</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="77" />
       <source>Actions</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Cho kho</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="80" />
       <location filename="../widgets/repositorybrowserlist.cpp" line="86" />
       <source>For repository</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Thêm máy chủ</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="81" />
       <source>Add Remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tạm cất</translation>
       <location filename="../widgets/repositorybrowserlist.cpp" line="87" />
       <source>Stash</source>
     </message>
@@ -1798,22 +1798,22 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>RepositoryCloneOperation</name>
     <message>
-      <translation></translation>
+      <translation>Đang chuẩn bị nhân bản</translation>
       <location filename="../objects/private/repositorycloneoperation.cpp" line="18" />
       <source>Preparing to clone...</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đang nhận đối tượng: %1/%2 - %3 đã chuyển.</translation>
       <location filename="../objects/private/repositorycloneoperation.cpp" line="48" />
       <source>Receiving objects: %1/%2 - %3 transferred.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể nhân bản kho</translation>
       <location filename="../objects/private/repositorycloneoperation.cpp" line="80" />
       <source>Repository Clone failed</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Đang nhân bản kho...</translation>
       <location filename="../objects/private/repositorycloneoperation.cpp" line="82" />
       <source>Cloning Repository...</source>
     </message>
@@ -1821,12 +1821,12 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
   <context>
     <name>RepositoryModel</name>
     <message>
-      <translation></translation>
+      <translation>Nhánh</translation>
       <location filename="../objects/repositorymodel.cpp" line="39" />
       <source>Branches</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Máy chủ</translation>
       <location filename="../objects/repositorymodel.cpp" line="54" />
       <source>Remotes</source>
     </message>
@@ -1839,7 +1839,7 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>(không có HEAD)</translation>
       <location filename="../widgets/repositorystatusbar.cpp" line="42" />
       <source>(no HEAD)</source>
     </message>
@@ -1860,37 +1860,40 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhận dạng máy chủ</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="35" />
       <source>Server Identity</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tên máy chủ</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="45" />
       <source>Host</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kiểm tra nhận dạng máy chủ</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="65" />
       <source>Check Server Identity</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Vân tay</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="79" />
       <source>Fingerprint</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chấp nhận</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="106" />
       <source>Accept</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nhận dạng máy chủ đã bị thay đổi</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="40" />
       <source>Remote Host Identification has changed</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>CÓ THỂ AI DÓ ĐANG LÀM ĐIỀU XẤU.
+Có thể ai đó đang nghe trộm bạn ngay bây giờ!
+
+Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="41" />
       <source>IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY.
 Someone could be eavesdropping on you right now!
@@ -1898,12 +1901,12 @@ Someone could be eavesdropping on you right now!
 It is also possible that a host key has just been changed.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tiếp tục tuy nhiên</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="45" />
       <source>Continue Nevertheless</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Hủy hoạt động</translation>
       <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="52" />
       <source>Abort Operation</source>
     </message>
@@ -1916,22 +1919,22 @@ It is also possible that a host key has just been changed.</source>
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xác thực</translation>
       <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="35" />
       <source>Authentication</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xác thực khóa SSH</translation>
       <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="45" />
       <source>SSH Key Authentication</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xác thực</translation>
       <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="65" />
       <source>Authenticate</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chọn một khóa SSH để xác thực với %1</translation>
       <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="39" />
       <source>Select an SSH key to authenticate to %1</source>
     </message>
@@ -1944,13 +1947,13 @@ It is also possible that a host key has just been changed.</source>
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tạm cất</translation>
       <location filename="../popovers/snapins/stashsavesnapin.ui" line="35" />
       <location filename="../popovers/snapins/stashsavesnapin.ui" line="123" />
       <source>Stash</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chú thích mục tâm cắt</translation>
       <location filename="../popovers/snapins/stashsavesnapin.ui" line="45" />
       <source>Message</source>
     </message>
