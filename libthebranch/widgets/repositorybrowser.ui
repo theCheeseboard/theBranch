@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -32,7 +32,7 @@
    <item>
     <widget class="tStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="initialPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -57,7 +57,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Git Stuffs</string>
+          <string>What would you like to do?</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

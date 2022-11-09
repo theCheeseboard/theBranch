@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -236,6 +236,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>tStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">tstackedwidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>switchingFrame(int)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
    <class>tTitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">ttitlelabel.h</header>
@@ -247,15 +256,6 @@
    <class>tSubtitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">tsubtitlelabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>tStackedWidget</class>
-   <extends>QStackedWidget</extends>
-   <header location="global">tstackedwidget.h</header>
-   <container>1</container>
-   <slots>
-    <signal>switchingFrame(int)</signal>
-   </slots>
   </customwidget>
   <customwidget>
    <class>tCircularSpinner</class>

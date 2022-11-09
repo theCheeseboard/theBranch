@@ -4,11 +4,6 @@
 <context>
     <name>AccountsPane</name>
     <message>
-        <location filename="../settingspanes/accountspane.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../settingspanes/accountspane.ui" line="20"/>
         <source>Sign into Git providers for extra features</source>
         <translation>Đăng nhập vào nhà cung cấp Git cho thêm tính năng</translation>
@@ -36,11 +31,6 @@
 </context>
 <context>
     <name>AddGithubAccountPopover</name>
-    <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../accounts/github/addgithubaccountpopover.ui" line="54"/>
         <source>Add GitHub Account</source>
@@ -379,11 +369,6 @@
 <context>
     <name>CheckoutSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/snapins/checkoutsnapin.ui" line="57"/>
         <source>Checkout Revision</source>
         <translation>Lấy ra điểm xét</translation>
@@ -445,11 +430,6 @@
 <context>
     <name>CherryPickSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="57"/>
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="122"/>
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="161"/>
@@ -460,11 +440,6 @@
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="89"/>
         <source>You are cherry picking a merge commit. Select the mainline commit:</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="112"/>
-        <source>TextLabel</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="188"/>
@@ -510,11 +485,6 @@
 <context>
     <name>CloneRepositoryPopover</name>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/clonerepositorypopover.ui" line="79"/>
         <source>CLONE OPTIONS</source>
         <translation>TÙY CHỌN NHÂN BẢN</translation>
@@ -540,28 +510,6 @@
         <translation>Nhân bản</translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="160"/>
-        <source>Burn Disc</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="175"/>
-        <source>DISC NOT BLANK</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="182"/>
-        <source>The disc in the drive is not blank. To burn these tracks to the disc, the disc will need to be erased.
-
-Once the disc in the drive is erased, all the data on it will be gone forever.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="194"/>
-        <source>Erase and Burn</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/clonerepositorypopover.cpp" line="34"/>
         <source>Clone URL cannot be blank</source>
         <translation>URL nhân bản không được để trống</translation>
@@ -585,11 +533,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>CommitBrowserWidget</name>
     <message>
-        <location filename="../widgets/commitbrowserwidget.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../widgets/commitbrowserwidget.ui" line="35"/>
         <source>Commits</source>
         <translation>Lần chuyển giao</translation>
@@ -597,11 +540,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>CommitSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/commitsnapin.ui" line="57"/>
         <location filename="../popovers/snapins/commitsnapin.ui" line="333"/>
@@ -712,11 +650,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>CommitsPane</name>
     <message>
-        <location filename="../settingspanes/commitspane.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../settingspanes/commitspane.ui" line="23"/>
         <source>Name</source>
         <translation>Tên</translation>
@@ -744,11 +677,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>ConflictResolutionSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="54"/>
         <source>Abort Conflict Resolution</source>
@@ -861,11 +789,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>DiffPopover</name>
     <message>
-        <location filename="../popovers/diffpopover.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/diffpopover.ui" line="35"/>
         <source>Diff</source>
         <translation>Khác biệt</translation>
@@ -938,11 +861,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>GitHubActionsBrowser</name>
     <message>
-        <location filename="../accounts/github/actions/githubactionsbrowser.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../accounts/github/actions/githubactionsbrowser.ui" line="54"/>
         <source>Workflows</source>
         <translation></translation>
@@ -964,11 +882,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>GitHubActionsWorkflowBrowser</name>
     <message>
-        <location filename="../accounts/github/actions/githubactionsworkflowbrowser.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../accounts/github/actions/githubactionsworkflowbrowser.cpp" line="21"/>
         <source>Runs for %1</source>
         <translation></translation>
@@ -976,11 +889,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>GitHubCreatePullRequestPopover</name>
-    <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="54"/>
         <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="111"/>
@@ -1033,11 +941,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>GitHubIssueBrowser</name>
-    <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../accounts/github/issues/githubissuebrowser.ui" line="220"/>
         <source>Leave a comment</source>
@@ -1117,11 +1020,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>GitHubIssueCommentBubble</name>
     <message>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="71"/>
         <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="87"/>
         <source>TextLabel</source>
@@ -1146,11 +1044,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>GitHubIssueEventBubble</name>
-    <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="44"/>
         <source>Closed by %1</source>
@@ -1277,14 +1170,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
     </message>
 </context>
 <context>
-    <name>GitHubWorkflowJobBrowser</name>
-    <message>
-        <location filename="../accounts/github/actions/githubworkflowjobbrowser.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>Merge</name>
     <message>
         <location filename="../objects/merge.cpp" line="33"/>
@@ -1304,11 +1189,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>MergeSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/mergesnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/mergesnapin.ui" line="57"/>
         <location filename="../popovers/snapins/mergesnapin.ui" line="133"/>
@@ -1370,11 +1250,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>NewBranchPopover</name>
     <message>
-        <location filename="../popovers/newbranchpopover.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/newbranchpopover.ui" line="35"/>
         <source>New Branch</source>
         <translation>Nhánh mới</translation>
@@ -1402,11 +1277,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>NewRemoteSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/newremotesnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/newremotesnapin.ui" line="57"/>
         <source>New Remote</source>
@@ -1445,11 +1315,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>PullSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/pullsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/pullsnapin.ui" line="57"/>
         <location filename="../popovers/snapins/pullsnapin.ui" line="104"/>
@@ -1519,11 +1384,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 </context>
 <context>
     <name>PushSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/pushsnapin.ui" line="57"/>
         <location filename="../popovers/snapins/pushsnapin.ui" line="131"/>
@@ -1631,11 +1491,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>RebaseSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/snapins/rebasesnapin.ui" line="57"/>
         <location filename="../popovers/snapins/rebasesnapin.ui" line="94"/>
         <source>Rebase</source>
@@ -1645,11 +1500,6 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
         <location filename="../popovers/snapins/rebasesnapin.ui" line="67"/>
         <source>Rebase Branches?</source>
         <translation>Cải tổ nhánh?</translation>
-    </message>
-    <message>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="84"/>
-        <source>TextLabel</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../popovers/snapins/rebasesnapin.ui" line="133"/>
@@ -1718,14 +1568,9 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>RepositoryBrowser</name>
     <message>
-        <location filename="../widgets/repositorybrowser.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../widgets/repositorybrowser.ui" line="60"/>
-        <source>Git Stuffs</source>
-        <translation></translation>
+        <source>What would you like to do?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/repositorybrowser.ui" line="85"/>
@@ -1841,31 +1686,13 @@ Once the disc in the drive is erased, all the data on it will be gone forever.</
 <context>
     <name>RepositoryStatusBar</name>
     <message>
-        <location filename="../widgets/repositorystatusbar.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../widgets/repositorystatusbar.cpp" line="42"/>
         <source>(no HEAD)</source>
         <translation>(không có HEAD)</translation>
     </message>
 </context>
 <context>
-    <name>SnapInPopover</name>
-    <message>
-        <location filename="../popovers/snapinpopover.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>SshCertCheckSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="35"/>
         <source>Server Identity</source>
@@ -1921,11 +1748,6 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
 <context>
     <name>SshKeySelectionSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="35"/>
         <source>Authentication</source>
         <translation>Xác thực</translation>
@@ -1948,11 +1770,6 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
 </context>
 <context>
     <name>StashSaveSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/stashsavesnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/stashsavesnapin.ui" line="35"/>
         <location filename="../popovers/snapins/stashsavesnapin.ui" line="123"/>
@@ -1982,11 +1799,6 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
 </context>
 <context>
     <name>UsernamePasswordSnapIn</name>
-    <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="35"/>
         <source>Authentication</source>
