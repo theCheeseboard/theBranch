@@ -54,7 +54,7 @@
        <item>
         <widget class="tTitleLabel" name="titleLabel">
          <property name="text">
-          <string notr="true">Clone Repository</string>
+          <string>Clone Repository</string>
          </property>
         </widget>
        </item>

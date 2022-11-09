@@ -493,6 +493,11 @@
 <context>
     <name>CloneRepositoryPopover</name>
     <message>
+        <location filename="../popovers/clonerepositorypopover.ui" line="57"/>
+        <source>Clone Repository</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../popovers/clonerepositorypopover.ui" line="79"/>
         <source>CLONE OPTIONS</source>
         <translation></translation>
