@@ -1,0 +1,29 @@
+{
+    "name": "theBranch",
+    "subprojects": [
+        {
+            "name": "libthebranch",
+            "type": "qt",
+            "path": "/libthebranch/translations/{lang}.ts",
+            "baseLang": "en_US"
+        },
+        {
+            "name": "theBranch Desktop",
+            "type": "qt",
+            "path": "/application/translations/{lang}.ts",
+            "baseLang": "en_US"
+        },
+        {
+            "name": "theBranch Desktop File",
+            "type": "webext-json",
+            "path": "/application/translations/desktop/com.vicr123.thebranch/{lang}.json",
+            "baseLang": "en"
+        },
+        {
+            "name": "theBranch Blueprint Desktop File",
+            "type": "webext-json",
+            "path": "/application/translations/desktop/com.vicr123.thebranch_blueprint/{lang}.json",
+            "baseLang": "en"
+        }
+    ]
+}

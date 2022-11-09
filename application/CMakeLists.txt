@@ -45,9 +45,9 @@ cntp_target_name(thebranch "theBranch")
 cntp_app_icon(thebranch
     BASEICON icons/baseicon.svg
     BASEICON_MAC icons/baseicon-mac.svg)
-#cntp_target_desktop_file(thebranch
-#    DESKTOP_FILE com.vicr123.thebranch.desktop
-#    BLUEPRINT_DESKTOP_FILE com.vicr123.thebranch_blueprint.desktop)
+cntp_target_desktop_file(thebranch
+    DESKTOP_FILE com.vicr123.thebranch.desktop
+    BLUEPRINT_DESKTOP_FILE com.vicr123.thebranch_blueprint.desktop)
 cntp_defaults_file(thebranch
     DEFAULTS_FILE thebranch.conf)
 

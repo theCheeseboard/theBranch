@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>756</width>
+    <height>421</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,6 +129,13 @@
         <widget class="QPushButton" name="pushButton">
          <property name="text">
           <string>Push</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QPushButton" name="forcePushButton">
+         <property name="text">
+          <string>Force Push</string>
          </property>
         </widget>
        </item>
@@ -257,6 +264,13 @@
          </property>
         </widget>
        </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QPushButton" name="pushFailedForcePushButton">
+         <property name="text">
+          <string>Force Push</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
@@ -266,6 +280,79 @@
           <size>
            <width>20</width>
            <height>193</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="forcePushPage">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="tTitleLabel" name="titleLabel_3">
+         <property name="text">
+          <string>Push</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QWidget" name="forcePushWidget" native="true">
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Force Pushing may cause you to lose commits on the remote.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="tSubtitleLabel" name="label_5">
+            <property name="text">
+             <string>Force Push</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Force Push and overwrite the branch on the remote?</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QPushButton" name="doForcePushButton">
+         <property name="text">
+          <string notr="true">Force Push</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>

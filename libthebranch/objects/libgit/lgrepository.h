@@ -12,7 +12,7 @@ struct git_checkout_options;
 struct git_repository;
 struct LGRepositoryPrivate;
 class LGRepository : public QObject,
-    public tbSharedFromThis<LGRepository> {
+                     public tbSharedFromThis<LGRepository> {
         Q_OBJECT
     public:
         LGRepository(git_repository* git_repository);
@@ -59,7 +59,7 @@ class LGRepository : public QObject,
         RepositoryState state();
         void cleanupState();
 
-        QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags, InformationRequiredCallback callback);
+        QCoro::Task<> push(QString upstreamRemote, QString upstreamBranch, bool force, bool setUpstream, bool pushTags, InformationRequiredCallback callback);
         QCoro::Task<> push(QString upstreamRemote, QStringList refs, InformationRequiredCallback callback);
         QCoro::Task<> fetch(QString remote, QStringList refs, InformationRequiredCallback callback);
 

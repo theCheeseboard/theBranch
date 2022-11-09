@@ -28,15 +28,23 @@ PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
     ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
     ui->titleLabel->setBackButtonShown(true);
     ui->titleLabel_2->setBackButtonShown(true);
+    ui->titleLabel_3->setBackButtonShown(true);
     new tContentSizer(ui->pushOptionsWidget);
     new tContentSizer(ui->pushButton);
     new tContentSizer(ui->pushFailedWidget);
     new tContentSizer(ui->pullButton);
     new tContentSizer(ui->noUpstreamFrame);
     new tContentSizer(ui->pushFailedFrame);
+    new tContentSizer(ui->forcePushWidget);
+    new tContentSizer(ui->doForcePushButton);
+    new tContentSizer(ui->pushFailedForcePushButton);
+    new tContentSizer(ui->forcePushButton);
     ui->spinner->setFixedSize(SC_DPI_WT(QSize(32, 32), QSize, this));
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
+    ui->forcePushButton->setProperty("type", "destructive");
+    ui->doForcePushButton->setProperty("type", "destructive");
+    ui->pushFailedForcePushButton->setProperty("type", "destructive");
 
     // TODO: Create upstream branch
     auto* model = new BranchModel();
@@ -87,36 +95,7 @@ void PushSnapIn::on_titleLabel_backButtonClicked() {
 }
 
 QCoro::Task<> PushSnapIn::on_pushButton_clicked() {
-    QString remoteName;
-    QString localBranchName;
-    auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
-    if (!branch) {
-        remoteName = ui->branchBox->currentData(BranchModel::FakeRemoteName).toString();
-        localBranchName = d->repo->head()->asBranch()->name();
-    } else {
-        remoteName = branch->remoteName();
-        localBranchName = branch->localBranchName();
-    }
-    ui->stackedWidget->setCurrentWidget(ui->pushingPage);
-
-    try {
-        co_await d->repo->git_repository()->push(remoteName, localBranchName, ui->upstreamCheckbox->isChecked(), ui->tagsCheckbox->isChecked(), this->parentPopover()->getInformationRequiredCallback());
-        emit done();
-    } catch (const GitRepositoryOutOfDateException& ex) {
-        ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
-    } catch (const GitException& ex) {
-        QTimer::singleShot(500, this, [this, ex] {
-            ui->pushFailedFrame->setVisible(true);
-            ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
-            ui->pushFailedFrame->setText(ex.description());
-        });
-    } catch (const QException& ex) {
-        QTimer::singleShot(500, this, [this] {
-            ui->pushFailedFrame->setVisible(true);
-            ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
-            ui->pushFailedFrame->setText(tr("Unable to push the repository to the remote"));
-        });
-    }
+    co_await doPush(false);
 }
 
 void PushSnapIn::on_branchBox_currentIndexChanged(int index) {
@@ -137,6 +116,7 @@ void PushSnapIn::updatePushButton() {
     ui->pushButton->setEnabled(ui->branchBox->currentIndex() != -1);
 
     auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+    ui->forcePushButton->setEnabled(!branch.isNull());
     if (!branch) {
         ui->pushButton->setText(tr("Publish Branch"));
         return;
@@ -145,6 +125,47 @@ void PushSnapIn::updatePushButton() {
     auto lastCommitOnBranch = branch->lastCommit();
     auto headCommit = d->repo->head()->asCommit();
     ui->pushButton->setText(tr("Push %n commits", nullptr, headCommit->missingCommits(lastCommitOnBranch)));
+}
+
+void PushSnapIn::prepareForcePush() {
+    auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+    ui->doForcePushButton->setText(tr("Force Push %1 to %2").arg(QLocale().quoteString(d->repo->head()->asBranch()->name())).arg(QLocale().quoteString(branch->name())));
+    ui->stackedWidget->setCurrentWidget(ui->forcePushPage);
+}
+
+QCoro::Task<> PushSnapIn::doPush(bool force) {
+    QString remoteName;
+    QString localBranchName;
+    auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+    if (!branch) {
+        remoteName = ui->branchBox->currentData(BranchModel::FakeRemoteName).toString();
+        localBranchName = d->repo->head()->asBranch()->name();
+    } else {
+        remoteName = branch->remoteName();
+        localBranchName = branch->localBranchName();
+    }
+    ui->stackedWidget->setCurrentWidget(ui->pushingPage);
+
+    try {
+        co_await d->repo->git_repository()->push(remoteName, localBranchName, force, ui->upstreamCheckbox->isChecked(), ui->tagsCheckbox->isChecked(), this->parentPopover()->getInformationRequiredCallback());
+        emit done();
+    } catch (const GitRepositoryOutOfDateException& ex) {
+        ui->stackedWidget->setCurrentWidget(ui->pushFailedPage);
+    } catch (const GitException& ex) {
+        QTimer::singleShot(500, this, [this, ex, branch] {
+            ui->pushFailedFrame->setVisible(true);
+            ui->pushFailedForcePushButton->setVisible(!branch.isNull());
+            ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
+            ui->pushFailedFrame->setText(ex.description());
+        });
+    } catch (const QException& ex) {
+        QTimer::singleShot(500, this, [this, branch] {
+            ui->pushFailedFrame->setVisible(true);
+            ui->pushFailedForcePushButton->setVisible(!branch.isNull());
+            ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
+            ui->pushFailedFrame->setText(tr("Unable to push the repository to the remote"));
+        });
+    }
 }
 
 void PushSnapIn::on_titleLabel_2_backButtonClicked() {
@@ -161,4 +182,20 @@ void PushSnapIn::snapinShown() {
         ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage, false);
         d->awaitingPull = false;
     }
+}
+
+void PushSnapIn::on_titleLabel_3_backButtonClicked() {
+    ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
+}
+
+void PushSnapIn::on_forcePushButton_clicked() {
+    prepareForcePush();
+}
+
+void PushSnapIn::on_pushFailedForcePushButton_clicked() {
+    prepareForcePush();
+}
+
+void PushSnapIn::on_doForcePushButton_clicked() {
+    doPush(true);
 }

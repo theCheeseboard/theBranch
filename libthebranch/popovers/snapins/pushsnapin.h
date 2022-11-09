@@ -28,12 +28,23 @@ class LIBTHEBRANCH_EXPORT PushSnapIn : public SnapIn {
 
         void on_pullButton_clicked();
 
+        void on_titleLabel_3_backButtonClicked();
+
+        void on_forcePushButton_clicked();
+
+        void on_pushFailedForcePushButton_clicked();
+
+        void on_doForcePushButton_clicked();
+
     private:
         Ui::PushSnapIn* ui;
         PushSnapInPrivate* d;
 
         void updateUpstreamBox();
         void updatePushButton();
+
+        void prepareForcePush();
+        QCoro::Task<> doPush(bool force);
 
         // SnapIn interface
     public:

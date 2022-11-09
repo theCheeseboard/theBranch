@@ -59,7 +59,7 @@ ErrorResponse ErrorResponse::fromCurrentGitError() {
 
     ErrorResponse::ErrorType errorType = UnspecifiedError;
     auto message = QString::fromUtf8(err->message);
-    if (message == "cannot push non-fastforwardable reference") {
+    if (message == "cannot push non-fastforwardable reference" || message == "cannot push because a reference that you are trying to update on the remote contains commits that are not present locally.") {
         errorType = UnableToPushNonFastForwardableReferenceError;
     } else if (message == "unstaged changes exist in workdir") {
         errorType = WorkingDirectoryNotCleanError;

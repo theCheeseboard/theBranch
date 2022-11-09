@@ -1,7 +1,7 @@
 #include "index.h"
 
 #include "libgit/lgindex.h"
-#include "libgit/lgrepository.h".h "
+#include "libgit/lgrepository.h"
 #include "repository.h"
 #include <git2.h>
 

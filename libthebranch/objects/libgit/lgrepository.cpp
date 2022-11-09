@@ -5,6 +5,7 @@
 #include "lgblob.h"
 #include "lgbranch.h"
 #include "lgcommit.h"
+#include "lgconfig.h"
 #include "lgindex.h"
 #include "lgoid.h"
 #include "lgreference.h"
@@ -12,7 +13,6 @@
 #include "lgsignature.h"
 #include "lgstash.h"
 #include "lgtree.h"
-#include "lgconfig.h"
 #include <QCoroProcess>
 #include <QException>
 #include <QProcess>
@@ -22,7 +22,7 @@
 #include <git2.h>
 
 struct LGRepositoryPrivate {
-    git_repository* gitRepository;
+        git_repository* gitRepository;
 };
 
 LGRepository::LGRepository(struct git_repository* git_repository) :
@@ -157,10 +157,10 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
         return ErrorResponse(ErrorResponse::UnspecifiedError, err->message);
     }
 
-    ErrorResponse response = performCheckout([ = ](git_checkout_options * checkoutOptions) {
+    ErrorResponse response = performCheckout([=](git_checkout_options* checkoutOptions) {
         return git_checkout_tree(d->gitRepository, obj, checkoutOptions);
     },
-    options);
+        options);
 
     git_object_free(obj);
 
@@ -168,10 +168,10 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
 }
 
 ErrorResponse LGRepository::checkoutIndex(LGIndexPtr index, QVariantMap options) {
-    return performCheckout([ = ](git_checkout_options * checkoutOptions) {
+    return performCheckout([=](git_checkout_options* checkoutOptions) {
         return git_checkout_index(d->gitRepository, index->gitIndex(), checkoutOptions);
     },
-    options);
+        options);
 }
 
 LGRemotePtr LGRepository::createRemote(QString name, QString url) {
@@ -209,11 +209,11 @@ void LGRepository::cleanupState() {
     git_repository_state_cleanup(d->gitRepository);
 }
 
-QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool setUpstream, bool pushTags, InformationRequiredCallback callback) {
+QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch, bool force, bool setUpstream, bool pushTags, InformationRequiredCallback callback) {
     auto headBranch = (new LGBranch(this->head()->takeGitReference()))->sharedFromThis();
 
     QStringList refs;
-    refs.append(QStringLiteral("refs/heads/%1:refs/heads/%2").arg(headBranch->name(), upstreamBranch));
+    refs.append(QStringLiteral("%1refs/heads/%2:refs/heads/%3").arg(force ? "+" : "", headBranch->name(), upstreamBranch));
     if (pushTags) refs.append("refs/tags/*:refs/tags/*");
 
     co_await this->push(upstreamRemote, refs, callback);
@@ -259,12 +259,12 @@ QCoro::Task<> LGRepository::stash(QString message, LGSignaturePtr signature) {
 QList<LGStashPtr> LGRepository::stashes() {
     QList<LGStashPtr> stashes;
     git_stash_foreach(
-    d->gitRepository, [](size_t index, const char* message, const git_oid * oid, void* payload) -> int {
-        auto stashes = reinterpret_cast<QList<LGStashPtr>*>(payload);
-        stashes->append((new LGStash(index, QString::fromUtf8(message)))->sharedFromThis());
-        return 0;
-    },
-    &stashes);
+        d->gitRepository, [](size_t index, const char* message, const git_oid* oid, void* payload) -> int {
+            auto stashes = reinterpret_cast<QList<LGStashPtr>*>(payload);
+            stashes->append((new LGStash(index, QString::fromUtf8(message)))->sharedFromThis());
+            return 0;
+        },
+        &stashes);
     return stashes;
 }
 
@@ -307,7 +307,7 @@ ErrorResponse LGRepository::performCheckout(std::function<int(git_checkout_optio
     git_checkout_options_init(checkoutOptions, GIT_CHECKOUT_OPTIONS_VERSION);
 
     struct NotifyDetails {
-        QStringList conflicts;
+            QStringList conflicts;
     };
     NotifyDetails* details = new NotifyDetails();
 
@@ -315,12 +315,12 @@ ErrorResponse LGRepository::performCheckout(std::function<int(git_checkout_optio
     if (options.value("force", false).toBool()) checkoutOptions->checkout_strategy = GIT_CHECKOUT_FORCE;
 
     checkoutOptions->notify_cb = [](
-            git_checkout_notify_t why,
-            const char* path,
-            const git_diff_file * baseline,
-            const git_diff_file * target,
-            const git_diff_file * workdir,
-    void* payload) {
+                                     git_checkout_notify_t why,
+                                     const char* path,
+                                     const git_diff_file* baseline,
+                                     const git_diff_file* target,
+                                     const git_diff_file* workdir,
+                                     void* payload) {
         NotifyDetails* details = reinterpret_cast<NotifyDetails*>(payload);
         if (why == GIT_CHECKOUT_NOTIFY_CONFLICT) {
             details->conflicts.append(QString::fromUtf8(path));
@@ -333,7 +333,7 @@ ErrorResponse LGRepository::performCheckout(std::function<int(git_checkout_optio
     if (specificCheckout(checkoutOptions) != 0) {
         const git_error* err = git_error_last();
         ErrorResponse resp = ErrorResponse(ErrorResponse::UnspecifiedError, err->message, {
-            {"conflicts", details->conflicts}
+                                                                                              {"conflicts", details->conflicts}
         });
         delete details;
         return resp;
