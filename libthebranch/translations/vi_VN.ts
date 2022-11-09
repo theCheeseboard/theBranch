@@ -1958,17 +1958,17 @@ It is also possible that a host key has just been changed.</source>
       <source>Message</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tùy chọn tạm cất</translation>
       <location filename="../popovers/snapins/stashsavesnapin.ui" line="52" />
       <source>Stash Options</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Không thể tạm cất thay đổi của bạn</translation>
       <location filename="../popovers/snapins/stashsavesnapin.cpp" line="24" />
       <source>Can't stash your changes</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Mục tạm cất đã lưu tại %1</translation>
       <location filename="../popovers/snapins/stashsavesnapin.cpp" line="27" />
       <source>Stash saved at %1</source>
     </message>
@@ -1981,37 +1981,37 @@ It is also possible that a host key has just been changed.</source>
       <source>Form</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xác thực</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="35" />
       <source>Authentication</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Tên người dùng</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="45" />
       <source>Username</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Mật khẩu</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="52" />
       <source>Password</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xác thực tên người dùng và mật khẩu</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="79" />
       <source>Username/Password Authentication</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Xác thực</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="89" />
       <source>Authenticate</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Sử dụng Trình trợ giúp chứng thư đã cấu hình</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="96" />
       <source>Use Configured Credential Helper</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Điền vào một tên người dùng và mật khẩu để xác thực với %1</translation>
       <location filename="../popovers/snapins/usernamepasswordsnapin.cpp" line="28" />
       <source>Enter a username and password to authenticate to %1</source>
     </message>
