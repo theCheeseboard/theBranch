@@ -85,7 +85,11 @@ QCoro::Task<> UsernamePasswordSnapIn::on_useCredentialHelperButton_clicked() {
         args[0] = "credential-" + args.at(0);
     }
 
-    args.append("get");
+    if (args.contains("$@")) {
+        args.replaceInStrings("$@", "get");
+    } else {
+        args.append("get");
+    }
 
     this->setEnabled(false);
 

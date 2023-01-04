@@ -818,22 +818,22 @@
 <context>
     <name>ErrorResponse</name>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="23"/>
+        <location filename="../objects/errorresponse.cpp" line="28"/>
         <source>No Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="25"/>
+        <location filename="../objects/errorresponse.cpp" line="30"/>
         <source>Unspecified Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="27"/>
+        <location filename="../objects/errorresponse.cpp" line="32"/>
         <source>Unable to push non-fast-forwardable reference</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="29"/>
+        <location filename="../objects/errorresponse.cpp" line="34"/>
         <source>The working directory is not clean</source>
         <translation></translation>
     </message>

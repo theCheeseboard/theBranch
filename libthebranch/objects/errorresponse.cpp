@@ -1,12 +1,17 @@
 #include "errorresponse.h"
 
 #include <QCoreApplication>
+#include <tlogger.h>
 #include <git2.h>
 
 ErrorResponse::ErrorResponse(ErrorType error, QString description, QVariantMap supplementaryData) {
     _error = error;
     _description = description;
     _supplementaryData = supplementaryData;
+
+    if (error != NoError) {
+        tCritical("ErrorResponse") << "Error: " << error << ", " << description;
+    }
 }
 
 ErrorResponse::ErrorResponse() {
@@ -68,7 +73,7 @@ ErrorResponse ErrorResponse::fromCurrentGitError() {
 }
 
 void GitRepositoryOutOfDateException::raise() const {
-    throw *this;
+    throw* this;
 }
 
 GitRepositoryOutOfDateException* GitRepositoryOutOfDateException::clone() const {
@@ -80,7 +85,7 @@ GitException::GitException(QString description) {
 }
 
 void GitException::raise() const {
-    throw *this;
+    throw* this;
 }
 
 GitException* GitException::clone() const {
