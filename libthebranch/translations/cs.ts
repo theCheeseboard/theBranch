@@ -13,17 +13,17 @@
       <source>Connect to GitHub</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Připoit se na GitHub pro možnosti jako je integrace s GitHub Actions</translation>
       <location filename="../settingspanes/accountspane.ui" line="37" />
       <source>Connect to GitHub for features such as integration with GitHub Actions</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Účty</translation>
       <location filename="../settingspanes/accountspane.cpp" line="59" />
       <source>Accounts</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Smazat účet</translation>
       <location filename="../settingspanes/accountspane.cpp" line="78" />
       <source>Remove Account</source>
     </message>
@@ -31,32 +31,32 @@
   <context>
     <name>AddGithubAccountPopover</name>
     <message>
-      <translation></translation>
+      <translation>Přidat GitHub účet</translation>
       <location filename="../accounts/github/addgithubaccountpopover.ui" line="54" />
       <source>Add GitHub Account</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Pro integrování GitHubu se přihlaste s Vašim GitHub účtem</translation>
       <location filename="../accounts/github/addgithubaccountpopover.ui" line="78" />
       <source>To integrate with GitHub, sign in with your GitHub account</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Osobní přístupový token</translation>
       <location filename="../accounts/github/addgithubaccountpopover.ui" line="85" />
       <source>Personal Access Token</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Uživatelské jmáno</translation>
       <location filename="../accounts/github/addgithubaccountpopover.ui" line="92" />
       <source>Username</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Přidat účet</translation>
       <location filename="../accounts/github/addgithubaccountpopover.ui" line="109" />
       <source>Add Account</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Vytvořit osobní přístupový token</translation>
       <location filename="../accounts/github/addgithubaccountpopover.ui" line="116" />
       <source>Create Personal Access Token</source>
     </message>
@@ -64,7 +64,7 @@
   <context>
     <name>BranchModel</name>
     <message>
-      <translation></translation>
+      <translation>Nový branch %1 na remote %2</translation>
       <location filename="../objects/branchmodel.cpp" line="50" />
       <source>New branch %1 on remote %2</source>
     </message>
@@ -72,99 +72,99 @@
   <context>
     <name>BranchUiHelper</name>
     <message>
-      <translation></translation>
+      <translation>Pro commit %1</translation>
       <location filename="../objects/branchuihelper.cpp" line="48" />
       <source>For commit %1</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Překontrolovat</translation>
       <location filename="../objects/branchuihelper.cpp" line="49" />
       <location filename="../objects/branchuihelper.cpp" line="77" />
       <location filename="../objects/branchuihelper.cpp" line="243" />
       <source>Checkout</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kopírovat zprávu commitu</translation>
       <location filename="../objects/branchuihelper.cpp" line="53" />
       <source>Copy Commit Message</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Kopírovat hash commitu</translation>
       <location filename="../objects/branchuihelper.cpp" line="56" />
       <source>Copy Commit Hash</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Značka</translation>
       <location filename="../objects/branchuihelper.cpp" line="60" />
       <location filename="../objects/branchuihelper.cpp" line="128" />
       <source>Tag</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Výběr určitých položek</translation>
       <location filename="../objects/branchuihelper.cpp" line="61" />
       <source>Cherry Pick</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Branch z tadyma</translation>
       <location filename="../objects/branchuihelper.cpp" line="66" />
       <location filename="../objects/branchuihelper.cpp" line="129" />
       <source>Branch from here</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Vytvořit revert commit</translation>
       <location filename="../objects/branchuihelper.cpp" line="69" />
       <source>Create Revert Commit</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Pro branch %1</translation>
       <location filename="../objects/branchuihelper.cpp" line="76" />
       <source>For branch %1</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Sloučit %1 do %2</translation>
       <location filename="../objects/branchuihelper.cpp" line="81" />
       <location filename="../objects/branchuihelper.cpp" line="86" />
       <source>Merge %1 into %2</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Rebase %1 na %2</translation>
       <location filename="../objects/branchuihelper.cpp" line="88" />
       <source>Rebase %1 on top of %2</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Žádat pull z %1 do %2</translation>
       <location filename="../objects/branchuihelper.cpp" line="111" />
       <source>Request Pull from %1 into %2</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Přejmenovat</translation>
       <location filename="../objects/branchuihelper.cpp" line="127" />
       <source>Rename</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Smazat</translation>
       <location filename="../objects/branchuihelper.cpp" line="133" />
       <location filename="../objects/branchuihelper.cpp" line="196" />
       <source>Delete</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Pro stash</translation>
       <location filename="../objects/branchuihelper.cpp" line="145" />
       <source>For stash</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Vyjmout stash</translation>
       <location filename="../objects/branchuihelper.cpp" line="146" />
       <source>Pop Stash</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Aplikování stashe selhalo</translation>
       <location filename="../objects/branchuihelper.cpp" line="150" />
       <location filename="../objects/branchuihelper.cpp" line="163" />
       <source>Couldn't apply stash</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Aplikovat stash</translation>
       <location filename="../objects/branchuihelper.cpp" line="159" />
       <source>Apply Stash</source>
     </message>
@@ -185,39 +185,39 @@
       <source>Do you want to drop the stash %1?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Pro remote %1</translation>
       <location filename="../objects/branchuihelper.cpp" line="186" />
       <source>For remote %1</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Načíst změny</translation>
       <location filename="../objects/branchuihelper.cpp" line="187" />
       <source>Fetch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Smazat remote</translation>
       <location filename="../objects/branchuihelper.cpp" line="190" />
       <location filename="../objects/branchuihelper.cpp" line="193" />
       <source>Delete Remote</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Chcete odstranit %1?</translation>
       <location filename="../objects/branchuihelper.cpp" line="194" />
       <source>Do you want to delete %1?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Předměty na remotu zůstanou, nebudete však moci pushnout nebo pullnout pokud nepřidáte remote origin.</translation>
       <location filename="../objects/branchuihelper.cpp" line="195" />
       <source>Items on the remote will remain, but you won't be able to push or pull from it unless you add the remote again.</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Nečistá pracovní složka</translation>
       <location filename="../objects/branchuihelper.cpp" line="214" />
       <location filename="../objects/branchuihelper.cpp" line="328" />
       <source>Unclean Working Directory</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Aby jste mohli zkontrolovat tento branch, budete muset stashnout vaše necommitnuté změny.</translation>
       <location filename="../objects/branchuihelper.cpp" line="215" />
       <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
     </message>
@@ -330,7 +330,7 @@
       <source>Do you want to delete the branch %1?</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Smazat branch?</translation>
       <location filename="../objects/branchuihelper.cpp" line="368" />
       <source>Delete Branch</source>
     </message>
@@ -340,7 +340,7 @@
       <source>Failed to delete the remote branch</source>
     </message>
     <message>
-      <translation></translation>
+      <translation>Zahodit změny?</translation>
       <location filename="../objects/branchuihelper.cpp" line="397" />
       <source>Discard Changes?</source>
     </message>
