@@ -1691,7 +1691,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowser.cpp" line="+72"/>
+        <location filename="../widgets/repositorybrowser.cpp" line="+73"/>
         <source>Welcome</source>
         <translation></translation>
     </message>
@@ -1709,7 +1709,7 @@
 <context>
     <name>RepositoryBrowserList</name>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="+72"/>
+        <location filename="../widgets/repositorybrowserlist.cpp" line="+73"/>
         <source>Branches</source>
         <translation></translation>
     </message>

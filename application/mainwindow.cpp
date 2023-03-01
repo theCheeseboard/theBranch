@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget* parent) :
     d->branchesScope = new tCommandPaletteDocumentSpecificScope(this);
     commandPalette->addScope(d->branchesScope);
 
-    tHelpMenu* helpMenu = new tHelpMenu(this);
+    tHelpMenu* helpMenu = new tHelpMenu(this, commandPalette);
     ui->menuBar->addMenu(helpMenu);
 
 #ifdef Q_OS_MAC

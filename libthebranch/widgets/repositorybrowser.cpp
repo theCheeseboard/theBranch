@@ -1,6 +1,7 @@
 #include "repositorybrowser.h"
 #include "ui_repositorybrowser.h"
 
+#include "commandpalettes/branchescommandpalette.h"
 #include "objects/repository.h"
 #include "popovers/clonerepositorypopover.h"
 #include <QFileDialog>

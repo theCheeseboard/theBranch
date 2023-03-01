@@ -25,6 +25,7 @@
 #include "accounts/github/issues/githubissuelistcontroller.h"
 #include "accounts/github/pr/githubpullrequestlistcontroller.h"
 #include "branchservices.h"
+#include "commandpalettes/branchescommandpalette.h"
 #include "commitbrowserwidget.h"
 #include "objects/branch.h"
 #include "objects/branchuihelper.h"
@@ -120,8 +121,20 @@ void RepositoryBrowserList::addWidgetFunction(QStandardItem* item, WidgetFunctio
 }
 
 void RepositoryBrowserList::setRepository(RepositoryPtr repo) {
+    if (d->repo) {
+        d->repo->disconnect(this);
+    }
+
     d->repo = repo;
     connect(repo.data(), &Repository::repositoryUpdated, this, &RepositoryBrowserList::updateData);
+
+    connect(static_cast<BranchesCommandPalette*>(repo->commandPaletteBranches()), &BranchesCommandPalette::branchActivated, this, [this, repo](BranchPtr branch) {
+        auto commitBrowser = new CommitBrowserWidget();
+        commitBrowser->setRepository(repo);
+        commitBrowser->setStartBranch(branch);
+        emit showWidget(commitBrowser);
+    });
+
     this->updateData();
 }
 

@@ -2,6 +2,7 @@
 #define BRANCHESCOMMANDPALETTE_H
 
 #include <tcommandpalette/tcommandpalettescope.h>
+#include "objects/branch.h"
 
 class Repository;
 struct BranchesCommandPalettePrivate;
@@ -10,6 +11,9 @@ class BranchesCommandPalette : public tCommandPaletteScope {
     public:
         explicit BranchesCommandPalette(Repository* repository);
         ~BranchesCommandPalette();
+
+signals:
+    void branchActivated(BranchPtr branch);
 
     private:
         BranchesCommandPalettePrivate* d;

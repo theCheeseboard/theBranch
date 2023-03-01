@@ -54,4 +54,5 @@ void BranchesCommandPalette::filter(QString filter) {
 }
 
 void BranchesCommandPalette::activate(QModelIndex index) {
+    emit branchActivated(d->shownBranches.at(index.row()));
 }
