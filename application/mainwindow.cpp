@@ -4,6 +4,9 @@
 #include <QCoroTimer>
 #include <QMessageBox>
 #include <tapplication.h>
+#include <tcommandpalette/tcommandpaletteactionscope.h>
+#include <tcommandpalette/tcommandpalettecontroller.h>
+#include <tcommandpalette/tcommandpalettedocumentspecificscope.h>
 #include <tcsdtools.h>
 #include <thelpmenu.h>
 #include <tjobmanager.h>
@@ -31,6 +34,8 @@
 
 struct MainWindowPrivate {
         tCsdTools csd;
+
+        tCommandPaletteDocumentSpecificScope* branchesScope;
 };
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -52,20 +57,20 @@ MainWindow::MainWindow(QWidget* parent) :
 
     this->resize(SC_DPI_WT(this->size(), QSize, this));
 
-    //    ui->windowTabber->addButton(new tWindowTabberButton(QIcon::fromTheme("view-media-track"), tr("Tracks"), ui->stackedWidget, ui->tracksPage));
-    //    ui->windowTabber->addButton(new tWindowTabberButton(QIcon::fromTheme("view-media-artist"), tr("Artists"), ui->stackedWidget, ui->artistsPage));
-    //    ui->windowTabber->addButton(new tWindowTabberButton(QIcon::fromTheme("media-album-cover"), tr("Albums"), ui->stackedWidget, ui->albumsPage));
-    //    ui->windowTabber->addButton(new tWindowTabberButton(QIcon::fromTheme("view-media-playlist"), tr("Playlists"), ui->stackedWidget, ui->playlistsPage));
-    //    ui->windowTabber->addButton(new tWindowTabberButton(QIcon::fromTheme("view-list-details"), tr("Other Sources"), ui->stackedWidget, ui->otherSourcesPage));
+    tCommandPaletteActionScope* commandPaletteActionScope;
+    auto commandPalette = tCommandPaletteController::defaultController(this, &commandPaletteActionScope);
+
+    d->branchesScope = new tCommandPaletteDocumentSpecificScope(this);
+    commandPalette->addScope(d->branchesScope);
+
+    tHelpMenu* helpMenu = new tHelpMenu(this);
+    ui->menuBar->addMenu(helpMenu);
 
 #ifdef Q_OS_MAC
-    ui->menuBar->addMenu(new tHelpMenu(this));
     ui->menuButton->setVisible(false);
 #else
     ui->menuBar->setVisible(false);
     QMenu* menu = new QMenu(this);
-
-    tHelpMenu* helpMenu = new tHelpMenu(this);
 
     menu->addAction(ui->actionOpen_Repository);
     menu->addAction(ui->actionClone_Repository);
@@ -102,6 +107,8 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->stackedWidget, &tStackedWidget::switchingFrame, this, &MainWindow::updateMenuItems);
 
+    commandPaletteActionScope->addMenuBar(ui->menuBar);
+
     openNextTab();
     updateMenuItems();
 }
@@ -116,6 +123,8 @@ void MainWindow::openRepo(QString path) {
 
     RepositoryBrowser* browser = openNextTab();
     browser->setRepository(repo);
+
+    d->branchesScope->registerScope(browser, repo->commandPaletteBranches());
 
     updateMenuItems();
 }

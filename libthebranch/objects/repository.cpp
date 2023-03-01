@@ -17,6 +17,7 @@
 #include <QDirIterator>
 #include <QFileDialog>
 #include <QFileSystemWatcher>
+#include <commandpalettes/branchescommandpalette.h>
 #include <git2.h>
 #include <tmessagebox.h>
 
@@ -27,6 +28,8 @@ struct RepositoryPrivate {
         QList<RepositoryOperation*> operations;
         QFileSystemWatcher* watcher;
         QTimer* watcherTimer;
+
+        BranchesCommandPalette* branchesCommandPalette;
 };
 
 Repository::Repository(QObject* parent) :
@@ -46,6 +49,8 @@ Repository::Repository(QObject* parent) :
         d->watcherTimer->stop();
         d->watcherTimer->start();
     });
+
+    d->branchesCommandPalette = new BranchesCommandPalette(this);
 }
 
 void Repository::putRepositoryOperation(RepositoryOperation* operation) {
@@ -120,6 +125,8 @@ ReferencePtr Repository::head() {
 }
 
 QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
+    if (!d->gitRepo) return {};
+
     QList<BranchPtr> branches;
     for (LGBranchPtr branch : d->gitRepo->branches(flags)) {
         branches.append(Branch::branchForLgBranch(d->gitRepo, branch)->sharedFromThis());
@@ -358,6 +365,10 @@ QList<StashPtr> Repository::stashes() {
 
 QString Repository::repositoryPath() {
     return QDir::cleanPath(QDir(d->gitRepo->path()).absoluteFilePath(".."));
+}
+
+tCommandPaletteScope* Repository::commandPaletteBranches() {
+    return d->branchesCommandPalette;
 }
 
 LGRepositoryPtr Repository::git_repository() {

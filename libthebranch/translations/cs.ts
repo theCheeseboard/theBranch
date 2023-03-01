@@ -4,27 +4,30 @@
 <context>
     <name>AccountsPane</name>
     <message>
-        <location filename="../settingspanes/accountspane.ui" line="20"/>
+        <location filename="../settingspanes/accountspane.ui" line="+20"/>
+        <location/>
         <source>Sign into Git providers for extra features</source>
         <translation>Přihlásit se na poskytovatele Gitu pro více možností</translation>
     </message>
     <message>
-        <location filename="../settingspanes/accountspane.ui" line="34"/>
+        <location line="+14"/>
+        <location/>
         <source>Connect to GitHub</source>
         <translation>Připojit se na GitHub</translation>
     </message>
     <message>
-        <location filename="../settingspanes/accountspane.ui" line="37"/>
+        <location line="+3"/>
+        <location/>
         <source>Connect to GitHub for features such as integration with GitHub Actions</source>
         <translation>Připoit se na GitHub pro možnosti jako je integrace s GitHub Actions</translation>
     </message>
     <message>
-        <location filename="../settingspanes/accountspane.cpp" line="59"/>
+        <location filename="../settingspanes/accountspane.cpp" line="+59"/>
         <source>Accounts</source>
         <translation>Účty</translation>
     </message>
     <message>
-        <location filename="../settingspanes/accountspane.cpp" line="78"/>
+        <location line="+19"/>
         <source>Remove Account</source>
         <translation>Smazat účet</translation>
     </message>
@@ -32,32 +35,38 @@
 <context>
     <name>AddGithubAccountPopover</name>
     <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="54"/>
+        <location filename="../accounts/github/addgithubaccountpopover.ui" line="+54"/>
+        <location/>
         <source>Add GitHub Account</source>
         <translation>Přidat GitHub účet</translation>
     </message>
     <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="78"/>
+        <location line="+24"/>
+        <location/>
         <source>To integrate with GitHub, sign in with your GitHub account</source>
         <translation>Pro integrování GitHubu se přihlaste s Vašim GitHub účtem</translation>
     </message>
     <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="85"/>
+        <location line="+7"/>
+        <location/>
         <source>Personal Access Token</source>
         <translation>Osobní přístupový token</translation>
     </message>
     <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="92"/>
+        <location line="+7"/>
+        <location/>
         <source>Username</source>
         <translation>Uživatelské jmáno</translation>
     </message>
     <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="109"/>
+        <location line="+17"/>
+        <location/>
         <source>Add Account</source>
         <translation>Přidat účet</translation>
     </message>
     <message>
-        <location filename="../accounts/github/addgithubaccountpopover.ui" line="116"/>
+        <location line="+7"/>
+        <location/>
         <source>Create Personal Access Token</source>
         <translation>Vytvořit osobní přístupový token</translation>
     </message>
@@ -65,7 +74,7 @@
 <context>
     <name>BranchModel</name>
     <message>
-        <location filename="../objects/branchmodel.cpp" line="50"/>
+        <location filename="../objects/branchmodel.cpp" line="+50"/>
         <source>New branch %1 on remote %2</source>
         <translation>Nový branch %1 na remote %2</translation>
     </message>
@@ -73,343 +82,357 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="48"/>
+        <location filename="../objects/branchuihelper.cpp" line="+48"/>
         <source>For commit %1</source>
         <translation>Pro commit %1</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="49"/>
-        <location filename="../objects/branchuihelper.cpp" line="77"/>
-        <location filename="../objects/branchuihelper.cpp" line="243"/>
+        <location line="+1"/>
+        <location line="+28"/>
+        <location line="+166"/>
         <source>Checkout</source>
         <translation>Překontrolovat</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="53"/>
+        <location line="-190"/>
         <source>Copy Commit Message</source>
         <translation>Kopírovat zprávu commitu</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="56"/>
+        <location line="+3"/>
         <source>Copy Commit Hash</source>
         <translation>Kopírovat hash commitu</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="60"/>
-        <location filename="../objects/branchuihelper.cpp" line="128"/>
+        <location line="+4"/>
+        <location line="+68"/>
         <source>Tag</source>
         <translation>Značka</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="61"/>
+        <location line="-67"/>
         <source>Cherry Pick</source>
         <translation>Výběr určitých položek</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="66"/>
-        <location filename="../objects/branchuihelper.cpp" line="129"/>
+        <location line="+5"/>
+        <location line="+63"/>
         <source>Branch from here</source>
         <translation>Branch z tadyma</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="69"/>
+        <location line="-60"/>
         <source>Create Revert Commit</source>
         <translation>Vytvořit revert commit</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="76"/>
+        <location line="+7"/>
         <source>For branch %1</source>
         <translation>Pro branch %1</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="81"/>
-        <location filename="../objects/branchuihelper.cpp" line="86"/>
+        <location line="+5"/>
+        <location line="+5"/>
         <source>Merge %1 into %2</source>
         <translation>Sloučit %1 do %2</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="88"/>
+        <location line="+2"/>
         <source>Rebase %1 on top of %2</source>
         <translation>Rebase %1 na %2</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="111"/>
+        <location line="+23"/>
         <source>Request Pull from %1 into %2</source>
         <translation>Žádat pull z %1 do %2</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="127"/>
+        <location line="+16"/>
         <source>Rename</source>
         <translation>Přejmenovat</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="133"/>
-        <location filename="../objects/branchuihelper.cpp" line="196"/>
+        <location line="+6"/>
+        <location line="+63"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="145"/>
+        <location line="-51"/>
         <source>For stash</source>
         <translation>Pro stash</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="146"/>
+        <location line="+1"/>
         <source>Pop Stash</source>
         <translation>Vyjmout stash</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="150"/>
-        <location filename="../objects/branchuihelper.cpp" line="163"/>
+        <location line="+4"/>
+        <location line="+13"/>
         <source>Couldn&apos;t apply stash</source>
         <translation>Aplikování stashe selhalo</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="159"/>
+        <location line="-4"/>
         <source>Apply Stash</source>
         <translation>Aplikovat stash</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="170"/>
-        <location filename="../objects/branchuihelper.cpp" line="175"/>
+        <location line="+11"/>
+        <location line="+5"/>
         <source>Drop Stash</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="172"/>
+        <location line="-3"/>
         <source>Drop Stash?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="173"/>
+        <location line="+1"/>
         <source>Do you want to drop the stash %1?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="186"/>
+        <location line="+13"/>
         <source>For remote %1</source>
         <translation>Pro remote %1</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="187"/>
+        <location line="+1"/>
         <source>Fetch</source>
         <translation>Načíst změny</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="190"/>
-        <location filename="../objects/branchuihelper.cpp" line="193"/>
+        <location line="+3"/>
+        <location line="+3"/>
         <source>Delete Remote</source>
         <translation>Smazat remote</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="194"/>
+        <location line="+1"/>
         <source>Do you want to delete %1?</source>
         <translation>Chcete odstranit %1?</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="195"/>
+        <location line="+1"/>
         <source>Items on the remote will remain, but you won&apos;t be able to push or pull from it unless you add the remote again.</source>
         <translation>Předměty na remotu zůstanou, nebudete však moci pushnout nebo pullnout pokud nepřidáte remote origin.</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="214"/>
-        <location filename="../objects/branchuihelper.cpp" line="328"/>
+        <location line="+19"/>
+        <location line="+114"/>
         <source>Unclean Working Directory</source>
         <translation>Nečistá pracovní složka</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="215"/>
+        <location line="-113"/>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
         <translation>Aby jste mohli zkontrolovat tento branch, budete muset stashnout vaše necommitnuté změny.</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="221"/>
-        <location filename="../objects/branchuihelper.cpp" line="232"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Can&apos;t checkout that branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="233"/>
+        <location line="+1"/>
         <source>A local branch called %1 already exists.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="238"/>
+        <location line="+5"/>
         <source>Checkout Remote Branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="239"/>
+        <location line="+1"/>
         <source>Do you want to checkout this remote branch?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="240"/>
+        <location line="+1"/>
         <source>A new branch, %1, will be created and checked out.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="259"/>
+        <location line="+19"/>
         <source>Up to date</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="260"/>
+        <location line="+1"/>
         <source>There are no changes to merge from %1.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="265"/>
+        <location line="+5"/>
         <source>Merge not possible</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="269"/>
+        <location line="+4"/>
         <source>HEAD is detached</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="270"/>
+        <location line="+1"/>
         <source>There is no branch to merge onto. Checkout a branch first, and then merge your changes.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="273"/>
+        <location line="+3"/>
         <source>Ongoing operation</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="274"/>
+        <location line="+1"/>
         <source>There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then merge your changes.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="277"/>
+        <location line="+3"/>
         <source>Unable to merge from %1 into %2.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="329"/>
+        <location line="+52"/>
         <source>To rebase, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="331"/>
+        <location line="+2"/>
         <source>Rebase not possible</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="332"/>
+        <location line="+1"/>
         <source>Unable to rebase %1 onto %2.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="358"/>
-        <location filename="../objects/branchuihelper.cpp" line="379"/>
-        <location filename="../objects/branchuihelper.cpp" line="388"/>
+        <location line="+26"/>
+        <location line="+21"/>
+        <location line="+9"/>
         <source>Can&apos;t delete that branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="359"/>
+        <location line="-29"/>
         <source>The selected branch is the current branch.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="360"/>
+        <location line="+1"/>
         <source>To delete the branch, checkout a different branch first.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="366"/>
+        <location line="+6"/>
         <source>Delete branch?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="367"/>
+        <location line="+1"/>
         <source>Do you want to delete the branch %1?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="368"/>
+        <location line="+1"/>
         <source>Delete Branch</source>
         <translation>Smazat branch?</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="380"/>
+        <location line="+12"/>
         <source>Failed to delete the remote branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="397"/>
+        <location line="+17"/>
         <source>Discard Changes?</source>
         <translation>Zahodit změny?</translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="398"/>
+        <location line="+1"/>
         <source>Do you want to discard all uncommitted changes in the repository?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="399"/>
+        <location line="+1"/>
         <source>All uncommitted changes will be gone forever.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="400"/>
+        <location line="+1"/>
         <source>Also delete untracked files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="401"/>
+        <location line="+1"/>
         <source>Discard Changes</source>
         <translation></translation>
     </message>
 </context>
 <context>
+    <name>BranchesCommandPalette</name>
+    <message>
+        <location filename="../commandpalettes/branchescommandpalette.cpp" line="+41"/>
+        <source>Branches</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CheckoutSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="57"/>
+        <location filename="../popovers/snapins/checkoutsnapin.ui" line="+57"/>
+        <location/>
         <source>Checkout Revision</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="67"/>
+        <location line="+10"/>
+        <location/>
         <source>Commit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="74"/>
+        <location line="+7"/>
+        <location/>
         <source>Checkout:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="81"/>
+        <location line="+7"/>
+        <location/>
         <source>Branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="94"/>
+        <location line="+13"/>
+        <location/>
         <source>Checkout Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.ui" line="107"/>
+        <location line="+13"/>
+        <location/>
         <source>Checkout</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.cpp" line="52"/>
+        <location filename="../popovers/snapins/checkoutsnapin.cpp" line="+52"/>
         <source>Unclean Working Directory</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.cpp" line="53"/>
+        <location line="+1"/>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/checkoutsnapin.cpp" line="59"/>
+        <location line="+6"/>
         <source>Can&apos;t checkout that branch</source>
         <translation></translation>
     </message>
@@ -417,12 +440,12 @@
 <context>
     <name>CherryPick</name>
     <message>
-        <location filename="../objects/cherrypick.cpp" line="60"/>
+        <location filename="../objects/cherrypick.cpp" line="+60"/>
         <source>The result of the cherry pick was empty</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/cherrypick.cpp" line="93"/>
+        <location line="+33"/>
         <source>Cherry pick %1 into %2</source>
         <translation></translation>
     </message>
@@ -430,54 +453,57 @@
 <context>
     <name>CherryPickSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="57"/>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="122"/>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="161"/>
+        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="+57"/>
+        <location line="+65"/>
+        <location line="+39"/>
+        <location/>
         <source>Cherry Pick</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="89"/>
+        <location line="-72"/>
+        <location/>
         <source>You are cherry picking a merge commit. Select the mainline commit:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.ui" line="188"/>
+        <location line="+99"/>
+        <location/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="37"/>
+        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="+37"/>
         <source>Cherry pick merge commit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="53"/>
+        <location line="+16"/>
         <source>Cherry pick commit?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="57"/>
+        <location line="+4"/>
         <source>Do you want to cherry-pick %1 onto %2?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="58"/>
+        <location line="+1"/>
         <source>%1 will be copied to %2.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="74"/>
+        <location line="+16"/>
         <source>Unclean Working Directory</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="75"/>
+        <location line="+1"/>
         <source>To perform a cherry pick, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/cherrypicksnapin.cpp" line="78"/>
+        <location line="+3"/>
         <source>Cherry Pick failed</source>
         <translation></translation>
     </message>
@@ -485,52 +511,58 @@
 <context>
     <name>CloneRepositoryPopover</name>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="57"/>
+        <location filename="../popovers/clonerepositorypopover.ui" line="+57"/>
+        <location/>
         <source>Clone Repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="79"/>
+        <location line="+22"/>
+        <location/>
         <source>CLONE OPTIONS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="86"/>
+        <location line="+7"/>
+        <location/>
         <source>Clone to</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="93"/>
+        <location line="+7"/>
+        <location/>
         <source>Clone URL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="100"/>
+        <location line="+7"/>
+        <location/>
         <source>Browse...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="114"/>
+        <location line="+14"/>
+        <location/>
         <source>Clone</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="32"/>
+        <location filename="../popovers/clonerepositorypopover.cpp" line="+32"/>
         <source>Clone URL cannot be blank</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="37"/>
+        <location line="+5"/>
         <source>Clone Directory cannot be blank</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="43"/>
+        <location line="+6"/>
         <source>Clone Directory does not exist</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="48"/>
+        <location line="+5"/>
         <source>Clone Directory is not empty</source>
         <translation></translation>
     </message>
@@ -538,7 +570,8 @@
 <context>
     <name>CommitBrowserWidget</name>
     <message>
-        <location filename="../widgets/commitbrowserwidget.ui" line="35"/>
+        <location filename="../widgets/commitbrowserwidget.ui" line="+35"/>
+        <location/>
         <source>Commits</source>
         <translation></translation>
     </message>
@@ -546,64 +579,75 @@
 <context>
     <name>CommitSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="57"/>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="333"/>
+        <location filename="../popovers/snapins/commitsnapin.ui" line="+57"/>
+        <location line="+276"/>
+        <location/>
         <source>Commit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="103"/>
+        <location line="-230"/>
+        <location/>
         <source>View Untracked Files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="152"/>
+        <location line="+49"/>
+        <location/>
         <source>Commit Message</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="173"/>
+        <location line="+21"/>
+        <location/>
         <source>Push to remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="246"/>
+        <location line="+73"/>
+        <location/>
         <source>No File Selected</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="281"/>
+        <location line="+35"/>
+        <location/>
         <source>Finalise Commit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="298"/>
+        <location line="+17"/>
+        <location/>
         <source>Email Address</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="312"/>
+        <location line="+14"/>
+        <location/>
         <source>Committer Information</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="319"/>
+        <location line="+7"/>
+        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="326"/>
+        <location line="+7"/>
+        <location/>
         <source>Enter the following information about yourself to finalise this commit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.ui" line="344"/>
+        <location line="+18"/>
+        <location/>
         <source>Save in global Git configuration</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="69"/>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="74"/>
+        <location filename="../popovers/snapins/commitsnapin.cpp" line="+69"/>
+        <location line="+5"/>
         <source>Commit %n Files</source>
         <translation>
             <numerusform></numerusform>
@@ -612,7 +656,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="176"/>
+        <location line="+102"/>
         <source>Select %n modified files</source>
         <translation>
             <numerusform></numerusform>
@@ -621,13 +665,13 @@
         </translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="205"/>
+        <location line="+29"/>
         <source>Local Changes</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="294"/>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="297"/>
+        <location line="+89"/>
+        <location line="+3"/>
         <source>For %n files</source>
         <translation>
             <numerusform></numerusform>
@@ -636,17 +680,17 @@
         </translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="295"/>
+        <location line="-2"/>
         <source>Discard Changes and Delete New Files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="298"/>
+        <location line="+3"/>
         <source>Discard Changes</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="300"/>
+        <location line="+2"/>
         <source>For %n untracked files</source>
         <translation>
             <numerusform></numerusform>
@@ -655,7 +699,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="301"/>
+        <location line="+1"/>
         <source>Delete from Repository</source>
         <translation></translation>
     </message>
@@ -663,27 +707,31 @@
 <context>
     <name>CommitsPane</name>
     <message>
-        <location filename="../settingspanes/commitspane.ui" line="23"/>
+        <location filename="../settingspanes/commitspane.ui" line="+23"/>
+        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingspanes/commitspane.ui" line="30"/>
+        <location line="+7"/>
+        <location/>
         <source>Each commit needs to be signed with a name and an email, and these details will be visible to anyone looking at the repository.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingspanes/commitspane.ui" line="43"/>
+        <location line="+13"/>
+        <location/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingspanes/commitspane.ui" line="50"/>
+        <location line="+7"/>
+        <location/>
         <source>These settings will be saved in your global Git configuration</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingspanes/commitspane.cpp" line="48"/>
+        <location filename="../settingspanes/commitspane.cpp" line="+48"/>
         <source>Commits</source>
         <translation></translation>
     </message>
@@ -691,97 +739,100 @@
 <context>
     <name>ConflictResolutionSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="54"/>
+        <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="+54"/>
+        <location/>
         <source>Abort Conflict Resolution</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="64"/>
+        <location line="+10"/>
+        <location/>
         <source>Abort Conflict Resolution?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="155"/>
+        <location line="+91"/>
+        <location/>
         <source>Conflict Resolution</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="41"/>
+        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+41"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="42"/>
+        <location line="+1"/>
         <source>Continue Pull</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="44"/>
+        <location line="+2"/>
         <source>Abort Pull</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="45"/>
+        <location line="+1"/>
         <source>Pull</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="48"/>
+        <location line="+3"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started merging, and will also abort the merge operation. Any conflict resolution will be lost.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="49"/>
+        <location line="+1"/>
         <source>Continue Merge</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="51"/>
+        <location line="+2"/>
         <source>Abort Merge</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="52"/>
+        <location line="+1"/>
         <source>Merge</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="55"/>
+        <location line="+3"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started rebasing, and will also abort the rebase operation. Any conflict resolution will be lost.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="56"/>
+        <location line="+1"/>
         <source>Continue Rebase</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="58"/>
+        <location line="+2"/>
         <source>Abort Rebase</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="59"/>
+        <location line="+1"/>
         <source>Rebase</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="62"/>
+        <location line="+3"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started cherry picking, and will also abort the cherry pick operation. Any conflict resolution will be lost.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="63"/>
+        <location line="+1"/>
         <source>Continue Cherry Pick</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="65"/>
+        <location line="+2"/>
         <source>Abort Cherry Pick</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="66"/>
+        <location line="+1"/>
         <source>Cherry Pick</source>
         <translation></translation>
     </message>
@@ -789,12 +840,12 @@
 <context>
     <name>Diff</name>
     <message>
-        <location filename="../objects/diff.cpp" line="41"/>
+        <location filename="../objects/diff.cpp" line="+41"/>
         <source>Original</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/diff.cpp" line="42"/>
+        <location line="+1"/>
         <source>Modified</source>
         <translation></translation>
     </message>
@@ -802,7 +853,8 @@
 <context>
     <name>DiffPopover</name>
     <message>
-        <location filename="../popovers/diffpopover.ui" line="35"/>
+        <location filename="../popovers/diffpopover.ui" line="+35"/>
+        <location/>
         <source>Diff</source>
         <translation></translation>
     </message>
@@ -810,22 +862,22 @@
 <context>
     <name>ErrorResponse</name>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="28"/>
+        <location filename="../objects/errorresponse.cpp" line="+28"/>
         <source>No Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="30"/>
+        <location line="+2"/>
         <source>Unspecified Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="32"/>
+        <location line="+2"/>
         <source>Unable to push non-fast-forwardable reference</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/errorresponse.cpp" line="34"/>
+        <location line="+2"/>
         <source>The working directory is not clean</source>
         <translation></translation>
     </message>
@@ -833,7 +885,7 @@
 <context>
     <name>GitCredentialManager</name>
     <message>
-        <location filename="../cred/gitcredentialmanager.cpp" line="45"/>
+        <location filename="../cred/gitcredentialmanager.cpp" line="+45"/>
         <source>Unknown</source>
         <translation></translation>
     </message>
@@ -841,32 +893,32 @@
 <context>
     <name>GitHubActionsApi</name>
     <message>
-        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="41"/>
+        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="+41"/>
         <source>Could not get workflows</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="55"/>
+        <location line="+14"/>
         <source>Could not get workflow</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="82"/>
+        <location line="+27"/>
         <source>Could not get workflow runs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="96"/>
+        <location line="+14"/>
         <source>Could not get workflow run</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="124"/>
+        <location line="+28"/>
         <source>Could not get workflow jobs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/actions/githubactionsapi.cpp" line="138"/>
+        <location line="+14"/>
         <source>Could not get workflow job</source>
         <translation></translation>
     </message>
@@ -874,7 +926,8 @@
 <context>
     <name>GitHubActionsBrowser</name>
     <message>
-        <location filename="../accounts/github/actions/githubactionsbrowser.ui" line="54"/>
+        <location filename="../accounts/github/actions/githubactionsbrowser.ui" line="+54"/>
+        <location/>
         <source>Workflows</source>
         <translation></translation>
     </message>
@@ -882,7 +935,8 @@
 <context>
     <name>GitHubActionsRunBrowser</name>
     <message>
-        <location filename="../accounts/github/actions/githubactionsrunbrowser.ui" line="102"/>
+        <location filename="../accounts/github/actions/githubactionsrunbrowser.ui" line="+102"/>
+        <location/>
         <source>Run Summary</source>
         <translation></translation>
     </message>
@@ -890,7 +944,7 @@
 <context>
     <name>GitHubActionsWorkflowBrowser</name>
     <message>
-        <location filename="../accounts/github/actions/githubactionsworkflowbrowser.cpp" line="21"/>
+        <location filename="../accounts/github/actions/githubactionsworkflowbrowser.cpp" line="+21"/>
         <source>Runs for %1</source>
         <translation></translation>
     </message>
@@ -898,33 +952,37 @@
 <context>
     <name>GitHubCreatePullRequestPopover</name>
     <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="54"/>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="111"/>
+        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="+54"/>
+        <location line="+57"/>
+        <location/>
         <source>Create Pull Request</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="67"/>
+        <location line="-44"/>
+        <location/>
         <source>Pull Request Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="74"/>
+        <location line="+7"/>
+        <location/>
         <source>Comment</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="81"/>
+        <location line="+7"/>
+        <location/>
         <source>Title</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.cpp" line="35"/>
+        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.cpp" line="+35"/>
         <source>You are creating a pull request to merge %1 into %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubcreatepullrequestpopover.cpp" line="55"/>
+        <location line="+20"/>
         <source>Could not create Pull Request</source>
         <translation></translation>
     </message>
@@ -932,17 +990,17 @@
 <context>
     <name>GitHubIssue</name>
     <message>
-        <location filename="../accounts/github/issues/githubissue.cpp" line="88"/>
+        <location filename="../accounts/github/issues/githubissue.cpp" line="+88"/>
         <source>For Pull Request #%1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissue.cpp" line="90"/>
+        <location line="+2"/>
         <source>For Issue #%1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissue.cpp" line="92"/>
+        <location line="+2"/>
         <source>View on GitHub</source>
         <translation></translation>
     </message>
@@ -950,77 +1008,84 @@
 <context>
     <name>GitHubIssueBrowser</name>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="220"/>
+        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="+220"/>
+        <location/>
         <source>Leave a comment</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="233"/>
+        <location line="+13"/>
+        <location/>
         <source>Comment</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="259"/>
+        <location line="+26"/>
+        <location/>
         <source>Actions</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="271"/>
+        <location line="+12"/>
+        <location/>
         <source>Merge...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="285"/>
+        <location line="+14"/>
+        <location/>
         <source>Reopen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="369"/>
+        <location line="+84"/>
+        <location/>
         <source>Assigned To</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.ui" line="376"/>
+        <location line="+7"/>
+        <location/>
         <source>NO ONE IS ASSIGNED TO THIS THING</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="45"/>
+        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="+45"/>
         <source>Pull Requests</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="45"/>
+        <location line="+0"/>
         <source>Issues</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="125"/>
+        <location line="+80"/>
         <source>Open</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="133"/>
+        <location line="+8"/>
         <source>Closed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="141"/>
+        <location line="+8"/>
         <source>Merged</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="225"/>
+        <location line="+84"/>
         <source>Could not create comment</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="243"/>
+        <location line="+18"/>
         <source>Could not close ticket</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuebrowser.cpp" line="260"/>
+        <location line="+17"/>
         <source>Could not reopen ticket</source>
         <translation></translation>
     </message>
@@ -1028,24 +1093,25 @@
 <context>
     <name>GitHubIssueCommentBubble</name>
     <message>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="71"/>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="87"/>
+        <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="+71"/>
+        <location line="+16"/>
+        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.cpp" line="45"/>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.cpp" line="54"/>
+        <location filename="../accounts/github/issues/events/githubissuecommentbubble.cpp" line="+45"/>
+        <location line="+9"/>
         <source>Review Comment</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.cpp" line="47"/>
+        <location line="-7"/>
         <source>Requested Changes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissuecommentbubble.cpp" line="49"/>
+        <location line="+2"/>
         <source>Approved Pull Request</source>
         <translation></translation>
     </message>
@@ -1053,92 +1119,92 @@
 <context>
     <name>GitHubIssueEventBubble</name>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="44"/>
+        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="+44"/>
         <source>Closed by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="46"/>
+        <location line="+2"/>
         <source>Reopened by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="48"/>
+        <location line="+2"/>
         <source>Referenced in %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="50"/>
+        <location line="+2"/>
         <source>Committed %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="54"/>
+        <location line="+4"/>
         <source>Assigned to %1 by themselves</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="56"/>
+        <location line="+2"/>
         <source>Assigned to %1 by %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="61"/>
+        <location line="+5"/>
         <source>Unassigned to %1 by themselves</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="63"/>
+        <location line="+2"/>
         <source>Unassigned to %1 by %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="66"/>
+        <location line="+3"/>
         <source>Locked by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="68"/>
+        <location line="+2"/>
         <source>Unlocked by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="70"/>
+        <location line="+2"/>
         <source>Source branch deleted by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="72"/>
+        <location line="+2"/>
         <source>Source branch restored by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="74"/>
+        <location line="+2"/>
         <source>Source branch force pushed to by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="76"/>
+        <location line="+2"/>
         <source>Pinned by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="78"/>
+        <location line="+2"/>
         <source>Unpinned by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="80"/>
+        <location line="+2"/>
         <source>Marked ready for review by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="82"/>
+        <location line="+2"/>
         <source>Converted to draft by %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/events/githubissueeventbubble.cpp" line="84"/>
+        <location line="+2"/>
         <source>Deployed by %1</source>
         <translation></translation>
     </message>
@@ -1146,33 +1212,33 @@
 <context>
     <name>GitHubPullRequestApi</name>
     <message>
-        <location filename="../accounts/github/issues/githubissuesapi.cpp" line="43"/>
-        <location filename="../accounts/github/issues/githubissuesapi.cpp" line="62"/>
+        <location filename="../accounts/github/issues/githubissuesapi.cpp" line="+43"/>
+        <location line="+19"/>
         <source>Could not get issues</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuesapi.cpp" line="92"/>
+        <location line="+30"/>
         <source>Could not get issue timeline</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuesapi.cpp" line="111"/>
+        <location line="+19"/>
         <source>Could not update issue</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/issues/githubissuesapi.cpp" line="126"/>
+        <location line="+15"/>
         <source>Could not post comment</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubpullrequestapi.cpp" line="32"/>
+        <location filename="../accounts/github/pr/githubpullrequestapi.cpp" line="+32"/>
         <source>Could not create Pull Request</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../accounts/github/pr/githubpullrequestapi.cpp" line="58"/>
+        <location line="+26"/>
         <source>Could not get Pull Requests</source>
         <translation></translation>
     </message>
@@ -1180,17 +1246,17 @@
 <context>
     <name>Merge</name>
     <message>
-        <location filename="../objects/merge.cpp" line="33"/>
+        <location filename="../objects/merge.cpp" line="+33"/>
         <source>Unspecified Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/merge.cpp" line="89"/>
+        <location line="+56"/>
         <source>Tried to merge an unborn HEAD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/merge.cpp" line="171"/>
+        <location line="+82"/>
         <source>Merge %1 into %2</source>
         <translation></translation>
     </message>
@@ -1198,59 +1264,63 @@
 <context>
     <name>MergeSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.ui" line="57"/>
-        <location filename="../popovers/snapins/mergesnapin.ui" line="133"/>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="53"/>
+        <location filename="../popovers/snapins/mergesnapin.ui" line="+57"/>
+        <location line="+76"/>
+        <location/>
+        <location filename="../popovers/snapins/mergesnapin.cpp" line="+53"/>
         <source>Merge</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.ui" line="67"/>
+        <location line="-66"/>
+        <location/>
         <source>Merge Branches?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.ui" line="84"/>
+        <location line="+17"/>
+        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.ui" line="160"/>
+        <location line="+76"/>
+        <location/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="49"/>
+        <location filename="../popovers/snapins/mergesnapin.cpp" line="-4"/>
         <source>Do you want to perform a fast-forward merge from %1?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="50"/>
+        <location line="+1"/>
         <source>Fast-Forward</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="52"/>
+        <location line="+2"/>
         <source>Do you want to create a merge commit from %1?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="56"/>
+        <location line="+4"/>
         <source>All changes from %1 will be merged into the current branch.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="76"/>
+        <location line="+20"/>
         <source>Unclean Working Directory</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="77"/>
+        <location line="+1"/>
         <source>To perform a merge, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/mergesnapin.cpp" line="80"/>
+        <location line="+3"/>
         <source>Merge failed</source>
         <translation></translation>
     </message>
@@ -1258,27 +1328,32 @@
 <context>
     <name>NewBranchPopover</name>
     <message>
-        <location filename="../popovers/newbranchpopover.ui" line="35"/>
+        <location filename="../popovers/newbranchpopover.ui" line="+35"/>
+        <location/>
         <source>New Branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/newbranchpopover.ui" line="45"/>
+        <location line="+10"/>
+        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/newbranchpopover.ui" line="76"/>
+        <location line="+31"/>
+        <location/>
         <source>Branch Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/newbranchpopover.ui" line="110"/>
+        <location line="+34"/>
+        <location/>
         <source>Checkout this branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/newbranchpopover.ui" line="123"/>
+        <location line="+13"/>
+        <location/>
         <source>Branch</source>
         <translation></translation>
     </message>
@@ -1286,37 +1361,42 @@
 <context>
     <name>NewRemoteSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.ui" line="57"/>
+        <location filename="../popovers/snapins/newremotesnapin.ui" line="+57"/>
+        <location/>
         <source>New Remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.ui" line="67"/>
+        <location line="+10"/>
+        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.ui" line="74"/>
+        <location line="+7"/>
+        <location/>
         <source>Remote Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.ui" line="81"/>
+        <location line="+7"/>
+        <location/>
         <source>URL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.ui" line="155"/>
+        <location line="+74"/>
+        <location/>
         <source>Add Remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.cpp" line="50"/>
+        <location filename="../popovers/snapins/newremotesnapin.cpp" line="+50"/>
         <source>Could not connect to the remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/newremotesnapin.cpp" line="99"/>
+        <location line="+49"/>
         <source>Ensure the URL is correct and that your Internet connection is working</source>
         <translation></translation>
     </message>
@@ -1324,68 +1404,72 @@
 <context>
     <name>PullSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.ui" line="57"/>
-        <location filename="../popovers/snapins/pullsnapin.ui" line="104"/>
+        <location filename="../popovers/snapins/pullsnapin.ui" line="+57"/>
+        <location line="+47"/>
+        <location/>
         <source>Pull</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.ui" line="67"/>
+        <location line="-37"/>
+        <location/>
         <source>Rebase local commits onto upstream</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.ui" line="77"/>
+        <location line="+10"/>
+        <location/>
         <source>Upstream Branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.ui" line="84"/>
+        <location line="+7"/>
+        <location/>
         <source>Pull Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="109"/>
+        <location filename="../popovers/snapins/pullsnapin.cpp" line="+109"/>
         <source>Pull not possible</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="113"/>
+        <location line="+4"/>
         <source>HEAD is detached</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="114"/>
+        <location line="+1"/>
         <source>There is no branch to merge onto. Checkout a branch first, and then pull.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="117"/>
+        <location line="+3"/>
         <source>Ongoing operation</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="118"/>
+        <location line="+1"/>
         <source>There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then pull.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="121"/>
+        <location line="+3"/>
         <source>Unable to pull because the merge operation failed.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="136"/>
+        <location line="+15"/>
         <source>Unclean Working Directory</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="137"/>
+        <location line="+1"/>
         <source>To pull these changes, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="143"/>
+        <location line="+6"/>
         <source>Pull failed</source>
         <translation></translation>
     </message>
@@ -1393,98 +1477,109 @@
 <context>
     <name>PushSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="57"/>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="131"/>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="236"/>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="309"/>
+        <location filename="../popovers/snapins/pushsnapin.ui" line="+57"/>
+        <location line="+74"/>
+        <location line="+105"/>
+        <location line="+73"/>
+        <location/>
         <source>Push</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="67"/>
+        <location line="-242"/>
+        <location/>
         <source>Push Tags</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="84"/>
+        <location line="+17"/>
+        <location/>
         <source>Push Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="91"/>
+        <location line="+7"/>
+        <location/>
         <source>Upstream Branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="98"/>
+        <location line="+7"/>
+        <location/>
         <source>Set as upstream for this branch</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="138"/>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="270"/>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="326"/>
+        <location line="+40"/>
+        <location line="+132"/>
+        <location line="+56"/>
+        <location/>
         <source>Force Push</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="246"/>
+        <location line="-80"/>
+        <location/>
         <source>Push Failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="253"/>
+        <location line="+7"/>
+        <location/>
         <source>Your local repository is out of date. </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="263"/>
+        <location line="+10"/>
+        <location/>
         <source>Pull</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="319"/>
+        <location line="+56"/>
+        <location/>
         <source>Force Pushing may cause you to lose commits on the remote.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.ui" line="333"/>
+        <location line="+14"/>
+        <location/>
         <source>Force Push and overwrite the branch on the remote?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="65"/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+65"/>
         <source>No Remotes Configured</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="66"/>
+        <location line="+1"/>
         <source>To push from this repository, you need to add a remote.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="73"/>
+        <location line="+7"/>
         <source>Add Remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="80"/>
+        <location line="+7"/>
         <source>Failed to push</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="81"/>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="166"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <source>Unable to push the repository to the remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="121"/>
+        <location line="-45"/>
         <source>Publish Branch</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="127"/>
+        <location line="+6"/>
         <source>Push %n commits</source>
         <translation>
             <numerusform></numerusform>
@@ -1493,7 +1588,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="132"/>
+        <location line="+5"/>
         <source>Force Push %1 to %2</source>
         <translation></translation>
     </message>
@@ -1501,33 +1596,37 @@
 <context>
     <name>RebaseSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="57"/>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="94"/>
+        <location filename="../popovers/snapins/rebasesnapin.ui" line="+57"/>
+        <location line="+37"/>
+        <location/>
         <source>Rebase</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="67"/>
+        <location line="-27"/>
+        <location/>
         <source>Rebase Branches?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="133"/>
+        <location line="+66"/>
+        <location/>
         <source>Merge</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/rebasesnapin.ui" line="160"/>
+        <location line="+27"/>
+        <location/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/rebasesnapin.cpp" line="52"/>
+        <location filename="../popovers/snapins/rebasesnapin.cpp" line="+52"/>
         <source>Do you want to rebase %1 onto %2?</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/rebasesnapin.cpp" line="53"/>
+        <location line="+1"/>
         <source>%n commits from %1 will be replayed onto %2</source>
         <translation>
             <numerusform></numerusform>
@@ -1539,12 +1638,12 @@
 <context>
     <name>RemoteBrowser</name>
     <message>
-        <location filename="../widgets/remotebrowser.cpp" line="65"/>
+        <location filename="../widgets/remotebrowser.cpp" line="+65"/>
         <source>For repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/remotebrowser.cpp" line="66"/>
+        <location line="+1"/>
         <source>Add Remote</source>
         <translation></translation>
     </message>
@@ -1552,27 +1651,27 @@
 <context>
     <name>Repository</name>
     <message>
-        <location filename="../objects/repository.cpp" line="147"/>
+        <location filename="../objects/repository.cpp" line="+154"/>
         <source>The local branch %1 already exists.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/repository.cpp" line="219"/>
+        <location line="+72"/>
         <source>No Git Repository Available</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/repository.cpp" line="220"/>
+        <location line="+1"/>
         <source>The folder that you selected does not contain a Git repository. Do you want to create an empty Git repository there?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/repository.cpp" line="222"/>
+        <location line="+2"/>
         <source>Create and Open Git Repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/repository.cpp" line="237"/>
+        <location line="+15"/>
         <source>Could not create Git repository</source>
         <translation></translation>
     </message>
@@ -1580,32 +1679,35 @@
 <context>
     <name>RepositoryBrowser</name>
     <message>
-        <location filename="../widgets/repositorybrowser.ui" line="60"/>
+        <location filename="../widgets/repositorybrowser.ui" line="+60"/>
+        <location/>
         <source>What would you like to do?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowser.ui" line="85"/>
+        <location line="+25"/>
+        <location/>
         <source>Open Repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowser.ui" line="92"/>
+        <location line="+7"/>
+        <location/>
         <source>Clone Repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowser.cpp" line="72"/>
+        <location filename="../widgets/repositorybrowser.cpp" line="+72"/>
         <source>Welcome</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowser.cpp" line="76"/>
+        <location line="+4"/>
         <source>Invalid Repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowser.cpp" line="78"/>
+        <location line="+2"/>
         <source>Cloning...</source>
         <translation></translation>
     </message>
@@ -1613,48 +1715,48 @@
 <context>
     <name>RepositoryBrowserList</name>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="72"/>
+        <location filename="../widgets/repositorybrowserlist.cpp" line="+72"/>
         <source>Branches</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="73"/>
+        <location line="+1"/>
         <source>Remotes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="74"/>
+        <location line="+1"/>
         <source>Stashes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="75"/>
+        <location line="+1"/>
         <source>Issues</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="76"/>
+        <location line="+1"/>
         <source>Pull Requests</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="77"/>
+        <location line="+1"/>
         <source>Actions</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="80"/>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="86"/>
+        <location line="+3"/>
+        <location line="+6"/>
         <source>For repository</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="81"/>
+        <location line="-5"/>
         <source>Add Remote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="87"/>
+        <location line="+6"/>
         <source>Stash</source>
         <translation></translation>
     </message>
@@ -1662,22 +1764,22 @@
 <context>
     <name>RepositoryCloneOperation</name>
     <message>
-        <location filename="../objects/private/repositorycloneoperation.cpp" line="18"/>
+        <location filename="../objects/private/repositorycloneoperation.cpp" line="+18"/>
         <source>Preparing to clone...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/private/repositorycloneoperation.cpp" line="48"/>
+        <location line="+30"/>
         <source>Receiving objects: %1/%2 - %3 transferred.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/private/repositorycloneoperation.cpp" line="80"/>
+        <location line="+32"/>
         <source>Repository Clone failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/private/repositorycloneoperation.cpp" line="82"/>
+        <location line="+2"/>
         <source>Cloning Repository...</source>
         <translation></translation>
     </message>
@@ -1685,12 +1787,12 @@
 <context>
     <name>RepositoryModel</name>
     <message>
-        <location filename="../objects/repositorymodel.cpp" line="39"/>
+        <location filename="../objects/repositorymodel.cpp" line="+39"/>
         <source>Branches</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../objects/repositorymodel.cpp" line="54"/>
+        <location line="+15"/>
         <source>Remotes</source>
         <translation></translation>
     </message>
@@ -1698,7 +1800,7 @@
 <context>
     <name>RepositoryStatusBar</name>
     <message>
-        <location filename="../widgets/repositorystatusbar.cpp" line="42"/>
+        <location filename="../widgets/repositorystatusbar.cpp" line="+42"/>
         <source>(no HEAD)</source>
         <translation></translation>
     </message>
@@ -1706,37 +1808,42 @@
 <context>
     <name>SshCertCheckSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="35"/>
+        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="+35"/>
+        <location/>
         <source>Server Identity</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="45"/>
+        <location line="+10"/>
+        <location/>
         <source>Host</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="65"/>
+        <location line="+20"/>
+        <location/>
         <source>Check Server Identity</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="79"/>
+        <location line="+14"/>
+        <location/>
         <source>Fingerprint</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="106"/>
+        <location line="+27"/>
+        <location/>
         <source>Accept</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="40"/>
+        <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="+40"/>
         <source>Remote Host Identification has changed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="41"/>
+        <location line="+1"/>
         <source>IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY.
 Someone could be eavesdropping on you right now!
 
@@ -1744,12 +1851,12 @@ It is also possible that a host key has just been changed.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="45"/>
+        <location line="+4"/>
         <source>Continue Nevertheless</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshcertchecksnapin.cpp" line="52"/>
+        <location line="+7"/>
         <source>Abort Operation</source>
         <translation></translation>
     </message>
@@ -1757,22 +1864,25 @@ It is also possible that a host key has just been changed.</source>
 <context>
     <name>SshKeySelectionSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="35"/>
+        <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="+35"/>
+        <location/>
         <source>Authentication</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="45"/>
+        <location line="+10"/>
+        <location/>
         <source>SSH Key Authentication</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="65"/>
+        <location line="+20"/>
+        <location/>
         <source>Authenticate</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="39"/>
+        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+39"/>
         <source>Select an SSH key to authenticate to %1</source>
         <translation></translation>
     </message>
@@ -1780,28 +1890,31 @@ It is also possible that a host key has just been changed.</source>
 <context>
     <name>StashSaveSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/stashsavesnapin.ui" line="35"/>
-        <location filename="../popovers/snapins/stashsavesnapin.ui" line="123"/>
+        <location filename="../popovers/snapins/stashsavesnapin.ui" line="+35"/>
+        <location line="+88"/>
+        <location/>
         <source>Stash</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/stashsavesnapin.ui" line="45"/>
+        <location line="-78"/>
+        <location/>
         <source>Message</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/stashsavesnapin.ui" line="52"/>
+        <location line="+7"/>
+        <location/>
         <source>Stash Options</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/stashsavesnapin.cpp" line="24"/>
+        <location filename="../popovers/snapins/stashsavesnapin.cpp" line="+24"/>
         <source>Can&apos;t stash your changes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/stashsavesnapin.cpp" line="27"/>
+        <location line="+3"/>
         <source>Stash saved at %1</source>
         <translation></translation>
     </message>
@@ -1809,37 +1922,43 @@ It is also possible that a host key has just been changed.</source>
 <context>
     <name>UsernamePasswordSnapIn</name>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="35"/>
+        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="+35"/>
+        <location/>
         <source>Authentication</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="45"/>
+        <location line="+10"/>
+        <location/>
         <source>Username</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="52"/>
+        <location line="+7"/>
+        <location/>
         <source>Password</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="79"/>
+        <location line="+27"/>
+        <location/>
         <source>Username/Password Authentication</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="89"/>
+        <location line="+10"/>
+        <location/>
         <source>Authenticate</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="96"/>
+        <location line="+7"/>
+        <location/>
         <source>Use Configured Credential Helper</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/usernamepasswordsnapin.cpp" line="28"/>
+        <location filename="../popovers/snapins/usernamepasswordsnapin.cpp" line="+28"/>
         <source>Enter a username and password to authenticate to %1</source>
         <translation></translation>
     </message>

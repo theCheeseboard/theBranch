@@ -134,6 +134,8 @@ set(SOURCES
     objects/libgit/lgobject.cpp
     objects/libgit/lgblob.cpp
     objects/libgit/lgconfig.cpp
+
+    commandpalettes/branchescommandpalette.cpp
 )
 
 set(HEADERS
@@ -254,6 +256,8 @@ set(PRIVATE_HEADERS
     accounts/github/actions/githubworkflowjobmodel.h
     accounts/github/actions/githubworkflowjobbrowser.h
     accounts/github/users/githubuser.h
+
+    commandpalettes/branchescommandpalette.h
 )
 
 add_library(libthebranch SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})

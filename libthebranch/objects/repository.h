@@ -7,6 +7,7 @@
 #include "libthebranch_global.h"
 #include <QCoroTask>
 #include <QObject>
+#include <tcommandpalette/tcommandpalettescope.h>
 #include <tpromise.h>
 
 class BranchModel;
@@ -89,6 +90,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         QList<StashPtr> stashes();
 
         QString repositoryPath();
+
+        tCommandPaletteScope* commandPaletteBranches();
 
     signals:
         void stateChanged();

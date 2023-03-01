@@ -4,228 +4,264 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="310"/>
+        <location filename="../mainwindow.ui" line="+14"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+310"/>
         <source>theBranch</source>
         <translation>theBranch</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="116"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="373"/>
+        <location line="+102"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+63"/>
         <source>File</source>
         <translation>Tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="128"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="374"/>
+        <location line="+12"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+1"/>
         <source>Repository</source>
         <translation>Kho</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="139"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="375"/>
+        <location line="+11"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+1"/>
         <source>Remotes</source>
         <translation>Máy Chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="146"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="376"/>
+        <location line="+7"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+1"/>
         <source>Tree</source>
         <translation>Cây</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="166"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="311"/>
+        <location line="+20"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="-65"/>
         <source>Exit</source>
         <translation>Thoát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="169"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="313"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="174"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="315"/>
+        <location line="+5"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Clone Repository</source>
         <translation>Nhân bản kho</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="177"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="317"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="186"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="319"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Open Repository</source>
         <translation>Mở kho</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="189"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="321"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="198"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="323"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Push</source>
         <translation>Đẩy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="201"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="325"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+Up</source>
         <translation>Ctrl+Up</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="210"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="327"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Pull</source>
         <translation>Kéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="213"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="329"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+Down</source>
         <translation>Ctrl+Down</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="222"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="331"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Checkout...</source>
         <translation>Lấy ra...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="225"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="333"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+.</source>
         <translation>Ctrl+.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="234"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="335"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>New Branch...</source>
         <translation>Nhánh mới</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="237"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="337"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="246"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="339"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>New Tag...</source>
         <translation>Thẻ mới...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="249"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="341"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+G</source>
         <translation>Ctrl+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="258"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="343"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Merge...</source>
         <translation>Hòa trộn...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="261"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="345"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="270"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="347"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Rebase...</source>
         <translation>Cải tổ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="273"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="349"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="282"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="351"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Cherry Pick...</source>
         <translation>Cherry-pick...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="285"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="353"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="294"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="355"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Commit...</source>
         <translation>Chuyển giao...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="297"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="357"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+Return</source>
         <translation>Ctrl+Return</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="306"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="359"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Stash</source>
         <translation>Tạm cất</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="309"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="361"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="318"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="363"/>
+        <location line="+9"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Print</source>
         <translation>In</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="321"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="365"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="326"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="367"/>
+        <location line="+5"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Settings</source>
         <translation>Cài đặt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="329"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="369"/>
+        <location line="+3"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Ctrl+,</source>
         <translation>Ctrl+,</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="337"/>
-        <location filename="../../../build-thebranch-Chroot_6-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="371"/>
+        <location line="+8"/>
+        <location/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Discard All Changes</source>
         <translation>Bỏ các thay đổi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="137"/>
+        <location filename="../mainwindow.cpp" line="+146"/>
         <source>Commit</source>
         <translation>Chuyển giao</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="240"/>
+        <location line="+103"/>
         <source>Git</source>
         <translation>Git</translation>
     </message>
@@ -233,7 +269,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="40"/>
+        <location filename="../main.cpp" line="+40"/>
         <source>Git Client</source>
         <translation>Tiện ích quản lý Git</translation>
     </message>
