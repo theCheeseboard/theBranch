@@ -1,7 +1,7 @@
 name: "macOS CI"
 on:
   push:
-    branches: [blueprint]
+    branches: [master]
   release:
     types: [published]
   pull_request:
