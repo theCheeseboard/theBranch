@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.ui" line="+14"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+310"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+311"/>
         <source>theBranch</source>
         <translation>theBranch</translation>
     </message>
@@ -53,7 +53,7 @@
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+8"/>
         <location/>
         <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Clone Repository</source>
