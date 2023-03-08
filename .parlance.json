@@ -8,6 +8,12 @@
             "baseLang": "en_US"
         },
         {
+            "name": "theBranch Apple Support",
+            "type": "apple-strings",
+            "path": "/application/translations/apple-lproj/{lang}.lproj/InfoPlist.strings",
+            "baseLang": "en_US"
+        },
+        {
             "name": "theBranch Desktop",
             "type": "qt",
             "path": "/application/translations/{lang}.ts",
