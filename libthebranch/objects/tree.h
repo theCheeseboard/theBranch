@@ -6,6 +6,7 @@
 #include <QObject>
 
 class CommitSnapIn;
+class Repository;
 struct TreePrivate;
 class LIBTHEBRANCH_EXPORT Tree : public QObject,
                                  public tbSharedFromThis<Tree> {
@@ -23,6 +24,7 @@ class LIBTHEBRANCH_EXPORT Tree : public QObject,
         friend Commit;
         friend Diff;
         friend CommitSnapIn;
+        friend Repository;
         static TreePtr treeForLgTree(LGRepositoryPtr repo, LGTreePtr tree);
         LGTreePtr gitTree();
 

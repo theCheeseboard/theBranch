@@ -89,12 +89,12 @@
     <message>
         <location line="+1"/>
         <location line="+28"/>
-        <location line="+166"/>
+        <location line="+168"/>
         <source>Checkout</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-190"/>
+        <location line="-192"/>
         <source>Copy Commit Message</source>
         <translation></translation>
     </message>
@@ -105,23 +105,23 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+68"/>
+        <location line="+70"/>
         <source>Tag</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-69"/>
         <source>Cherry Pick</source>
         <translation></translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+63"/>
+        <location line="+65"/>
         <source>Branch from here</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-62"/>
         <source>Create Revert Commit</source>
         <translation></translation>
     </message>
@@ -142,7 +142,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>Request Pull from %1 into %2</source>
         <translation></translation>
     </message>
@@ -655,7 +655,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="+102"/>
+        <location line="+116"/>
         <source>Select %n modified files</source>
         <translation>
             <numerusform>Select %n modified file</numerusform>
@@ -663,12 +663,18 @@
         </translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+31"/>
+        <location line="+8"/>
         <source>Local Changes</source>
         <translation></translation>
     </message>
+    <message>
+        <location line="+0"/>
+        <source>New Repository</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location line="+89"/>
+        <location line="+86"/>
         <location line="+3"/>
         <source>For %n files</source>
         <translation>
@@ -1650,7 +1656,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+79"/>
         <source>No Git Repository Available</source>
         <translation></translation>
     </message>
@@ -1797,6 +1803,35 @@
         <location filename="../widgets/repositorystatusbar.cpp" line="+42"/>
         <source>(no HEAD)</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>SnapInPopover</name>
+    <message>
+        <location filename="../popovers/snapinpopover.cpp" line="+121"/>
+        <source>Push not possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+15"/>
+        <source>HEAD is detached</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-14"/>
+        <source>There is no branch to push. Checkout a branch first, and then push the repository.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Pull not possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>There is no branch to pull. Checkout a branch first, and then pull the repository.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

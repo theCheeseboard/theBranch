@@ -23,6 +23,8 @@ class LIBTHEBRANCH_EXPORT SnapInPopover : public QWidget {
         InformationRequiredCallback getInformationRequiredCallback();
 
         static void showSnapInPopover(QWidget* parent, SnapIn* snapin);
+        static void showPushPopover(QWidget* parent, RepositoryPtr repo);
+        static void showPullPopover(QWidget* parent, RepositoryPtr repo);
 
     signals:
         void done();

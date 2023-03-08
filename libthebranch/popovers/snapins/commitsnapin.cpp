@@ -76,6 +76,12 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
 
     connect(ui->modifiedFilesEdit->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CommitSnapIn::updateSelection);
 
+    if (!d->repository->head()) {
+        // Ensure that if the HEAD is unborn we are always viewing untracked files (because nothing would be tracked yet)
+        ui->viewUntrackedCheckbox->setChecked(true);
+        ui->viewUntrackedCheckbox->setEnabled(false);
+    }
+
     this->updateState();
     this->updateSelection();
 }
@@ -113,8 +119,10 @@ void CommitSnapIn::performCommit() {
     // Create a commit on the existing HEAD
     auto index = repo->git_repository()->index();
 
-    // Reset the index to the state of the tree
-    index->readTree(head->asCommit()->tree()->gitTree());
+    if (head) {
+        // Reset the index to the state of the tree
+        index->readTree(head->asCommit()->tree()->gitTree());
+    }
 
     for (auto selected : d->statusModel->checkedItems()) {
         auto pathspec = selected.data(StatusItemListModel::PathRole).toString();
@@ -146,7 +154,13 @@ void CommitSnapIn::performCommit() {
     auto treeOid = repo->git_repository()->index()->writeTree(repo->git_repository());
     auto tree = repo->git_repository()->lookupTree(treeOid);
 
-    auto commitOid = repo->git_repository()->createCommit(sig, sig, ui->commitMessageEdit->toPlainText(), tree, {head->asCommit()->gitCommit()});
+    QList<LGCommitPtr> parents;
+    if (head) {
+        // Only connect the parent commit if the HEAD is not unborn
+        parents.append(head->asCommit()->gitCommit());
+    }
+
+    auto commitOid = repo->git_repository()->createCommit(sig, sig, ui->commitMessageEdit->toPlainText(), tree, parents);
     if (!commitOid) {
         ui->stackedWidget->setCurrentWidget(ui->commitPage);
         auto error = ErrorResponse::fromCurrentGitError();
@@ -193,22 +207,29 @@ void CommitSnapIn::updateSelection() {
         auto first = selection.first();
         auto path = first.data(StatusItemListModel::PathRole).toString();
 
-        auto commit = d->repository->head()->asCommit();
-        auto tree = commit->tree();
-        auto blob = tree->blobForPath(path);
-
         QFile file(QDir(d->repository->repositoryPath()).filePath(path));
         file.open(QFile::ReadOnly);
         auto localChanges = file.readAll();
         file.close();
 
-        ui->textDiffPage->setTitles(commit->shortCommitHash(), tr("Local Changes"));
-        if (blob) {
-            ui->textDiffPage->loadDiff(blob->contents(), localChanges);
+        auto head = d->repository->head();
+        if (head) {
+            auto commit = head->asCommit();
+            auto tree = commit->tree();
+            auto blob = tree->blobForPath(path);
+
+            ui->textDiffPage->setTitles(commit->shortCommitHash(), tr("Local Changes"));
+            if (blob) {
+                ui->textDiffPage->loadDiff(blob->contents(), localChanges);
+            } else {
+                // File is untracked
+                ui->textDiffPage->loadDiff("", localChanges);
+            }
         } else {
-            // File is untracked
+            ui->textDiffPage->setTitles(tr("New Repository"), tr("Local Changes"));
             ui->textDiffPage->loadDiff("", localChanges);
         }
+
         ui->diffStack->setCurrentWidget(ui->textDiffPage);
     }
 }

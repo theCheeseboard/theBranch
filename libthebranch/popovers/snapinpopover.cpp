@@ -1,12 +1,18 @@
 #include "snapinpopover.h"
 #include "ui_snapinpopover.h"
 
-#include "snapins/snapin.h"
 #include <QCoroSignal>
 #include <QException>
 #include <QTimer>
+#include <tmessagebox.h>
 #include <tpopover.h>
 
+#include "objects/reference.h"
+#include "objects/repository.h"
+
+#include "snapins/pullsnapin.h"
+#include "snapins/pushsnapin.h"
+#include "snapins/snapin.h"
 #include "snapins/sshcertchecksnapin.h"
 #include "snapins/sshkeyselectionsnapin.h"
 #include "snapins/usernamepasswordsnapin.h"
@@ -106,4 +112,34 @@ void SnapInPopover::showSnapInPopover(QWidget* parent, SnapIn* snapin) {
     popover->show(parent->window());
 
     jp->pushSnapIn(snapin);
+}
+
+void SnapInPopover::showPushPopover(QWidget* parent, RepositoryPtr repo) {
+    // Guard the push popover with a check to ensure that we are not on a detached HEAD
+    if (!repo->head() || !repo->head()->asBranch()) {
+        tMessageBox* box = new tMessageBox(parent->window());
+        box->setTitleBarText(tr("Push not possible"));
+        box->setTitleBarText(tr("HEAD is detached"));
+        box->setMessageText(tr("There is no branch to push. Checkout a branch first, and then push the repository."));
+        box->setIcon(QMessageBox::Critical);
+        box->exec(true);
+        return;
+    }
+
+    showSnapInPopover(parent, new PushSnapIn(repo));
+}
+
+void SnapInPopover::showPullPopover(QWidget* parent, RepositoryPtr repo) {
+    // Guard the push popover with a check to ensure that we are not on a detached HEAD
+    if (!repo->head() || !repo->head()->asBranch()) {
+        tMessageBox* box = new tMessageBox(parent->window());
+        box->setTitleBarText(tr("Pull not possible"));
+        box->setTitleBarText(tr("HEAD is detached"));
+        box->setMessageText(tr("There is no branch to pull. Checkout a branch first, and then pull the repository."));
+        box->setIcon(QMessageBox::Critical);
+        box->exec(true);
+        return;
+    }
+
+    showSnapInPopover(parent, new PullSnapIn(repo));
 }

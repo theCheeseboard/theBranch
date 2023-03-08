@@ -175,6 +175,13 @@ ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {
     return ErrorResponse();
 }
 
+ErrorResponse Repository::detachHead(CommitPtr target) {
+    if (CHK_ERR(d->gitRepo->checkoutTree(target->tree()->gitTree(), {}))) return error;
+
+    d->gitRepo->detachHead(target->gitCommit());
+    return ErrorResponse();
+}
+
 void Repository::resetFileToHead(QString file) {
     auto head = this->head();
     if (!head) return;

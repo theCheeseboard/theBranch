@@ -46,8 +46,8 @@
 
 void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryPtr repo, QWidget* parent) {
     menu->addSection(tr("For commit %1").arg(QLocale().quoteString(commit->commitHash())));
-    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [] {
-
+    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [commit, repo] {
+        repo->detachHead(commit);
     });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-copy"), tr("Copy Commit Message"), parent, [commit] {
@@ -103,7 +103,9 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
                     if (slug.isEmpty()) continue;
 
                     // This remote is a GitHub remote
-                    auto upstreamOfHead = repo->head()->asBranch()->upstream();
+                    auto branch = repo->head()->asBranch();
+                    if (!branch) continue;
+                    auto upstreamOfHead = branch->upstream();
                     if (!upstreamOfHead) continue;
                     if (upstreamOfHead->remoteName() != remote->name()) continue;
 
@@ -134,7 +136,7 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
         BranchUiHelper::deleteBranch(repo, branch, parent);
     });
 
-    if (!repo->head()) {
+    if (!repo->head()->asBranch()) {
         merge1->setEnabled(false);
         merge2->setEnabled(false);
         rebase->setEnabled(false);
@@ -205,7 +207,7 @@ void BranchUiHelper::appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryP
 }
 
 void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent) {
-    auto performCheckout = [ = ] {
+    auto performCheckout = [=] {
         if (CHK_ERR(repo->setHeadAndCheckout(branch->toReference()))) {
             QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
 
@@ -238,7 +240,7 @@ void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidge
             box->setTitleBarText(tr("Checkout Remote Branch"));
             box->setMessageText(tr("Do you want to checkout this remote branch?"));
             box->setInformativeText(tr("A new branch, %1, will be created and checked out.")
-                .arg(QLocale().quoteString(branch->localBranchName())));
+                                        .arg(QLocale().quoteString(branch->localBranchName())));
             box->setIcon(QMessageBox::Question);
             tMessageBoxButton* checkoutButton = box->addButton(tr("Checkout"), QMessageBox::AcceptRole);
             connect(checkoutButton, &tMessageBoxButton::buttonPressed, parent, performCheckout);

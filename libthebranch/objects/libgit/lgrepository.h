@@ -24,12 +24,21 @@ class LGRepository : public QObject,
             MergeRepositoryState
         };
 
+        enum class ObjectType {
+            Any,
+            Tree,
+            Commit,
+            Blob,
+            Tag
+        };
+
         static LGRepositoryPtr init(QString path);
         static LGRepositoryPtr open(QString path);
         static QString gitExecutable();
 
         LGReferencePtr head();
         void setHead(QString head);
+        void detachHead(LGCommitPtr commit);
 
         QString path();
         QString workDir();
@@ -51,6 +60,7 @@ class LGRepository : public QObject,
         LGSignaturePtr defaultSignature();
 
         ErrorResponse checkoutTree(LGReferencePtr revision, QVariantMap options);
+        ErrorResponse checkoutTree(LGTreePtr tree, QVariantMap options);
         ErrorResponse checkoutIndex(LGIndexPtr index, QVariantMap options);
 
         LGRemotePtr createRemote(QString name, QString url);
@@ -67,6 +77,8 @@ class LGRepository : public QObject,
         QList<LGStashPtr> stashes();
 
         QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
+
+        LGObjectPtr lookupObject(LGOidPtr oid, ObjectType type);
 
         LGConfigPtr config();
 

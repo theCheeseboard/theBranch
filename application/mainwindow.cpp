@@ -233,11 +233,11 @@ void MainWindow::on_actionPrint_triggered() {
 }
 
 void MainWindow::on_actionPush_triggered() {
-    SnapInPopover::showSnapInPopover(this, new PushSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
+    SnapInPopover::showPushPopover(this, qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository());
 }
 
 void MainWindow::on_actionPull_triggered() {
-    SnapInPopover::showSnapInPopover(this, new PullSnapIn(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository()));
+    SnapInPopover::showPullPopover(this, qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository());
 }
 
 void MainWindow::on_actionStash_triggered() {

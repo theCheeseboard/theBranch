@@ -18,6 +18,10 @@ LGObject::~LGObject() {
     delete d;
 }
 
+git_object* LGObject::gitObject() {
+    return d->object;
+}
+
 LGOidPtr LGObject::oid() {
     const auto* oid = git_object_id(d->object);
     return (new LGOid(oid))->sharedFromThis();

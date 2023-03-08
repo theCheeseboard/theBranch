@@ -13,6 +13,8 @@ class LGObject : public QObject,
         explicit LGObject(git_object* object);
         ~LGObject();
 
+        struct ::git_object* gitObject();
+
         LGOidPtr oid();
 
     signals:

@@ -7,6 +7,7 @@
 #include "lgcommit.h"
 #include "lgconfig.h"
 #include "lgindex.h"
+#include "lgobject.h"
 #include "lgoid.h"
 #include "lgreference.h"
 #include "lgremote.h"
@@ -59,6 +60,10 @@ LGReferencePtr LGRepository::head() {
 
 void LGRepository::setHead(QString head) {
     git_repository_set_head(d->gitRepository, head.toUtf8().data());
+}
+
+void LGRepository::detachHead(LGCommitPtr commit) {
+    git_repository_set_head_detached(d->gitRepository, &commit->oid()->gitOid());
 }
 
 QList<LGBranchPtr> LGRepository::branches(THEBRANCH::ListBranchFlags flags) {
@@ -118,11 +123,14 @@ LGOidPtr LGRepository::createCommit(LGSignaturePtr author, LGSignaturePtr commit
 
 LGOidPtr LGRepository::createCommit(QString refToUpdate, LGSignaturePtr author, LGSignaturePtr committer, QString message, LGTreePtr tree, QList<LGCommitPtr> parents) {
     git_oid oid;
+    QByteArray updateRefData;
     const char* update_ref;
     if (refToUpdate.isEmpty()) {
         update_ref = nullptr;
     } else {
-        update_ref = refToUpdate.toUtf8().data();
+        // Keep a referenfe to the QByteArray so that it doesn't go out of scope
+        updateRefData = refToUpdate.toUtf8();
+        update_ref = updateRefData.data();
     }
 
     const git_commit** commit_parents = new const git_commit*[parents.count()];
@@ -164,6 +172,14 @@ ErrorResponse LGRepository::checkoutTree(LGReferencePtr revision, QVariantMap op
 
     git_object_free(obj);
 
+    return response;
+}
+
+ErrorResponse LGRepository::checkoutTree(LGTreePtr tree, QVariantMap options) {
+    ErrorResponse response = performCheckout([this, tree](git_checkout_options* checkoutOptions) {
+        return git_checkout_tree(d->gitRepository, lookupObject(tree->oid(), ObjectType::Tree)->gitObject(), checkoutOptions);
+    },
+        options);
     return response;
 }
 
@@ -279,6 +295,31 @@ QCoro::Task<std::tuple<int, QString>> LGRepository::runGit(QStringList args) {
     co_await qCoro(gitProc).waitForFinished();
 
     co_return {gitProc.exitCode(), gitProc.readAll()};
+}
+
+LGObjectPtr LGRepository::lookupObject(LGOidPtr oid, ObjectType type) {
+    git_object_t objType;
+    switch (type) {
+        case ObjectType::Any:
+            objType = GIT_OBJ_ANY;
+            break;
+        case ObjectType::Tree:
+            objType = GIT_OBJ_TREE;
+            break;
+        case ObjectType::Commit:
+            objType = GIT_OBJ_COMMIT;
+            break;
+        case ObjectType::Blob:
+            objType = GIT_OBJ_BLOB;
+            break;
+        case ObjectType::Tag:
+            objType = GIT_OBJ_TAG;
+            break;
+    }
+
+    git_object* gitObj;
+    if (git_object_lookup(&gitObj, d->gitRepository, &oid->gitOid(), GIT_OBJ_ANY) != 0) return nullptr;
+    return (new LGObject(gitObj))->sharedFromThis();
 }
 
 LGConfigPtr LGRepository::config() {
