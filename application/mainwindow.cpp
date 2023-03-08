@@ -10,11 +10,13 @@
 #include <tcsdtools.h>
 #include <thelpmenu.h>
 #include <tjobmanager.h>
+#include <tmessagebox.h>
 #include <tpopover.h>
 #include <tsettingswindow/tsettingswindow.h>
 #include <twindowtabberbutton.h>
 
 #include <objects/branchuihelper.h>
+#include <objects/reference.h>
 #include <objects/repository.h>
 #include <popovers/clonerepositorypopover.h>
 #include <popovers/snapinpopover.h>
@@ -254,4 +256,17 @@ void MainWindow::on_actionSettings_triggered() {
 
 void MainWindow::on_actionDiscard_All_Changes_triggered() {
     BranchUiHelper::discardRepositoryChanges(qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository(), this->window());
+}
+
+void MainWindow::on_actionNew_Branch_triggered() {
+    auto repo = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget())->repository();
+    if (!repo->head()) {
+        tMessageBox* box = new tMessageBox(this->window());
+        box->setTitleBarText(tr("HEAD is unborn"));
+        box->setMessageText(tr("There is no commit to branch from. Create a commit first, and then branch from it."));
+        box->setIcon(QMessageBox::Critical);
+        box->exec(true);
+        return;
+    }
+    BranchUiHelper::branch(repo, repo->head()->asCommit(), this);
 }

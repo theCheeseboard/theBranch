@@ -445,7 +445,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+34"/>
         <source>Cherry pick %1 into %2</source>
         <translation></translation>
     </message>
@@ -483,7 +483,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+7"/>
         <source>Do you want to cherry-pick %1 onto %2?</source>
         <translation></translation>
     </message>
@@ -1815,27 +1815,21 @@
     <name>SnapInPopover</name>
     <message>
         <location filename="../popovers/snapinpopover.cpp" line="+121"/>
-        <source>Push not possible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <location line="+15"/>
+        <location line="+14"/>
         <source>HEAD is detached</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-13"/>
         <source>There is no branch to push. Checkout a branch first, and then push the repository.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>Pull not possible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+14"/>
         <source>There is no branch to pull. Checkout a branch first, and then pull the repository.</source>
         <translation type="unfinished"></translation>
     </message>

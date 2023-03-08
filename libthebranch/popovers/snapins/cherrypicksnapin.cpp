@@ -53,9 +53,12 @@ CherryPickSnapIn::CherryPickSnapIn(CherryPickPtr cherryPick, QWidget* parent) :
         ui->cherryPickSubtitle->setText(tr("Cherry pick commit?"));
     }
 
-    auto headBranch = cherryPick->repository()->head()->asBranch();
-    ui->cherryPickDescription->setText(tr("Do you want to cherry-pick %1 onto %2?").arg(QLocale().quoteString(cherryPick->commit()->shortCommitHash()), QLocale().quoteString(headBranch->name())));
-    ui->cherryPickInformation->setText(tr("%1 will be copied to %2.").arg(QLocale().quoteString(cherryPick->commit()->shortCommitHash()), QLocale().quoteString(headBranch->name())));
+    QString headBranch = "HEAD";
+    if (cherryPick->repository()->head()->asBranch()) {
+        headBranch = cherryPick->repository()->head()->asBranch()->name();
+    }
+    ui->cherryPickDescription->setText(tr("Do you want to cherry-pick %1 onto %2?").arg(QLocale().quoteString(cherryPick->commit()->shortCommitHash()), QLocale().quoteString(headBranch)));
+    ui->cherryPickInformation->setText(tr("%1 will be copied to %2.").arg(QLocale().quoteString(cherryPick->commit()->shortCommitHash()), QLocale().quoteString(headBranch)));
 }
 
 CherryPickSnapIn::~CherryPickSnapIn() {

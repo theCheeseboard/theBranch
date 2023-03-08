@@ -88,8 +88,9 @@ void CherryPick::finaliseOperation() {
     auto head = d->repo->head();
     auto treeOid = repo->index()->writeTree(repo);
     auto tree = repo->lookupTree(treeOid);
+    auto headBranch = head->asBranch();
 
     // Create a commit on the existing HEAD
-    auto commitMessage = tr("Cherry pick %1 into %2").arg(d->commit->commitHash(), head->asBranch()->name());
+    auto commitMessage = tr("Cherry pick %1 into %2").arg(d->commit->commitHash(), headBranch ? headBranch->name() : QStringLiteral("HEAD"));
     repo->createCommit(sig, sig, commitMessage, tree, {head->asCommit()->gitCommit()});
 }

@@ -256,13 +256,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+146"/>
+        <location filename="../mainwindow.cpp" line="+148"/>
         <source>Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+103"/>
         <source>Git</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>HEAD is unborn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>There is no commit to branch from. Create a commit first, and then branch from it.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

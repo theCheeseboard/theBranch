@@ -45,6 +45,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionDiscard_All_Changes_triggered();
 
+        void on_actionNew_Branch_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;
