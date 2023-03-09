@@ -32,6 +32,12 @@ class LGRepository : public QObject,
             Tag
         };
 
+        enum class ResetType {
+            HardReset,
+            MixedReset,
+            SoftReset
+        };
+
         static LGRepositoryPtr init(QString path);
         static LGRepositoryPtr open(QString path);
         static QString gitExecutable();
@@ -79,6 +85,8 @@ class LGRepository : public QObject,
         QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
 
         LGObjectPtr lookupObject(LGOidPtr oid, ObjectType type);
+
+        ErrorResponse reset(LGObjectPtr object, ResetType resetType);
 
         LGConfigPtr config();
 

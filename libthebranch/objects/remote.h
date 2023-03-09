@@ -20,6 +20,7 @@
 #ifndef REMOTE_H
 #define REMOTE_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QCoroTask>
 #include <QObject>
@@ -27,8 +28,8 @@
 class Repository;
 class AbstractAccount;
 struct RemotePrivate;
-class Remote : public QObject,
-               public tbSharedFromThis<Remote> {
+class LIBTHEBRANCH_EXPORT Remote : public QObject,
+                                   public tbSharedFromThis<Remote> {
         Q_OBJECT
     public:
         ~Remote();

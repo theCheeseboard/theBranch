@@ -88,13 +88,13 @@
     </message>
     <message>
         <location line="+1"/>
-        <location line="+28"/>
+        <location line="+42"/>
         <location line="+168"/>
         <source>Checkout</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-192"/>
+        <location line="-206"/>
         <source>Copy Commit Message</source>
         <translation></translation>
     </message>
@@ -105,28 +105,71 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+70"/>
+        <location line="+84"/>
         <source>Tag</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-83"/>
         <source>Cherry Pick</source>
         <translation></translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+65"/>
+        <location line="+79"/>
         <source>Branch from here</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-62"/>
+        <location line="-76"/>
         <source>Create Revert Commit</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+4"/>
+        <source>Reset to here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+271"/>
+        <source>Hard Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>Hard Reset?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to hard reset the repository to %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The working directory will be updated to reflect the state of the repository at that commit. Any changes will be lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Couldn&apos;t reset the repository</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-290"/>
+        <location line="+274"/>
+        <source>Mixed Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-271"/>
+        <location line="+277"/>
+        <source>Soft Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-267"/>
         <source>For branch %1</source>
         <translation></translation>
     </message>
@@ -222,12 +265,12 @@
     </message>
     <message>
         <location line="+19"/>
-        <location line="+114"/>
+        <location line="+153"/>
         <source>Unclean Working Directory</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-113"/>
+        <location line="-152"/>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>
@@ -298,7 +341,37 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+55"/>
+        <source>Mixed Reset?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to mixed reset the repository to %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The working directory and index will be kept as-is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Soft Reset?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to soft reset the repository to %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The working directory will be kept as-is. Any differences will be staged for commit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
         <source>To rebase, you need to stash your uncommitted changes first.</source>
         <translation></translation>
     </message>

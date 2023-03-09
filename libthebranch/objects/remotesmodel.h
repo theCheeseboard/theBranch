@@ -20,11 +20,12 @@
 #ifndef REMOTESMODEL_H
 #define REMOTESMODEL_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QAbstractListModel>
 
 struct RemotesModelPrivate;
-class RemotesModel : public QAbstractListModel {
+class LIBTHEBRANCH_EXPORT RemotesModel : public QAbstractListModel {
         Q_OBJECT
 
     public:

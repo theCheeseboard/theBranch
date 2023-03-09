@@ -20,11 +20,12 @@
 #ifndef REPOSITORYMODEL_H
 #define REPOSITORYMODEL_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QAbstractItemModel>
 
 struct RepositoryModelPrivate;
-class RepositoryModel : public QAbstractItemModel {
+class LIBTHEBRANCH_EXPORT RepositoryModel : public QAbstractItemModel {
         Q_OBJECT
 
     public:

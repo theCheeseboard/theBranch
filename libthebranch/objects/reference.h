@@ -1,12 +1,13 @@
 #ifndef REFERENCE_H
 #define REFERENCE_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QObject>
 
 struct ReferencePrivate;
-class Reference : public QObject,
-                  public tbSharedFromThis<Reference> {
+class LIBTHEBRANCH_EXPORT Reference : public QObject,
+                                      public tbSharedFromThis<Reference> {
         Q_OBJECT
     public:
         ~Reference();

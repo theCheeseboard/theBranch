@@ -1,14 +1,15 @@
 #ifndef COMMIT_H
 #define COMMIT_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QObject>
 
 class CommitSnapIn;
 class CommitModel;
 struct CommitPrivate;
-class Commit : public QObject,
-               public tbSharedFromThis<Commit> {
+class LIBTHEBRANCH_EXPORT Commit : public QObject,
+                                   public tbSharedFromThis<Commit> {
         Q_OBJECT
     public:
         ~Commit();

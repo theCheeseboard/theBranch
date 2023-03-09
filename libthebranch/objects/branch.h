@@ -1,14 +1,15 @@
 #ifndef BRANCH_H
 #define BRANCH_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QCoroTask>
 #include <QObject>
 
 class Repository;
 struct BranchPrivate;
-class Branch : public QObject,
-               public tbSharedFromThis<Branch> {
+class LIBTHEBRANCH_EXPORT Branch : public QObject,
+                                   public tbSharedFromThis<Branch> {
         Q_OBJECT
     public:
         ~Branch();

@@ -67,6 +67,20 @@ void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryP
         BranchUiHelper::branch(repo, commit, parent);
     });
     menu->addAction(QIcon::fromTheme("vcs-revert"), tr("Create Revert Commit"));
+    menu->addSeparator();
+
+    auto resetMenu = new QMenu(menu);
+    resetMenu->setTitle(tr("Reset to here"));
+    resetMenu->addAction(tr("Hard Reset"), [parent, commit, repo]() -> QCoro::Task<> {
+        co_await BranchUiHelper::reset(repo, commit, Repository::ResetType::HardReset, parent);
+    });
+    resetMenu->addAction(tr("Mixed Reset"), [parent, commit, repo]() -> QCoro::Task<> {
+        co_await BranchUiHelper::reset(repo, commit, Repository::ResetType::MixedReset, parent);
+    });
+    resetMenu->addAction(tr("Soft Reset"), [parent, commit, repo]() -> QCoro::Task<> {
+        co_await BranchUiHelper::reset(repo, commit, Repository::ResetType::SoftReset, parent);
+    });
+    menu->addMenu(resetMenu);
 }
 
 void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryPtr repo, QWidget* parent) {
@@ -318,6 +332,45 @@ void BranchUiHelper::cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* p
     //    } else {
     SnapInPopover::showSnapInPopover(parent, new CherryPickSnapIn(cherryPick));
     //    }
+}
+
+QCoro::Task<> BranchUiHelper::reset(RepositoryPtr repo, CommitPtr commit, Repository::ResetType resetType, QWidget* parent) {
+    tMessageBox box(parent->window());
+    tMessageBoxButton* resetButton;
+    switch (resetType) {
+        case Repository::ResetType::HardReset:
+            box.setTitleBarText(tr("Hard Reset?"));
+            box.setMessageText(tr("Do you want to hard reset the repository to %1?").arg(QLocale().quoteString(commit->shortCommitHash())));
+            box.setInformativeText(tr("The working directory will be updated to reflect the state of the repository at that commit. Any changes will be lost."));
+            resetButton = box.addButton(tr("Hard Reset"), QMessageBox::DestructiveRole);
+            break;
+        case Repository::ResetType::MixedReset:
+            box.setTitleBarText(tr("Mixed Reset?"));
+            box.setMessageText(tr("Do you want to mixed reset the repository to %1?").arg(QLocale().quoteString(commit->shortCommitHash())));
+            box.setInformativeText(tr("The working directory and index will be kept as-is."));
+            resetButton = box.addButton(tr("Mixed Reset"), QMessageBox::DestructiveRole);
+            break;
+        case Repository::ResetType::SoftReset:
+            box.setTitleBarText(tr("Soft Reset?"));
+            box.setMessageText(tr("Do you want to soft reset the repository to %1?").arg(QLocale().quoteString(commit->shortCommitHash())));
+            box.setInformativeText(tr("The working directory will be kept as-is. Any differences will be staged for commit."));
+            resetButton = box.addButton(tr("Soft Reset"), QMessageBox::DestructiveRole);
+            break;
+    }
+
+    box.addStandardButton(QMessageBox::Cancel);
+
+    auto* pressedButton = co_await box.presentAsync();
+    if (pressedButton == resetButton) {
+        if (CHK_ERR(repo->reset(commit, resetType))) {
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Couldn't reset the repository"));
+            box.setMessageText(error.description());
+            box.setIcon(QMessageBox::Critical);
+            co_await box.presentAsync();
+            co_return;
+        }
+    }
 }
 
 QCoro::Task<> BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent) {

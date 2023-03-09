@@ -322,6 +322,27 @@ LGObjectPtr LGRepository::lookupObject(LGOidPtr oid, ObjectType type) {
     return (new LGObject(gitObj))->sharedFromThis();
 }
 
+ErrorResponse LGRepository::reset(LGObjectPtr object, ResetType resetType) {
+    ErrorResponse response = performCheckout([this, object, resetType](git_checkout_options* options) {
+        git_reset_t gitResetType;
+        switch (resetType) {
+            case ResetType::HardReset:
+                gitResetType = GIT_RESET_HARD;
+                break;
+            case ResetType::MixedReset:
+                gitResetType = GIT_RESET_MIXED;
+                break;
+            case ResetType::SoftReset:
+                gitResetType = GIT_RESET_SOFT;
+                break;
+        }
+
+        return git_reset(d->gitRepository, object->gitObject(), gitResetType, options);
+    },
+        {});
+    return response;
+}
+
 LGConfigPtr LGRepository::config() {
     git_config* config;
     if (git_repository_config(&config, d->gitRepository) != 0) return nullptr;

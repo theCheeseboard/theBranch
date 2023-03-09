@@ -22,6 +22,7 @@
 
 #include "../libthebranch_global.h"
 #include "forward_declares.h"
+#include "repository.h"
 #include <QCoroTask>
 
 class QMenu;
@@ -40,6 +41,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         static void checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
+        static QCoro::Task<> reset(RepositoryPtr repo, CommitPtr commit, Repository::ResetType resetType, QWidget* parent);
         static QCoro::Task<> rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent);
 
         static void branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent);

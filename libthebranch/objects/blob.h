@@ -1,12 +1,13 @@
 #ifndef BLOB_H
 #define BLOB_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QObject>
 
 struct BlobPrivate;
-class Blob : public QObject,
-             public tbSharedFromThis<Blob> {
+class LIBTHEBRANCH_EXPORT Blob : public QObject,
+                                 public tbSharedFromThis<Blob> {
         Q_OBJECT
     public:
         ~Blob();

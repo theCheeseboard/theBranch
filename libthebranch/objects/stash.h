@@ -1,12 +1,13 @@
 #ifndef STASH_H
 #define STASH_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QObject>
 
 struct StashPrivate;
-class Stash : public QObject,
-              public tbSharedFromThis<Stash> {
+class LIBTHEBRANCH_EXPORT Stash : public QObject,
+                                  public tbSharedFromThis<Stash> {
         Q_OBJECT
     public:
         ~Stash();

@@ -1,11 +1,12 @@
 #ifndef STASHESMODEL_H
 #define STASHESMODEL_H
 
+#include "../libthebranch_global.h"
 #include "forward_declares.h"
 #include <QAbstractListModel>
 
 struct StashesModelPrivate;
-class StashesModel : public QAbstractListModel {
+class LIBTHEBRANCH_EXPORT StashesModel : public QAbstractListModel {
         Q_OBJECT
 
     public:

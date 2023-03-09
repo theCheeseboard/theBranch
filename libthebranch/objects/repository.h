@@ -41,6 +41,12 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         };
         RepositoryState state();
 
+        enum class ResetType {
+            HardReset,
+            MixedReset,
+            SoftReset
+        };
+
         QString stateDescription();
         QString stateInformationalText();
         int stateProgress();
@@ -89,6 +95,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
 
         QCoro::Task<> stash(QString message);
         QList<StashPtr> stashes();
+
+        ErrorResponse reset(CommitPtr commit, ResetType type);
 
         QString repositoryPath();
 

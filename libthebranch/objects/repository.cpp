@@ -370,6 +370,11 @@ QList<StashPtr> Repository::stashes() {
     return stashes;
 }
 
+ErrorResponse Repository::reset(CommitPtr commit, ResetType type) {
+    auto object = d->gitRepo->lookupObject(commit->gitCommit()->oid(), LGRepository::ObjectType::Commit);
+    return d->gitRepo->reset(object, static_cast<LGRepository::ResetType>(type));
+}
+
 QString Repository::repositoryPath() {
     return QDir::cleanPath(QDir(d->gitRepo->path()).absoluteFilePath(".."));
 }

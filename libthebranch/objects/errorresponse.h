@@ -1,6 +1,7 @@
 #ifndef ERRORRESPONSE_H
 #define ERRORRESPONSE_H
 
+#include "../libthebranch_global.h"
 #include <QCoreApplication>
 #include <QException>
 #include <QString>
@@ -27,7 +28,7 @@ class GitException : public QException {
         QString _description;
 };
 
-class ErrorResponse {
+class LIBTHEBRANCH_EXPORT ErrorResponse {
         Q_DECLARE_TR_FUNCTIONS(ErrorResponse);
 
     public:
