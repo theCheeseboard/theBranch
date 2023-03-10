@@ -1,6 +1,7 @@
 #include "repositorystatusbar.h"
 #include "ui_repositorystatusbar.h"
 
+#include "objects/commit.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
 #include "popovers/snapinpopover.h"
@@ -37,7 +38,13 @@ void RepositoryStatusBar::updateRepository() {
     if (!d->repository) return;
     ReferencePtr ref = d->repository->head();
     if (ref) {
-        ui->checkoutButton->setText(ref->shorthand());
+        if (auto branch = ref->asBranch()) {
+            ui->checkoutButton->setText(branch->name());
+        } else if (auto commit = ref->asCommit()) {
+            ui->checkoutButton->setText(commit->shortCommitHash());
+        } else {
+            ui->checkoutButton->setText(ref->shorthand());
+        }
     } else {
         ui->checkoutButton->setText(tr("(no HEAD)"));
     }

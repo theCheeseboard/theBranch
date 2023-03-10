@@ -1873,7 +1873,7 @@
 <context>
     <name>RepositoryStatusBar</name>
     <message>
-        <location filename="../widgets/repositorystatusbar.cpp" line="+42"/>
+        <location filename="../widgets/repositorystatusbar.cpp" line="+49"/>
         <source>(no HEAD)</source>
         <translation></translation>
     </message>
