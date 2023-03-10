@@ -41,6 +41,7 @@
 #include <QLocale>
 #include <QMenu>
 #include <tapplication.h>
+#include <tinputdialog.h>
 #include <tmessagebox.h>
 #include <tpopover.h>
 
@@ -140,7 +141,9 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     }
 
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"));
+    menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"), parent, [repo, branch, parent] {
+        BranchUiHelper::renameBranch(repo, branch, parent);
+    });
     menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
     menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), parent, [repo, branch, parent] {
         BranchUiHelper::branch(repo, branch->lastCommit(), parent);
@@ -304,34 +307,7 @@ void BranchUiHelper::cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* p
     auto head = repo->head()->shorthand();
 
     CherryPickPtr cherryPick(new CherryPick(repo, commit));
-    //    if (cherryPick->mergeType() == Merge::UpToDate) {
-    //        tMessageBox* box = new tMessageBox(parent->window());
-    //        box->setTitleBarText(tr("Up to date"));
-    //        box->setMessageText(tr("There are no changes to merge from %1.").arg(QLocale().quoteString(branch->name())));
-    //        box->setIcon(QMessageBox::Information);
-    //        box->exec(true);
-    //    } else if (cherryPick->mergeType() == Merge::MergeNotPossible) {
-    //        tMessageBox* box = new tMessageBox(parent->window());
-    //        box->setTitleBarText(tr("Merge not possible"));
-
-    //        switch (cherryPick->mergeNotPossibleReason()) {
-    //            case Merge::MergeNotPossibleBecauseHeadDetached:
-    //                box->setTitleBarText(tr("HEAD is detached"));
-    //                box->setMessageText(tr("There is no branch to merge onto. Checkout a branch first, and then merge your changes."));
-    //                break;
-    //            case Merge::MergeNotPossibleBecauseRepositoryNotIdle:
-    //                box->setTitleBarText(tr("Ongoing operation"));
-    //                box->setMessageText(tr("There is an ongoing operation in this repository. Complete or abort the ongoing operation, and then merge your changes."));
-    //                break;
-    //            case Merge::MergeNotPossibleUnknownReason:
-    //                box->setMessageText(tr("Unable to merge from %1 into %2.").arg(QLocale().quoteString(branch->name()), QLocale().quoteString(head)));
-    //                break;
-    //        }
-    //        box->setIcon(QMessageBox::Critical);
-    //        box->exec(true);
-    //    } else {
     SnapInPopover::showSnapInPopover(parent, new CherryPickSnapIn(cherryPick));
-    //    }
 }
 
 QCoro::Task<> BranchUiHelper::reset(RepositoryPtr repo, CommitPtr commit, Repository::ResetType resetType, QWidget* parent) {
@@ -392,6 +368,30 @@ QCoro::Task<> BranchUiHelper::rebaseBranch(RepositoryPtr repo, BranchPtr from, B
         co_return;
     }
     SnapInPopover::showSnapInPopover(parent, new RebaseSnapIn(rebase));
+}
+
+QCoro::Task<> BranchUiHelper::renameBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent) {
+    if (branch->isRemoteBranch()) {
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("Couldn't rename the branch"));
+        box.setMessageText(tr("%1 is a remote branch").arg(QLocale().quoteString(branch->name())));
+        box.setInformativeText(tr("To rename a remote branch, check it out, delete the remote branch, rename the local branch and push it to the remote."));
+        box.setIcon(QMessageBox::Critical);
+        co_await box.presentAsync();
+        co_return;
+    }
+
+    bool ok;
+    auto newName = tInputDialog::getText(parent->window(), tr("Rename Branch"), tr("What do you want to rename %1 to?").arg(QLocale().quoteString(branch->name())), QLineEdit::Normal, branch->name(), &ok);
+    if (ok) {
+        if (CHK_ERR(branch->rename(newName))) {
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Couldn't rename the branch"));
+            box.setMessageText(error.description());
+            box.setIcon(QMessageBox::Critical);
+            co_await box.presentAsync();
+        }
+    }
 }
 
 void BranchUiHelper::branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {

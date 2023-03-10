@@ -28,6 +28,7 @@ class LGBranch : public QObject,
         bool setUpstream(LGBranchPtr upstream);
 
         bool deleteBranch();
+        bool rename(QString name);
 
     signals:
 

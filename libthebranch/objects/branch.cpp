@@ -75,6 +75,13 @@ BranchPtr Branch::upstream() {
     return Branch::branchForLgBranch(d->repo, upstream);
 }
 
+ErrorResponse Branch::rename(QString name) {
+    if (!d->branch->rename(name)) {
+        return ErrorResponse::fromCurrentGitError();
+    }
+    return ErrorResponse();
+}
+
 BranchPtr Branch::branchForLgBranch(LGRepositoryPtr repo, LGBranchPtr branch) {
     auto* b = new Branch();
     b->d->branch = branch;

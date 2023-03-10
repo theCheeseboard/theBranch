@@ -30,6 +30,8 @@ class LIBTHEBRANCH_EXPORT Branch : public QObject,
         QCoro::Task<> deleteRemoteBranch();
         BranchPtr upstream();
 
+        ErrorResponse rename(QString name);
+
     signals:
 
     protected:

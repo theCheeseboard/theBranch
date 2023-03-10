@@ -82,19 +82,19 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="+48"/>
+        <location filename="../objects/branchuihelper.cpp" line="+49"/>
         <source>For commit %1</source>
         <translation>Cho lần chuyển giao %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+42"/>
-        <location line="+168"/>
+        <location line="+170"/>
         <source>Checkout</source>
         <translation>Lấy ra</translation>
     </message>
     <message>
-        <location line="-206"/>
+        <location line="-208"/>
         <source>Copy Commit Message</source>
         <translation>Chép chú thích lần chuyển giao</translation>
     </message>
@@ -105,23 +105,23 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+84"/>
+        <location line="+86"/>
         <source>Tag</source>
         <translation>Gắn thẻ</translation>
     </message>
     <message>
-        <location line="-83"/>
+        <location line="-85"/>
         <source>Cherry Pick</source>
         <translation>Cherry-Pick</translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+79"/>
+        <location line="+81"/>
         <source>Branch from here</source>
         <translation>Tạo nhánh tại đây</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-78"/>
         <source>Create Revert Commit</source>
         <translation>Tạo lần chuyển giao hoàn nguyên</translation>
     </message>
@@ -132,7 +132,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <location line="+271"/>
+        <location line="+246"/>
         <source>Hard Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -157,19 +157,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-290"/>
-        <location line="+274"/>
+        <location line="-265"/>
+        <location line="+249"/>
         <source>Mixed Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-271"/>
-        <location line="+277"/>
+        <location line="-246"/>
+        <location line="+252"/>
         <source>Soft Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-267"/>
+        <location line="-242"/>
         <source>For branch %1</source>
         <translation>Cho nhánh %1</translation>
     </message>
@@ -195,7 +195,7 @@
         <translation>Đổi tên</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+8"/>
         <location line="+63"/>
         <source>Delete</source>
         <translation>Xóa</translation>
@@ -265,12 +265,12 @@
     </message>
     <message>
         <location line="+19"/>
-        <location line="+153"/>
+        <location line="+126"/>
         <source>Unclean Working Directory</source>
         <translation>Thư mục đang làm việc không sạch</translation>
     </message>
     <message>
-        <location line="-152"/>
+        <location line="-125"/>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
         <translation>Để lấy ra nhánh này, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
     </message>
@@ -341,7 +341,7 @@
         <translation>Không thể hòa trộn %1 vào %2.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+28"/>
         <source>Mixed Reset?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -386,7 +386,33 @@
         <translation>Không thể cải tổ %1 trên %2.</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+14"/>
+        <source>%1 is a remote branch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To rename a remote branch, check it out, delete the remote branch, rename the local branch and push it to the remote.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Rename Branch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>What do you want to rename %1 to?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+13"/>
+        <source>Couldn&apos;t rename the branch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <location line="+21"/>
         <location line="+9"/>
         <source>Can&apos;t delete that branch</source>

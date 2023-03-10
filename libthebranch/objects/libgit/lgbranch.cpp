@@ -78,3 +78,14 @@ bool LGBranch::setUpstream(LGBranchPtr upstream) {
 bool LGBranch::deleteBranch() {
     return git_branch_delete(d->gitReference) == 0;
 }
+
+bool LGBranch::rename(QString name) {
+    git_reference* newRef;
+    if (git_branch_move(&newRef, d->gitReference, name.toUtf8().data(), false) != 0) {
+        return false;
+    }
+
+    git_reference_free(d->gitReference);
+    d->gitReference = newRef;
+    return true;
+}
