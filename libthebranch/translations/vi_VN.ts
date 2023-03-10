@@ -132,12 +132,17 @@
     </message>
     <message>
         <location line="+1"/>
-        <location line="+246"/>
+        <location line="+266"/>
         <source>Hard Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-107"/>
+        <source>To checkout this branch, you need to stash or discard your uncommitted changes first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+104"/>
         <source>Hard Reset?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -157,19 +162,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-265"/>
-        <location line="+249"/>
+        <location line="-285"/>
+        <location line="+269"/>
         <source>Mixed Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-246"/>
-        <location line="+252"/>
+        <location line="-266"/>
+        <location line="+272"/>
         <source>Soft Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-242"/>
+        <location line="-262"/>
         <source>For branch %1</source>
         <translation>Cho nhánh %1</translation>
     </message>
@@ -265,17 +270,17 @@
     </message>
     <message>
         <location line="+19"/>
-        <location line="+126"/>
+        <location line="+45"/>
+        <location line="+101"/>
         <source>Unclean Working Directory</source>
         <translation>Thư mục đang làm việc không sạch</translation>
     </message>
     <message>
-        <location line="-125"/>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
         <translation>Để lấy ra nhánh này, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-139"/>
         <location line="+11"/>
         <source>Can&apos;t checkout that branch</source>
         <translation>Không thể lấy ra nhánh đó</translation>
@@ -301,7 +306,17 @@
         <translation>Một nhánh mới, %1, sẽ bị tạo và lấy ra.</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
+        <source>To checkout this commit, you need to stash or discard your uncommitted changes first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Can&apos;t checkout that commit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Up to date</source>
         <translation>Đã cập nhật</translation>
     </message>

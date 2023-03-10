@@ -47,8 +47,8 @@
 
 void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryPtr repo, QWidget* parent) {
     menu->addSection(tr("For commit %1").arg(QLocale().quoteString(commit->commitHash())));
-    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [commit, repo] {
-        repo->detachHead(commit);
+    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [commit, repo, parent] {
+        BranchUiHelper::checkoutCommit(repo, commit, parent);
     });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-copy"), tr("Copy Commit Message"), parent, [commit] {
@@ -231,7 +231,7 @@ void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidge
             if (conflicts.length() > 0) {
                 tMessageBox* box = new tMessageBox(parent->window());
                 box->setTitleBarText(tr("Unclean Working Directory"));
-                box->setMessageText(tr("To checkout this branch, you need to stash your uncommitted changes first."));
+                box->setMessageText(tr("To checkout this branch, you need to stash or discard your uncommitted changes first."));
                 box->exec(true);
                 return;
             }
@@ -266,6 +266,26 @@ void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidge
         }
     } else {
         performCheckout();
+    }
+}
+
+QCoro::Task<> BranchUiHelper::checkoutCommit(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {
+    if (CHK_ERR(repo->detachHead(commit))) {
+        QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
+
+        if (conflicts.length() > 0) {
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Unclean Working Directory"));
+            box.setMessageText(tr("To checkout this commit, you need to stash or discard your uncommitted changes first."));
+            co_await box.presentAsync();
+            co_return;
+        }
+
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("Can't checkout that commit"));
+        box.setMessageText(error.description());
+        box.setIcon(QMessageBox::Critical);
+        co_await box.presentAsync();
     }
 }
 
