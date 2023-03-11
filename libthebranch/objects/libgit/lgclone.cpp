@@ -47,7 +47,7 @@ LGClone::~LGClone() {
 }
 
 QCoro::Task<> LGClone::clone(QString cloneUrl, QString directory) {
-    auto ok = co_await QtConcurrent::run([cloneUrl, directory, this] {
+    auto ok = co_await QtConcurrent::run([this](QString cloneUrl, QString directory) {
         git_repository* repo;
         if (git_clone(&repo, cloneUrl.toUtf8().data(), directory.toUtf8().data(), d->options) != 0) {
             const git_error* error = git_error_last();
@@ -56,7 +56,8 @@ QCoro::Task<> LGClone::clone(QString cloneUrl, QString directory) {
 
         git_repository_free(repo);
         return true;
-    });
+    },
+        cloneUrl, directory);
 
     if (!ok) throw QException();
 }

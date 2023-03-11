@@ -93,6 +93,7 @@ Repository::RepositoryState Repository::state() {
 }
 
 Repository::GitState Repository::gitState() {
+    if (!d->gitRepo) return GitState::Unknown;
     return static_cast<GitState>(d->gitRepo->state());
 }
 
@@ -215,19 +216,15 @@ RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, Q
 }
 
 QCoro::Task<RepositoryPtr> Repository::repositoryForDirectoryUi(QWidget* parent) {
-    QFileDialog* dialog = new QFileDialog(parent);
-    dialog->setAcceptMode(QFileDialog::AcceptOpen);
-    dialog->setFileMode(QFileDialog::Directory);
-    dialog->setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
-    dialog->open();
+    QFileDialog dialog(parent);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    dialog.open();
 
-    const auto result = co_await qCoro(dialog, &QFileDialog::finished);
-
-    QString path = dialog->selectedFiles().first();
-
-    dialog->deleteLater();
-
+    const auto result = co_await qCoro(&dialog, &QFileDialog::finished);
     if (result == QFileDialog::Rejected) throw QException();
+    QString path = dialog.selectedFiles().first();
 
     RepositoryPtr repo = Repository::repositoryForDirectory(path);
     if (repo) {
@@ -351,6 +348,8 @@ RemotePtr Repository::addRemote(QString name, QString url) {
 }
 
 QList<RemotePtr> Repository::remotes() {
+    if (!d->gitRepo) return {};
+
     QList<RemotePtr> remotes;
     for (auto remote : d->gitRepo->remotes()) {
         remotes.append(Remote::remoteForLgRemote(d->gitRepo, remote)->sharedFromThis());
@@ -367,6 +366,8 @@ QCoro::Task<> Repository::stash(QString message) {
 }
 
 QList<StashPtr> Repository::stashes() {
+    if (!d->gitRepo) return {};
+
     QList<StashPtr> stashes;
     for (auto stash : d->gitRepo->stashes()) {
         stashes.append(Stash::stashForLgStash(stash, d->gitRepo)->sharedFromThis());

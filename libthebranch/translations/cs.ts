@@ -5,19 +5,16 @@
     <name>AccountsPane</name>
     <message>
         <location filename="../settingspanes/accountspane.ui" line="+20"/>
-        <location/>
         <source>Sign into Git providers for extra features</source>
         <translation>Přihlásit se na poskytovatele Gitu pro více možností</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Connect to GitHub</source>
         <translation>Připojit se na GitHub</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location/>
         <source>Connect to GitHub for features such as integration with GitHub Actions</source>
         <translation>Připoit se na GitHub pro možnosti jako je integrace s GitHub Actions</translation>
     </message>
@@ -36,37 +33,31 @@
     <name>AddGithubAccountPopover</name>
     <message>
         <location filename="../accounts/github/addgithubaccountpopover.ui" line="+54"/>
-        <location/>
         <source>Add GitHub Account</source>
         <translation>Přidat GitHub účet</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location/>
         <source>To integrate with GitHub, sign in with your GitHub account</source>
         <translation>Pro integrování GitHubu se přihlaste s Vašim GitHub účtem</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Personal Access Token</source>
         <translation>Osobní přístupový token</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Username</source>
         <translation>Uživatelské jmáno</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>Add Account</source>
         <translation>Přidat účet</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Create Personal Access Token</source>
         <translation>Vytvořit osobní přístupový token</translation>
     </message>
@@ -277,7 +268,7 @@
     </message>
     <message>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
-        <translation>Aby jste mohli zkontrolovat tento branch, budete muset stashnout vaše necommitnuté změny.</translation>
+        <translation type="vanished">Aby jste mohli zkontrolovat tento branch, budete muset stashnout vaše necommitnuté změny.</translation>
     </message>
     <message>
         <location line="-139"/>
@@ -546,37 +537,31 @@
     <name>CheckoutSnapIn</name>
     <message>
         <location filename="../popovers/snapins/checkoutsnapin.ui" line="+57"/>
-        <location/>
         <source>Checkout Revision</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Commit</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Checkout:</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Branch</source>
         <translation></translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Checkout Options</source>
         <translation></translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Checkout</source>
         <translation></translation>
     </message>
@@ -615,19 +600,16 @@
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="+57"/>
         <location line="+65"/>
         <location line="+39"/>
-        <location/>
         <source>Cherry Pick</source>
         <translation></translation>
     </message>
     <message>
         <location line="-72"/>
-        <location/>
         <source>You are cherry picking a merge commit. Select the mainline commit:</source>
         <translation></translation>
     </message>
     <message>
         <location line="+99"/>
-        <location/>
         <source>OK</source>
         <translation></translation>
     </message>
@@ -671,37 +653,31 @@
     <name>CloneRepositoryPopover</name>
     <message>
         <location filename="../popovers/clonerepositorypopover.ui" line="+57"/>
-        <location/>
         <source>Clone Repository</source>
         <translation></translation>
     </message>
     <message>
         <location line="+22"/>
-        <location/>
         <source>CLONE OPTIONS</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Clone to</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Clone URL</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Browse...</source>
         <translation></translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Clone</source>
         <translation></translation>
     </message>
@@ -730,7 +706,6 @@
     <name>CommitBrowserWidget</name>
     <message>
         <location filename="../widgets/commitbrowserwidget.ui" line="+35"/>
-        <location/>
         <source>Commits</source>
         <translation></translation>
     </message>
@@ -740,67 +715,56 @@
     <message>
         <location filename="../popovers/snapins/commitsnapin.ui" line="+57"/>
         <location line="+276"/>
-        <location/>
         <source>Commit</source>
         <translation></translation>
     </message>
     <message>
         <location line="-230"/>
-        <location/>
         <source>View Untracked Files</source>
         <translation></translation>
     </message>
     <message>
         <location line="+49"/>
-        <location/>
         <source>Commit Message</source>
         <translation></translation>
     </message>
     <message>
         <location line="+21"/>
-        <location/>
         <source>Push to remote</source>
         <translation></translation>
     </message>
     <message>
         <location line="+73"/>
-        <location/>
         <source>No File Selected</source>
         <translation></translation>
     </message>
     <message>
         <location line="+35"/>
-        <location/>
         <source>Finalise Commit</source>
         <translation></translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>Email Address</source>
         <translation></translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Committer Information</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Enter the following information about yourself to finalise this commit</source>
         <translation></translation>
     </message>
     <message>
         <location line="+18"/>
-        <location/>
         <source>Save in global Git configuration</source>
         <translation></translation>
     </message>
@@ -873,25 +837,21 @@
     <name>CommitsPane</name>
     <message>
         <location filename="../settingspanes/commitspane.ui" line="+23"/>
-        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Each commit needs to be signed with a name and an email, and these details will be visible to anyone looking at the repository.</source>
         <translation></translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>These settings will be saved in your global Git configuration</source>
         <translation></translation>
     </message>
@@ -905,19 +865,16 @@
     <name>ConflictResolutionSnapIn</name>
     <message>
         <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="+54"/>
-        <location/>
         <source>Abort Conflict Resolution</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Abort Conflict Resolution?</source>
         <translation></translation>
     </message>
     <message>
         <location line="+91"/>
-        <location/>
         <source>Conflict Resolution</source>
         <translation></translation>
     </message>
@@ -1019,7 +976,6 @@
     <name>DiffPopover</name>
     <message>
         <location filename="../popovers/diffpopover.ui" line="+35"/>
-        <location/>
         <source>Diff</source>
         <translation></translation>
     </message>
@@ -1092,7 +1048,6 @@
     <name>GitHubActionsBrowser</name>
     <message>
         <location filename="../accounts/github/actions/githubactionsbrowser.ui" line="+54"/>
-        <location/>
         <source>Workflows</source>
         <translation></translation>
     </message>
@@ -1101,7 +1056,6 @@
     <name>GitHubActionsRunBrowser</name>
     <message>
         <location filename="../accounts/github/actions/githubactionsrunbrowser.ui" line="+102"/>
-        <location/>
         <source>Run Summary</source>
         <translation></translation>
     </message>
@@ -1119,25 +1073,21 @@
     <message>
         <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="+54"/>
         <location line="+57"/>
-        <location/>
         <source>Create Pull Request</source>
         <translation></translation>
     </message>
     <message>
         <location line="-44"/>
-        <location/>
         <source>Pull Request Options</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Comment</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Title</source>
         <translation></translation>
     </message>
@@ -1174,43 +1124,36 @@
     <name>GitHubIssueBrowser</name>
     <message>
         <location filename="../accounts/github/issues/githubissuebrowser.ui" line="+220"/>
-        <location/>
         <source>Leave a comment</source>
         <translation></translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Comment</source>
         <translation></translation>
     </message>
     <message>
         <location line="+26"/>
-        <location/>
         <source>Actions</source>
         <translation></translation>
     </message>
     <message>
         <location line="+12"/>
-        <location/>
         <source>Merge...</source>
         <translation></translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Reopen</source>
         <translation></translation>
     </message>
     <message>
         <location line="+84"/>
-        <location/>
         <source>Assigned To</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>NO ONE IS ASSIGNED TO THIS THING</source>
         <translation></translation>
     </message>
@@ -1260,7 +1203,6 @@
     <message>
         <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="+71"/>
         <location line="+16"/>
-        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
@@ -1431,26 +1373,22 @@
     <message>
         <location filename="../popovers/snapins/mergesnapin.ui" line="+57"/>
         <location line="+76"/>
-        <location/>
         <location filename="../popovers/snapins/mergesnapin.cpp" line="+53"/>
         <source>Merge</source>
         <translation></translation>
     </message>
     <message>
         <location line="-66"/>
-        <location/>
         <source>Merge Branches?</source>
         <translation></translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
         <location line="+76"/>
-        <location/>
         <source>OK</source>
         <translation></translation>
     </message>
@@ -1494,31 +1432,26 @@
     <name>NewBranchPopover</name>
     <message>
         <location filename="../popovers/newbranchpopover.ui" line="+35"/>
-        <location/>
         <source>New Branch</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
         <location line="+31"/>
-        <location/>
         <source>Branch Options</source>
         <translation></translation>
     </message>
     <message>
         <location line="+34"/>
-        <location/>
         <source>Checkout this branch</source>
         <translation></translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Branch</source>
         <translation></translation>
     </message>
@@ -1527,31 +1460,26 @@
     <name>NewRemoteSnapIn</name>
     <message>
         <location filename="../popovers/snapins/newremotesnapin.ui" line="+57"/>
-        <location/>
         <source>New Remote</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Remote Options</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>URL</source>
         <translation></translation>
     </message>
     <message>
         <location line="+74"/>
-        <location/>
         <source>Add Remote</source>
         <translation></translation>
     </message>
@@ -1571,25 +1499,21 @@
     <message>
         <location filename="../popovers/snapins/pullsnapin.ui" line="+57"/>
         <location line="+47"/>
-        <location/>
         <source>Pull</source>
         <translation></translation>
     </message>
     <message>
         <location line="-37"/>
-        <location/>
         <source>Rebase local commits onto upstream</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Upstream Branch</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Pull Options</source>
         <translation></translation>
     </message>
@@ -1646,31 +1570,26 @@
         <location line="+74"/>
         <location line="+105"/>
         <location line="+73"/>
-        <location/>
         <source>Push</source>
         <translation></translation>
     </message>
     <message>
         <location line="-242"/>
-        <location/>
         <source>Push Tags</source>
         <translation></translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>Push Options</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Upstream Branch</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Set as upstream for this branch</source>
         <translation></translation>
     </message>
@@ -1678,37 +1597,31 @@
         <location line="+40"/>
         <location line="+132"/>
         <location line="+56"/>
-        <location/>
         <source>Force Push</source>
         <translation></translation>
     </message>
     <message>
         <location line="-80"/>
-        <location/>
         <source>Push Failed</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Your local repository is out of date. </source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Pull</source>
         <translation></translation>
     </message>
     <message>
         <location line="+56"/>
-        <location/>
         <source>Force Pushing may cause you to lose commits on the remote.</source>
         <translation></translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Force Push and overwrite the branch on the remote?</source>
         <translation></translation>
     </message>
@@ -1763,25 +1676,21 @@
     <message>
         <location filename="../popovers/snapins/rebasesnapin.ui" line="+57"/>
         <location line="+37"/>
-        <location/>
         <source>Rebase</source>
         <translation></translation>
     </message>
     <message>
         <location line="-27"/>
-        <location/>
         <source>Rebase Branches?</source>
         <translation></translation>
     </message>
     <message>
         <location line="+66"/>
-        <location/>
         <source>Merge</source>
         <translation></translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
         <source>OK</source>
         <translation></translation>
     </message>
@@ -1816,12 +1725,12 @@
 <context>
     <name>Repository</name>
     <message>
-        <location filename="../objects/repository.cpp" line="+158"/>
+        <location filename="../objects/repository.cpp" line="+159"/>
         <source>The local branch %1 already exists.</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+75"/>
         <source>No Git Repository Available</source>
         <translation></translation>
     </message>
@@ -1845,19 +1754,16 @@
     <name>RepositoryBrowser</name>
     <message>
         <location filename="../widgets/repositorybrowser.ui" line="+60"/>
-        <location/>
         <source>What would you like to do?</source>
         <translation></translation>
     </message>
     <message>
         <location line="+25"/>
-        <location/>
         <source>Open Repository</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Clone Repository</source>
         <translation></translation>
     </message>
@@ -1984,10 +1890,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Pull not possible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location line="+14"/>
         <source>There is no branch to pull. Checkout a branch first, and then pull the repository.</source>
         <translation type="unfinished"></translation>
@@ -1997,31 +1899,26 @@
     <name>SshCertCheckSnapIn</name>
     <message>
         <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="+35"/>
-        <location/>
         <source>Server Identity</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Host</source>
         <translation></translation>
     </message>
     <message>
         <location line="+20"/>
-        <location/>
         <source>Check Server Identity</source>
         <translation></translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Fingerprint</source>
         <translation></translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
         <source>Accept</source>
         <translation></translation>
     </message>
@@ -2053,19 +1950,16 @@ It is also possible that a host key has just been changed.</source>
     <name>SshKeySelectionSnapIn</name>
     <message>
         <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="+35"/>
-        <location/>
         <source>Authentication</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>SSH Key Authentication</source>
         <translation></translation>
     </message>
     <message>
         <location line="+20"/>
-        <location/>
         <source>Authenticate</source>
         <translation></translation>
     </message>
@@ -2080,19 +1974,16 @@ It is also possible that a host key has just been changed.</source>
     <message>
         <location filename="../popovers/snapins/stashsavesnapin.ui" line="+35"/>
         <location line="+88"/>
-        <location/>
         <source>Stash</source>
         <translation></translation>
     </message>
     <message>
         <location line="-78"/>
-        <location/>
         <source>Message</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Stash Options</source>
         <translation></translation>
     </message>
@@ -2111,37 +2002,31 @@ It is also possible that a host key has just been changed.</source>
     <name>UsernamePasswordSnapIn</name>
     <message>
         <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="+35"/>
-        <location/>
         <source>Authentication</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Username</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Password</source>
         <translation></translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
         <source>Username/Password Authentication</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Authenticate</source>
         <translation></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Use Configured Credential Helper</source>
         <translation></translation>
     </message>
