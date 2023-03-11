@@ -217,6 +217,26 @@ LGRepository::RepositoryState LGRepository::state() {
             return IdleRepositoryState;
         case GIT_REPOSITORY_STATE_MERGE:
             return MergeRepositoryState;
+        case GIT_REPOSITORY_STATE_REVERT:
+            return RevertRepositoryState;
+        case GIT_REPOSITORY_STATE_REVERT_SEQUENCE:
+            return RevertSequenceRepositoryState;
+        case GIT_REPOSITORY_STATE_CHERRYPICK:
+            return CherryPickRepositoryState;
+        case GIT_REPOSITORY_STATE_CHERRYPICK_SEQUENCE:
+            return CherryPickSequenceRepositoryState;
+        case GIT_REPOSITORY_STATE_BISECT:
+            return BisectRepositoryState;
+        case GIT_REPOSITORY_STATE_REBASE:
+            return RebaseRepositoryState;
+        case GIT_REPOSITORY_STATE_REBASE_INTERACTIVE:
+            return RebaseInteractiveRepositoryState;
+        case GIT_REPOSITORY_STATE_REBASE_MERGE:
+            return RebaseMergeRepositoryState;
+        case GIT_REPOSITORY_STATE_APPLY_MAILBOX:
+            return ApplyMailboxRepositoryState;
+        case GIT_REPOSITORY_STATE_APPLY_MAILBOX_OR_REBASE:
+            return ApplyMailboxOrRebaseRepositoryState;
     }
     return UnknownRepositoryState;
 }

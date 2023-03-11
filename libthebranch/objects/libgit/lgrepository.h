@@ -21,7 +21,17 @@ class LGRepository : public QObject,
         enum RepositoryState {
             UnknownRepositoryState,
             IdleRepositoryState,
-            MergeRepositoryState
+            MergeRepositoryState,
+            RevertRepositoryState,
+            RevertSequenceRepositoryState,
+            CherryPickRepositoryState,
+            CherryPickSequenceRepositoryState,
+            BisectRepositoryState,
+            RebaseRepositoryState,
+            RebaseInteractiveRepositoryState,
+            RebaseMergeRepositoryState,
+            ApplyMailboxRepositoryState,
+            ApplyMailboxOrRebaseRepositoryState
         };
 
         enum class ObjectType {

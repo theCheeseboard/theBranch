@@ -50,6 +50,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         static QCoro::Task<> deleteBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
 
         static QCoro::Task<> discardRepositoryChanges(RepositoryPtr repo, QWidget* parent);
+        static QCoro::Task<> deconflictify(RepositoryPtr repo, QWidget* parent);
 };
 
 #endif // BRANCHUIHELPER_H

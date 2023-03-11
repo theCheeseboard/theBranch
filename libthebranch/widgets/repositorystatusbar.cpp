@@ -1,6 +1,7 @@
 #include "repositorystatusbar.h"
 #include "ui_repositorystatusbar.h"
 
+#include "objects/branchuihelper.h"
 #include "objects/commit.h"
 #include "objects/reference.h"
 #include "objects/repository.h"
@@ -48,6 +49,26 @@ void RepositoryStatusBar::updateRepository() {
     } else {
         ui->checkoutButton->setText(tr("(no HEAD)"));
     }
+
+    switch (d->repository->gitState()) {
+        case Repository::GitState::Unknown:
+        case Repository::GitState::Idle:
+        case Repository::GitState::Revert:
+        case Repository::GitState::RevertSequence:
+        case Repository::GitState::Bisect:
+        case Repository::GitState::ApplyMailbox:
+        case Repository::GitState::ApplyMailboxOrRebase:
+            ui->conflictButton->setVisible(false);
+            break;
+        case Repository::GitState::Merge:
+        case Repository::GitState::Rebase:
+        case Repository::GitState::RebaseInteractive:
+        case Repository::GitState::RebaseMerge:
+        case Repository::GitState::CherryPick:
+        case Repository::GitState::CherryPickSequence:
+            ui->conflictButton->setVisible(true);
+            break;
+    }
 }
 
 void RepositoryStatusBar::on_checkoutButton_clicked() {
@@ -61,4 +82,8 @@ void RepositoryStatusBar::on_checkoutButton_clicked() {
     connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
     connect(popover, &tPopover::dismissed, jp, &SnapInPopover::deleteLater);
     popover->show(this->window());
+}
+
+void RepositoryStatusBar::on_conflictButton_clicked() {
+    BranchUiHelper::deconflictify(d->repository, this);
 }

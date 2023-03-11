@@ -31,7 +31,6 @@ class CherryPick : public GitOperation {
         // GitOperation interface
     public:
         RepositoryPtr repository();
-        void abortOperation();
         void finaliseOperation();
 };
 

@@ -41,6 +41,23 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         };
         RepositoryState state();
 
+        enum class GitState {
+            Unknown,
+            Idle,
+            Merge,
+            Revert,
+            RevertSequence,
+            CherryPick,
+            CherryPickSequence,
+            Bisect,
+            Rebase,
+            RebaseInteractive,
+            RebaseMerge,
+            ApplyMailbox,
+            ApplyMailboxOrRebase
+        };
+        GitState gitState();
+
         enum class ResetType {
             HardReset,
             MixedReset,
@@ -124,6 +141,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         friend CherryPick;
         friend Index;
         friend Diff;
+        friend GitOperation;
+        friend RetroactiveRebase;
         LGRepositoryPtr git_repository();
 
     private:

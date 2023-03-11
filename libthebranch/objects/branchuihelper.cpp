@@ -27,6 +27,7 @@
 #include "cherrypick.h"
 #include "commit.h"
 #include "merge.h"
+#include "objects/retroactivegitoperation.h"
 #include "popovers/newbranchpopover.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/cherrypicksnapin.h"
@@ -485,5 +486,54 @@ QCoro::Task<> BranchUiHelper::discardRepositoryChanges(RepositoryPtr repo, QWidg
             if (!checked && item.flags & Repository::StatusItem::New) continue; // Don't remove any untracked files
             repo->resetFileToHead(item.path);
         }
+    }
+}
+
+QCoro::Task<> BranchUiHelper::deconflictify(RepositoryPtr repo, QWidget* parent) {
+    QString titleText, messageText, abortButtonText;
+    QMetaObject operationMeta;
+    switch (repo->gitState()) {
+        case Repository::GitState::Unknown:
+        case Repository::GitState::Idle:
+        case Repository::GitState::Bisect:
+        case Repository::GitState::Revert:
+        case Repository::GitState::RevertSequence:
+        case Repository::GitState::ApplyMailbox:
+        case Repository::GitState::ApplyMailboxOrRebase:
+            co_return;
+        case Repository::GitState::Merge:
+            titleText = tr("Abort Merge?");
+            messageText = tr("Aborting the merge operation at this point will return all files in the repository to the state they were in before you started merging.");
+            abortButtonText = tr("Abort Merge");
+            operationMeta = RetroactiveGitOperation::staticMetaObject;
+            break;
+        case Repository::GitState::CherryPick:
+        case Repository::GitState::CherryPickSequence:
+            titleText = tr("Abort Cherry-pick?");
+            messageText = tr("Aborting the cherry-pick operation at this point will return all files in the repository to the state they were in before you started cherry-picking.");
+            abortButtonText = tr("Abort Cherry-pick");
+            operationMeta = RetroactiveGitOperation::staticMetaObject;
+            break;
+        case Repository::GitState::Rebase:
+        case Repository::GitState::RebaseInteractive:
+        case Repository::GitState::RebaseMerge:
+            titleText = tr("Abort Rebase?");
+            messageText = tr("Aborting the rebase operation at this point will return all files in the repository to the state they were in before you started rebasing.");
+            abortButtonText = tr("Abort Rebase");
+            operationMeta = RetroactiveRebase::staticMetaObject;
+            break;
+    }
+
+    tMessageBox box(parent->window());
+    box.setTitleBarText(titleText);
+    box.setMessageText(messageText);
+    tMessageBoxButton* abortButton = box.addButton(abortButtonText, QMessageBox::DestructiveRole);
+    box.addStandardButton(QMessageBox::Cancel);
+    box.setIcon(QMessageBox::Question);
+
+    auto button = co_await box.presentAsync();
+    if (button == abortButton) {
+        GitOperation* gitOperation = qobject_cast<GitOperation*>(operationMeta.newInstance(Q_ARG(RepositoryPtr, repo)));
+        gitOperation->abortOperation();
     }
 }

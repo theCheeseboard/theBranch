@@ -40,7 +40,6 @@ class Merge : public GitOperation {
         MergeNotPossibleReason mergeNotPossibleReason();
 
         RepositoryPtr repository();
-        void abortOperation();
         void finaliseOperation();
 
     signals:

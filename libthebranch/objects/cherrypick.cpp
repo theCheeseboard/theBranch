@@ -18,7 +18,7 @@ struct CherryPickPrivate {
 };
 
 CherryPick::CherryPick(RepositoryPtr repo, CommitPtr commit, QObject* parent) :
-    GitOperation{parent} {
+    GitOperation{repo, parent} {
     d = new CherryPickPrivate();
     d->repo = repo;
     d->commit = commit;
@@ -71,14 +71,6 @@ ErrorResponse CherryPick::cherryPickFailureReason() {
 
 RepositoryPtr CherryPick::repository() {
     return d->repo;
-}
-
-void CherryPick::abortOperation() {
-    // Abort the ongoing cherry pick
-    d->repo->git_repository()->cleanupState();
-    d->repo->git_repository()->checkoutTree(d->repo->git_repository()->head(), {
-                                                                                   {"force", true}
-    });
 }
 
 void CherryPick::finaliseOperation() {

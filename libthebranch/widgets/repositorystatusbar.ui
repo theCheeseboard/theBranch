@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>39</height>
+    <height>44</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,26 @@
      </property>
      <property name="icon">
       <iconset theme="commit">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="conflictButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="vcs-conflict">
        <normaloff>.</normaloff>.</iconset>
      </property>
      <property name="flat">

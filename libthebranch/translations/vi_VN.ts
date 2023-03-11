@@ -82,7 +82,7 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="+49"/>
+        <location filename="../objects/branchuihelper.cpp" line="+50"/>
         <source>For commit %1</source>
         <translation>Cho lần chuyển giao %1</translation>
     </message>
@@ -421,7 +421,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="+99"/>
+        <source>Abort Merge?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Aborting the merge operation at this point will return all files in the repository to the state they were in before you started merging.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Abort Merge</source>
+        <translation type="unfinished">Hủy hòa trộn</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Abort Cherry-pick?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Aborting the cherry-pick operation at this point will return all files in the repository to the state they were in before you started cherry-picking.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Aborting the rebase operation at this point will return all files in the repository to the state they were in before you started rebasing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-7"/>
+        <source>Abort Cherry-pick</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Abort Rebase?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Abort Rebase</source>
+        <translation type="unfinished">Hủy cải tổ</translation>
+    </message>
+    <message>
+        <location line="-125"/>
         <location line="+13"/>
         <source>Couldn&apos;t rename the branch</source>
         <translation type="unfinished"></translation>
@@ -559,7 +604,7 @@
         <translation>Kết quả cherry-pick trống rỗng</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+26"/>
         <source>Cherry pick %1 into %2</source>
         <translation>Chery-pick %1 vào %2</translation>
     </message>
@@ -1368,7 +1413,7 @@
         <translation>Cố hòa trọn HEAD chưa sinh</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+74"/>
         <source>Merge %1 into %2</source>
         <translation>Hòa trộn %1 vào %2</translation>
     </message>
@@ -1759,7 +1804,7 @@
 <context>
     <name>Repository</name>
     <message>
-        <location filename="../objects/repository.cpp" line="+154"/>
+        <location filename="../objects/repository.cpp" line="+158"/>
         <source>The local branch %1 already exists.</source>
         <translation>Nhánh nội bộ %1 đã tồn tại.</translation>
     </message>
@@ -1908,7 +1953,7 @@
 <context>
     <name>RepositoryStatusBar</name>
     <message>
-        <location filename="../widgets/repositorystatusbar.cpp" line="+49"/>
+        <location filename="../widgets/repositorystatusbar.cpp" line="+50"/>
         <source>(no HEAD)</source>
         <translation>(không có HEAD)</translation>
     </message>

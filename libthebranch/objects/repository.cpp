@@ -92,6 +92,10 @@ Repository::RepositoryState Repository::state() {
     return d->state;
 }
 
+Repository::GitState Repository::gitState() {
+    return static_cast<GitState>(d->gitRepo->state());
+}
+
 QString Repository::stateDescription() {
     if (!d->operations.isEmpty()) return d->operations.first()->stateDescription();
     return "State Description";

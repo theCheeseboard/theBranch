@@ -32,6 +32,7 @@ set(SOURCES
     objects/remotesmodel.cpp
     objects/remote.cpp
     objects/repositorymodel.cpp
+    objects/retroactivegitoperation.cpp
     objects/branchuihelper.cpp
     objects/rebase.cpp
     objects/stashesmodel.cpp
@@ -156,6 +157,7 @@ set(HEADERS
     objects/remotesmodel.h
     objects/remote.h
     objects/repositorymodel.h
+    objects/retroactivegitoperation.h
     objects/branchuihelper.h
     objects/rebase.h
     objects/stashesmodel.h

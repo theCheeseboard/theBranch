@@ -25,7 +25,7 @@ struct MergePrivate {
 };
 
 Merge::Merge(RepositoryPtr repo, BranchPtr branch, QObject* parent) :
-    GitOperation{parent} {
+    GitOperation{repo, parent} {
     d = new MergePrivate();
     d->repo = repo;
     d->fromBranch = branch;
@@ -149,14 +149,6 @@ Merge::MergeNotPossibleReason Merge::mergeNotPossibleReason() {
 
 RepositoryPtr Merge::repository() {
     return d->repo;
-}
-
-void Merge::abortOperation() {
-    // Abort the ongoing merge
-    d->repo->git_repository()->cleanupState();
-    d->repo->git_repository()->checkoutTree(d->repo->git_repository()->head(), {
-                                                                                   {"force", true}
-    });
 }
 
 void Merge::finaliseOperation() {

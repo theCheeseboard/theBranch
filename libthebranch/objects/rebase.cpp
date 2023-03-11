@@ -42,7 +42,7 @@ struct RebasePrivate {
 };
 
 Rebase::Rebase(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QObject* parent) :
-    GitOperation{parent} {
+    GitOperation{repo, parent} {
     d = new RebasePrivate();
     d->repo = repo;
     d->from = from;

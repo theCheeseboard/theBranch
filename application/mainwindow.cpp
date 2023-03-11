@@ -292,5 +292,7 @@ void MainWindow::on_actionClose_Tab_triggered() {
         ui->windowTabber->removeButton(d->tabButtons.value(browser));
         d->tabButtons.remove(browser);
         browser->deleteLater();
+
+        updateMenuItems();
     }
 }

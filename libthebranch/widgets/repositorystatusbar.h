@@ -21,6 +21,8 @@ class RepositoryStatusBar : public QWidget {
     private slots:
         void on_checkoutButton_clicked();
 
+        void on_conflictButton_clicked();
+
     private:
         Ui::RepositoryStatusBar* ui;
         RepositoryStatusBarPrivate* d;
