@@ -117,11 +117,12 @@
     </property>
     <addaction name="actionOpen_Repository"/>
     <addaction name="actionClone_Repository"/>
+    <addaction name="actionClose_Tab"/>
     <addaction name="separator"/>
     <addaction name="actionPrint"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
     <addaction name="actionSettings"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuRepository">
     <property name="title">
@@ -338,6 +339,14 @@
   <action name="actionDiscard_All_Changes">
    <property name="text">
     <string>Discard All Changes</string>
+   </property>
+  </action>
+  <action name="actionClose_Tab">
+   <property name="text">
+    <string>Close Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>

@@ -30,6 +30,7 @@
 #include <settingspanes/accountspane.h>
 #include <settingspanes/commitspane.h>
 
+#include "landingpage.h"
 #include "printcontroller.h"
 
 #include <QCoroFuture>
@@ -38,6 +39,7 @@ struct MainWindowPrivate {
         tCsdTools csd;
 
         tCommandPaletteDocumentSpecificScope* branchesScope;
+        QMap<RepositoryBrowser*, tWindowTabberButton*> tabButtons;
 };
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -76,6 +78,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     menu->addAction(ui->actionOpen_Repository);
     menu->addAction(ui->actionClone_Repository);
+    menu->addAction(ui->actionClose_Tab);
     menu->addSeparator();
     menu->addAction(ui->actionCommit);
     menu->addAction(ui->actionCheckout);
@@ -104,6 +107,15 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->menuButton->setMenu(menu);
 #endif
 
+    auto landingPage = new LandingPage(this);
+    connect(landingPage, &LandingPage::openRepository, this, [this] {
+        ui->actionOpen_Repository->trigger();
+    });
+    connect(landingPage, &LandingPage::cloneRepository, this, [this] {
+        ui->actionClone_Repository->trigger();
+    });
+
+    ui->stackedWidget->setDefaultWidget(landingPage);
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
     this->setWindowIcon(tApplication::applicationIcon());
 
@@ -111,7 +123,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     commandPaletteActionScope->addMenuBar(ui->menuBar);
 
-    openNextTab();
     updateMenuItems();
 }
 
@@ -152,6 +163,7 @@ RepositoryBrowser* MainWindow::openNextTab() {
         initialBrowserTab->addAction(commitAction);
 
         ui->windowTabber->addButton(initialBrowserTab);
+        d->tabButtons.insert(browser, initialBrowserTab);
 
         return browser;
     }
@@ -223,6 +235,8 @@ void MainWindow::updateMenuItems() {
     ui->actionStash->setEnabled(enabled);
     ui->actionPush->setEnabled(enabled);
     ui->actionPull->setEnabled(enabled);
+    ui->actionClose_Tab->setEnabled(enabled);
+    ui->actionDiscard_All_Changes->setEnabled(enabled);
 }
 
 void MainWindow::on_actionCommit_triggered() {
@@ -269,4 +283,14 @@ void MainWindow::on_actionNew_Branch_triggered() {
         return;
     }
     BranchUiHelper::branch(repo, repo->head()->asCommit(), this);
+}
+
+void MainWindow::on_actionClose_Tab_triggered() {
+    auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (browser) {
+        ui->stackedWidget->removeWidget(browser);
+        ui->windowTabber->removeButton(d->tabButtons.value(browser));
+        d->tabButtons.remove(browser);
+        browser->deleteLater();
+    }
 }

@@ -47,6 +47,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionNew_Branch_triggered();
 
+        void on_actionClose_Tab_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;
