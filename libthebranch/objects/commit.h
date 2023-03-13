@@ -40,6 +40,7 @@ class LIBTHEBRANCH_EXPORT Commit : public QObject,
         friend CherryPick;
         friend Merge;
         friend CommitSnapIn;
+        friend Revert;
         static CommitPtr commitForLgCommit(LGRepositoryPtr repo, LGCommitPtr commit);
         LGCommitPtr gitCommit();
 

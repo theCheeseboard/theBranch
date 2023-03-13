@@ -143,6 +143,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         friend Diff;
         friend GitOperation;
         friend RetroactiveRebase;
+        friend Revert;
         LGRepositoryPtr git_repository();
 
     private:

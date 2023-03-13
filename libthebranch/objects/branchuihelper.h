@@ -42,6 +42,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         static QCoro::Task<> checkoutCommit(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
         static void merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
+        static void revert(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
         static QCoro::Task<> reset(RepositoryPtr repo, CommitPtr commit, Repository::ResetType resetType, QWidget* parent);
         static QCoro::Task<> rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent);
         static QCoro::Task<> renameBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);

@@ -35,6 +35,7 @@ set(SOURCES
     objects/retroactivegitoperation.cpp
     objects/branchuihelper.cpp
     objects/rebase.cpp
+    objects/revert.cpp
     objects/stashesmodel.cpp
     objects/stash.cpp
     objects/tree.cpp
@@ -55,6 +56,7 @@ set(SOURCES
     popovers/snapins/newremotesnapin.cpp popovers/snapins/newremotesnapin.ui
     popovers/snapins/mergesnapin.cpp popovers/snapins/mergesnapin.ui
     popovers/snapins/rebasesnapin.cpp popovers/snapins/rebasesnapin.ui
+    popovers/snapins/revertsnapin.cpp popovers/snapins/revertsnapin.ui
     popovers/newbranchpopover.cpp popovers/newbranchpopover.ui
     popovers/snapins/stashsavesnapin.cpp popovers/snapins/stashsavesnapin.ui
     popovers/snapins/cherrypicksnapin.cpp popovers/snapins/cherrypicksnapin.ui
@@ -160,6 +162,7 @@ set(HEADERS
     objects/retroactivegitoperation.h
     objects/branchuihelper.h
     objects/rebase.h
+    objects/revert.h
     objects/stashesmodel.h
     objects/stash.h
     objects/tree.h
@@ -187,6 +190,7 @@ set(HEADERS
     popovers/snapins/newremotesnapin.h
     popovers/snapins/mergesnapin.h
     popovers/snapins/rebasesnapin.h
+    popovers/snapins/revertsnapin.h
     popovers/snapins/stashsavesnapin.h
     popovers/snapins/cherrypicksnapin.h
     popovers/newbranchpopover.h

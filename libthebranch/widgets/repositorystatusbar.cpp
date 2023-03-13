@@ -53,14 +53,14 @@ void RepositoryStatusBar::updateRepository() {
     switch (d->repository->gitState()) {
         case Repository::GitState::Unknown:
         case Repository::GitState::Idle:
-        case Repository::GitState::Revert:
-        case Repository::GitState::RevertSequence:
         case Repository::GitState::Bisect:
         case Repository::GitState::ApplyMailbox:
         case Repository::GitState::ApplyMailboxOrRebase:
             ui->conflictButton->setVisible(false);
             break;
         case Repository::GitState::Merge:
+        case Repository::GitState::Revert:
+        case Repository::GitState::RevertSequence:
         case Repository::GitState::Rebase:
         case Repository::GitState::RebaseInteractive:
         case Repository::GitState::RebaseMerge:

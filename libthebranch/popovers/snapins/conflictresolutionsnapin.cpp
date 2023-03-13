@@ -7,6 +7,7 @@
 #include "objects/libgit/lgrepository.h"
 #include "objects/merge.h"
 #include "objects/rebase.h"
+#include "objects/revert.h"
 #include "objects/statusitemlistmodel.h"
 #include "widgets/conflictresolution/textconflictresolution.h"
 #include <tcontentsizer.h>
@@ -30,7 +31,7 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
 
     ui->titleLabel->setBackButtonShown(true);
     ui->abortTitleLabel->setBackButtonShown(true);
-    ui->leftWidget->setFixedWidth(SC_DPI_W(300, this));
+    ui->leftWidget->setFixedWidth(300);
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
     ui->stackedWidget->setCurrentWidget(ui->conflictResolutionPage, false);
     ui->conflictResolutionStack->setCurrentAnimation(tStackedWidget::Lift);
@@ -65,6 +66,13 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
         ui->doAbortButton->setText(tr("Abort Cherry Pick"));
         ui->completeButton->setText(tr("Cherry Pick"));
         ui->completeButton->setIcon(QIcon::fromTheme("vcs-cherry-pick"));
+    } else if (gitOperation.objectCast<Revert>()) {
+        ui->abortExplainText->setText(tr("Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started the reversion, and will also abort the revert operation. Any conflict resolution will be lost."));
+        ui->continueConflictResolutionButton->setText(tr("Continue Revert"));
+        ui->continueConflictResolutionButton->setIcon(QIcon::fromTheme("vcs-revert"));
+        ui->doAbortButton->setText(tr("Abort Revert"));
+        ui->completeButton->setText(tr("Revert"));
+        ui->completeButton->setIcon(QIcon::fromTheme("vcs-revert"));
     }
 
     StatusItemListModel* statusModel = new StatusItemListModel(this);

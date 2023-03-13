@@ -73,19 +73,19 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="+50"/>
+        <location filename="../objects/branchuihelper.cpp" line="+52"/>
         <source>For commit %1</source>
         <translation>Pro commit %1</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+42"/>
+        <location line="+46"/>
         <location line="+170"/>
         <source>Checkout</source>
         <translation>Překontrolovat</translation>
     </message>
     <message>
-        <location line="-208"/>
+        <location line="-212"/>
         <source>Copy Commit Message</source>
         <translation>Kopírovat zprávu commitu</translation>
     </message>
@@ -96,44 +96,43 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+86"/>
+        <location line="+90"/>
         <source>Tag</source>
         <translation>Značka</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-89"/>
         <source>Cherry Pick</source>
         <translation>Výběr určitých položek</translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+81"/>
+        <location line="+85"/>
         <source>Branch from here</source>
         <translation>Branch z tadyma</translation>
     </message>
     <message>
-        <location line="-78"/>
         <source>Create Revert Commit</source>
-        <translation>Vytvořit revert commit</translation>
+        <translation type="vanished">Vytvořit revert commit</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-74"/>
         <source>Reset to here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+266"/>
+        <location line="+273"/>
         <source>Hard Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-107"/>
+        <location line="-114"/>
         <source>To checkout this branch, you need to stash or discard your uncommitted changes first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+111"/>
         <source>Hard Reset?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -153,19 +152,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-285"/>
-        <location line="+269"/>
+        <location line="-292"/>
+        <location line="+276"/>
         <source>Mixed Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-266"/>
-        <location line="+272"/>
+        <location line="-288"/>
+        <source>Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+279"/>
         <source>Soft Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-262"/>
+        <location line="-269"/>
         <source>For branch %1</source>
         <translation>Pro branch %1</translation>
     </message>
@@ -262,7 +266,7 @@
     <message>
         <location line="+19"/>
         <location line="+45"/>
-        <location line="+101"/>
+        <location line="+108"/>
         <source>Unclean Working Directory</source>
         <translation>Nečistá pracovní složka</translation>
     </message>
@@ -271,7 +275,7 @@
         <translation type="vanished">Aby jste mohli zkontrolovat tento branch, budete muset stashnout vaše necommitnuté změny.</translation>
     </message>
     <message>
-        <location line="-139"/>
+        <location line="-146"/>
         <location line="+11"/>
         <source>Can&apos;t checkout that branch</source>
         <translation></translation>
@@ -347,7 +351,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+35"/>
         <source>Mixed Reset?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -412,7 +416,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+97"/>
         <source>Abort Merge?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -442,7 +446,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="+6"/>
+        <source>Abort Revert?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Aborting the revert operation at this point will return all files in the repository to the state they were in before reversion started.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Abort Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-15"/>
         <source>Abort Cherry-pick</source>
         <translation type="unfinished"></translation>
     </message>
@@ -457,7 +476,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-125"/>
+        <location line="-123"/>
         <location line="+13"/>
         <source>Couldn&apos;t rename the branch</source>
         <translation type="unfinished"></translation>
@@ -879,7 +898,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+41"/>
+        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+42"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost.</source>
         <translation></translation>
     </message>
@@ -957,6 +976,26 @@
         <location line="+1"/>
         <source>Cherry Pick</source>
         <translation></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started the reversion, and will also abort the revert operation. Any conflict resolution will be lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Continue Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Abort Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Revert</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1874,6 +1913,81 @@
         <location filename="../widgets/repositorystatusbar.cpp" line="+50"/>
         <source>(no HEAD)</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Revert</name>
+    <message>
+        <location filename="../objects/revert.cpp" line="+60"/>
+        <source>The result of the revert was empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Revert %1
+
+This commit reverts %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RevertSnapIn</name>
+    <message>
+        <location filename="../popovers/snapins/revertsnapin.ui" line="+14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+43"/>
+        <location line="+65"/>
+        <location line="+39"/>
+        <source>Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-72"/>
+        <source>You are reverting a merge commit. Select the mainline commit:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+99"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../popovers/snapins/revertsnapin.cpp" line="+35"/>
+        <source>Revert merge commit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Revert commit?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Do you want to revert %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A new commit that undoes changes introduced in %1 will be created.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Unclean Working Directory</source>
+        <translation type="unfinished">Nečistá pracovní složka</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To perform a revert, you need to stash your uncommitted changes first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Revert failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

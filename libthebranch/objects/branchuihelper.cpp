@@ -33,10 +33,12 @@
 #include "popovers/snapins/cherrypicksnapin.h"
 #include "popovers/snapins/mergesnapin.h"
 #include "popovers/snapins/rebasesnapin.h"
+#include "popovers/snapins/revertsnapin.h"
 #include "rebase.h"
 #include "reference.h"
 #include "remote.h"
 #include "repository.h"
+#include "revert.h"
 #include "stash.h"
 #include <QClipboard>
 #include <QLocale>
@@ -68,7 +70,11 @@ void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryP
     menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), [parent, commit, repo] {
         BranchUiHelper::branch(repo, commit, parent);
     });
-    menu->addAction(QIcon::fromTheme("vcs-revert"), tr("Create Revert Commit"));
+    menu->addAction(QIcon::fromTheme("vcs-revert"), tr("Revert"), [parent, commit, repo] {
+        QTimer::singleShot(0, parent, [repo, commit, parent] {
+            revert(repo, commit, parent);
+        });
+    });
     menu->addSeparator();
 
     auto resetMenu = new QMenu(menu);
@@ -331,6 +337,13 @@ void BranchUiHelper::cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* p
     SnapInPopover::showSnapInPopover(parent, new CherryPickSnapIn(cherryPick));
 }
 
+void BranchUiHelper::revert(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {
+    auto head = repo->head()->shorthand();
+
+    RevertPtr revert(new Revert(repo, commit));
+    SnapInPopover::showSnapInPopover(parent, new RevertSnapIn(revert));
+}
+
 QCoro::Task<> BranchUiHelper::reset(RepositoryPtr repo, CommitPtr commit, Repository::ResetType resetType, QWidget* parent) {
     tMessageBox box(parent->window());
     tMessageBoxButton* resetButton;
@@ -496,8 +509,6 @@ QCoro::Task<> BranchUiHelper::deconflictify(RepositoryPtr repo, QWidget* parent)
         case Repository::GitState::Unknown:
         case Repository::GitState::Idle:
         case Repository::GitState::Bisect:
-        case Repository::GitState::Revert:
-        case Repository::GitState::RevertSequence:
         case Repository::GitState::ApplyMailbox:
         case Repository::GitState::ApplyMailboxOrRebase:
             co_return;
@@ -521,6 +532,13 @@ QCoro::Task<> BranchUiHelper::deconflictify(RepositoryPtr repo, QWidget* parent)
             messageText = tr("Aborting the rebase operation at this point will return all files in the repository to the state they were in before you started rebasing.");
             abortButtonText = tr("Abort Rebase");
             operationMeta = RetroactiveRebase::staticMetaObject;
+            break;
+        case Repository::GitState::Revert:
+        case Repository::GitState::RevertSequence:
+            titleText = tr("Abort Revert?");
+            messageText = tr("Aborting the revert operation at this point will return all files in the repository to the state they were in before reversion started.");
+            abortButtonText = tr("Abort Revert");
+            operationMeta = RetroactiveGitOperation::staticMetaObject;
             break;
     }
 
