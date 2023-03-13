@@ -184,6 +184,8 @@ void MainWindow::on_actionClone_Repository_triggered() {
         browser->setRepository(repository);
         connect(repository.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
 
+        d->branchesScope->registerScope(browser, repository->commandPaletteBranches());
+
         updateMenuItems();
     });
     connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
@@ -198,6 +200,8 @@ QCoro::Task<> MainWindow::on_actionOpen_Repository_triggered() {
         RepositoryBrowser* browser = openNextTab();
         browser->setRepository(repo);
         connect(repo.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
+
+        d->branchesScope->registerScope(browser, repo->commandPaletteBranches());
 
         updateMenuItems();
     } catch (QException ex) {
