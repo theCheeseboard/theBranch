@@ -80,6 +80,15 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
         // Ensure that if the HEAD is unborn we are always viewing untracked files (because nothing would be tracked yet)
         ui->viewUntrackedCheckbox->setChecked(true);
         ui->viewUntrackedCheckbox->setEnabled(false);
+    } else {
+        if (!d->repository->head()->asBranch()) {
+            ui->commitWarning->setTitle(tr("HEAD is detached"));
+            ui->commitWarning->setText(tr("You are not currently committing to a branch. If this is not what you intended, you should checkout the branch that you wanted to commit to first."));
+            ui->commitWarning->setState(tStatusFrame::Warning);
+        } else {
+            ui->commitWarning->setVisible(false);
+            ui->commitWarningLine->setVisible(false);
+        }
     }
 
     this->updateState();

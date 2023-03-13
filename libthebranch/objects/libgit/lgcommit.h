@@ -24,6 +24,7 @@ class LGCommit : public QObject,
         int parentCount();
         LGCommitPtr parent(int n);
         QDateTime date();
+        bool isDescendantOf(LGCommitPtr other, LGRepositoryPtr repo);
 
     signals:
 

@@ -88,6 +88,29 @@
              <number>0</number>
             </property>
             <item>
+             <widget class="tStatusFrame" name="commitWarning">
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Line" name="commitWarningLine">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>1</height>
+               </size>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QWidget" name="widget" native="true">
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <item>
@@ -210,6 +233,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
            </property>
            <widget class="TextMergeTool" name="textDiffPage">
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -394,6 +420,12 @@
    <class>TextMergeTool</class>
    <extends>QWidget</extends>
    <header location="global">merge/textmergetool.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>tStatusFrame</class>
+   <extends>QFrame</extends>
+   <header location="global">tstatusframe.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

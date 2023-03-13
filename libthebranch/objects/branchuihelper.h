@@ -38,7 +38,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         static void appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr repo, QWidget* parent);
         static void appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryPtr repo, QWidget* parent);
 
-        static void checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
+        static QCoro::Task<> checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static QCoro::Task<> checkoutCommit(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
         static void merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* parent);

@@ -230,53 +230,102 @@ void BranchUiHelper::appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryP
     });
 }
 
-void BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent) {
-    auto performCheckout = [=] {
-        if (CHK_ERR(repo->setHeadAndCheckout(branch->toReference()))) {
-            QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
-
-            if (conflicts.length() > 0) {
-                tMessageBox* box = new tMessageBox(parent->window());
-                box->setTitleBarText(tr("Unclean Working Directory"));
-                box->setMessageText(tr("To checkout this branch, you need to stash or discard your uncommitted changes first."));
-                box->exec(true);
-                return;
-            }
-
-            tMessageBox* box = new tMessageBox(parent->window());
-            box->setTitleBarText(tr("Can't checkout that branch"));
-            box->setMessageText(error.description());
-            box->setIcon(QMessageBox::Critical);
-            box->exec(true);
-        }
-    };
-
+QCoro::Task<> BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent) {
     if (branch->isRemoteBranch()) {
         ReferencePtr ref = repo->reference("refs/heads/" + branch->localBranchName());
         if (ref) {
-            tMessageBox* box = new tMessageBox(parent->window());
-            box->setTitleBarText(tr("Can't checkout that branch"));
-            box->setMessageText(tr("A local branch called %1 already exists.").arg(QLocale().quoteString(branch->localBranchName())));
-            box->setIcon(QMessageBox::Critical);
-            box->exec(true);
-        } else {
-            tMessageBox* box = new tMessageBox(parent->window());
-            box->setTitleBarText(tr("Checkout Remote Branch"));
-            box->setMessageText(tr("Do you want to checkout this remote branch?"));
-            box->setInformativeText(tr("A new branch, %1, will be created and checked out.")
-                                        .arg(QLocale().quoteString(branch->localBranchName())));
-            box->setIcon(QMessageBox::Question);
-            tMessageBoxButton* checkoutButton = box->addButton(tr("Checkout"), QMessageBox::AcceptRole);
-            connect(checkoutButton, &tMessageBoxButton::buttonPressed, parent, performCheckout);
-            box->addStandardButton(QMessageBox::Cancel);
-            box->exec(true);
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Can't checkout that branch"));
+            box.setMessageText(tr("A local branch called %1 already exists.").arg(QLocale().quoteString(branch->localBranchName())));
+            box.setIcon(QMessageBox::Critical);
+            co_await box.presentAsync();
+            co_return;
         }
-    } else {
-        performCheckout();
+
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("Checkout Remote Branch"));
+        box.setMessageText(tr("Do you want to checkout this remote branch?"));
+        box.setInformativeText(tr("A new branch, %1, will be created and checked out.")
+                                   .arg(QLocale().quoteString(branch->localBranchName())));
+        box.setIcon(QMessageBox::Question);
+        auto checkoutButton = box.addButton(tr("Checkout"), QMessageBox::AcceptRole);
+        box.addStandardButton(QMessageBox::Cancel);
+
+        auto clickedButton = co_await box.presentAsync();
+
+        if (clickedButton != checkoutButton) {
+            co_return;
+        }
+    }
+
+    if (!repo->head()->asBranch()) {
+        // We have a detached HEAD - check if the current commit will be orphaned after the checkout
+        if (repo->head()->asCommit()->isOrpahan(repo->branches(THEBRANCH::LocalBranches))) {
+            // The branch will be orphaned after a checkout
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("HEAD is currently detached"));
+            box.setMessageText(tr("You have made commits while you are not on a branch. Checking out this branch will cause you to lose commits."));
+            box.setInformativeText(tr("%1 will not be on any branches after the checkout operation.")
+                                       .arg(QLocale().quoteString(repo->head()->asCommit()->shortCommitHash())));
+            box.setIcon(QMessageBox::Warning);
+            auto createBranchButton = box.addButton(tr("Create Branch"), QMessageBox::AcceptRole);
+            auto checkoutButton = box.addButton(tr("Checkout Anyway"), QMessageBox::DestructiveRole);
+            auto cancelButton = box.addStandardButton(QMessageBox::Cancel);
+            auto clickedButton = co_await box.presentAsync();
+
+            if (clickedButton == cancelButton) {
+                co_return;
+            } else if (clickedButton == createBranchButton) {
+                BranchUiHelper::branch(repo, repo->head()->asCommit(), parent);
+                co_return;
+            }
+        }
+    }
+
+    if (CHK_ERR(repo->setHeadAndCheckout(branch->toReference()))) {
+        QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
+
+        if (conflicts.length() > 0) {
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Unclean Working Directory"));
+            box.setMessageText(tr("To checkout this branch, you need to stash or discard your uncommitted changes first."));
+            co_await box.presentAsync();
+            co_return;
+        }
+
+        tMessageBox box(parent->window());
+        box.setTitleBarText(tr("Can't checkout that branch"));
+        box.setMessageText(error.description());
+        box.setIcon(QMessageBox::Critical);
+        co_await box.presentAsync();
     }
 }
 
 QCoro::Task<> BranchUiHelper::checkoutCommit(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {
+    if (!repo->head()->asBranch()) {
+        // We have a detached HEAD - check if the current commit will be orphaned after the checkout
+        if (repo->head()->asCommit()->isOrpahan(repo->branches(THEBRANCH::LocalBranches))) {
+            // The branch will be orphaned after a checkout
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("HEAD is currently detached"));
+            box.setMessageText(tr("You have made commits while you are not on a branch. Checking out this commit will cause you to lose commits."));
+            box.setInformativeText(tr("%1 will not be on any branches after the checkout operation.")
+                                       .arg(QLocale().quoteString(repo->head()->asCommit()->shortCommitHash())));
+            box.setIcon(QMessageBox::Warning);
+            auto createBranchButton = box.addButton(tr("Create Branch"), QMessageBox::AcceptRole);
+            auto checkoutButton = box.addButton(tr("Checkout Anyway"), QMessageBox::DestructiveRole);
+            auto cancelButton = box.addStandardButton(QMessageBox::Cancel);
+            auto clickedButton = co_await box.presentAsync();
+
+            if (clickedButton == cancelButton) {
+                co_return;
+            } else if (clickedButton == createBranchButton) {
+                BranchUiHelper::branch(repo, repo->head()->asCommit(), parent);
+                co_return;
+            }
+        }
+    }
+
     if (CHK_ERR(repo->detachHead(commit))) {
         QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
 

@@ -1,5 +1,6 @@
 #include "commit.h"
 
+#include "branch.h"
 #include "libgit/lgcommit.h"
 #include "libgit/lgoid.h"
 #include "libgit/lgrepository.h"
@@ -98,7 +99,7 @@ int Commit::missingCommits(CommitPtr commit) {
     int i = 0;
     for (auto thisCommit : this->history()) {
         bool isOnOther = false;
-        for (auto otherCommit : otherHistory) {
+        for (const auto& otherCommit : otherHistory) {
             if (thisCommit->equal(otherCommit)) {
                 isOnOther = true;
                 break;
@@ -108,6 +109,20 @@ int Commit::missingCommits(CommitPtr commit) {
         if (!isOnOther) i++;
     }
     return i;
+}
+
+bool Commit::isDescendantOf(CommitPtr commit) {
+    return d->commit->isDescendantOf(commit->gitCommit(), d->repo);
+}
+
+bool Commit::isOrpahan(QList<BranchPtr> branches) {
+    for (auto branch : branches) {
+        auto head = branch->lastCommit();
+        if (this->gitCommit()->oid()->equal(head->gitCommit()->oid()) || head->isDescendantOf(this->sharedFromThis())) {
+            return false;
+        }
+    }
+    return true;
 }
 
 CommitPtr Commit::commitForLgCommit(LGRepositoryPtr repo, LGCommitPtr commit) {

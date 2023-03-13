@@ -29,6 +29,8 @@ class LIBTHEBRANCH_EXPORT Commit : public QObject,
         CommitPtr lastCommonAncestor(CommitPtr commit);
         int commitsUntil(CommitPtr commit);
         int missingCommits(CommitPtr commit);
+        bool isDescendantOf(CommitPtr commit);
+        bool isOrpahan(QList<BranchPtr> branches);
 
     signals:
 

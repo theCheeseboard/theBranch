@@ -66,3 +66,7 @@ QDateTime LGCommit::date() {
     auto offset = git_commit_time_offset(d->git_commit);
     return QDateTime::fromSecsSinceEpoch(time, Qt::OffsetFromUTC, offset * 60);
 }
+
+bool LGCommit::isDescendantOf(LGCommitPtr other, LGRepositoryPtr repo) {
+    return git_graph_descendant_of(repo->gitRepository(), &this->oid()->gitOid(), &other->oid()->gitOid());
+}
