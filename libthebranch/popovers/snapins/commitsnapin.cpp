@@ -85,6 +85,8 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
             ui->commitWarning->setTitle(tr("HEAD is detached"));
             ui->commitWarning->setText(tr("You are not currently committing to a branch. If this is not what you intended, you should checkout the branch that you wanted to commit to first."));
             ui->commitWarning->setState(tStatusFrame::Warning);
+
+            ui->pushBox->setEnabled(false);
         } else {
             ui->commitWarning->setVisible(false);
             ui->commitWarningLine->setVisible(false);

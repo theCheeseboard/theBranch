@@ -883,7 +883,7 @@ Cherry picked from %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+113"/>
+        <location line="+115"/>
         <source>Select %n modified files</source>
         <translation>
             <numerusform>Select %n modified file</numerusform>
