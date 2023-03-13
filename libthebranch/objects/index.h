@@ -19,6 +19,7 @@ class Index : public QObject,
         void conflictCleanup();
 
         bool hasChangesFromWorkdir(RepositoryPtr repo);
+        bool hasChangesFromTree(RepositoryPtr repo, TreePtr tree);
 
         QList<IndexItem> items();
 

@@ -26,6 +26,7 @@ class LIBTHEBRANCH_EXPORT Tree : public QObject,
         friend CommitSnapIn;
         friend Repository;
         friend RetroactiveRebase;
+        friend Index;
         static TreePtr treeForLgTree(LGRepositoryPtr repo, LGTreePtr tree);
         LGTreePtr gitTree();
 

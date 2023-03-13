@@ -608,9 +608,15 @@
         <translation>Kết quả cherry-pick trống rỗng</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+25"/>
+        <source>%1
+
+Cherry picked from %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Cherry pick %1 into %2</source>
-        <translation>Chery-pick %1 vào %2</translation>
+        <translation type="vanished">Chery-pick %1 vào %2</translation>
     </message>
 </context>
 <context>

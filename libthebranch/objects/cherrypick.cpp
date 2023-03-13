@@ -55,7 +55,7 @@ CherryPick::CherryPickResult CherryPick::performCherryPick() {
         return CherryPickConflict;
     }
 
-    if (!d->repo->index()->hasChangesFromWorkdir(d->repo)) {
+    if (!d->repo->index()->hasChangesFromTree(d->repo, d->commit->tree())) {
         this->abortOperation();
         d->error = ErrorResponse(ErrorResponse::UnspecifiedError, tr("The result of the cherry pick was empty"));
         return CherryPickFailed;
@@ -80,9 +80,11 @@ void CherryPick::finaliseOperation() {
     auto head = d->repo->head();
     auto treeOid = repo->index()->writeTree(repo);
     auto tree = repo->lookupTree(treeOid);
-    auto headBranch = head->asBranch();
 
     // Create a commit on the existing HEAD
-    auto commitMessage = tr("Cherry pick %1 into %2").arg(d->commit->commitHash(), headBranch ? headBranch->name() : QStringLiteral("HEAD"));
+    auto commitMessage = tr("%1\n\nCherry picked from %2").arg(d->commit->commitMessage().trimmed(), d->commit->commitHash());
     repo->createCommit(sig, sig, commitMessage, tree, {head->asCommit()->gitCommit()});
+
+    // Conclude the cherry pick operation
+    d->repo->git_repository()->cleanupState();
 }

@@ -600,9 +600,11 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+26"/>
-        <source>Cherry pick %1 into %2</source>
-        <translation></translation>
+        <location line="+25"/>
+        <source>%1
+
+Cherry picked from %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

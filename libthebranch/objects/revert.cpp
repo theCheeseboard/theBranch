@@ -55,7 +55,7 @@ Revert::RevertResult Revert::performRevert() {
         return RevertConflict;
     }
 
-    if (!d->repo->index()->hasChangesFromWorkdir(d->repo)) {
+    if (!d->repo->index()->hasChangesFromTree(d->repo, d->commit->tree())) {
         this->abortOperation();
         d->error = ErrorResponse(ErrorResponse::UnspecifiedError, tr("The result of the revert was empty"));
         return RevertFailed;
@@ -78,6 +78,9 @@ void Revert::finaliseOperation() {
     auto tree = repo->lookupTree(treeOid);
 
     // Create a commit on the existing HEAD
-    auto commitMessage = tr("Revert %1\n\nThis commit reverts %2").arg(QLocale().quoteString(d->commit->commitMessage()), d->commit->commitHash());
+    auto commitMessage = tr("Revert %1\n\nThis commit reverts %2").arg(QLocale().quoteString(d->commit->commitMessage().trimmed()), d->commit->commitHash());
     repo->createCommit(sig, sig, commitMessage, tree, {head->asCommit()->gitCommit()});
+
+    // Conclude the revert operation
+    d->repo->git_repository()->cleanupState();
 }

@@ -2,7 +2,9 @@
 
 #include "libgit/lgindex.h"
 #include "libgit/lgrepository.h"
+#include "libgit/lgtree.h"
 #include "repository.h"
+#include "tree.h"
 #include <git2.h>
 
 struct IndexPrivate {
@@ -29,6 +31,23 @@ void Index::conflictCleanup() {
 bool Index::hasChangesFromWorkdir(RepositoryPtr repo) {
     git_diff* diff;
     if (git_diff_index_to_workdir(&diff, repo->git_repository()->gitRepository(), d->index->gitIndex(), nullptr) != 0) {
+        return true;
+    }
+
+    git_diff_stats* stats;
+    git_diff_get_stats(&stats, diff);
+
+    auto changedFiles = git_diff_stats_files_changed(stats);
+
+    git_diff_stats_free(stats);
+    git_diff_free(diff);
+
+    return changedFiles > 0;
+}
+
+bool Index::hasChangesFromTree(RepositoryPtr repo, TreePtr tree) {
+    git_diff* diff;
+    if (git_diff_tree_to_index(&diff, repo->git_repository()->gitRepository(), tree->gitTree()->gitTree(), d->index->gitIndex(), nullptr) != 0) {
         return true;
     }
 
