@@ -5,19 +5,16 @@
     <name>AccountsPane</name>
     <message>
         <location filename="../settingspanes/accountspane.ui" line="+20"/>
-        <location/>
         <source>Sign into Git providers for extra features</source>
         <translation>Đăng nhập vào nhà cung cấp Git cho thêm tính năng</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Connect to GitHub</source>
         <translation>Kết nối với GitHub</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location/>
         <source>Connect to GitHub for features such as integration with GitHub Actions</source>
         <translation>Kết nối với XXX cho tính năng như khả năng hoà nhập với GitHub Actions</translation>
     </message>
@@ -36,37 +33,31 @@
     <name>AddGithubAccountPopover</name>
     <message>
         <location filename="../accounts/github/addgithubaccountpopover.ui" line="+54"/>
-        <location/>
         <source>Add GitHub Account</source>
         <translation>Thêm tài khoản GitHub</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location/>
         <source>To integrate with GitHub, sign in with your GitHub account</source>
         <translation>Để kết nối với GitHub, đăng nhập với tài khoản GitHub của bạn</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Personal Access Token</source>
         <translation>Mã truy cập cá nhân</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Username</source>
         <translation>Tên người dùng</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>Add Account</source>
         <translation>Thêm tài khoản</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Create Personal Access Token</source>
         <translation>Tạo mã truy cập cá nhân</translation>
     </message>
@@ -122,7 +113,7 @@
     </message>
     <message>
         <source>Create Revert Commit</source>
-        <translation>Tạo lần chuyển giao hoàn nguyên</translation>
+        <translation type="vanished">Tạo lần chuyển giao hoàn nguyên</translation>
     </message>
     <message>
         <location line="-74"/>
@@ -286,7 +277,7 @@
     </message>
     <message>
         <source>To checkout this branch, you need to stash your uncommitted changes first.</source>
-        <translation>Để lấy ra nhánh này, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
+        <translation type="vanished">Để lấy ra nhánh này, bạn cần tạm cất các thay đổi chưa chuyển giao.</translation>
     </message>
     <message>
         <location line="-204"/>
@@ -599,37 +590,31 @@
     <name>CheckoutSnapIn</name>
     <message>
         <location filename="../popovers/snapins/checkoutsnapin.ui" line="+57"/>
-        <location/>
         <source>Checkout Revision</source>
         <translation>Lấy ra điểm xét</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Commit</source>
         <translation>Lần chuyển giao</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Checkout:</source>
         <translation>Lấy ra:</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Branch</source>
         <translation>Nhánh</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Checkout Options</source>
         <translation>Tùy chọn lấy ra</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Checkout</source>
         <translation>Lấy ra</translation>
     </message>
@@ -665,7 +650,7 @@ Cherry picked from %2</source>
     </message>
     <message>
         <source>Cherry pick %1 into %2</source>
-        <translation>Chery-pick %1 vào %2</translation>
+        <translation type="vanished">Chery-pick %1 vào %2</translation>
     </message>
 </context>
 <context>
@@ -674,19 +659,16 @@ Cherry picked from %2</source>
         <location filename="../popovers/snapins/cherrypicksnapin.ui" line="+57"/>
         <location line="+65"/>
         <location line="+39"/>
-        <location/>
         <source>Cherry Pick</source>
         <translation>Cherry-pick</translation>
     </message>
     <message>
         <location line="-72"/>
-        <location/>
         <source>You are cherry picking a merge commit. Select the mainline commit:</source>
         <translation>Bạn đang cherry-pick một chuyến giao hòa trộn. Chọn chuyển giao luồng chính:</translation>
     </message>
     <message>
         <location line="+99"/>
-        <location/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -730,37 +712,31 @@ Cherry picked from %2</source>
     <name>CloneRepositoryPopover</name>
     <message>
         <location filename="../popovers/clonerepositorypopover.ui" line="+57"/>
-        <location/>
         <source>Clone Repository</source>
         <translation>Nhân bản kho</translation>
     </message>
     <message>
         <location line="+22"/>
-        <location/>
         <source>CLONE OPTIONS</source>
         <translation>TÙY CHỌN NHÂN BẢN</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Clone to</source>
         <translation>Nhân bản vào</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Clone URL</source>
         <translation>URL nhân bản</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Browse...</source>
         <translation>Duyệt...</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Clone</source>
         <translation>Nhân bản</translation>
     </message>
@@ -789,7 +765,6 @@ Cherry picked from %2</source>
     <name>CommitBrowserWidget</name>
     <message>
         <location filename="../widgets/commitbrowserwidget.ui" line="+35"/>
-        <location/>
         <source>Commits</source>
         <translation>Lần chuyển giao</translation>
     </message>
@@ -799,67 +774,56 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/commitsnapin.ui" line="+57"/>
         <location line="+302"/>
-        <location/>
         <source>Commit</source>
         <translation>Chuyển giao</translation>
     </message>
     <message>
         <location line="-233"/>
-        <location/>
         <source>View Untracked Files</source>
         <translation>Xem tệp chưa theo dõi</translation>
     </message>
     <message>
         <location line="+49"/>
-        <location/>
         <source>Commit Message</source>
         <translation>Ghi chú của lần chuyển giao</translation>
     </message>
     <message>
         <location line="+21"/>
-        <location/>
         <source>Push to remote</source>
         <translation>Đẩy lên máy chủ</translation>
     </message>
     <message>
         <location line="+76"/>
-        <location/>
         <source>No File Selected</source>
         <translation>Không có tệp nào đã chọn</translation>
     </message>
     <message>
         <location line="+35"/>
-        <location/>
         <source>Finalise Commit</source>
         <translation>Kết thúc lần chuyển giao</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>Email Address</source>
         <translation>Địa chỉ Email</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Committer Information</source>
         <translation>Thông tin về người làm chuyển giao</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Name</source>
         <translation>Tên</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Enter the following information about yourself to finalise this commit</source>
         <translation>Điền vào thông tin sau về bạn để hoàn thành lần chuyển giao này</translation>
     </message>
     <message>
         <location line="+18"/>
-        <location/>
         <source>Save in global Git configuration</source>
         <translation>Lưu trong cài đặt Git toàn cục</translation>
     </message>
@@ -934,25 +898,21 @@ Cherry picked from %2</source>
     <name>CommitsPane</name>
     <message>
         <location filename="../settingspanes/commitspane.ui" line="+23"/>
-        <location/>
         <source>Name</source>
         <translation>Tên</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Each commit needs to be signed with a name and an email, and these details will be visible to anyone looking at the repository.</source>
         <translation>Các lần chuyển giao cần phải được ký với một tên và email, và chi tiết này sẽ hiển thị cho bất kỳ ai nhìn vào kho này.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Email</source>
         <translation>Địa chỉ email</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>These settings will be saved in your global Git configuration</source>
         <translation>Cài đặt này sẽ bị lưu trong cài đặt Git toàn cục</translation>
     </message>
@@ -966,19 +926,16 @@ Cherry picked from %2</source>
     <name>ConflictResolutionSnapIn</name>
     <message>
         <location filename="../popovers/snapins/conflictresolutionsnapin.ui" line="+54"/>
-        <location/>
         <source>Abort Conflict Resolution</source>
         <translation>Hủy phân giải xung đột</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Abort Conflict Resolution?</source>
         <translation>Hủy phân giải xung đột?</translation>
     </message>
     <message>
         <location line="+91"/>
-        <location/>
         <source>Conflict Resolution</source>
         <translation>Phân giải xung đột</translation>
     </message>
@@ -1100,7 +1057,6 @@ Cherry picked from %2</source>
     <name>DiffPopover</name>
     <message>
         <location filename="../popovers/diffpopover.ui" line="+35"/>
-        <location/>
         <source>Diff</source>
         <translation>Khác biệt</translation>
     </message>
@@ -1173,7 +1129,6 @@ Cherry picked from %2</source>
     <name>GitHubActionsBrowser</name>
     <message>
         <location filename="../accounts/github/actions/githubactionsbrowser.ui" line="+54"/>
-        <location/>
         <source>Workflows</source>
         <translation>Quy trình công việc</translation>
     </message>
@@ -1182,7 +1137,6 @@ Cherry picked from %2</source>
     <name>GitHubActionsRunBrowser</name>
     <message>
         <location filename="../accounts/github/actions/githubactionsrunbrowser.ui" line="+102"/>
-        <location/>
         <source>Run Summary</source>
         <translation>Tóm tắt chạy</translation>
     </message>
@@ -1200,25 +1154,21 @@ Cherry picked from %2</source>
     <message>
         <location filename="../accounts/github/pr/githubcreatepullrequestpopover.ui" line="+54"/>
         <location line="+57"/>
-        <location/>
         <source>Create Pull Request</source>
         <translation>Tạo yeu cầu kéo</translation>
     </message>
     <message>
         <location line="-44"/>
-        <location/>
         <source>Pull Request Options</source>
         <translation>Tùy chọn yeu cầu kéo</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Comment</source>
         <translation>Chú thích</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Title</source>
         <translation>Tiêu đề</translation>
     </message>
@@ -1255,43 +1205,36 @@ Cherry picked from %2</source>
     <name>GitHubIssueBrowser</name>
     <message>
         <location filename="../accounts/github/issues/githubissuebrowser.ui" line="+220"/>
-        <location/>
         <source>Leave a comment</source>
         <translation>Để lại chú thích</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Comment</source>
         <translation>Chú thích</translation>
     </message>
     <message>
         <location line="+26"/>
-        <location/>
         <source>Actions</source>
         <translation>Hoạt động</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location/>
         <source>Merge...</source>
         <translation>Hòa trộn...</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Reopen</source>
         <translation>Mở lại</translation>
     </message>
     <message>
         <location line="+84"/>
-        <location/>
         <source>Assigned To</source>
         <translation>Giao cho</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>NO ONE IS ASSIGNED TO THIS THING</source>
         <translation></translation>
     </message>
@@ -1341,7 +1284,6 @@ Cherry picked from %2</source>
     <message>
         <location filename="../accounts/github/issues/events/githubissuecommentbubble.ui" line="+71"/>
         <location line="+16"/>
-        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
@@ -1512,26 +1454,22 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/mergesnapin.ui" line="+57"/>
         <location line="+76"/>
-        <location/>
         <location filename="../popovers/snapins/mergesnapin.cpp" line="+53"/>
         <source>Merge</source>
         <translation>Hòa trộn</translation>
     </message>
     <message>
         <location line="-66"/>
-        <location/>
         <source>Merge Branches?</source>
         <translation>Hòa trộn nhánh?</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
         <location line="+76"/>
-        <location/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1575,31 +1513,26 @@ Cherry picked from %2</source>
     <name>NewBranchPopover</name>
     <message>
         <location filename="../popovers/newbranchpopover.ui" line="+35"/>
-        <location/>
         <source>New Branch</source>
         <translation>Nhánh mới</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Name</source>
         <translation>Tên</translation>
     </message>
     <message>
         <location line="+31"/>
-        <location/>
         <source>Branch Options</source>
         <translation>Tùy chọn nhánh</translation>
     </message>
     <message>
         <location line="+34"/>
-        <location/>
         <source>Checkout this branch</source>
         <translation>Lấy ra nhánh này</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
         <source>Branch</source>
         <translation>Nhánh</translation>
     </message>
@@ -1608,31 +1541,26 @@ Cherry picked from %2</source>
     <name>NewRemoteSnapIn</name>
     <message>
         <location filename="../popovers/snapins/newremotesnapin.ui" line="+57"/>
-        <location/>
         <source>New Remote</source>
         <translation>Máy chủ mới</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Name</source>
         <translation>Tên</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Remote Options</source>
         <translation>Tùy chọn máy chủ</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>URL</source>
         <translation>URL</translation>
     </message>
     <message>
         <location line="+74"/>
-        <location/>
         <source>Add Remote</source>
         <translation>Thêm máy chủ</translation>
     </message>
@@ -1652,25 +1580,21 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/pullsnapin.ui" line="+57"/>
         <location line="+47"/>
-        <location/>
         <source>Pull</source>
         <translation>Kéo</translation>
     </message>
     <message>
         <location line="-37"/>
-        <location/>
         <source>Rebase local commits onto upstream</source>
         <translation>Cải tổ lần chuyển giao nội bộ trên thượng nguồn</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Upstream Branch</source>
         <translation>Nhánh thượng nguồn</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Pull Options</source>
         <translation>Tùy chọn kéo</translation>
     </message>
@@ -1727,31 +1651,26 @@ Cherry picked from %2</source>
         <location line="+74"/>
         <location line="+105"/>
         <location line="+73"/>
-        <location/>
         <source>Push</source>
         <translation>Đẩy</translation>
     </message>
     <message>
         <location line="-242"/>
-        <location/>
         <source>Push Tags</source>
         <translation>Đẩy thẻ</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
         <source>Push Options</source>
         <translation>Tùy chọn đẩy</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Upstream Branch</source>
         <translation>Nhánh thượng nguồn</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Set as upstream for this branch</source>
         <translation>Đặt nhánh thượng nguồn cho nhánh này</translation>
     </message>
@@ -1759,37 +1678,31 @@ Cherry picked from %2</source>
         <location line="+40"/>
         <location line="+132"/>
         <location line="+56"/>
-        <location/>
         <source>Force Push</source>
         <translation>Bắt buộc đẩy</translation>
     </message>
     <message>
         <location line="-80"/>
-        <location/>
         <source>Push Failed</source>
         <translation>Không thể đẩy</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Your local repository is out of date. </source>
         <translation>Dữ liệu nội bộ đã củ.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Pull</source>
         <translation>Kéo</translation>
     </message>
     <message>
         <location line="+56"/>
-        <location/>
         <source>Force Pushing may cause you to lose commits on the remote.</source>
         <translation>Họat động đẩy bát buộc có thể khiến bạn mất lần chuyển giao trên máy chủ.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Force Push and overwrite the branch on the remote?</source>
         <translation>Bắt buộc đẩy và ghi đề lên nhánh trên máy chủ?</translation>
     </message>
@@ -1842,25 +1755,21 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/rebasesnapin.ui" line="+57"/>
         <location line="+37"/>
-        <location/>
         <source>Rebase</source>
         <translation>Cải tổ</translation>
     </message>
     <message>
         <location line="-27"/>
-        <location/>
         <source>Rebase Branches?</source>
         <translation>Cải tổ nhánh?</translation>
     </message>
     <message>
         <location line="+66"/>
-        <location/>
         <source>Merge</source>
         <translation>Hòa trộn</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1922,19 +1831,16 @@ Cherry picked from %2</source>
     <name>RepositoryBrowser</name>
     <message>
         <location filename="../widgets/repositorybrowser.ui" line="+60"/>
-        <location/>
         <source>What would you like to do?</source>
         <translation>Bạn muốn làm gì?</translation>
     </message>
     <message>
         <location line="+25"/>
-        <location/>
         <source>Open Repository</source>
         <translation>Mở kho</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Clone Repository</source>
         <translation>Nhân bản kho</translation>
     </message>
@@ -2066,7 +1972,6 @@ This commit reverts %2</source>
     <name>RevertSnapIn</name>
     <message>
         <location filename="../popovers/snapins/revertsnapin.ui" line="+14"/>
-        <location/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2084,7 +1989,6 @@ This commit reverts %2</source>
     </message>
     <message>
         <location line="+99"/>
-        <location/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -2159,7 +2063,7 @@ This commit reverts %2</source>
     </message>
     <message>
         <source>Pull not possible</source>
-        <translation>Khong the kéo</translation>
+        <translation type="vanished">Khong the kéo</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2171,31 +2075,26 @@ This commit reverts %2</source>
     <name>SshCertCheckSnapIn</name>
     <message>
         <location filename="../popovers/snapins/sshcertchecksnapin.ui" line="+35"/>
-        <location/>
         <source>Server Identity</source>
         <translation>Nhận dạng máy chủ</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Host</source>
         <translation>Tên máy chủ</translation>
     </message>
     <message>
         <location line="+20"/>
-        <location/>
         <source>Check Server Identity</source>
         <translation>Kiểm tra nhận dạng máy chủ</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
         <source>Fingerprint</source>
         <translation>Vân tay</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
         <source>Accept</source>
         <translation>Chấp nhận</translation>
     </message>
@@ -2230,19 +2129,16 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
     <name>SshKeySelectionSnapIn</name>
     <message>
         <location filename="../popovers/snapins/sshkeyselectionsnapin.ui" line="+35"/>
-        <location/>
         <source>Authentication</source>
         <translation>Xác thực</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>SSH Key Authentication</source>
         <translation>Xác thực khóa SSH</translation>
     </message>
     <message>
         <location line="+20"/>
-        <location/>
         <source>Authenticate</source>
         <translation>Xác thực</translation>
     </message>
@@ -2257,19 +2153,16 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
     <message>
         <location filename="../popovers/snapins/stashsavesnapin.ui" line="+35"/>
         <location line="+88"/>
-        <location/>
         <source>Stash</source>
         <translation>Tạm cất</translation>
     </message>
     <message>
         <location line="-78"/>
-        <location/>
         <source>Message</source>
         <translation>Chú thích mục tâm cắt</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Stash Options</source>
         <translation>Tùy chọn tạm cất</translation>
     </message>
@@ -2288,37 +2181,31 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
     <name>UsernamePasswordSnapIn</name>
     <message>
         <location filename="../popovers/snapins/usernamepasswordsnapin.ui" line="+35"/>
-        <location/>
         <source>Authentication</source>
         <translation>Xác thực</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Username</source>
         <translation>Tên người dùng</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Password</source>
         <translation>Mật khẩu</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
         <source>Username/Password Authentication</source>
         <translation>Xác thực tên người dùng và mật khẩu</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
         <source>Authenticate</source>
         <translation>Xác thực</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
         <source>Use Configured Credential Helper</source>
         <translation>Sử dụng Trình trợ giúp chứng thư đã cấu hình</translation>
     </message>

@@ -17,7 +17,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * *************************************/
-//#include "mainwindow.h"
+// #include "mainwindow.h"
 
 #include <QCommandLineParser>
 #include <QDir>
@@ -43,6 +43,7 @@ int main(int argc, char* argv[]) {
     a.setCopyrightHolder("Victor Tran");
     a.setCopyrightYear("2022");
     a.setOrganizationName("theSuite");
+    a.setApplicationUrl(tApplication::Website, QUrl("https://help.vicr123.com/docs/thebranch/intro"));
     a.setApplicationUrl(tApplication::HelpContents, QUrl("https://help.vicr123.com/docs/thebranch/intro"));
     a.setApplicationUrl(tApplication::Sources, QUrl("http://github.com/vicr123/thebranch"));
     a.setApplicationUrl(tApplication::FileBug, QUrl("http://github.com/vicr123/thebranch/issues"));

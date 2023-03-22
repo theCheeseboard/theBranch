@@ -114,7 +114,7 @@
              <string>Clone</string>
             </property>
             <property name="icon">
-             <iconset theme="tools-media-optical-burn">
+             <iconset theme="edit-copy">
               <normaloff>../../../theBeat/plugins/PhononPlugin</normaloff>../../../theBeat/plugins/PhononPlugin</iconset>
             </property>
            </widget>

@@ -154,6 +154,9 @@
          <property name="text">
           <string>Add Remote</string>
          </property>
+         <property name="icon">
+          <iconset theme="list-add"/>
+         </property>
         </widget>
        </item>
        <item>
@@ -236,20 +239,20 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>tTitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ttitlelabel.h</header>
+   <slots>
+    <signal>backButtonClicked()</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
    <class>tStackedWidget</class>
    <extends>QStackedWidget</extends>
    <header location="global">tstackedwidget.h</header>
    <container>1</container>
    <slots>
     <signal>switchingFrame(int)</signal>
-   </slots>
-  </customwidget>
-  <customwidget>
-   <class>tTitleLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">ttitlelabel.h</header>
-   <slots>
-    <signal>backButtonClicked()</signal>
    </slots>
   </customwidget>
   <customwidget>
