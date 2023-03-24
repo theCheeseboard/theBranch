@@ -1,9 +1,9 @@
 #ifndef CHECKOUTSNAPIN_H
 #define CHECKOUTSNAPIN_H
 
+#include "libthebranch_global.h"
 #include "objects/forward_declares.h"
 #include "snapin.h"
-#include "libthebranch_global.h"
 
 namespace Ui {
     class CheckoutSnapIn;
@@ -22,9 +22,15 @@ class LIBTHEBRANCH_EXPORT CheckoutSnapIn : public SnapIn {
 
         void on_checkoutButton_clicked();
 
+        void on_checkoutCommitButton_toggled(bool checked);
+
+        void on_checkoutBranchButton_toggled(bool checked);
+
     private:
         Ui::CheckoutSnapIn* ui;
         CheckoutSnapInPrivate* d;
+
+        void updateWidgets();
 };
 
 #endif // CHECKOUTSNAPIN_H

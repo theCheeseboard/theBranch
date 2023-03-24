@@ -97,6 +97,12 @@ LGReferencePtr LGRepository::reference(QString name) {
     return (new LGReference(gitRef))->sharedFromThis();
 }
 
+LGReferencePtr LGRepository::referenceDwim(QString name) {
+    git_reference* gitRef;
+    if (git_reference_dwim(&gitRef, d->gitRepository, name.toUtf8().data()) != 0) return nullptr;
+    return (new LGReference(gitRef))->sharedFromThis();
+}
+
 LGIndexPtr LGRepository::index() {
     git_index* index;
     if (git_repository_index(&index, d->gitRepository) != 0) {
@@ -339,6 +345,12 @@ LGObjectPtr LGRepository::lookupObject(LGOidPtr oid, ObjectType type) {
 
     git_object* gitObj;
     if (git_object_lookup(&gitObj, d->gitRepository, &oid->gitOid(), GIT_OBJ_ANY) != 0) return nullptr;
+    return (new LGObject(gitObj))->sharedFromThis();
+}
+
+LGObjectPtr LGRepository::revparse(QString revision) {
+    git_object* gitObj;
+    if (git_revparse_single(&gitObj, d->gitRepository, revision.toUtf8().data()) != 0) return nullptr;
     return (new LGObject(gitObj))->sharedFromThis();
 }
 

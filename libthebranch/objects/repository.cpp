@@ -5,6 +5,7 @@
 #include "index.h"
 #include "libgit/lgbranch.h"
 #include "libgit/lgcommit.h"
+#include "libgit/lgobject.h"
 #include "libgit/lgreference.h"
 #include "libgit/lgrepository.h"
 #include "objects/blob.h"
@@ -149,6 +150,19 @@ ReferencePtr Repository::reference(QString name) {
     LGReferencePtr ref = d->gitRepo->reference(name);
     if (!ref) return nullptr;
     return Reference::referenceForLgReference(d->gitRepo, ref);
+}
+
+CommitPtr Repository::searchCommit(QString name) {
+    LGReferencePtr ref = d->gitRepo->referenceDwim(name);
+    if (ref) {
+        return Reference::referenceForLgReference(d->gitRepo, ref)->asCommit();
+    }
+
+    auto obj = d->gitRepo->revparse(name);
+    if (obj) {
+        return Commit::commitForLgCommit(d->gitRepo, d->gitRepo->lookupCommit(obj->oid()));
+    }
+    return nullptr;
 }
 
 ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {

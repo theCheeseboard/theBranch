@@ -75,6 +75,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         BranchPtr createBranch(QString name, CommitPtr target);
 
         ReferencePtr reference(QString name);
+        CommitPtr searchCommit(QString name);
 
         ErrorResponse setHeadAndCheckout(ReferencePtr reference);
         ErrorResponse detachHead(CommitPtr target);

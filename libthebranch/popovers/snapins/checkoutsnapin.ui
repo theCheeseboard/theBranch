@@ -61,7 +61,7 @@
        <item alignment="Qt::AlignHCenter">
         <widget class="QWidget" name="checkoutOptionsWidget" native="true">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="2" column="1">
+          <item row="2" column="1" alignment="Qt::AlignTop">
            <widget class="QRadioButton" name="checkoutCommitButton">
             <property name="text">
              <string>Commit</string>
@@ -96,7 +96,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QLineEdit" name="refBox"/>
+           <widget class="CommitBox" name="commitBox" native="true"/>
           </item>
          </layout>
         </widget>
@@ -150,6 +150,12 @@
    <class>tSubtitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">tsubtitlelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CommitBox</class>
+   <extends>QWidget</extends>
+   <header>widgets/commitbox.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

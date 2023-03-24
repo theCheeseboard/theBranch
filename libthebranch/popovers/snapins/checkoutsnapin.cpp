@@ -2,6 +2,7 @@
 #include "ui_checkoutsnapin.h"
 
 #include "objects/branchmodel.h"
+#include "objects/commit.h"
 #include "objects/repository.h"
 #include <tcontentsizer.h>
 #include <tmessagebox.h>
@@ -26,7 +27,10 @@ CheckoutSnapIn::CheckoutSnapIn(RepositoryPtr repository, QWidget* parent) :
     model->setRepository(repository);
     ui->branchBox->setModel(model);
 
-    ReferencePtr ref = repository->head();
+    ui->commitBox->setRepository(repository);
+    connect(ui->commitBox, &CommitBox::commitChanged, this, &CheckoutSnapIn::updateWidgets);
+
+    this->updateWidgets();
 }
 
 CheckoutSnapIn::~CheckoutSnapIn() {
@@ -39,10 +43,10 @@ void CheckoutSnapIn::on_titleLabel_backButtonClicked() {
 }
 
 void CheckoutSnapIn::on_checkoutButton_clicked() {
-    if (ui->checkoutBranchButton->isChecked()) {
-        emit done();
+    emit done();
 
-        BranchPtr branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
+    if (ui->checkoutBranchButton->isChecked()) {
+        auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
 
         if (CHK_ERR(d->repository->setHeadAndCheckout(branch->toReference()))) {
             QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
@@ -61,5 +65,49 @@ void CheckoutSnapIn::on_checkoutButton_clicked() {
             box->setIcon(QMessageBox::Critical);
             box->exec(true);
         }
+    } else if (ui->checkoutCommitButton->isChecked()) {
+        auto commit = ui->commitBox->commit();
+        if (CHK_ERR(d->repository->detachHead(commit))) {
+            QStringList conflicts = error.supplementaryData().value("conflicts").toStringList();
+
+            if (conflicts.length() > 0) {
+                auto* box = new tMessageBox(this->window());
+                box->setTitleBarText(tr("Unclean Working Directory"));
+                box->setMessageText(tr("To checkout this commit, you need to stash your uncommitted changes first."));
+                box->exec(true);
+                return;
+            }
+
+            auto* box = new tMessageBox(this->window());
+            box->setTitleBarText(tr("Can't checkout that commit"));
+            box->setMessageText(error.description());
+            box->setIcon(QMessageBox::Critical);
+            box->exec(true);
+        }
+    }
+}
+
+void CheckoutSnapIn::on_checkoutCommitButton_toggled(bool checked) {
+    if (checked) {
+        this->updateWidgets();
+        ui->commitBox->setFocus();
+    }
+}
+
+void CheckoutSnapIn::on_checkoutBranchButton_toggled(bool checked) {
+    if (checked) {
+        this->updateWidgets();
+        ui->branchBox->setFocus();
+    }
+}
+
+void CheckoutSnapIn::updateWidgets() {
+    ui->branchBox->setEnabled(ui->checkoutBranchButton->isChecked());
+    ui->commitBox->setEnabled(ui->checkoutCommitButton->isChecked());
+
+    if (ui->checkoutBranchButton->isChecked()) {
+        ui->checkoutButton->setEnabled(true);
+    } else {
+        ui->checkoutButton->setEnabled(!ui->commitBox->commit().isNull());
     }
 }

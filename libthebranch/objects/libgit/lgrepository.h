@@ -62,6 +62,7 @@ class LGRepository : public QObject,
         LGBranchPtr createBranch(QString name, LGCommitPtr target);
 
         LGReferencePtr reference(QString name);
+        LGReferencePtr referenceDwim(QString name);
 
         LGIndexPtr index();
 
@@ -95,6 +96,7 @@ class LGRepository : public QObject,
         QCoro::Task<std::tuple<int, QString>> runGit(QStringList args);
 
         LGObjectPtr lookupObject(LGOidPtr oid, ObjectType type);
+        LGObjectPtr revparse(QString revision);
 
         ErrorResponse reset(LGObjectPtr object, ResetType resetType);
 

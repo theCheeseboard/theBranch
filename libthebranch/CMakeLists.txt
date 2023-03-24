@@ -66,6 +66,7 @@ set(SOURCES
     popovers/snapins/sshcertchecksnapin.cpp popovers/snapins/sshcertchecksnapin.ui
     popovers/snapins/usernamepasswordsnapin.cpp popovers/snapins/usernamepasswordsnapin.ui
 
+    widgets/commitbox.cpp widgets/commitbox.ui
     widgets/repositorybrowser.cpp widgets/repositorybrowser.ui
     widgets/repositorystatusbar.cpp widgets/repositorystatusbar.ui
     widgets/commitbrowser.cpp
@@ -175,6 +176,7 @@ set(HEADERS
     widgets/repositorybrowser.h
     widgets/commitbrowser.h
     widgets/branchbrowser.h
+    widgets/commitbox.h
     widgets/repositorystatusbar.h
     widgets/remotebrowser.h
     widgets/repositorybrowserlist.h
