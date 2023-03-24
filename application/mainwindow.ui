@@ -134,6 +134,8 @@
     <addaction name="actionMerge"/>
     <addaction name="actionRebase"/>
     <addaction name="actionCherry_Pick"/>
+    <addaction name="separator"/>
+    <addaction name="actionRevert"/>
    </widget>
    <widget class="QMenu" name="menuRemotes">
     <property name="title">
@@ -347,6 +349,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionRevert">
+   <property name="icon">
+    <iconset theme="vcs-revert"/>
+   </property>
+   <property name="text">
+    <string>Revert...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>

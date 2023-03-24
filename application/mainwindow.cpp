@@ -21,6 +21,7 @@
 #include <popovers/clonerepositorypopover.h>
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
+#include <popovers/snapins/commitactionsnapin.h>
 #include <popovers/snapins/commitsnapin.h>
 #include <popovers/snapins/pullsnapin.h>
 #include <popovers/snapins/pushsnapin.h>
@@ -89,6 +90,8 @@ MainWindow::MainWindow(QWidget* parent) :
     menu->addAction(ui->actionMerge);
     menu->addAction(ui->actionRebase);
     menu->addAction(ui->actionCherry_Pick);
+    menu->addSeparator();
+    menu->addAction(ui->actionRevert);
     menu->addSeparator();
     menu->addAction(ui->actionPush);
     menu->addAction(ui->actionPull);
@@ -298,5 +301,19 @@ void MainWindow::on_actionClose_Tab_triggered() {
         browser->deleteLater();
 
         updateMenuItems();
+    }
+}
+
+void MainWindow::on_actionCherry_Pick_triggered() {
+    auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (browser) {
+        SnapInPopover::showSnapInPopover(this, new CommitActionSnapIn(browser->repository(), CommitActionSnapIn::CommitAction::CherryPick));
+    }
+}
+
+void MainWindow::on_actionRevert_triggered() {
+    auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (browser) {
+        SnapInPopover::showSnapInPopover(this, new CommitActionSnapIn(browser->repository(), CommitActionSnapIn::CommitAction::Revert));
     }
 }

@@ -47,14 +47,14 @@
     <message>
         <location filename="../mainwindow.ui" line="+14"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+315"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+322"/>
         <source>theBranch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+102"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+67"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+71"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -66,7 +66,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+13"/>
         <location/>
         <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+1"/>
         <source>Remotes</source>
@@ -82,7 +82,7 @@
     <message>
         <location line="+20"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="-69"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="-73"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -309,7 +309,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+159"/>
+        <location line="+8"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
+        <source>Revert...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
+        <source>Ctrl+R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="+162"/>
         <source>Commit</source>
         <translation type="unfinished"></translation>
     </message>

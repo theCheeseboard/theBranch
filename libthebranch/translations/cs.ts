@@ -793,6 +793,59 @@ Cherry picked from %2</source>
     </message>
 </context>
 <context>
+    <name>CommitActionSnapIn</name>
+    <message>
+        <location filename="../popovers/snapins/commitactionsnapin.ui" line="+14"/>
+        <location/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location/>
+        <source>Checkout:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <location/>
+        <source>Checkout</source>
+        <translation type="unfinished">Překontrolovat</translation>
+    </message>
+    <message>
+        <location filename="../popovers/snapins/commitactionsnapin.cpp" line="+31"/>
+        <location line="+3"/>
+        <source>Cherry Pick</source>
+        <translation type="unfinished">Výběr určitých položek</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Cherry Pick Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cherry Pick:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+3"/>
+        <source>Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Revert Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Revert:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CommitBox</name>
     <message>
         <location filename="../widgets/commitbox.ui" line="+14"/>

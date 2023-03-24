@@ -49,6 +49,10 @@ class MainWindow : public QMainWindow {
 
         void on_actionClose_Tab_triggered();
 
+        void on_actionCherry_Pick_triggered();
+
+        void on_actionRevert_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;
