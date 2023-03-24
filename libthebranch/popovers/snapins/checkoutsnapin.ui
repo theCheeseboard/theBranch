@@ -106,6 +106,9 @@
          <property name="text">
           <string>Checkout</string>
          </property>
+         <property name="icon">
+          <iconset theme="vcs-checkout"/>
+         </property>
         </widget>
        </item>
        <item>

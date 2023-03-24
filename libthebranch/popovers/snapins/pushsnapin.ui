@@ -130,12 +130,18 @@
          <property name="text">
           <string>Push</string>
          </property>
+         <property name="icon">
+          <iconset theme="vcs-push"/>
+         </property>
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
         <widget class="QPushButton" name="forcePushButton">
          <property name="text">
           <string>Force Push</string>
+         </property>
+         <property name="icon">
+          <iconset theme="vcs-push"/>
          </property>
         </widget>
        </item>
@@ -262,12 +268,18 @@
          <property name="text">
           <string>Pull</string>
          </property>
+         <property name="icon">
+          <iconset theme="vcs-pull"/>
+         </property>
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
         <widget class="QPushButton" name="pushFailedForcePushButton">
          <property name="text">
           <string>Force Push</string>
+         </property>
+         <property name="icon">
+          <iconset theme="vcs-push"/>
          </property>
         </widget>
        </item>
@@ -342,6 +354,9 @@
          <property name="text">
           <string notr="true">Force Push</string>
          </property>
+         <property name="icon">
+          <iconset theme="vcs-push"/>
+         </property>
         </widget>
        </item>
        <item>
@@ -365,20 +380,20 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>tTitleLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ttitlelabel.h</header>
+   <slots>
+    <signal>backButtonClicked()</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
    <class>tStackedWidget</class>
    <extends>QStackedWidget</extends>
    <header location="global">tstackedwidget.h</header>
    <container>1</container>
    <slots>
     <signal>switchingFrame(int)</signal>
-   </slots>
-  </customwidget>
-  <customwidget>
-   <class>tTitleLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">ttitlelabel.h</header>
-   <slots>
-    <signal>backButtonClicked()</signal>
    </slots>
   </customwidget>
   <customwidget>

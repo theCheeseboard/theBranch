@@ -79,6 +79,7 @@ void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryP
 
     auto resetMenu = new QMenu(menu);
     resetMenu->setTitle(tr("Reset to here"));
+    resetMenu->setIcon(QIcon::fromTheme("edit-undo"));
     resetMenu->addAction(tr("Hard Reset"), [parent, commit, repo]() -> QCoro::Task<> {
         co_await BranchUiHelper::reset(repo, commit, Repository::ResetType::HardReset, parent);
     });
