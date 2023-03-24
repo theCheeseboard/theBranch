@@ -41,9 +41,9 @@ int main(int argc, char* argv[]) {
     //    a.setAboutDialogSplashGraphic(a.aboutDialogSplashGraphicFromSvg(":/icons/aboutsplash.svg"));
     a.setApplicationLicense(tApplication::Gpl3OrLater);
     a.setCopyrightHolder("Victor Tran");
-    a.setCopyrightYear("2022");
+    a.setCopyrightYear("2023");
     a.setOrganizationName("theSuite");
-    a.setApplicationUrl(tApplication::Website, QUrl("https://help.vicr123.com/docs/thebranch/intro"));
+    //    a.setApplicationUrl(tApplication::Website, QUrl("https://vicr123.com/projects/thebranch"));
     a.setApplicationUrl(tApplication::HelpContents, QUrl("https://help.vicr123.com/docs/thebranch/intro"));
     a.setApplicationUrl(tApplication::Sources, QUrl("http://github.com/vicr123/thebranch"));
     a.setApplicationUrl(tApplication::FileBug, QUrl("http://github.com/vicr123/thebranch/issues"));
