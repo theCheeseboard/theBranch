@@ -3,7 +3,7 @@
 
 #include "commandpalettes/branchescommandpalette.h"
 #include "objects/repository.h"
-#include "popovers/clonerepositorypopover.h"
+// #include "popovers/clonerepositorysnapin.h"
 #include <QFileDialog>
 #include <git2.h>
 #include <tmessagebox.h>
@@ -83,17 +83,17 @@ QString RepositoryBrowser::title() {
 }
 
 void RepositoryBrowser::on_cloneButton_clicked() {
-    CloneRepositoryPopover* jp = new CloneRepositoryPopover();
-    tPopover* popover = new tPopover(jp);
-    popover->setPopoverWidth(SC_DPI_W(-200, this));
-    popover->setPopoverSide(tPopover::Bottom);
-    connect(jp, &CloneRepositoryPopover::done, popover, &tPopover::dismiss);
-    connect(jp, &CloneRepositoryPopover::openRepository, this, [=](RepositoryPtr repository) {
-        this->setRepository(repository);
-    });
-    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
-    connect(popover, &tPopover::dismissed, jp, &CloneRepositoryPopover::deleteLater);
-    popover->show(this->window());
+    //    CloneRepositorySnapIn* jp = new CloneRepositorySnapIn();
+    //    tPopover* popover = new tPopover(jp);
+    //    popover->setPopoverWidth(SC_DPI_W(-200, this));
+    //    popover->setPopoverSide(tPopover::Bottom);
+    //    connect(jp, &CloneRepositorySnapIn::done, popover, &tPopover::dismiss);
+    //    connect(jp, &CloneRepositorySnapIn::openRepository, this, [=](RepositoryPtr repository) {
+    //        this->setRepository(repository);
+    //    });
+    //    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+    //    connect(popover, &tPopover::dismissed, jp, &CloneRepositorySnapIn::deleteLater);
+    //    popover->show(this->window());
 }
 
 void RepositoryBrowser::updateRepositoryState() {

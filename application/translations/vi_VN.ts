@@ -326,7 +326,7 @@
         <translation>Chuyển giao</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+104"/>
         <source>Git</source>
         <translation>Git</translation>
     </message>

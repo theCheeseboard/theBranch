@@ -18,9 +18,9 @@
 #include <objects/branchuihelper.h>
 #include <objects/reference.h>
 #include <objects/repository.h>
-#include <popovers/clonerepositorypopover.h>
 #include <popovers/snapinpopover.h>
 #include <popovers/snapins/checkoutsnapin.h>
+#include <popovers/snapins/clonerepositorysnapin.h>
 #include <popovers/snapins/commitactionsnapin.h>
 #include <popovers/snapins/commitsnapin.h>
 #include <popovers/snapins/pullsnapin.h>
@@ -177,12 +177,8 @@ void MainWindow::on_actionExit_triggered() {
 }
 
 void MainWindow::on_actionClone_Repository_triggered() {
-    CloneRepositoryPopover* jp = new CloneRepositoryPopover();
-    tPopover* popover = new tPopover(jp);
-    popover->setPopoverWidth(SC_DPI_W(-200, this));
-    popover->setPopoverSide(tPopover::Bottom);
-    connect(jp, &CloneRepositoryPopover::done, popover, &tPopover::dismiss);
-    connect(jp, &CloneRepositoryPopover::openRepository, this, [=](RepositoryPtr repository) {
+    CloneRepositorySnapIn* jp = new CloneRepositorySnapIn();
+    connect(jp, &CloneRepositorySnapIn::openRepository, this, [=](RepositoryPtr repository) {
         RepositoryBrowser* browser = openNextTab();
         browser->setRepository(repository);
         connect(repository.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
@@ -191,9 +187,7 @@ void MainWindow::on_actionClone_Repository_triggered() {
 
         updateMenuItems();
     });
-    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
-    connect(popover, &tPopover::dismissed, jp, &CloneRepositoryPopover::deleteLater);
-    popover->show(this->window());
+    SnapInPopover::showSnapInPopover(this, jp);
 }
 
 QCoro::Task<> MainWindow::on_actionOpen_Repository_triggered() {

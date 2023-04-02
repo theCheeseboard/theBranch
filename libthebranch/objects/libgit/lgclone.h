@@ -16,6 +16,8 @@ class LGClone : public QObject,
 
         QCoro::Task<> clone(QString cloneUrl, QString directory);
 
+        void setInformationRequiredCallback(InformationRequiredCallback callback);
+
     signals:
         void statusChanged(QString description);
         void progressChanged(int bytesTransferred, int objectsTransferred, int totalObjects);

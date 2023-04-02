@@ -1,9 +1,12 @@
 #include "lgclone.h"
 
+#include "../private/informationrequiredcallbackhelper.h"
+#include "branchservices.h"
 #include <QCoroFuture>
 #include <git2.h>
 
 struct LGClonePrivate {
+        InformationRequiredCallbackHelper informationRequiredCallbackHelper;
         git_clone_options* options = new git_clone_options();
 };
 
@@ -12,34 +15,21 @@ LGClone::LGClone() :
     d = new LGClonePrivate();
     git_clone_options_init(d->options, GIT_CLONE_OPTIONS_VERSION);
 
-    d->options->fetch_opts.callbacks.payload = this;
+    d->informationRequiredCallbackHelper.setPassthroughPayload(this);
+
+    // Ensure cred manager is available
+    BranchServices::cred();
+
+    d->options->fetch_opts.callbacks.payload = &d->informationRequiredCallbackHelper;
     d->options->fetch_opts.callbacks.sideband_progress = [](const char* str, int len, void* payload) {
-        emit reinterpret_cast<LGClone*>(payload)->statusChanged(QString::fromUtf8(str, len));
+        emit reinterpret_cast<LGClone*>(reinterpret_cast<InformationRequiredCallbackHelper*>(payload)->passthroughPayload())->statusChanged(QString::fromUtf8(str, len));
         return 0;
     };
     d->options->fetch_opts.callbacks.transfer_progress = [](const git_indexer_progress* stats, void* payload) {
-        emit reinterpret_cast<LGClone*>(payload)->progressChanged(stats->received_bytes, stats->received_objects, stats->total_objects);
+        emit reinterpret_cast<LGClone*>(reinterpret_cast<InformationRequiredCallbackHelper*>(payload)->passthroughPayload())->progressChanged(stats->received_bytes, stats->received_objects, stats->total_objects);
         return 0;
     };
-    d->options->fetch_opts.callbacks.credentials = [](git_credential** out,
-                                                       const char* url,
-                                                       const char* username_from_url,
-                                                       unsigned int allowed_types,
-                                                       void* payload) -> int {
-        // TODO: Handle more SSH keys
-        if (allowed_types & GIT_CREDTYPE_SSH_KEY) {
-            QDir sshDir(QDir::home().absoluteFilePath(".ssh"));
-            QList<QFileInfo> sshEntries = sshDir.entryInfoList();
-            for (QFileInfo sshEntry : sshEntries) {
-                if (sshEntry.fileName() == "id_rsa") {
-                    // Try this key
-                    git_credential_ssh_key_new(out, username_from_url, sshDir.absoluteFilePath("id_rsa.pub").toUtf8().data(), sshDir.absoluteFilePath("id_rsa").toUtf8().data(), "");
-                    return 0;
-                }
-            }
-        }
-        return GIT_PASSTHROUGH;
-    };
+    d->options->fetch_opts.callbacks.credentials = d->informationRequiredCallbackHelper.acquireCredentialCallback();
 }
 
 LGClone::~LGClone() {
@@ -60,4 +50,8 @@ QCoro::Task<> LGClone::clone(QString cloneUrl, QString directory) {
         cloneUrl, directory);
 
     if (!ok) throw QException();
+}
+
+void LGClone::setInformationRequiredCallback(InformationRequiredCallback callback) {
+    d->informationRequiredCallbackHelper.setInformationRequiredCallback(callback);
 }

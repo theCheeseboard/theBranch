@@ -740,7 +740,50 @@ Cherry picked from %2</source>
 <context>
     <name>CloneRepositoryPopover</name>
     <message>
-        <location filename="../popovers/clonerepositorypopover.ui" line="+57"/>
+        <source>Clone Repository</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CLONE OPTIONS</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone to</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone URL</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Browse...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone URL cannot be blank</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone Directory cannot be blank</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone Directory does not exist</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Clone Directory is not empty</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CloneRepositorySnapIn</name>
+    <message>
+        <location filename="../popovers/snapins/clonerepositorysnapin.ui" line="+57"/>
         <location/>
         <source>Clone Repository</source>
         <translation type="unfinished"></translation>
@@ -749,51 +792,51 @@ Cherry picked from %2</source>
         <location line="+22"/>
         <location/>
         <source>CLONE OPTIONS</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location/>
         <source>Clone to</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location/>
         <source>Clone URL</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location/>
         <source>Browse...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
         <location/>
         <source>Clone</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../popovers/clonerepositorypopover.cpp" line="+32"/>
+        <location filename="../popovers/snapins/clonerepositorysnapin.cpp" line="+40"/>
         <source>Clone URL cannot be blank</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clone Directory cannot be blank</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Clone Directory does not exist</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clone Directory is not empty</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1580,6 +1623,14 @@ Cherry picked from %2</source>
     </message>
 </context>
 <context>
+    <name>LGActiveRemote</name>
+    <message>
+        <location filename="../objects/libgit/lgactiveremote.cpp" line="+80"/>
+        <source>Unable to connect to remote</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Merge</name>
     <message>
         <location filename="../objects/merge.cpp" line="+33"/>
@@ -2107,12 +2158,12 @@ Cherry picked from %2</source>
 <context>
     <name>RepositoryCloneOperation</name>
     <message>
-        <location filename="../objects/private/repositorycloneoperation.cpp" line="+18"/>
+        <location filename="../objects/private/repositorycloneoperation.cpp" line="+19"/>
         <source>Preparing to clone...</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+8"/>
         <source>Receiving objects: %1/%2 - %3 transferred.</source>
         <translation></translation>
     </message>

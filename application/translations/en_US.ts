@@ -326,7 +326,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+104"/>
         <source>Git</source>
         <translation type="unfinished"></translation>
     </message>

@@ -28,19 +28,21 @@ class git_remote;
 class LGRemote;
 struct LGActiveRemotePrivate;
 class LGActiveRemote : public QObject,
-    public tbSharedFromThis<LGActiveRemote> {
+                       public tbSharedFromThis<LGActiveRemote> {
         Q_OBJECT
     public:
         ~LGActiveRemote();
 
+        static LGActiveRemotePtr fromDetached(QString url);
+
         QCoro::Task<> connect(bool isPush);
         QCoro::Task<> fetch(QStringList refs);
         QCoro::Task<> push(QStringList refs);
+        QCoro::Task<QStringList> fetchRefspecs();
 
         void setInformationRequiredCallback(InformationRequiredCallback callback);
 
     signals:
-        void informationRequredResponse(QVariantMap response);
 
     protected:
         friend LGRemote;
@@ -48,11 +50,6 @@ class LGActiveRemote : public QObject,
 
     private:
         LGActiveRemotePrivate* d;
-
-        QVariantMap callInformationRequiredCallback(QVariantMap params);
-
-    private slots:
-        QCoro::Task<> doCallInformationRequiredCallback(QVariantMap params);
 };
 
 #endif // LGACTIVEREMOTE_H

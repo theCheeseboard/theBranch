@@ -7,7 +7,7 @@ struct RepositoryCloneOperationPrivate;
 class RepositoryCloneOperation : public RepositoryOperation {
         Q_OBJECT
     public:
-        explicit RepositoryCloneOperation(QString cloneUrl, QString directory, QVariantMap options, QObject* parent = nullptr);
+        explicit RepositoryCloneOperation(QString cloneUrl, QString directory, InformationRequiredCallback callback, QVariantMap options, QObject* parent = nullptr);
         ~RepositoryCloneOperation();
 
     signals:

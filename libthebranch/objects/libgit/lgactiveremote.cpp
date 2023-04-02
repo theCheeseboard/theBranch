@@ -19,8 +19,8 @@
  * *************************************/
 #include "lgactiveremote.h"
 
+#include "../private/informationrequiredcallbackhelper.h"
 #include "branchservices.h"
-#include "cred/gitcredentialmanager.h"
 #include "lgrepository.h"
 #include <QCoroFuture>
 #include <QCoroSignal>
@@ -28,12 +28,12 @@
 #include <git2.h>
 
 struct LGActiveRemotePrivate {
-    git_remote* remote;
-    git_remote_callbacks callbacks;
+        git_remote* remote;
+        git_remote_callbacks callbacks;
 
-    LGRepositoryPtr repo;
+        LGRepositoryPtr repo;
 
-    InformationRequiredCallback informationRequiredCallback;
+        InformationRequiredCallbackHelper informationRequiredCallbackHelper;
 };
 
 LGActiveRemote::LGActiveRemote(git_remote* remote, LGRepositoryPtr repo, QObject* parent) :
@@ -45,86 +45,26 @@ LGActiveRemote::LGActiveRemote(git_remote* remote, LGRepositoryPtr repo, QObject
     // Ensure cred manager is available
     BranchServices::cred();
 
+    d->informationRequiredCallbackHelper.setPassthroughPayload(this);
+
     d->callbacks = GIT_REMOTE_CALLBACKS_INIT;
-    d->callbacks.payload = this;
-    d->callbacks.credentials = [](git_credential** out, const char* url, const char* username_from_url, uint allowed_types, void* payload) -> int {
-        auto parent = reinterpret_cast<LGActiveRemote*>(payload);
-
-        QVariantMap params;
-        params.insert("type", "credential");
-        params.insert("repo", QVariant::fromValue(parent->d->repo));
-        params.insert("url", QString(url));
-        if (allowed_types & GIT_CREDENTIAL_SSH_KEY) {
-            params.insert("credType", "ssh-key");
-
-            try {
-                auto response = parent->callInformationRequiredCallback(params);
-                auto pubkey = response.value("pubKey").toString().toUtf8();
-                auto privKey = response.value("privKey").toString().toUtf8();
-                git_credential_ssh_key_new(out, username_from_url, pubkey.data(), privKey.data(), "");
-            } catch (const QException& ex) {
-                return -1;
-            }
-        } else if (allowed_types & GIT_CREDENTIAL_USERPASS_PLAINTEXT) {
-            params.insert("credType", "username-password");
-
-            try {
-                auto response = parent->callInformationRequiredCallback(params);
-                auto username = response.value("username").toString().toUtf8();
-                auto password = response.value("password").toString().toUtf8();
-                git_credential_userpass_plaintext_new(out, username.data(), password.data());
-            } catch (const QException& ex) {
-                return -1;
-            }
-        } else {
-            return GIT_PASSTHROUGH;
-        }
-        return 0;
-    };
-    d->callbacks.certificate_check = [](git_cert * cert, int valid, const char* host, void* payload) -> int {
-        auto parent = reinterpret_cast<LGActiveRemote*>(payload);
-
-        auto params = BranchServices::cred()->certParams(cert, host);
-        auto trust = BranchServices::cred()->checkCert(params);
-        if (trust == GitCredentialManager::GitCertCheckResult::Passed) {
-            return 0;
-        }
-
-        if (trust == GitCredentialManager::GitCertCheckResult::UnexpectedCert) params.insert("unexpected", true);
-        if (valid) return 0;
-
-        try {
-            params.insert("repo", QVariant::fromValue(parent->d->repo));
-            parent->callInformationRequiredCallback(params);
-            params.remove("repo");
-
-            BranchServices::cred()->trustCert(params);
-            return 0;
-        } catch (const QException& ex) {
-            return -1;
-        }
-    };
-}
-
-QVariantMap LGActiveRemote::callInformationRequiredCallback(QVariantMap params) {
-    QMetaObject::invokeMethod(this, "doCallInformationRequiredCallback", Qt::QueuedConnection, Q_ARG(QVariantMap, params));
-    auto response = QCoro::waitFor(qCoro(this, &LGActiveRemote::informationRequredResponse));
-    if (response.isEmpty()) throw QException();
-    return response;
-}
-
-QCoro::Task<> LGActiveRemote::doCallInformationRequiredCallback(QVariantMap params) {
-    try {
-        auto response = co_await d->informationRequiredCallback(params);
-        emit informationRequredResponse(response);
-    } catch (QException ex) {
-        emit informationRequredResponse({});
-    }
+    d->callbacks.payload = &d->informationRequiredCallbackHelper;
+    d->callbacks.credentials = d->informationRequiredCallbackHelper.acquireCredentialCallback();
+    d->callbacks.certificate_check = d->informationRequiredCallbackHelper.certificateCheckCallback();
 }
 
 LGActiveRemote::~LGActiveRemote() {
     git_remote_free(d->remote);
     delete d;
+}
+
+LGActiveRemotePtr LGActiveRemote::fromDetached(QString url) {
+    git_remote* remote;
+    if (git_remote_create_detached(&remote, url.toUtf8().data()) != 0) {
+        return nullptr;
+    }
+
+    return (new LGActiveRemote(remote, nullptr))->sharedFromThis();
 }
 
 QCoro::Task<> LGActiveRemote::connect(bool isPush) {
@@ -135,7 +75,11 @@ QCoro::Task<> LGActiveRemote::connect(bool isPush) {
         customHeaders.count = 0;
         auto success = git_remote_connect(d->remote, isPush ? GIT_DIRECTION_PUSH : GIT_DIRECTION_FETCH, callbacks, &proxyOptions, &customHeaders) == 0;
         if (success) return ErrorResponse();
-        return ErrorResponse::fromCurrentGitError();
+        auto error = ErrorResponse::fromCurrentGitError();
+        if (error.error() == ErrorResponse::NoError) {
+            return ErrorResponse(ErrorResponse::UnspecifiedError, tr("Unable to connect to remote"));
+        }
+        return error;
     });
     error.throwIfError();
 }
@@ -145,7 +89,7 @@ QCoro::Task<> LGActiveRemote::fetch(QStringList refs) {
     auto error = co_await QtConcurrent::run([this, callbacks](QStringList refs) {
         git_strarray refsToFetch;
         refsToFetch.count = refs.length();
-        auto strings = new char* [refs.length()];
+        auto strings = new char*[refs.length()];
         for (auto i = 0; i < refs.length(); i++) {
             strings[i] = strdup(refs.at(i).toUtf8().data());
         }
@@ -161,7 +105,7 @@ QCoro::Task<> LGActiveRemote::fetch(QStringList refs) {
         if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     },
-    refs);
+        refs);
     error.throwIfError();
 }
 
@@ -172,7 +116,7 @@ QCoro::Task<> LGActiveRemote::push(QStringList refs) {
 
         git_strarray refsToPush;
         refsToPush.count = refs.length();
-        auto strings = new char* [refs.length()];
+        auto strings = new char*[refs.length()];
         for (auto i = 0; i < refs.length(); i++) {
             strings[i] = strdup(refs.at(i).toUtf8().data());
         }
@@ -188,10 +132,36 @@ QCoro::Task<> LGActiveRemote::push(QStringList refs) {
         if (success) return ErrorResponse();
         return ErrorResponse::fromCurrentGitError();
     },
-    refs, d->callbacks);
+        refs, d->callbacks);
     error.throwIfError();
 }
 
+QCoro::Task<QStringList> LGActiveRemote::fetchRefspecs() {
+    struct ReturnValue {
+            ErrorResponse error;
+            QStringList refs;
+    };
+
+    auto callbacks = &d->callbacks;
+    auto retval = co_await QtConcurrent::run([this, callbacks]() -> ReturnValue {
+        git_strarray refs;
+
+        auto success = git_remote_get_fetch_refspecs(&refs, d->remote) == 0;
+
+        if (!success) {
+            return ReturnValue{ErrorResponse::fromCurrentGitError(), {}};
+        }
+
+        QStringList refList;
+        for (auto i = 0; i < refs.count; i++) {
+            refList.append(QByteArray(refs.strings[i]));
+        }
+        return ReturnValue{ErrorResponse(), refList};
+    });
+    retval.error.throwIfError();
+    co_return retval.refs;
+}
+
 void LGActiveRemote::setInformationRequiredCallback(InformationRequiredCallback callback) {
-    d->informationRequiredCallback = callback;
+    d->informationRequiredCallbackHelper.setInformationRequiredCallback(callback);
 }

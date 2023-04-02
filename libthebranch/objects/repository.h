@@ -28,7 +28,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
     public:
         ~Repository();
 
-        static RepositoryPtr cloneRepository(QString cloneUrl, QString directory, QVariantMap options);
+        static RepositoryPtr cloneRepository(QString cloneUrl, QString directory, InformationRequiredCallback callback, QVariantMap options);
         static QCoro::Task<RepositoryPtr> repositoryForDirectoryUi(QWidget* parent);
         static RepositoryPtr repositoryForDirectory(QString directory);
         static RepositoryPtr repositoryForInit(QString directory);

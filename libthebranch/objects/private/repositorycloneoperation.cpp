@@ -7,41 +7,20 @@
 struct RepositoryCloneOperationPrivate {
         Repository::RepositoryState state = Repository::Cloning;
         QString cloneOutput;
+        InformationRequiredCallback callback;
 
         int progress = 0;
         int totalProgress = 0;
 };
 
-RepositoryCloneOperation::RepositoryCloneOperation(QString cloneUrl, QString directory, QVariantMap options, QObject* parent) :
+RepositoryCloneOperation::RepositoryCloneOperation(QString cloneUrl, QString directory, InformationRequiredCallback callback, QVariantMap options, QObject* parent) :
     RepositoryOperation{parent} {
     d = new RepositoryCloneOperationPrivate;
     d->cloneOutput = tr("Preparing to clone...").append("\n");
-
-    //    QStringList args = {
-    //        "clone",
-    //        cloneUrl,
-    //        directory};
-
-    //    QProcess* cloneProcess = new QProcess();
-    //    cloneProcess->setProcessChannelMode(QProcess::MergedChannels);
-    //    connect(cloneProcess, &QProcess::readyRead, this, [=] {
-    //        d->cloneOutput.append(cloneProcess->readAll());
-    //        emit stateInformationalTextChanged();
-    //    });
-    //    connect(cloneProcess, &QProcess::finished, this, [=](int exitCode, QProcess::ExitStatus exitStatus) {
-    //        if (exitCode == 0) {
-    //            emit putRepository(LGRepository::open(directory)->sharedFromThis());
-    //            emit done();
-    //        } else {
-    //            d->state = Repository::Invalid;
-    //            emit stateChanged();
-    //            emit stateDescriptionChanged();
-    //            emit progressChanged();
-    //        }
-    //    });
-    //    cloneProcess->start(theBranch::gitExecutable(), args);
+    d->callback = callback;
 
     LGClone* clone = new LGClone();
+    clone->setInformationRequiredCallback(callback);
     connect(clone, &LGClone::progressChanged, this, [=](int bytesTransferred, int objectsReceived, int totalObjects) {
         d->progress = objectsReceived;
         d->totalProgress = totalObjects;

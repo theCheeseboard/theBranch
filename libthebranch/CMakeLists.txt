@@ -43,11 +43,11 @@ set(SOURCES
     objects/cherrypick.cpp
     objects/diff.cpp
 
-    popovers/clonerepositorypopover.cpp popovers/clonerepositorypopover.ui
     popovers/diffpopover.cpp popovers/diffpopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
 
     popovers/snapins/snapin.cpp
+    popovers/snapins/clonerepositorysnapin.cpp popovers/snapins/clonerepositorysnapin.ui
     popovers/snapins/checkoutsnapin.cpp popovers/snapins/checkoutsnapin.ui
     popovers/snapins/conflictresolutionsnapin.cpp popovers/snapins/conflictresolutionsnapin.ui
     popovers/snapins/commitsnapin.cpp popovers/snapins/commitsnapin.ui
@@ -121,6 +121,7 @@ set(SOURCES
 
     objects/private/repositoryoperation.cpp
     objects/private/repositorycloneoperation.cpp
+    objects/private/informationrequiredcallbackhelper.cpp
 
     objects/libgit/lgrepository.cpp
     objects/libgit/lgreference.cpp
@@ -171,7 +172,6 @@ set(HEADERS
     objects/blob.h
     objects/cherrypick.h
     objects/diff.h
-    popovers/clonerepositorypopover.h
     popovers/snapins/checkoutsnapin.h
     popovers/diffpopover.h
     widgets/repositorybrowser.h
@@ -185,6 +185,7 @@ set(HEADERS
     widgets/commitbrowserwidget.h
     objects/forward_declares.h
     popovers/snapinpopover.h
+    popovers/snapins/clonerepositorysnapin.h
     popovers/snapins/snapin.h
     popovers/snapins/conflictresolutionsnapin.h
     popovers/snapins/commitsnapin.h
@@ -210,6 +211,7 @@ set(HEADERS
 set(PRIVATE_HEADERS
     objects/private/repositoryoperation.h
     objects/private/repositorycloneoperation.h
+    objects/private/informationrequiredcallbackhelper.h
     objects/libgit/lgrepository.h
     objects/libgit/lgreference.h
     objects/libgit/lgrevwalk.h

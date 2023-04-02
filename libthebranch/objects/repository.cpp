@@ -221,8 +221,8 @@ void Repository::resetFileToHead(QString file) {
     }
 }
 
-RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, QVariantMap options) {
-    RepositoryOperation* operation = new RepositoryCloneOperation(cloneUrl, directory, options);
+RepositoryPtr Repository::cloneRepository(QString cloneUrl, QString directory, InformationRequiredCallback callback, QVariantMap options) {
+    RepositoryOperation* operation = new RepositoryCloneOperation(cloneUrl, directory, callback, options);
 
     Repository* repo = new Repository();
     repo->putRepositoryOperation(operation);
