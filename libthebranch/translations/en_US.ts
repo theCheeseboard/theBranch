@@ -772,47 +772,59 @@ Cherry picked from %2</source>
     <name>CloneRepositorySnapIn</name>
     <message>
         <location filename="../popovers/snapins/clonerepositorysnapin.ui" line="+57"/>
+        <location line="+147"/>
         <location/>
         <source>Clone Repository</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="-132"/>
+        <location line="+192"/>
         <location/>
         <source>CLONE OPTIONS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-40"/>
         <location/>
         <source>Clone to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-128"/>
         <location/>
         <source>Clone URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+156"/>
+        <source>Checkout Branch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <location/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-199"/>
+        <location line="+162"/>
         <location/>
         <source>Clone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/clonerepositorysnapin.cpp" line="+40"/>
+        <source>Branch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../popovers/snapins/clonerepositorysnapin.cpp" line="+42"/>
         <source>Clone URL cannot be blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+70"/>
         <source>Clone Directory cannot be blank</source>
         <translation type="unfinished"></translation>
     </message>
@@ -824,6 +836,16 @@ Cherry picked from %2</source>
     <message>
         <location line="+5"/>
         <source>Clone Directory is not empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-45"/>
+        <source>Heads up!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You appear to be cloning an empty repository</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2138,7 +2160,7 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+13"/>
         <source>Receiving objects: %1/%2 - %3 transferred.</source>
         <translation></translation>
     </message>

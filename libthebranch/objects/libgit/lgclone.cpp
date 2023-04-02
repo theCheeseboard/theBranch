@@ -40,18 +40,24 @@ QCoro::Task<> LGClone::clone(QString cloneUrl, QString directory) {
     auto ok = co_await QtConcurrent::run([this](QString cloneUrl, QString directory) {
         git_repository* repo;
         if (git_clone(&repo, cloneUrl.toUtf8().data(), directory.toUtf8().data(), d->options) != 0) {
-            const git_error* error = git_error_last();
-            return false;
+            return ErrorResponse::fromCurrentGitError();
         }
 
         git_repository_free(repo);
-        return true;
+        return ErrorResponse();
     },
         cloneUrl, directory);
-
-    if (!ok) throw QException();
+    ok.throwIfError();
 }
 
 void LGClone::setInformationRequiredCallback(InformationRequiredCallback callback) {
     d->informationRequiredCallbackHelper.setInformationRequiredCallback(callback);
+}
+
+void LGClone::setBranch(QString branch) {
+    auto branchData = branch.toUtf8();
+    branchData.append('\0');
+    char* data = reinterpret_cast<char*>(malloc(branchData.length()));
+    memcpy(data, branchData.data(), branchData.length());
+    d->options->checkout_branch = data;
 }

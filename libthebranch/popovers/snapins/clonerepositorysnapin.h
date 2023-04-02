@@ -28,6 +28,10 @@ class LIBTHEBRANCH_EXPORT CloneRepositorySnapIn : public SnapIn {
 
         void on_browseButton_clicked();
 
+        void on_titleLabel_2_backButtonClicked();
+
+        void on_cloneButton_2_clicked();
+
     private:
         Ui::CloneRepositorySnapIn* ui;
         CloneRepositorySnapInPrivate* d;

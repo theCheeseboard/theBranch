@@ -162,6 +162,60 @@ QCoro::Task<QStringList> LGActiveRemote::fetchRefspecs() {
     co_return retval.refs;
 }
 
+QCoro::Task<QStringList> LGActiveRemote::ls() {
+    struct ReturnValue {
+            ErrorResponse error;
+            QStringList branches;
+    };
+
+    auto callbacks = &d->callbacks;
+    auto retval = co_await QtConcurrent::run([this, callbacks]() -> ReturnValue {
+        const git_remote_head** heads;
+        size_t headCount;
+
+        auto success = git_remote_ls(&heads, &headCount, d->remote) == 0;
+
+        if (!success) {
+            return ReturnValue{ErrorResponse::fromCurrentGitError(), {}};
+        }
+
+        QStringList refList;
+        for (auto i = 0; i < headCount; i++) {
+            auto head = heads[i];
+            refList.append(QString(head->name));
+        }
+        return ReturnValue{ErrorResponse(), refList};
+    });
+    retval.error.throwIfError();
+    co_return retval.branches;
+}
+
+QCoro::Task<QString> LGActiveRemote::defaultBranch() {
+    struct ReturnValue {
+            ErrorResponse error;
+            QString defaultBranch;
+    };
+
+    auto callbacks = &d->callbacks;
+    auto retval = co_await QtConcurrent::run([this, callbacks]() -> ReturnValue {
+        git_buf buf = GIT_BUF_INIT;
+
+        auto success = git_remote_default_branch(&buf, d->remote) == 0;
+
+        if (!success) {
+            return ReturnValue{ErrorResponse::fromCurrentGitError(), {}};
+        }
+
+        QString defaultBranch(QByteArray(buf.ptr, buf.size));
+
+        git_buf_dispose(&buf);
+
+        return ReturnValue{ErrorResponse(), defaultBranch};
+    });
+    retval.error.throwIfError();
+    co_return retval.defaultBranch;
+}
+
 void LGActiveRemote::setInformationRequiredCallback(InformationRequiredCallback callback) {
     d->informationRequiredCallbackHelper.setInformationRequiredCallback(callback);
 }

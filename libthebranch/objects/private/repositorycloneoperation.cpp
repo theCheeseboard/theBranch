@@ -21,6 +21,11 @@ RepositoryCloneOperation::RepositoryCloneOperation(QString cloneUrl, QString dir
 
     LGClone* clone = new LGClone();
     clone->setInformationRequiredCallback(callback);
+
+    if (options.contains("branch")) {
+        clone->setBranch(options.value("branch").toString());
+    }
+
     connect(clone, &LGClone::progressChanged, this, [=](int bytesTransferred, int objectsReceived, int totalObjects) {
         d->progress = objectsReceived;
         d->totalProgress = totalObjects;

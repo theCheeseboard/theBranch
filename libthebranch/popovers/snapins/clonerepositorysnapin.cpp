@@ -9,6 +9,7 @@
 #include <terrorflash.h>
 
 struct CloneRepositorySnapInPrivate {
+        QList<QVariantMap> creds;
 };
 
 CloneRepositorySnapIn::CloneRepositorySnapIn(QWidget* parent) :
@@ -21,6 +22,7 @@ CloneRepositorySnapIn::CloneRepositorySnapIn(QWidget* parent) :
     ui->titleLabel->setBackButtonShown(true);
 
     new tContentSizer(ui->cloneOptionsWidget);
+    new tContentSizer(ui->cloneOptionsWidget_2);
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
 }
@@ -41,31 +43,12 @@ QCoro::Task<> CloneRepositorySnapIn::on_cloneButton_clicked() {
         co_return;
     }
 
-    if (ui->cloneDirectoryEdit->text().isEmpty()) {
-        tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory cannot be blank"));
-        co_return;
-    }
-
-    QDir dir(ui->cloneDirectoryEdit->text());
-    if (!dir.exists()) {
-        tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory does not exist"));
-        co_return;
-    }
-
-    if (!dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs | QDir::Hidden | QDir::System).isEmpty()) {
-        tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory is not empty"));
-        co_return;
-    }
-
-    QList<QVariantMap> creds;
-    //    int credIdx = 0;
-
     auto originalInformationRequiredCallback = this->parentPopover()->getInformationRequiredCallback();
-    auto informationRequiredCallback = [this, originalInformationRequiredCallback, &creds](QVariantMap params) -> QCoro::Task<QVariantMap> {
+    auto informationRequiredCallback = [this, originalInformationRequiredCallback](QVariantMap params) -> QCoro::Task<QVariantMap> {
         auto response = co_await originalInformationRequiredCallback(params);
         if (response.isEmpty()) throw QException();
 
-        creds.append(response);
+        d->creds.append(response);
 
         co_return response;
     };
@@ -78,15 +61,30 @@ QCoro::Task<> CloneRepositorySnapIn::on_cloneButton_clicked() {
         co_await remote->connect(false);
         auto refs = co_await remote->fetchRefspecs();
 
-        auto retrieveInformationRequiredCallback = [this, creds](QVariantMap params) -> QCoro::Task<QVariantMap> {
-            auto c = creds.at(0);
-            //            credIdx++;
-            co_return c;
-        };
+        ui->branchComboBox->clear();
+        QStringList branches;
+        for (auto ref : co_await remote->ls()) {
+            if (ref.startsWith("refs/heads/")) branches.append(ref);
+        }
 
-        RepositoryPtr repo = Repository::cloneRepository(ui->cloneUrlEdit->text(), ui->cloneDirectoryEdit->text(), retrieveInformationRequiredCallback, {});
-        emit openRepository(repo);
-        emit done();
+        for (auto branch : branches) {
+            ui->branchComboBox->addItem(branch.mid(11));
+        }
+        auto defaultBranch = co_await remote->defaultBranch();
+        ui->branchComboBox->setCurrentIndex(branches.indexOf(defaultBranch));
+
+        if (ui->branchComboBox->count() == 0) {
+            ui->branchStatus->setState(tStatusFrame::Warning);
+            ui->branchStatus->setTitle(tr("Heads up!").toUpper());
+            ui->branchStatus->setText(tr("You appear to be cloning an empty repository"));
+            ui->branchStatus->setVisible(true);
+            ui->branchComboBox->setEnabled(false);
+        } else {
+            ui->branchStatus->setVisible(false);
+            ui->branchComboBox->setEnabled(true);
+        }
+
+        ui->stackedWidget->setCurrentWidget(ui->branchPage);
     } catch (GitException ex) {
         tErrorFlash::flashError(ui->cloneUrlEdit, ex.description());
         ui->stackedWidget->setCurrentWidget(ui->clonePage);
@@ -102,4 +100,41 @@ void CloneRepositorySnapIn::on_browseButton_clicked() {
     });
     connect(dialog, &QFileDialog::finished, dialog, &QFileDialog::deleteLater);
     dialog->open();
+}
+
+void CloneRepositorySnapIn::on_titleLabel_2_backButtonClicked() {
+    ui->stackedWidget->setCurrentWidget(ui->clonePage);
+}
+
+void CloneRepositorySnapIn::on_cloneButton_2_clicked() {
+    // Sanity checks
+    if (ui->cloneDirectoryEdit->text().isEmpty()) {
+        tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory cannot be blank"));
+        return;
+    }
+
+    QDir dir(ui->cloneDirectoryEdit->text());
+    if (!dir.exists()) {
+        tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory does not exist"));
+        return;
+    }
+
+    if (!dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs | QDir::Hidden | QDir::System).isEmpty()) {
+        tErrorFlash::flashError(ui->cloneDirectoryEdit, tr("Clone Directory is not empty"));
+        return;
+    }
+
+    auto creds = d->creds;
+    auto retrieveInformationRequiredCallback = [this, creds](QVariantMap params) -> QCoro::Task<QVariantMap> {
+        auto c = creds.at(0);
+        //            credIdx++;
+        co_return c;
+    };
+
+    QVariantMap options;
+    if (ui->branchComboBox->isEnabled()) options.insert("branch", ui->branchComboBox->currentText());
+
+    RepositoryPtr repo = Repository::cloneRepository(ui->cloneUrlEdit->text(), ui->cloneDirectoryEdit->text(), retrieveInformationRequiredCallback, options);
+    emit openRepository(repo);
+    emit done();
 }

@@ -39,6 +39,8 @@ class LGActiveRemote : public QObject,
         QCoro::Task<> fetch(QStringList refs);
         QCoro::Task<> push(QStringList refs);
         QCoro::Task<QStringList> fetchRefspecs();
+        QCoro::Task<QStringList> ls();
+        QCoro::Task<QString> defaultBranch();
 
         void setInformationRequiredCallback(InformationRequiredCallback callback);
 
