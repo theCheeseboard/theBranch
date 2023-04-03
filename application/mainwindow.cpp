@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QCoroTimer>
+#include <QDesktopServices>
 #include <QMessageBox>
 #include <tapplication.h>
 #include <tcommandpalette/tcommandpaletteactionscope.h>
@@ -93,6 +94,8 @@ MainWindow::MainWindow(QWidget* parent) :
     menu->addSeparator();
     menu->addAction(ui->actionRevert);
     menu->addSeparator();
+    menu->addAction(ui->actionOpen_in);
+    menu->addSeparator();
     menu->addAction(ui->actionPush);
     menu->addAction(ui->actionPull);
     menu->addSeparator();
@@ -109,6 +112,23 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->menuButton->setIconSize(SC_DPI_WT(QSize(24, 24), QSize, this));
     ui->menuButton->setMenu(menu);
 #endif
+
+    switch (tApplication::currentPlatform()) {
+        case tApplication::Windows:
+        case tApplication::WindowsAppPackage:
+            ui->actionOpen_in->setText(tr("Open in %1").arg("File Explorer"));
+            break;
+        case tApplication::MacOS:
+            ui->actionOpen_in->setText(tr("Open in %1").arg("Finder"));
+            break;
+        case tApplication::TheDesk:
+            ui->actionOpen_in->setText(tr("Open in %1").arg("theFile"));
+            break;
+        case tApplication::Flatpak:
+        case tApplication::OtherPlatform:
+            ui->actionOpen_in->setText(tr("Open in %1").arg("File Manager"));
+            break;
+    }
 
     auto landingPage = new LandingPage(this);
     connect(landingPage, &LandingPage::openRepository, this, [this] {
@@ -238,6 +258,8 @@ void MainWindow::updateMenuItems() {
     ui->actionPull->setEnabled(enabled);
     ui->actionClose_Tab->setEnabled(enabled);
     ui->actionDiscard_All_Changes->setEnabled(enabled);
+    ui->actionOpen_in->setEnabled(enabled);
+    ui->actionRevert->setEnabled(enabled);
 }
 
 void MainWindow::on_actionCommit_triggered() {
@@ -309,5 +331,12 @@ void MainWindow::on_actionRevert_triggered() {
     auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
     if (browser) {
         SnapInPopover::showSnapInPopover(this, new CommitActionSnapIn(browser->repository(), CommitActionSnapIn::CommitAction::Revert));
+    }
+}
+
+void MainWindow::on_actionOpen_in_triggered() {
+    auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (browser) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(browser->repository()->repositoryPath()));
     }
 }

@@ -88,13 +88,13 @@
     </message>
     <message>
         <location line="+1"/>
-        <location line="+46"/>
+        <location line="+47"/>
         <location line="+152"/>
         <source>Checkout</source>
         <translation>Lấy ra</translation>
     </message>
     <message>
-        <location line="-194"/>
+        <location line="-195"/>
         <source>Copy Commit Message</source>
         <translation>Chép chú thích lần chuyển giao</translation>
     </message>
@@ -105,18 +105,18 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+90"/>
+        <location line="+91"/>
         <source>Tag</source>
         <translation>Gắn thẻ</translation>
     </message>
     <message>
-        <location line="-89"/>
+        <location line="-90"/>
         <source>Cherry Pick</source>
         <translation>Cherry-Pick</translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+85"/>
+        <location line="+86"/>
         <source>Branch from here</source>
         <translation>Tạo nhánh tại đây</translation>
     </message>
@@ -125,12 +125,12 @@
         <translation type="vanished">Tạo lần chuyển giao hoàn nguyên</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-75"/>
         <source>Reset to here</source>
         <translation>Đặt lại về đây</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <location line="+322"/>
         <source>Hard Reset</source>
         <translation>Đặt lại cứng</translation>
@@ -167,12 +167,12 @@
         <translation>Đặt lại trộn</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-338"/>
         <source>Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <location line="+328"/>
         <source>Soft Reset</source>
         <translation>Đặt lại mềm</translation>
@@ -1880,14 +1880,14 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/pushsnapin.ui" line="+57"/>
         <location line="+74"/>
-        <location line="+105"/>
-        <location line="+73"/>
+        <location line="+111"/>
+        <location line="+79"/>
         <location/>
         <source>Push</source>
         <translation>Đẩy</translation>
     </message>
     <message>
-        <location line="-242"/>
+        <location line="-254"/>
         <location/>
         <source>Push Tags</source>
         <translation>Đẩy thẻ</translation>
@@ -1911,15 +1911,15 @@ Cherry picked from %2</source>
         <translation>Đặt nhánh thượng nguồn cho nhánh này</translation>
     </message>
     <message>
-        <location line="+40"/>
-        <location line="+132"/>
-        <location line="+56"/>
+        <location line="+43"/>
+        <location line="+138"/>
+        <location line="+59"/>
         <location/>
         <source>Force Push</source>
         <translation>Bắt buộc đẩy</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-86"/>
         <location/>
         <source>Push Failed</source>
         <translation>Không thể đẩy</translation>
@@ -1937,7 +1937,7 @@ Cherry picked from %2</source>
         <translation>Kéo</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+62"/>
         <location/>
         <source>Force Pushing may cause you to lose commits on the remote.</source>
         <translation>Họat động đẩy bát buộc có thể khiến bạn mất lần chuyển giao trên máy chủ.</translation>
@@ -2235,17 +2235,17 @@ This commit reverts %2</source>
     <message>
         <location line="+43"/>
         <location line="+65"/>
-        <location line="+39"/>
+        <location line="+42"/>
         <source>Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-75"/>
         <source>You are reverting a merge commit. Select the mainline commit:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+102"/>
         <location/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>

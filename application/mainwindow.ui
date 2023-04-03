@@ -108,7 +108,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>43</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -150,6 +150,7 @@
     </property>
     <addaction name="actionCommit"/>
     <addaction name="actionCheckout"/>
+    <addaction name="actionOpen_in"/>
     <addaction name="separator"/>
     <addaction name="actionStash"/>
     <addaction name="separator"/>
@@ -340,7 +341,8 @@
   </action>
   <action name="actionDiscard_All_Changes">
    <property name="icon">
-    <iconset theme="edit-delete"/>
+    <iconset theme="edit-delete">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Discard All Changes</string>
@@ -356,13 +358,19 @@
   </action>
   <action name="actionRevert">
    <property name="icon">
-    <iconset theme="vcs-revert"/>
+    <iconset theme="vcs-revert">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Revert...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionOpen_in">
+   <property name="text">
+    <string notr="true">Open in</string>
    </property>
   </action>
  </widget>

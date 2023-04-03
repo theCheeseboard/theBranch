@@ -53,6 +53,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionRevert_triggered();
 
+        void on_actionOpen_in_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;

@@ -47,7 +47,7 @@
     <message>
         <location filename="../mainwindow.ui" line="+14"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+322"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+341"/>
         <source>theBranch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -80,7 +80,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <location/>
         <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="-73"/>
         <source>Exit</source>
@@ -290,7 +290,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+12"/>
         <location/>
         <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Discard All Changes</source>
@@ -309,7 +309,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+2"/>
         <source>Revert...</source>
         <translation type="unfinished"></translation>
@@ -321,12 +321,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+162"/>
+        <location filename="../mainwindow.cpp" line="+119"/>
+        <location line="+3"/>
+        <location line="+3"/>
+        <location line="+4"/>
+        <source>Open in %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+53"/>
         <source>Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+106"/>
         <source>Git</source>
         <translation type="unfinished"></translation>
     </message>
