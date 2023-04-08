@@ -1,15 +1,15 @@
-cmake_minimum_required(VERSION 3.4.0)
-
 project(lib VERSION 1.0.0 LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Concurrent Network)
 find_package(libcontemporary REQUIRED)
 find_package(ttexteditor REQUIRED)
 
+set(libgit2_ROOT "C:/Program Files (x86)/libgit2" CACHE PATH "Path to libgit2 on Windows")
+
 cntp_find_pkgconfig(lgit libgit2 REQUIRED
-        WIN_FALLBACK_DLL "C:\\Program Files (x86)\\libgit2\\bin\\git2.dll"
-        WIN_FALLBACK_IMPLIB "C:\\Program Files (x86)\\libgit2\\lib\\git2.lib"
-        WIN_FALLBACK_INCLUDE "C:\\Program Files (x86)\\libgit2\\include")
+        WIN_FALLBACK_DLL "${libgit2_ROOT}/bin/git2.dll"
+        WIN_FALLBACK_IMPLIB "${libgit2_ROOT}/lib/git2.lib"
+        WIN_FALLBACK_INCLUDE "${libgit2_ROOT}/include")
 
 set(SOURCES
     libthebranch_global.cpp

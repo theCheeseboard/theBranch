@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.21.0)
-
 project(thebranch VERSION 1.0.0 LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets DBus Sql PrintSupport)
