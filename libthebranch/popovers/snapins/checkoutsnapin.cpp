@@ -22,7 +22,7 @@ CheckoutSnapIn::CheckoutSnapIn(RepositoryPtr repository, QWidget* parent) :
     new tContentSizer(ui->checkoutOptionsWidget);
     new tContentSizer(ui->checkoutButton);
 
-    BranchModel* model = new BranchModel();
+    auto model = new BranchModel();
     model->setBranchFlags(THEBRANCH::LocalBranches);
     model->setRepository(repository);
     ui->branchBox->setModel(model);

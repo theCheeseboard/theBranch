@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CommitActionSnapIn</class>
- <widget class="QWidget" name="CommitActionSnapIn">
+ <class>BranchActionSnapIn</class>
+ <widget class="QWidget" name="BranchActionSnapIn">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,6 +14,9 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -58,7 +61,7 @@
        <item alignment="Qt::AlignHCenter">
         <widget class="QWidget" name="optionsWidget" native="true">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="1" column="0" alignment="Qt::AlignTop">
+          <item row="1" column="0">
            <widget class="QLabel" name="commitLabel">
             <property name="text">
              <string>Checkout:</string>
@@ -73,7 +76,14 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="CommitBox" name="commitBox" native="true"/>
+           <widget class="QComboBox" name="branchBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -126,12 +136,6 @@
    <class>tSubtitleLabel</class>
    <extends>QLabel</extends>
    <header location="global">tsubtitlelabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>CommitBox</class>
-   <extends>QWidget</extends>
-   <header>widgets/commitbox.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -80,6 +80,59 @@
     </message>
 </context>
 <context>
+    <name>BranchActionSnapIn</name>
+    <message>
+        <location filename="../popovers/snapins/branchactionsnapin.ui" line="+14"/>
+        <location/>
+        <source>Form</source>
+        <translation type="unfinished">Formular</translation>
+    </message>
+    <message>
+        <location line="+53"/>
+        <location/>
+        <source>Checkout:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <location/>
+        <source>Checkout</source>
+        <translation type="unfinished">Checkout</translation>
+    </message>
+    <message>
+        <location filename="../popovers/snapins/branchactionsnapin.cpp" line="+34"/>
+        <location line="+3"/>
+        <source>Merge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Merge Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Merge:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+3"/>
+        <source>Rebase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Rebase Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rebase:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BranchModel</name>
     <message>
         <location filename="../objects/branchmodel.cpp" line="+50"/>

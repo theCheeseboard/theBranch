@@ -61,6 +61,7 @@ set(SOURCES
     popovers/snapins/stashsavesnapin.cpp popovers/snapins/stashsavesnapin.ui
     popovers/snapins/cherrypicksnapin.cpp popovers/snapins/cherrypicksnapin.ui
     popovers/snapins/commitactionsnapin.cpp popovers/snapins/commitactionsnapin.ui
+    popovers/snapins/branchactionsnapin.cpp popovers/snapins/branchactionsnapin.ui
 
     popovers/snapins/informationrequestsnapin.cpp
     popovers/snapins/sshkeyselectionsnapin.cpp popovers/snapins/sshkeyselectionsnapin.ui
@@ -198,6 +199,7 @@ set(HEADERS
     popovers/snapins/stashsavesnapin.h
     popovers/snapins/cherrypicksnapin.h
     popovers/snapins/commitactionsnapin.h
+    popovers/snapins/branchactionsnapin.h
     popovers/newbranchpopover.h
     settingspanes/commitspane.h
     settingspanes/accountspane.h

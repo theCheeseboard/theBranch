@@ -20,6 +20,7 @@
 #include <objects/reference.h>
 #include <objects/repository.h>
 #include <popovers/snapinpopover.h>
+#include <popovers/snapins/branchactionsnapin.h>
 #include <popovers/snapins/checkoutsnapin.h>
 #include <popovers/snapins/clonerepositorysnapin.h>
 #include <popovers/snapins/commitactionsnapin.h>
@@ -338,5 +339,35 @@ void MainWindow::on_actionOpen_in_triggered() {
     auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
     if (browser) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(browser->repository()->repositoryPath()));
+    }
+}
+
+void MainWindow::on_actionMerge_triggered() {
+    auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (browser) {
+        if (!browser->repository()->head()->asBranch()) {
+            tMessageBox* box = new tMessageBox(this->window());
+            box->setTitleBarText(tr("HEAD is detached"));
+            box->setMessageText(tr("There is no branch to merge into. Checkout a branch first, and then merge."));
+            box->setIcon(QMessageBox::Critical);
+            box->exec(true);
+            return;
+        }
+        SnapInPopover::showSnapInPopover(this, new BranchActionSnapIn(browser->repository(), BranchActionSnapIn::BranchAction::Merge));
+    }
+}
+
+void MainWindow::on_actionRebase_triggered() {
+    auto browser = qobject_cast<RepositoryBrowser*>(ui->stackedWidget->currentWidget());
+    if (browser) {
+        if (!browser->repository()->head()->asBranch()) {
+            tMessageBox* box = new tMessageBox(this->window());
+            box->setTitleBarText(tr("HEAD is detached"));
+            box->setMessageText(tr("There is no branch to rebase onto. Checkout a branch first, and then rebase."));
+            box->setIcon(QMessageBox::Critical);
+            box->exec(true);
+            return;
+        }
+        SnapInPopover::showSnapInPopover(this, new BranchActionSnapIn(browser->repository(), BranchActionSnapIn::BranchAction::Rebase));
     }
 }

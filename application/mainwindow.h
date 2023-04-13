@@ -55,6 +55,10 @@ class MainWindow : public QMainWindow {
 
         void on_actionOpen_in_triggered();
 
+        void on_actionMerge_triggered();
+
+        void on_actionRebase_triggered();
+
     private:
         Ui::MainWindow* ui;
         MainWindowPrivate* d;

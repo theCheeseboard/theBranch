@@ -321,7 +321,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+119"/>
+        <location filename="../mainwindow.cpp" line="+120"/>
         <location line="+3"/>
         <location line="+3"/>
         <location line="+4"/>
@@ -346,6 +346,22 @@
     <message>
         <location line="+1"/>
         <source>There is no commit to branch from. Create a commit first, and then branch from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <location line="+15"/>
+        <source>HEAD is detached</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-14"/>
+        <source>There is no branch to merge into. Checkout a branch first, and then merge.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>There is no branch to rebase onto. Checkout a branch first, and then rebase.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
