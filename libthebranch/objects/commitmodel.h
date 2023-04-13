@@ -52,7 +52,7 @@ class CommitDelegate : public QStyledItemDelegate {
 
     private:
         tPaintCalculator paintCalculator(const QStyleOptionViewItem& option, const QModelIndex& index, QPainter* painter = nullptr) const;
-        QRectF commitPoint(int col, QRectF bounding, const QWidget* parent) const;
+        QRectF commitPoint(int col, QRectF bounding, int left, const QWidget* parent) const;
 };
 
 #endif // COMMITMODEL_H

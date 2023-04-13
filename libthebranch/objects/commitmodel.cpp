@@ -151,9 +151,9 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     QFontMetrics lowerFontMetrics(lowerFont);
 
     // Build the commit graph
-    QList<int> fromCols = index.data(CommitModel::GraphColumn).value<QList<int>>();
-    QList<int> toCols = index.data(CommitModel::ParentGraphColumns).value<QList<int>>();
-    QList<int> passthroughCols = index.data(CommitModel::PassthroughGraphColumns).value<QList<int>>();
+    auto fromCols = index.data(CommitModel::GraphColumn).value<QList<int>>();
+    auto toCols = index.data(CommitModel::ParentGraphColumns).value<QList<int>>();
+    auto passthroughCols = index.data(CommitModel::PassthroughGraphColumns).value<QList<int>>();
 
     // Find the extremities of the commit graph
     int commitCol = fromCols.first();
@@ -164,13 +164,13 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     for (auto col : passthroughCols) extremCol = qMax(extremCol, col);
 
     QRectF dataRect = option.rect;
-    dataRect.setLeft(SC_DPI_W(20, option.widget) * extremCol + SC_DPI_W(26, option.widget));
+    dataRect.setLeft(dataRect.left() + 20 * extremCol + 26);
 
     QString message = index.data(CommitModel::CommitMessage).toString();
     QRectF messageBox;
     messageBox.setHeight(option.fontMetrics.height());
-    messageBox.setWidth(dataRect.width() - SC_DPI_W(18, option.widget));
-    messageBox.moveTopLeft(dataRect.topLeft() + SC_DPI_WT(QPointF(9, 9), QPointF, option.widget));
+    messageBox.setWidth(dataRect.width() - 18);
+    messageBox.moveTopLeft(dataRect.topLeft() + QPointF(9, 9));
 
     QStringList subtext;
     subtext.append(index.data(CommitModel::AuthorName).toString());
@@ -182,11 +182,11 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     authorNameBox.setHeight(lowerFontMetrics.height());
     authorNameBox.setWidth(lowerFontMetrics.horizontalAdvance(author) + 2);
     authorNameBox.moveLeft(messageBox.left());
-    authorNameBox.moveTop(messageBox.bottom() + SC_DPI_W(3, option.widget));
+    authorNameBox.moveTop(messageBox.bottom() + 3);
 
     QRectF bounding(messageBox.topLeft(), authorNameBox.bottomRight());
 
-    auto mainCommitPoint = this->commitPoint(commitCol, bounding, option.widget);
+    auto mainCommitPoint = this->commitPoint(commitCol, bounding, option.rect.left(), option.widget);
     calculator.addRect(mainCommitPoint, [painter, option](QRectF drawBounds) {
         painter->setRenderHint(QPainter::Antialiasing);
         painter->setBrush(option.palette.color(QPalette::WindowText));
@@ -194,7 +194,7 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     });
 
     for (auto from : fromCols) {
-        auto point = this->commitPoint(from, bounding, option.widget);
+        auto point = this->commitPoint(from, bounding, option.rect.left(), option.widget);
         calculator.addRect(QRect::span(mainCommitPoint.center().toPoint(), QPoint(point.center().toPoint().x(), option.rect.top())), [painter, option](QRectF drawBounds) {
             painter->setRenderHint(QPainter::Antialiasing, false);
             painter->setPen(option.palette.color(QPalette::WindowText));
@@ -203,7 +203,7 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     }
 
     for (auto to : toCols) {
-        auto point = this->commitPoint(to, bounding, option.widget);
+        auto point = this->commitPoint(to, bounding, option.rect.left(), option.widget);
         calculator.addRect(QRect::span(mainCommitPoint.center().toPoint(), QPoint(point.center().toPoint().x(), option.rect.top())).translated(0, point.center().y() - option.rect.top()), [painter, option](QRectF drawBounds) {
             painter->setRenderHint(QPainter::Antialiasing, false);
             painter->setPen(option.palette.color(QPalette::WindowText));
@@ -212,7 +212,7 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     }
 
     for (auto passthrough : passthroughCols) {
-        auto point = this->commitPoint(passthrough, bounding, option.widget);
+        auto point = this->commitPoint(passthrough, bounding, option.rect.left(), option.widget);
         calculator.addRect(QRect::span(QPoint(point.center().toPoint().x(), option.rect.top()), QPoint(point.center().toPoint().x(), option.rect.top() + (point.center().y() - option.rect.top()) * 2)), [painter, option](QRectF drawBounds) {
             painter->setRenderHint(QPainter::Antialiasing, false);
             painter->setPen(option.palette.color(QPalette::WindowText));
@@ -232,9 +232,9 @@ tPaintCalculator CommitDelegate::paintCalculator(const QStyleOptionViewItem& opt
     return calculator;
 }
 
-QRectF CommitDelegate::commitPoint(int col, QRectF bounding, const QWidget* parent) const {
+QRectF CommitDelegate::commitPoint(int col, QRectF bounding, int left, const QWidget* parent) const {
     QRectF commitPoint;
-    commitPoint.setSize(SC_DPI_WT(QSizeF(16, 16), QSizeF, parent));
-    commitPoint.moveCenter(QPoint(SC_DPI_W(20, parent) * col + SC_DPI_W(15, parent), bounding.center().y()));
+    commitPoint.setSize(QSizeF(16, 16));
+    commitPoint.moveCenter(QPoint(left + 20 * col + 15, bounding.center().y()));
     return commitPoint;
 }
