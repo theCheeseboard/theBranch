@@ -512,7 +512,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="+46"/>
+        <source>Delete unmerged branch?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Commits have been made on %1 that have not been merged into any other branch. Deleting this branch will cause you to lose commits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete Anyway</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+65"/>
         <source>Abort Merge?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -572,20 +587,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-123"/>
+        <location line="-139"/>
         <location line="+13"/>
         <source>Couldn&apos;t rename the branch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+24"/>
-        <location line="+21"/>
+        <location line="+25"/>
+        <location line="+36"/>
         <location line="+9"/>
         <source>Can&apos;t delete that branch</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-44"/>
         <source>The selected branch is the current branch.</source>
         <translation></translation>
     </message>
@@ -595,7 +610,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+5"/>
         <source>Delete branch?</source>
         <translation></translation>
     </message>
@@ -610,7 +625,7 @@
         <translation>Smazat branch?</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+28"/>
         <source>Failed to delete the remote branch</source>
         <translation></translation>
     </message>

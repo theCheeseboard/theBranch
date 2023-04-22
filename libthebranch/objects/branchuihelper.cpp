@@ -492,7 +492,8 @@ void BranchUiHelper::branch(RepositoryPtr repo, CommitPtr commit, QWidget* paren
 QCoro::Task<> BranchUiHelper::deleteBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent) {
     // TODO: Use a snapin or popover
 
-    if (branch->toReference()->shorthand() == repo->head()->shorthand()) {
+    auto headBranch = repo->head()->asBranch();
+    if (headBranch != nullptr && branch->equal(headBranch)) {
         tMessageBox box(parent->window());
         box.setTitleBarText(tr("Can't delete that branch"));
         box.setMessageText(tr("The selected branch is the current branch."));
@@ -501,10 +502,25 @@ QCoro::Task<> BranchUiHelper::deleteBranch(RepositoryPtr repo, BranchPtr branch,
         co_return;
     }
 
+    auto titleText = tr("Delete branch?");
+    auto messageText = tr("Do you want to delete the branch %1?").arg(QLocale().quoteString(branch->name()));
+    auto deleteText = tr("Delete Branch");
+
+    // Check if any commits will be lost after the checkout
+    auto branches = repo->branches(THEBRANCH::LocalBranches);
+    branches.removeIf([branch](BranchPtr checkBranch) {
+        return checkBranch->equal(branch);
+    });
+    if (branch->lastCommit()->isOrpahan(branches)) {
+        titleText = tr("Delete unmerged branch?");
+        messageText = tr("Commits have been made on %1 that have not been merged into any other branch. Deleting this branch will cause you to lose commits.").arg(QLocale().quoteString(branch->name()));
+        deleteText = tr("Delete Anyway");
+    }
+
     tMessageBox box(parent->window());
-    box.setTitleBarText(tr("Delete branch?"));
-    box.setMessageText(tr("Do you want to delete the branch %1?").arg(QLocale().quoteString(branch->name())));
-    tMessageBoxButton* deleteButton = box.addButton(tr("Delete Branch"), QMessageBox::DestructiveRole);
+    box.setTitleBarText(titleText);
+    box.setMessageText(messageText);
+    tMessageBoxButton* deleteButton = box.addButton(deleteText, QMessageBox::DestructiveRole);
     box.addStandardButton(QMessageBox::Cancel);
     box.setIcon(QMessageBox::Question);
 
