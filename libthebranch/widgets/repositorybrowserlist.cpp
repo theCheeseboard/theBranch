@@ -29,6 +29,8 @@
 #include "commitbrowserwidget.h"
 #include "objects/branch.h"
 #include "objects/branchuihelper.h"
+#include "objects/commit.h"
+#include "objects/reference.h"
 #include "objects/remote.h"
 #include "objects/repository.h"
 #include "objects/repositorymodel.h"
@@ -45,7 +47,7 @@ struct RepositoryBrowserListPrivate {
         QStandardItemModel* model;
         RepositoryPtr repo;
 
-        QStandardItem *branchParent, *remoteParent, *stashParent, *issuesParent, *prsParent, *actionsParent;
+        QStandardItem *headParent, *branchParent, *remoteParent, *stashParent, *issuesParent, *prsParent, *actionsParent;
 
         QList<BranchPtr> branches;
         QList<BranchPtr> remoteBranches;
@@ -70,6 +72,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     this->setFrameShape(QFrame::NoFrame);
     this->setEditTriggers(NoEditTriggers);
 
+    d->headParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), "");
     d->branchParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), tr("Branches"));
     d->remoteParent = new QStandardItem(QIcon::fromTheme("cloud-download"), tr("Remotes"));
     d->stashParent = new QStandardItem(QIcon::fromTheme("vcs-stash"), tr("Stashes"));
@@ -91,7 +94,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     });
 
     auto rootItem = d->model->invisibleRootItem();
-    rootItem->appendRows({d->branchParent, d->stashParent, d->remoteParent, d->actionsParent, d->issuesParent, d->prsParent});
+    rootItem->appendRows({d->headParent, d->branchParent, d->stashParent, d->remoteParent, d->actionsParent, d->issuesParent, d->prsParent});
 
     connect(this, &QTreeView::clicked, this, [this](QModelIndex index) {
         auto widgetFn = index.data(static_cast<int>(Roles::WidgetFunction)).value<WidgetFunction>();
@@ -102,6 +105,14 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     });
 
     this->setHeaderHidden(true);
+
+    addWidgetFunction(d->headParent, [this]() -> QWidget* {
+        if (!d->repo->head()) return nullptr;
+        auto commitBrowser = new CommitBrowserWidget();
+        commitBrowser->setRepository(d->repo);
+        commitBrowser->setStartCommit(d->repo->head());
+        return commitBrowser;
+    });
 
     connect(BranchServices::accounts(), &AccountsManager::accountsChanged, this, &RepositoryBrowserList::updateData);
 }
@@ -131,7 +142,7 @@ void RepositoryBrowserList::setRepository(RepositoryPtr repo) {
     connect(static_cast<BranchesCommandPalette*>(repo->commandPaletteBranches()), &BranchesCommandPalette::branchActivated, this, [this, repo](BranchPtr branch) {
         auto commitBrowser = new CommitBrowserWidget();
         commitBrowser->setRepository(repo);
-        commitBrowser->setStartBranch(branch);
+        commitBrowser->setStartCommit(branch);
         emit showWidget(commitBrowser);
     });
 
@@ -144,6 +155,21 @@ void RepositoryBrowserList::updateData() {
     d->remotes = d->repo->remotes();
     d->stashes = d->repo->stashes();
 
+    ReferencePtr ref = d->repo->head();
+    if (ref) {
+        d->headParent->setEnabled(true);
+        if (auto branch = ref->asBranch()) {
+            d->headParent->setText(branch->name());
+        } else if (auto commit = ref->asCommit()) {
+            d->headParent->setText(commit->shortCommitHash());
+        } else {
+            d->headParent->setText(ref->shorthand());
+        }
+    } else {
+        d->headParent->setEnabled(false);
+        d->headParent->setText(tr("(no HEAD)"));
+    }
+
     d->branchParent->removeRows(0, d->branchParent->rowCount());
     for (auto branch : d->branches) {
         auto item = new QStandardItem(branch->name());
@@ -153,7 +179,7 @@ void RepositoryBrowserList::updateData() {
         addWidgetFunction(item, [branch, this] {
             auto commitBrowser = new CommitBrowserWidget();
             commitBrowser->setRepository(d->repo);
-            commitBrowser->setStartBranch(branch);
+            commitBrowser->setStartCommit(branch);
             return commitBrowser;
         });
         item->setData(QVariant::fromValue(branch.staticCast<QObject>()),
@@ -180,7 +206,7 @@ void RepositoryBrowserList::updateData() {
                 addWidgetFunction(branchItem, [remoteBranch, this] {
                     auto commitBrowser = new CommitBrowserWidget();
                     commitBrowser->setRepository(d->repo);
-                    commitBrowser->setStartBranch(remoteBranch);
+                    commitBrowser->setStartCommit(remoteBranch);
                     return commitBrowser;
                 });
                 branchItem->setData(QVariant::fromValue(remoteBranch.staticCast<QObject>()),

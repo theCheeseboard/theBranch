@@ -2199,7 +2199,7 @@ Cherry picked from %2</source>
 <context>
     <name>RepositoryBrowserList</name>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="+73"/>
+        <location filename="../widgets/repositorybrowserlist.cpp" line="+76"/>
         <source>Branches</source>
         <translation></translation>
     </message>
@@ -2243,6 +2243,11 @@ Cherry picked from %2</source>
         <location line="+6"/>
         <source>Stash</source>
         <translation></translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>(no HEAD)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -148,6 +148,7 @@ set(SOURCES
 set(HEADERS
     libthebranch_global.h
     branchservices.h
+    objects/icommitresolvable.h
     objects/repository.h
     objects/commitmodel.h
     objects/commit.h

@@ -3,12 +3,14 @@
 
 #include "../libthebranch_global.h"
 #include "forward_declares.h"
+#include "icommitresolvable.h"
 #include <QObject>
 
 class CommitSnapIn;
 class CommitModel;
 struct CommitPrivate;
 class LIBTHEBRANCH_EXPORT Commit : public QObject,
+                                   public ICommitResolvable,
                                    public tbSharedFromThis<Commit> {
         Q_OBJECT
     public:
@@ -49,6 +51,10 @@ class LIBTHEBRANCH_EXPORT Commit : public QObject,
     private:
         explicit Commit(QObject* parent = nullptr);
         CommitPrivate* d;
+
+        // ICommitResolvable interface
+    private:
+        CommitPtr resolveToCommit();
 };
 
 typedef QSharedPointer<Commit> CommitPtr;

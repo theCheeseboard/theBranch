@@ -140,3 +140,7 @@ Commit::Commit(QObject* parent) :
     QObject{parent} {
     d = new CommitPrivate;
 }
+
+CommitPtr Commit::resolveToCommit() {
+    return this->sharedFromThis();
+}

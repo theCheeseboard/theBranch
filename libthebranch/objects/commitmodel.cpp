@@ -45,8 +45,14 @@ void CommitModel::reloadData() {
     if (!d->repo) return;
     if (!d->repo->git_repository()) return;
 
-    CommitPtr startPoint = d->repo->head()->asCommit();
+    CommitPtr startPoint;
+    auto head = d->repo->head();
+    if (head) {
+        startPoint = head->asCommit();
+    }
     if (d->startPoint) startPoint = d->startPoint;
+
+    if (!d->startPoint) return;
 
     d->commits = startPoint->history();
 

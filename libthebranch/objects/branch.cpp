@@ -97,3 +97,7 @@ Branch::Branch(QObject* parent) :
     QObject{parent} {
     d = new BranchPrivate;
 }
+
+CommitPtr Branch::resolveToCommit() {
+    return this->lastCommit();
+}

@@ -3,12 +3,14 @@
 
 #include "../libthebranch_global.h"
 #include "forward_declares.h"
+#include "icommitresolvable.h"
 #include <QCoroTask>
 #include <QObject>
 
 class Repository;
 struct BranchPrivate;
 class LIBTHEBRANCH_EXPORT Branch : public QObject,
+                                   public ICommitResolvable,
                                    public tbSharedFromThis<Branch> {
         Q_OBJECT
     public:
@@ -43,6 +45,10 @@ class LIBTHEBRANCH_EXPORT Branch : public QObject,
     private:
         explicit Branch(QObject* parent = nullptr);
         BranchPrivate* d;
+
+        // ICommitResolvable interface
+    private:
+        CommitPtr resolveToCommit();
 };
 
 typedef QSharedPointer<Branch> BranchPtr;

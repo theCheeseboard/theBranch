@@ -12,7 +12,7 @@ class CommitBrowser : public QListView {
         ~CommitBrowser();
 
         void setRepository(RepositoryPtr repo);
-        void setStartBranch(BranchPtr branch);
+        void setStartCommit(ICommitResolvablePtr commitResolvable);
 
     signals:
 

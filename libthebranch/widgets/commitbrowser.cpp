@@ -13,7 +13,7 @@ struct CommitBrowserPrivate {
         RepositoryPtr repo = nullptr;
         CommitModel* model;
 
-        BranchPtr startPoint;
+        ICommitResolvablePtr startPoint;
 };
 
 CommitBrowser::CommitBrowser(QWidget* parent) :
@@ -37,21 +37,21 @@ void CommitBrowser::setRepository(RepositoryPtr repo) {
     this->reloadData();
 }
 
-void CommitBrowser::setStartBranch(BranchPtr branch) {
-    d->startPoint = branch;
+void CommitBrowser::setStartCommit(ICommitResolvablePtr commitResolvable) {
+    d->startPoint = commitResolvable;
     this->reloadData();
 }
 
 void CommitBrowser::reloadData() {
-    d->model->setStartPoint(d->startPoint ? d->startPoint->lastCommit() : nullptr);
+    d->model->setStartPoint(d->startPoint ? d->startPoint->resolveToCommit() : nullptr);
 }
 
 void CommitBrowser::contextMenuEvent(QContextMenuEvent* event) {
     if (this->selectedIndexes().isEmpty()) return;
 
-    QModelIndex index = this->selectedIndexes().first();
+    auto index = this->selectedIndexes().constFirst();
 
-    QMenu* menu = new QMenu();
+    auto menu = new QMenu();
     BranchUiHelper::appendCommitMenu(menu, index.data(CommitModel::Commit).value<CommitPtr>(), d->repo, this);
     connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
     menu->popup(event->globalPos());

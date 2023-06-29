@@ -49,8 +49,8 @@ void CommitBrowserWidget::setRepository(RepositoryPtr repo) {
     ui->listView->setRepository(repo);
 }
 
-void CommitBrowserWidget::setStartBranch(BranchPtr branch) {
-    ui->listView->setStartBranch(branch);
+void CommitBrowserWidget::setStartCommit(ICommitResolvablePtr commitResolvable) {
+    ui->listView->setStartCommit(commitResolvable);
 }
 
 void CommitBrowserWidget::on_listView_clicked(const QModelIndex& index) {

@@ -36,7 +36,7 @@ class CommitBrowserWidget : public QWidget {
         ~CommitBrowserWidget();
 
         void setRepository(RepositoryPtr repo);
-        void setStartBranch(BranchPtr branch);
+        void setStartCommit(ICommitResolvablePtr commitResolvable);
 
     private slots:
         void on_listView_clicked(const QModelIndex& index);

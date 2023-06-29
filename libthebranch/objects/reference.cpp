@@ -54,3 +54,7 @@ ReferencePtr Reference::referenceForLgReference(LGRepositoryPtr repo, LGReferenc
     r->d->repo = repo;
     return r->sharedFromThis();
 }
+
+CommitPtr Reference::resolveToCommit() {
+    return this->asCommit();
+}
