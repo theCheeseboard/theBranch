@@ -46,6 +46,7 @@ set(SOURCES
 
     popovers/diffpopover.cpp popovers/diffpopover.ui
     popovers/snapinpopover.cpp popovers/snapinpopover.ui
+    popovers/newtagpopover.cpp popovers/newtagpopover.ui
 
     popovers/snapins/snapin.cpp
     popovers/snapins/clonerepositorysnapin.cpp popovers/snapins/clonerepositorysnapin.ui
@@ -136,6 +137,8 @@ set(SOURCES
     objects/libgit/lgannotatedcommit.cpp
     objects/libgit/lgindex.cpp
     objects/libgit/lgtag.cpp
+    objects/libgit/lgannotatedtag.cpp
+    objects/libgit/lglightweighttag.cpp
     objects/libgit/lgtree.cpp
     objects/libgit/lgremote.cpp
     objects/libgit/lgactiveremote.cpp
@@ -205,6 +208,7 @@ set(HEADERS
     popovers/snapins/commitactionsnapin.h
     popovers/snapins/branchactionsnapin.h
     popovers/newbranchpopover.h
+    popovers/newtagpopover.h
     settingspanes/commitspane.h
     settingspanes/accountspane.h
     accounts/accountsmanager.h
@@ -229,6 +233,8 @@ set(PRIVATE_HEADERS
     objects/libgit/lgannotatedcommit.h
     objects/libgit/lgindex.h
     objects/libgit/lgtag.h
+    objects/libgit/lgannotatedtag.h
+    objects/libgit/lglightweighttag.h
     objects/libgit/lgtree.h
     objects/libgit/lgremote.h
     objects/libgit/lgobject.h

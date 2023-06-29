@@ -80,7 +80,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         CommitPtr searchCommit(QString name);
 
         ErrorResponse setHeadAndCheckout(ReferencePtr reference);
-        ErrorResponse detachHead(CommitPtr target);
+        ErrorResponse detachHead(ICommitResolvablePtr target);
         void resetFileToHead(QString file);
 
         void reloadRepositoryState();
@@ -112,6 +112,7 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         QList<RemotePtr> remotes();
 
         tRange<TagPtr> tags();
+        TagPtr createLightweightTag(QString name, ICommitResolvablePtr commit);
 
         QCoro::Task<> fetch(QString remote, QStringList refs, InformationRequiredCallback callback);
 

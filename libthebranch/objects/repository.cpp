@@ -195,10 +195,14 @@ ErrorResponse Repository::setHeadAndCheckout(ReferencePtr reference) {
     return ErrorResponse();
 }
 
-ErrorResponse Repository::detachHead(CommitPtr target) {
-    if (CHK_ERR(d->gitRepo->checkoutTree(target->tree()->gitTree(), {}))) return error;
+ErrorResponse Repository::detachHead(ICommitResolvablePtr target) {
+    auto commit = target->resolveToCommit();
+    if (!commit) {
+        return ErrorResponse(ErrorResponse::UnspecifiedError, tr("Cannot resolve object as commit"));
+    }
+    if (CHK_ERR(d->gitRepo->checkoutTree(commit->tree()->gitTree(), {}))) return error;
 
-    d->gitRepo->detachHead(target->gitCommit());
+    d->gitRepo->detachHead(commit->gitCommit());
     return ErrorResponse();
 }
 
@@ -376,6 +380,12 @@ tRange<TagPtr> Repository::tags() {
     return tRange(d->gitRepo->tags()).map<TagPtr>([this](LGTagPtr tag) {
         return Tag::tagForLgTag(d->gitRepo, tag);
     });
+}
+
+TagPtr Repository::createLightweightTag(QString name, ICommitResolvablePtr commit) {
+    auto lgTag = d->gitRepo->createLightweightTag(name, commit->resolveToCommit()->gitCommit());
+    if (!lgTag) return nullptr;
+    return Tag::tagForLgTag(d->gitRepo, lgTag);
 }
 
 QCoro::Task<> Repository::fetch(QString remote, QStringList refs, InformationRequiredCallback callback) {

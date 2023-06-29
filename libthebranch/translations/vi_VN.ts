@@ -135,19 +135,20 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="+53"/>
+        <location filename="../objects/branchuihelper.cpp" line="+54"/>
         <source>For commit %1</source>
         <translation>Cho lần chuyển giao %1</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+47"/>
-        <location line="+164"/>
+        <location line="+49"/>
+        <location line="+75"/>
+        <location line="+93"/>
         <source>Checkout</source>
         <translation>Lấy ra</translation>
     </message>
     <message>
-        <location line="-207"/>
+        <location line="-213"/>
         <source>Copy Commit Message</source>
         <translation>Chép chú thích lần chuyển giao</translation>
     </message>
@@ -158,7 +159,7 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Tag</source>
         <translation>Gắn thẻ</translation>
     </message>
@@ -169,8 +170,8 @@
     </message>
     <message>
         <location line="+5"/>
-        <location line="+86"/>
-        <location line="+18"/>
+        <location line="+88"/>
+        <location line="+20"/>
         <source>Branch from here</source>
         <translation>Tạo nhánh tại đây</translation>
     </message>
@@ -179,13 +180,13 @@
         <translation type="vanished">Tạo lần chuyển giao hoàn nguyên</translation>
     </message>
     <message>
-        <location line="-93"/>
+        <location line="-97"/>
         <source>Reset to here</source>
         <translation>Đặt lại về đây</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location line="+334"/>
+        <location line="+338"/>
         <source>Hard Reset</source>
         <translation>Đặt lại cứng</translation>
     </message>
@@ -215,24 +216,24 @@
         <translation>Không thể đặt kho lại</translation>
     </message>
     <message>
-        <location line="-353"/>
-        <location line="+337"/>
+        <location line="-357"/>
+        <location line="+341"/>
         <source>Mixed Reset</source>
         <translation>Đặt lại trộn</translation>
     </message>
     <message>
-        <location line="-350"/>
+        <location line="-354"/>
         <source>Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
-        <location line="+340"/>
+        <location line="+344"/>
         <source>Soft Reset</source>
         <translation>Đặt lại mềm</translation>
     </message>
     <message>
-        <location line="-330"/>
+        <location line="-334"/>
         <source>For branch %1</source>
         <translation>Cho nhánh %1</translation>
     </message>
@@ -258,14 +259,19 @@
         <translation>Đổi tên</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+18"/>
+        <location line="+10"/>
+        <location line="+20"/>
         <location line="+57"/>
         <source>Delete</source>
         <translation>Xóa</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-65"/>
+        <source>For tag %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>For stash</source>
         <translation>Cho mục tạm cất</translation>
     </message>
@@ -529,7 +535,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+46"/>
+        <source>Delete tag?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to delete the tag %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Can&apos;t delete that tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+39"/>
         <source>Abort Merge?</source>
         <translation></translation>
     </message>
@@ -589,7 +615,7 @@
         <translation>Hủy cải tổ</translation>
     </message>
     <message>
-        <location line="-139"/>
+        <location line="-169"/>
         <location line="+13"/>
         <source>Couldn&apos;t rename the branch</source>
         <translation></translation>
@@ -632,7 +658,7 @@
         <translation>Không thể xóa nhánh phục vụ</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+47"/>
         <source>Discard Changes?</source>
         <translation>Bỏ thay đổi?</translation>
     </message>
@@ -1873,6 +1899,43 @@ Cherry picked from %2</source>
     </message>
 </context>
 <context>
+    <name>NewTagPopover</name>
+    <message>
+        <location filename="../popovers/newtagpopover.ui" line="+14"/>
+        <location/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <location line="+88"/>
+        <location/>
+        <source>Tag</source>
+        <translation type="unfinished">Gắn thẻ</translation>
+    </message>
+    <message>
+        <location line="-78"/>
+        <location/>
+        <source>Name</source>
+        <translation type="unfinished">Tên</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Tag Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../popovers/newtagpopover.cpp" line="+27"/>
+        <source>Heads up!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>There is already a tag with that name in the repository. Creating a tag will move the existing tag to point to this commit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PullSnapIn</name>
     <message>
         <location filename="../popovers/snapins/pullsnapin.ui" line="+57"/>
@@ -2130,7 +2193,12 @@ Cherry picked from %2</source>
         <translation>Nhánh nội bộ %1 đã tồn tại.</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+27"/>
+        <source>Cannot resolve object as commit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+52"/>
         <source>No Git Repository Available</source>
         <translation>Không có kho git sẵn sàng</translation>
     </message>

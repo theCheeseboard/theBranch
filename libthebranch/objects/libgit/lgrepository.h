@@ -84,6 +84,7 @@ class LGRepository : public QObject,
         QList<LGRemotePtr> remotes();
 
         QList<LGTagPtr> tags();
+        LGTagPtr createLightweightTag(QString name, LGCommitPtr target);
 
         RepositoryState state();
         void cleanupState();

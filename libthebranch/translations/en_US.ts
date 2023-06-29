@@ -135,19 +135,20 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="+53"/>
+        <location filename="../objects/branchuihelper.cpp" line="+54"/>
         <source>For commit %1</source>
         <translation></translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+47"/>
-        <location line="+164"/>
+        <location line="+49"/>
+        <location line="+75"/>
+        <location line="+93"/>
         <source>Checkout</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-207"/>
+        <location line="-213"/>
         <source>Copy Commit Message</source>
         <translation></translation>
     </message>
@@ -158,7 +159,7 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Tag</source>
         <translation></translation>
     </message>
@@ -169,19 +170,19 @@
     </message>
     <message>
         <location line="+5"/>
-        <location line="+86"/>
-        <location line="+18"/>
+        <location line="+88"/>
+        <location line="+20"/>
         <source>Branch from here</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-93"/>
+        <location line="-97"/>
         <source>Reset to here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
-        <location line="+334"/>
+        <location line="+338"/>
         <source>Hard Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -211,24 +212,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-353"/>
-        <location line="+337"/>
+        <location line="-357"/>
+        <location line="+341"/>
         <source>Mixed Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-350"/>
+        <location line="-354"/>
         <source>Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
-        <location line="+340"/>
+        <location line="+344"/>
         <source>Soft Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-330"/>
+        <location line="-334"/>
         <source>For branch %1</source>
         <translation></translation>
     </message>
@@ -254,8 +255,8 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+18"/>
+        <location line="+10"/>
+        <location line="+20"/>
         <location line="+57"/>
         <source>Delete</source>
         <translation></translation>
@@ -342,7 +343,12 @@
         <translation></translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-140"/>
+        <source>For tag %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+82"/>
         <source>A local branch called %1 already exists.</source>
         <translation></translation>
     </message>
@@ -521,7 +527,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+46"/>
+        <source>Delete tag?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to delete the tag %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Can&apos;t delete that tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+39"/>
         <source>Abort Merge?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -581,7 +607,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-139"/>
+        <location line="-169"/>
         <location line="+13"/>
         <source>Couldn&apos;t rename the branch</source>
         <translation type="unfinished"></translation>
@@ -624,7 +650,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+47"/>
         <source>Discard Changes?</source>
         <translation></translation>
     </message>
@@ -1865,6 +1891,43 @@ Cherry picked from %2</source>
     </message>
 </context>
 <context>
+    <name>NewTagPopover</name>
+    <message>
+        <location filename="../popovers/newtagpopover.ui" line="+14"/>
+        <location/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <location line="+88"/>
+        <location/>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-78"/>
+        <location/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Tag Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../popovers/newtagpopover.cpp" line="+27"/>
+        <source>Heads up!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>There is already a tag with that name in the repository. Creating a tag will move the existing tag to point to this commit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PullSnapIn</name>
     <message>
         <location filename="../popovers/snapins/pullsnapin.ui" line="+57"/>
@@ -2117,7 +2180,12 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+27"/>
+        <source>Cannot resolve object as commit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+52"/>
         <source>No Git Repository Available</source>
         <translation></translation>
     </message>

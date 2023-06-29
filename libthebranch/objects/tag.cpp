@@ -1,7 +1,6 @@
 #include "tag.h"
 
 #include "commit.h"
-#include "libgit/lgobject.h"
 #include "libgit/lgrepository.h"
 #include "libgit/lgtag.h"
 #include <git2.h>
@@ -17,6 +16,13 @@ Tag::~Tag() {
 
 QString Tag::name() {
     return d->tag->name();
+}
+
+ErrorResponse Tag::deleteTag() {
+    if (!d->tag->deleteTag(d->repo)) {
+        return ErrorResponse::fromCurrentGitError();
+    }
+    return ErrorResponse();
 }
 
 TagPtr Tag::tagForLgTag(LGRepositoryPtr repo, LGTagPtr tag) {
@@ -36,11 +42,5 @@ Tag::Tag(QObject* parent) :
 }
 
 CommitPtr Tag::resolveToCommit() {
-    git_object* target;
-    if (git_tag_peel(&target, d->tag->gitTag()) != 0) return nullptr;
-
-    LGObject object(target);
-    if (object.type() != LGObject::Type::Commit) return nullptr;
-
-    return Commit::commitForLgCommit(d->repo, d->repo->lookupCommit(object.oid()));
+    return Commit::commitForLgCommit(d->repo, d->tag->target(d->repo));
 }

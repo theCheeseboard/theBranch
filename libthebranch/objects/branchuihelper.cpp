@@ -29,6 +29,7 @@
 #include "merge.h"
 #include "objects/retroactivegitoperation.h"
 #include "popovers/newbranchpopover.h"
+#include "popovers/newtagpopover.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/cherrypicksnapin.h"
 #include "popovers/snapins/mergesnapin.h"
@@ -62,7 +63,9 @@ void BranchUiHelper::appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryP
         tApplication::clipboard()->setText(commit->commitHash());
     });
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
+    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"), [commit, repo, parent] {
+        BranchUiHelper::tag(repo, commit, parent);
+    });
     menu->addAction(QIcon::fromTheme("vcs-cherry-pick"), tr("Cherry Pick"), parent, [parent, commit, repo] {
         QTimer::singleShot(0, parent, [repo, commit, parent] {
             cherryPick(repo, commit, parent);
@@ -153,7 +156,9 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     menu->addAction(QIcon::fromTheme("edit-rename"), tr("Rename"), parent, [repo, branch, parent] {
         BranchUiHelper::renameBranch(repo, branch, parent);
     });
-    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
+    menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"), [branch, repo, parent] {
+        BranchUiHelper::tag(repo, branch, parent);
+    });
     menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), parent, [repo, branch, parent] {
         BranchUiHelper::branch(repo, branch, parent);
     });
@@ -170,14 +175,16 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
 }
 
 void BranchUiHelper::appendTagMenu(QMenu* menu, TagPtr tag, RepositoryPtr repo, QWidget* parent) {
-    QString head;
-    if (repo->head()) head = repo->head()->shorthand();
+    menu->addSection(tr("For tag %1").arg(QLocale().quoteString(tag->name())));
+    menu->addAction(QIcon::fromTheme("vcs-checkout"), tr("Checkout"), parent, [tag, repo, parent] {
+        BranchUiHelper::checkoutCommit(repo, tag, parent);
+    });
     menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), parent, [repo, tag, parent] {
         BranchUiHelper::branch(repo, tag, parent);
     });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), parent, [repo, tag, parent] {
-        //        BranchUiHelper::deleteBranch(repo, tag, parent);
+        BranchUiHelper::deleteTag(repo, tag, parent);
     });
 }
 
@@ -315,7 +322,7 @@ QCoro::Task<> BranchUiHelper::checkoutBranch(RepositoryPtr repo, BranchPtr branc
     }
 }
 
-QCoro::Task<> BranchUiHelper::checkoutCommit(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {
+QCoro::Task<> BranchUiHelper::checkoutCommit(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent) {
     if (!repo->head()->asBranch()) {
         // We have a detached HEAD - check if the current commit will be orphaned after the checkout
         if (repo->head()->asCommit()->isOrpahan(repo->branches(THEBRANCH::LocalBranches))) {
@@ -554,6 +561,36 @@ QCoro::Task<> BranchUiHelper::deleteBranch(RepositoryPtr repo, BranchPtr branch,
         if (CHK_ERR(branch->deleteBranch())) {
             tMessageBox box(parent->window());
             box.setTitleBarText(tr("Can't delete that branch"));
+            box.setMessageText(error.description());
+            co_await box.presentAsync();
+        }
+    }
+}
+
+void BranchUiHelper::tag(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent) {
+    auto* jp = new NewTagPopover(repo, commit);
+    auto* popover = new tPopover(jp);
+    popover->setPopoverWidth(-200);
+    popover->setPopoverSide(tPopover::Bottom);
+    connect(jp, &NewTagPopover::done, popover, &tPopover::dismiss);
+    connect(popover, &tPopover::dismissed, popover, &tPopover::deleteLater);
+    connect(popover, &tPopover::dismissed, jp, &NewTagPopover::deleteLater);
+    popover->show(parent->window());
+}
+
+QCoro::Task<> BranchUiHelper::deleteTag(RepositoryPtr repo, TagPtr tag, QWidget* parent) {
+    tMessageBox box(parent->window());
+    box.setTitleBarText(tr("Delete tag?"));
+    box.setMessageText(tr("Do you want to delete the tag %1?").arg(QLocale().quoteString(tag->name())));
+    tMessageBoxButton* deleteButton = box.addButton(tr("Delete Tag"), QMessageBox::DestructiveRole);
+    box.addStandardButton(QMessageBox::Cancel);
+    box.setIcon(QMessageBox::Question);
+
+    auto button = co_await box.presentAsync();
+    if (button == deleteButton) {
+        if (CHK_ERR(tag->deleteTag())) {
+            tMessageBox box(parent->window());
+            box.setTitleBarText(tr("Can't delete that tag"));
             box.setMessageText(error.description());
             co_await box.presentAsync();
         }

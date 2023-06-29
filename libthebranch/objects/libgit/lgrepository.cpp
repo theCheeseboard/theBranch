@@ -2,18 +2,19 @@
 #include "lgremote.h"
 
 #include "lgactiveremote.h"
+#include "lgannotatedtag.h"
 #include "lgblob.h"
 #include "lgbranch.h"
 #include "lgcommit.h"
 #include "lgconfig.h"
 #include "lgindex.h"
+#include "lglightweighttag.h"
 #include "lgobject.h"
 #include "lgoid.h"
 #include "lgreference.h"
 #include "lgremote.h"
 #include "lgsignature.h"
 #include "lgstash.h"
-#include "lgtag.h"
 #include "lgtree.h"
 #include <QCoroProcess>
 #include <QException>
@@ -231,13 +232,22 @@ QList<LGTagPtr> LGRepository::tags() {
             TagRequestPayload* pl = reinterpret_cast<TagRequestPayload*>(payload);
 
             git_tag* tag;
-            if (git_tag_lookup(&tag, pl->repo, oid) != 0) return 0;
-            pl->tags.append((new LGTag(tag))->sharedFromThis());
+            if (git_tag_lookup(&tag, pl->repo, oid) != 0) {
+                pl->tags.append((new LGLightweightTag(QString::fromUtf8(name), (new LGOid(oid))->sharedFromThis()))->tbSharedFromThis<LGLightweightTag>::sharedFromThis());
+            } else {
+                pl->tags.append((new LGAnnotatedTag(tag))->tbSharedFromThis<LGAnnotatedTag>::sharedFromThis());
+            }
 
             return 0;
         },
         &payload);
     return payload.tags;
+}
+
+LGTagPtr LGRepository::createLightweightTag(QString name, LGCommitPtr target) {
+    auto object = this->lookupObject(target->oid(), ObjectType::Commit);
+    if (git_tag_create_lightweight(&target->oid()->gitOid(), d->gitRepository, name.toUtf8().constData(), object.data()->gitObject(), true) != 0) return nullptr;
+    return (new LGLightweightTag(name, target->oid()))->tbSharedFromThis<LGLightweightTag>::sharedFromThis();
 }
 
 LGRepository::RepositoryState LGRepository::state() {
@@ -280,7 +290,11 @@ QCoro::Task<> LGRepository::push(QString upstreamRemote, QString upstreamBranch,
 
     QStringList refs;
     refs.append(QStringLiteral("%1refs/heads/%2:refs/heads/%3").arg(force ? "+" : "", headBranch->name(), upstreamBranch));
-    if (pushTags) refs.append("refs/tags/*:refs/tags/*");
+    if (pushTags) {
+        for (auto tag : this->tags()) {
+            refs.append(QStringLiteral("refs/tags/%1:refs/tags/%1").arg(tag->name()));
+        }
+    }
 
     co_await this->push(upstreamRemote, refs, callback);
 

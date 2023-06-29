@@ -40,7 +40,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         static void appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryPtr repo, QWidget* parent);
 
         static QCoro::Task<> checkoutBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
-        static QCoro::Task<> checkoutCommit(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
+        static QCoro::Task<> checkoutCommit(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent);
         static void merge(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
         static void cherryPick(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
         static void revert(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
@@ -50,6 +50,8 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
 
         static void branch(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent);
         static QCoro::Task<> deleteBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
+        static void tag(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent);
+        static QCoro::Task<> deleteTag(RepositoryPtr repo, TagPtr tag, QWidget* parent);
 
         static QCoro::Task<> discardRepositoryChanges(RepositoryPtr repo, QWidget* parent);
         static QCoro::Task<> deconflictify(RepositoryPtr repo, QWidget* parent);

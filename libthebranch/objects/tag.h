@@ -15,6 +15,7 @@ class LIBTHEBRANCH_EXPORT Tag : public QObject,
         ~Tag();
 
         QString name();
+        ErrorResponse deleteTag();
 
     signals:
 
