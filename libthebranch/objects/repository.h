@@ -7,6 +7,7 @@
 #include "libthebranch_global.h"
 #include <QCoroTask>
 #include <QObject>
+#include <ranges/trange.h>
 #include <tcommandpalette/tcommandpalettescope.h>
 #include <tpromise.h>
 
@@ -23,6 +24,7 @@ class ConflictResolutionSnapIn;
 struct RepositoryPrivate;
 class RepositoryOperation;
 class LIBTHEBRANCH_EXPORT Repository : public QObject,
+                                       public ICommitResolvable,
                                        public tbSharedFromThis<Repository> {
         Q_OBJECT
     public:
@@ -109,6 +111,8 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
         RemotePtr addRemote(QString name, QString url);
         QList<RemotePtr> remotes();
 
+        tRange<TagPtr> tags();
+
         QCoro::Task<> fetch(QString remote, QStringList refs, InformationRequiredCallback callback);
 
         QCoro::Task<> stash(QString message);
@@ -153,6 +157,10 @@ class LIBTHEBRANCH_EXPORT Repository : public QObject,
 
         void putRepositoryOperation(RepositoryOperation* operation);
         void updateWatchedDirectories();
+
+        // ICommitResolvable interface
+    public:
+        CommitPtr resolveToCommit();
 };
 
 #endif // REPOSITORY_H

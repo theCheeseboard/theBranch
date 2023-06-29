@@ -5,7 +5,7 @@
 #include <QObject>
 
 struct git_reference;
-struct LGReferencePrivate;
+struct LGBranchPrivate;
 class LGBranch : public QObject,
                  public tbSharedFromThis<LGBranch> {
         Q_OBJECT
@@ -33,7 +33,7 @@ class LGBranch : public QObject,
     signals:
 
     private:
-        LGReferencePrivate* d;
+        LGBranchPrivate* d;
 };
 
 #endif // LGBRANCH_H

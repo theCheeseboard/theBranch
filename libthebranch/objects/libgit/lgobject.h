@@ -13,9 +13,18 @@ class LGObject : public QObject,
         explicit LGObject(git_object* object);
         ~LGObject();
 
+        enum class Type {
+            Unknown,
+            Commit,
+            Tag,
+            Blob,
+            Tree
+        };
+
         struct ::git_object* gitObject();
 
         LGOidPtr oid();
+        Type type();
 
     signals:
 

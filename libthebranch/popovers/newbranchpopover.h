@@ -33,7 +33,7 @@ class LIBTHEBRANCH_EXPORT NewBranchPopover : public QWidget {
         Q_OBJECT
 
     public:
-        explicit NewBranchPopover(RepositoryPtr repo, CommitPtr commit, QWidget* parent = nullptr);
+        explicit NewBranchPopover(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent = nullptr);
         ~NewBranchPopover();
 
     private slots:

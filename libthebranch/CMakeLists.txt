@@ -38,6 +38,7 @@ set(SOURCES
     objects/revert.cpp
     objects/stashesmodel.cpp
     objects/stash.cpp
+    objects/tag.cpp
     objects/tree.cpp
     objects/blob.cpp
     objects/cherrypick.cpp
@@ -134,6 +135,7 @@ set(SOURCES
     objects/libgit/lgbranch.cpp
     objects/libgit/lgannotatedcommit.cpp
     objects/libgit/lgindex.cpp
+    objects/libgit/lgtag.cpp
     objects/libgit/lgtree.cpp
     objects/libgit/lgremote.cpp
     objects/libgit/lgactiveremote.cpp
@@ -174,6 +176,7 @@ set(HEADERS
     objects/blob.h
     objects/cherrypick.h
     objects/diff.h
+    objects/tag.h
     popovers/snapins/checkoutsnapin.h
     popovers/diffpopover.h
     widgets/repositorybrowser.h
@@ -225,6 +228,7 @@ set(PRIVATE_HEADERS
     objects/libgit/lgbranch.h
     objects/libgit/lgannotatedcommit.h
     objects/libgit/lgindex.h
+    objects/libgit/lgtag.h
     objects/libgit/lgtree.h
     objects/libgit/lgremote.h
     objects/libgit/lgobject.h

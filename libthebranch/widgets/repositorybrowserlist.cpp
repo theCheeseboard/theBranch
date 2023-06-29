@@ -35,6 +35,7 @@
 #include "objects/repository.h"
 #include "objects/repositorymodel.h"
 #include "objects/stash.h"
+#include "objects/tag.h"
 #include "popovers/snapinpopover.h"
 #include "popovers/snapins/newremotesnapin.h"
 #include "popovers/snapins/stashsavesnapin.h"
@@ -47,12 +48,13 @@ struct RepositoryBrowserListPrivate {
         QStandardItemModel* model;
         RepositoryPtr repo;
 
-        QStandardItem *headParent, *branchParent, *remoteParent, *stashParent, *issuesParent, *prsParent, *actionsParent;
+        QStandardItem *headParent, *branchParent, *tagParent, *remoteParent, *stashParent, *issuesParent, *prsParent, *actionsParent;
 
         QList<BranchPtr> branches;
         QList<BranchPtr> remoteBranches;
         QList<RemotePtr> remotes;
         QList<StashPtr> stashes;
+        QList<TagPtr> tags;
 
         QList<GitHubIssueListController*> ghIssueControllers;
         QList<GitHubPullRequestListController*> ghPrControllers;
@@ -74,6 +76,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
 
     d->headParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), "");
     d->branchParent = new QStandardItem(QIcon::fromTheme("vcs-branch"), tr("Branches"));
+    d->tagParent = new QStandardItem(QIcon::fromTheme("vcs-tag"), tr("Tags"));
     d->remoteParent = new QStandardItem(QIcon::fromTheme("cloud-download"), tr("Remotes"));
     d->stashParent = new QStandardItem(QIcon::fromTheme("vcs-stash"), tr("Stashes"));
     d->issuesParent = new QStandardItem(QIcon::fromTheme("tools-report-bug"), tr("Issues"));
@@ -94,7 +97,7 @@ RepositoryBrowserList::RepositoryBrowserList(QWidget* parent) :
     });
 
     auto rootItem = d->model->invisibleRootItem();
-    rootItem->appendRows({d->headParent, d->branchParent, d->stashParent, d->remoteParent, d->actionsParent, d->issuesParent, d->prsParent});
+    rootItem->appendRows({d->headParent, d->branchParent, d->tagParent, d->stashParent, d->remoteParent, d->actionsParent, d->issuesParent, d->prsParent});
 
     connect(this, &QTreeView::clicked, this, [this](QModelIndex index) {
         auto widgetFn = index.data(static_cast<int>(Roles::WidgetFunction)).value<WidgetFunction>();
@@ -151,6 +154,7 @@ void RepositoryBrowserList::setRepository(RepositoryPtr repo) {
 
 void RepositoryBrowserList::updateData() {
     d->branches = d->repo->branches(THEBRANCH::LocalBranches);
+    d->tags = d->repo->tags().toList();
     d->remoteBranches = d->repo->branches(THEBRANCH::RemoteBranches);
     d->remotes = d->repo->remotes();
     d->stashes = d->repo->stashes();
@@ -214,6 +218,23 @@ void RepositoryBrowserList::updateData() {
                 item->appendRow(branchItem);
             }
         }
+    }
+
+    d->tagParent->removeRows(0, d->tagParent->rowCount());
+    for (auto tag : d->tags) {
+        auto item = new QStandardItem(tag->name());
+        addContextMenuFunction(item, [tag, this](QMenu* menu) {
+            BranchUiHelper::appendTagMenu(menu, tag, d->repo, this);
+        });
+        addWidgetFunction(item, [tag, this] {
+            auto commitBrowser = new CommitBrowserWidget();
+            commitBrowser->setRepository(d->repo);
+            commitBrowser->setStartCommit(tag);
+            return commitBrowser;
+        });
+        item->setData(QVariant::fromValue(tag.staticCast<QObject>()),
+            static_cast<int>(Roles::Data));
+        d->tagParent->appendRow(item);
     }
 
     d->stashParent->removeRows(0, d->stashParent->rowCount());

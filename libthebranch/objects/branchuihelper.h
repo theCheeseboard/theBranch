@@ -35,6 +35,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
 
         static void appendCommitMenu(QMenu* menu, CommitPtr commit, RepositoryPtr repo, QWidget* parent);
         static void appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryPtr repo, QWidget* parent);
+        static void appendTagMenu(QMenu* menu, TagPtr branch, RepositoryPtr repo, QWidget* parent);
         static void appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr repo, QWidget* parent);
         static void appendRemoteMenu(QMenu* menu, RemotePtr remote, RepositoryPtr repo, QWidget* parent);
 
@@ -47,7 +48,7 @@ class LIBTHEBRANCH_EXPORT BranchUiHelper : public QObject {
         static QCoro::Task<> rebaseBranch(RepositoryPtr repo, BranchPtr from, BranchPtr onto, QWidget* parent);
         static QCoro::Task<> renameBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
 
-        static void branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent);
+        static void branch(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent);
         static QCoro::Task<> deleteBranch(RepositoryPtr repo, BranchPtr branch, QWidget* parent);
 
         static QCoro::Task<> discardRepositoryChanges(RepositoryPtr repo, QWidget* parent);

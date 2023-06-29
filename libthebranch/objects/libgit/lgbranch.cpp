@@ -3,13 +3,13 @@
 #include "lgrepository.h"
 #include <git2.h>
 
-struct LGReferencePrivate {
+struct LGBranchPrivate {
         git_reference* gitReference;
 };
 
 LGBranch::LGBranch(struct git_reference* git_branch) :
     QObject{nullptr} {
-    d = new LGReferencePrivate();
+    d = new LGBranchPrivate();
     d->gitReference = git_branch;
 }
 

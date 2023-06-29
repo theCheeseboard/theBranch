@@ -51,6 +51,4 @@ class LIBTHEBRANCH_EXPORT Branch : public QObject,
         CommitPtr resolveToCommit();
 };
 
-typedef QSharedPointer<Branch> BranchPtr;
-
 #endif // BRANCH_H

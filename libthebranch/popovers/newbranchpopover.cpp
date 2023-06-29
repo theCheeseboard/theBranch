@@ -25,17 +25,17 @@
 #include <terrorflash.h>
 
 struct NewBranchPopoverPrivate {
-    RepositoryPtr repo;
-    CommitPtr commit;
+        RepositoryPtr repo;
+        CommitPtr commit;
 };
 
-NewBranchPopover::NewBranchPopover(RepositoryPtr repo, CommitPtr commit, QWidget* parent) :
+NewBranchPopover::NewBranchPopover(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent) :
     QWidget(parent),
     ui(new Ui::NewBranchPopover) {
     ui->setupUi(this);
     d = new NewBranchPopoverPrivate();
     d->repo = repo;
-    d->commit = commit;
+    d->commit = commit->resolveToCommit();
 
     ui->titleLabel->setBackButtonShown(true);
     new tContentSizer(ui->branchOptionsWidget);

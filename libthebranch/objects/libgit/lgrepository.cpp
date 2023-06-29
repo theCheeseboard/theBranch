@@ -13,6 +13,7 @@
 #include "lgremote.h"
 #include "lgsignature.h"
 #include "lgstash.h"
+#include "lgtag.h"
 #include "lgtree.h"
 #include <QCoroProcess>
 #include <QException>
@@ -212,8 +213,31 @@ QList<LGRemotePtr> LGRepository::remotes() {
     for (auto i = 0; i < remoteNames.count; i++) {
         remotes.append((new LGRemote(remoteNames.strings[i], this->sharedFromThis()))->sharedFromThis());
     }
-    git_strarray_free(&remoteNames);
+    git_strarray_dispose(&remoteNames);
     return remotes;
+}
+
+QList<LGTagPtr> LGRepository::tags() {
+    struct TagRequestPayload {
+            QList<LGTagPtr> tags;
+            git_repository* repo;
+    };
+
+    TagRequestPayload payload;
+    payload.repo = d->gitRepository;
+
+    git_tag_foreach(
+        d->gitRepository, [](const char* name, git_oid* oid, void* payload) {
+            TagRequestPayload* pl = reinterpret_cast<TagRequestPayload*>(payload);
+
+            git_tag* tag;
+            if (git_tag_lookup(&tag, pl->repo, oid) != 0) return 0;
+            pl->tags.append((new LGTag(tag))->sharedFromThis());
+
+            return 0;
+        },
+        &payload);
+    return payload.tags;
 }
 
 LGRepository::RepositoryState LGRepository::state() {

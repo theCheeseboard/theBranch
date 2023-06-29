@@ -306,7 +306,7 @@ void MainWindow::on_actionNew_Branch_triggered() {
         box->exec(true);
         return;
     }
-    BranchUiHelper::branch(repo, repo->head()->asCommit(), this);
+    BranchUiHelper::branch(repo, repo, this);
 }
 
 void MainWindow::on_actionClose_Tab_triggered() {

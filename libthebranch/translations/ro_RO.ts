@@ -143,19 +143,19 @@
 <context>
     <name>BranchUiHelper</name>
     <message>
-        <location filename="../objects/branchuihelper.cpp" line="+52"/>
+        <location filename="../objects/branchuihelper.cpp" line="+53"/>
         <source>For commit %1</source>
         <translation>Pentru comiterea %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+47"/>
-        <location line="+152"/>
+        <location line="+164"/>
         <source>Checkout</source>
         <translation>Checkout</translation>
     </message>
     <message>
-        <location line="-195"/>
+        <location line="-207"/>
         <source>Copy Commit Message</source>
         <translation>Copiere mesaj comitere</translation>
     </message>
@@ -178,6 +178,7 @@
     <message>
         <location line="+5"/>
         <location line="+86"/>
+        <location line="+18"/>
         <source>Branch from here</source>
         <translation>Branșă de aici</translation>
     </message>
@@ -186,13 +187,13 @@
         <translation type="vanished">Creare comitere revenire</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-93"/>
         <source>Reset to here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
-        <location line="+322"/>
+        <location line="+334"/>
         <source>Hard Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -222,24 +223,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-341"/>
-        <location line="+325"/>
+        <location line="-353"/>
+        <location line="+337"/>
         <source>Mixed Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-338"/>
+        <location line="-350"/>
         <source>Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
-        <location line="+328"/>
+        <location line="+340"/>
         <source>Soft Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-318"/>
+        <location line="-330"/>
         <source>For branch %1</source>
         <translation>Pentru branșa %1</translation>
     </message>
@@ -266,7 +267,8 @@
     </message>
     <message>
         <location line="+8"/>
-        <location line="+63"/>
+        <location line="+18"/>
+        <location line="+57"/>
         <source>Delete</source>
         <translation>Ștergere</translation>
     </message>
@@ -2135,7 +2137,7 @@ Cherry picked from %2</source>
 <context>
     <name>Repository</name>
     <message>
-        <location filename="../objects/repository.cpp" line="+173"/>
+        <location filename="../objects/repository.cpp" line="+174"/>
         <source>The local branch %1 already exists.</source>
         <translation></translation>
     </message>
@@ -2199,9 +2201,14 @@ Cherry picked from %2</source>
 <context>
     <name>RepositoryBrowserList</name>
     <message>
-        <location filename="../widgets/repositorybrowserlist.cpp" line="+76"/>
+        <location filename="../widgets/repositorybrowserlist.cpp" line="+78"/>
         <source>Branches</source>
         <translation></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2245,7 +2252,7 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>(no HEAD)</source>
         <translation type="unfinished"></translation>
     </message>

@@ -40,6 +40,7 @@
 #include "repository.h"
 #include "revert.h"
 #include "stash.h"
+#include "tag.h"
 #include <QClipboard>
 #include <QLocale>
 #include <QMenu>
@@ -154,7 +155,7 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
     });
     menu->addAction(QIcon::fromTheme("vcs-tag"), tr("Tag"));
     menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), parent, [repo, branch, parent] {
-        BranchUiHelper::branch(repo, branch->lastCommit(), parent);
+        BranchUiHelper::branch(repo, branch, parent);
     });
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), parent, [repo, branch, parent] {
@@ -166,6 +167,18 @@ void BranchUiHelper::appendBranchMenu(QMenu* menu, BranchPtr branch, RepositoryP
         merge2->setEnabled(false);
         rebase->setEnabled(false);
     }
+}
+
+void BranchUiHelper::appendTagMenu(QMenu* menu, TagPtr tag, RepositoryPtr repo, QWidget* parent) {
+    QString head;
+    if (repo->head()) head = repo->head()->shorthand();
+    menu->addAction(QIcon::fromTheme("vcs-branch-create"), tr("Branch from here"), parent, [repo, tag, parent] {
+        BranchUiHelper::branch(repo, tag, parent);
+    });
+    menu->addSeparator();
+    menu->addAction(QIcon::fromTheme("edit-delete"), tr("Delete"), parent, [repo, tag, parent] {
+        //        BranchUiHelper::deleteBranch(repo, tag, parent);
+    });
 }
 
 void BranchUiHelper::appendStashMenu(QMenu* menu, StashPtr stash, RepositoryPtr repo, QWidget* parent) {
@@ -478,7 +491,7 @@ QCoro::Task<> BranchUiHelper::renameBranch(RepositoryPtr repo, BranchPtr branch,
     }
 }
 
-void BranchUiHelper::branch(RepositoryPtr repo, CommitPtr commit, QWidget* parent) {
+void BranchUiHelper::branch(RepositoryPtr repo, ICommitResolvablePtr commit, QWidget* parent) {
     auto* jp = new NewBranchPopover(repo, commit);
     auto* popover = new tPopover(jp);
     popover->setPopoverWidth(SC_DPI_W(-200, parent));

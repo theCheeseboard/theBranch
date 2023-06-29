@@ -83,6 +83,8 @@ class LGRepository : public QObject,
         LGRemotePtr createRemote(QString name, QString url);
         QList<LGRemotePtr> remotes();
 
+        QList<LGTagPtr> tags();
+
         RepositoryState state();
         void cleanupState();
 

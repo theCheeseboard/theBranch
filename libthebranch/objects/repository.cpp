@@ -13,6 +13,7 @@
 #include "reference.h"
 #include "remote.h"
 #include "stash.h"
+#include "tag.h"
 #include "tree.h"
 #include <QCoroSignal>
 #include <QDirIterator>
@@ -20,6 +21,7 @@
 #include <QFileSystemWatcher>
 #include <commandpalettes/branchescommandpalette.h>
 #include <git2.h>
+#include <ranges/trange.h>
 #include <tmessagebox.h>
 
 struct RepositoryPrivate {
@@ -133,11 +135,10 @@ ReferencePtr Repository::head() {
 QList<BranchPtr> Repository::branches(THEBRANCH::ListBranchFlags flags) {
     if (!d->gitRepo) return {};
 
-    QList<BranchPtr> branches;
-    for (LGBranchPtr branch : d->gitRepo->branches(flags)) {
-        branches.append(Branch::branchForLgBranch(d->gitRepo, branch)->sharedFromThis());
-    }
-    return branches;
+    return tRange(d->gitRepo->branches(flags)).map<BranchPtr>([this](const LGBranchPtr& branch) {
+                                                  return Branch::branchForLgBranch(d->gitRepo, branch)->sharedFromThis();
+                                              })
+        .toList();
 }
 
 BranchPtr Repository::createBranch(QString name, CommitPtr target) {
@@ -371,6 +372,12 @@ QList<RemotePtr> Repository::remotes() {
     return remotes;
 }
 
+tRange<TagPtr> Repository::tags() {
+    return tRange(d->gitRepo->tags()).map<TagPtr>([this](LGTagPtr tag) {
+        return Tag::tagForLgTag(d->gitRepo, tag);
+    });
+}
+
 QCoro::Task<> Repository::fetch(QString remote, QStringList refs, InformationRequiredCallback callback) {
     co_return co_await d->gitRepo->fetch(remote, refs, callback);
 }
@@ -404,4 +411,9 @@ tCommandPaletteScope* Repository::commandPaletteBranches() {
 
 LGRepositoryPtr Repository::git_repository() {
     return d->gitRepo;
+}
+
+CommitPtr Repository::resolveToCommit() {
+    if (auto head = this->head()) return head->resolveToCommit();
+    return nullptr;
 }
