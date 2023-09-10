@@ -58,7 +58,7 @@ jobs:
         name: "Build project"
         with:
           project: "."
-          extra-cmake-args: ${{ format("-Dlibgit2_ROOT={0}", steps.libgit2.outputs.install-prefix) }}
+          extra-cmake-args: ${{ format('-Dlibgit2_ROOT={0}', steps.libgit2.outputs.install-prefix) }}
       - uses: vicr123/libcontemporary/deploy-project@actions
         id: deploy
         name: "Deploy project"
