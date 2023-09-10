@@ -36,6 +36,7 @@ jobs:
           ref: refs/tags/libssh2-1.10.0
       - uses: vicr123/libcontemporary/build-project@actions
         name: "Build libgit2"
+        id: libgit2
         with:
           project: "libgit2/libgit2"
           commitish: "v1.6.2"
@@ -57,6 +58,7 @@ jobs:
         name: "Build project"
         with:
           project: "."
+          extra-cmake-args: ${{ format("-Dlibgit2_ROOT={0}", steps.libgit2.outputs.install-prefix) }}
       - uses: vicr123/libcontemporary/deploy-project@actions
         id: deploy
         name: "Deploy project"
