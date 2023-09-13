@@ -16,11 +16,16 @@
 #include <QMenu>
 #include <tcontentsizer.h>
 #include <terrorflash.h>
+#include <touchbar/ttouchbarbuttonitem.h>
+#include <touchbar/ttouchbarflexiblespaceitem.h>
 
 struct CommitSnapInPrivate {
         RepositoryPtr repository;
         StatusItemListModel* statusModel;
         StatusItemListFilterView* statusModelFilter;
+
+        tTouchBar* touchBar;
+        tTouchBarButtonItem* commitTouchBarButton;
 
         LGSignaturePtr signature;
 
@@ -36,11 +41,31 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     d = new CommitSnapInPrivate();
     d->repository = repository;
 
+    d->touchBar = new tTouchBar(this);
+
+    d->touchBar->addDefaultItem(new tTouchBarFlexibleSpaceItem());
+
+    auto cancelButton = new tTouchBarButtonItem(QStringLiteral("com.vicr123.thebranch.commit.cancelCommit"), tr("Cancel"));
+    connect(cancelButton, &tTouchBarButtonItem::clicked, this, [this] {
+        if (ui->stackedWidget->currentWidget() == ui->commitPage) {
+            emit ui->titleLabel->backButtonClicked();
+        } else {
+            emit ui->titleLabel_2->backButtonClicked();
+        }
+    });
+    d->touchBar->addDefaultItem(cancelButton);
+
+    d->commitTouchBarButton = new tTouchBarButtonItem(QStringLiteral("com.vicr123.thebranch.commit.performCommit"), tr("Commit"));
+    connect(d->commitTouchBarButton, &tTouchBarButtonItem::clicked, ui->commitButton, &QPushButton::click);
+    d->touchBar->addDefaultItem(d->commitTouchBarButton);
+
+    d->touchBar->addDefaultItem(new tTouchBarFlexibleSpaceItem());
+
     ui->titleLabel->setBackButtonShown(true);
     ui->titleLabel_2->setBackButtonShown(true);
-    ui->leftWidget->setFixedWidth(SC_DPI_W(300, this));
+    ui->leftWidget->setFixedWidth(300);
     libContemporaryCommon::fixateHeight(ui->commitMessageEdit, [=] {
-        return SC_DPI_W(100, this);
+        return 100;
     });
     ui->textDiffPage->setReadOnly(true);
     new tContentSizer(ui->signatureWidget);
@@ -68,11 +93,15 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
         int count = d->statusModel->checkedItems().count();
         ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
         ui->commitButton->setEnabled(count != 0);
+        d->commitTouchBarButton->setText(tr("Commit %n Files", nullptr, count));
+        d->commitTouchBarButton->setEnabled(count != 0);
     });
 
     int count = d->statusModel->checkedItems().count();
     ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
     ui->commitButton->setEnabled(count != 0);
+    d->commitTouchBarButton->setText(tr("Commit %n Files", nullptr, count));
+    d->commitTouchBarButton->setEnabled(count != 0);
 
     connect(ui->modifiedFilesEdit->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CommitSnapIn::updateSelection);
 
@@ -334,4 +363,8 @@ void CommitSnapIn::on_modifiedFilesEdit_customContextMenuRequested(const QPoint&
     }
 
     menu->popup(ui->modifiedFilesEdit->mapToGlobal(pos));
+}
+
+tTouchBar* CommitSnapIn::touchBar() {
+    return d->touchBar;
 }
