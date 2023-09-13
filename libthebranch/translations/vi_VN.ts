@@ -1113,7 +1113,7 @@ Cherry picked from %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+46"/>
+        <location line="+48"/>
         <location line="+2"/>
         <location line="+5"/>
         <location line="+2"/>

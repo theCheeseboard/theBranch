@@ -56,6 +56,8 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     d->touchBar->addDefaultItem(cancelButton);
 
     d->commitTouchBarButton = new tTouchBarButtonItem(QStringLiteral("com.vicr123.thebranch.commit.performCommit"), tr("Commit"));
+    d->commitTouchBarButton->setIsPrincipal(true);
+    d->commitTouchBarButton->setIsPrimary(true);
     connect(d->commitTouchBarButton, &tTouchBarButtonItem::clicked, ui->commitButton, &QPushButton::click);
     d->touchBar->addDefaultItem(d->commitTouchBarButton);
 
