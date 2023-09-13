@@ -17,9 +17,13 @@
 #include "snapins/sshkeyselectionsnapin.h"
 #include "snapins/usernamepasswordsnapin.h"
 
+#include <touchbar/ttouchbar.h>
+
 struct SnapInPopoverPrivate {
         int numSnapins = 0;
         SnapIn* currentSnapIn;
+
+        tTouchBar* currentTouchBar = nullptr;
 };
 
 SnapInPopover::SnapInPopover(QWidget* parent) :
@@ -29,19 +33,14 @@ SnapInPopover::SnapInPopover(QWidget* parent) :
     d = new SnapInPopoverPrivate();
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
-    connect(ui->stackedWidget, &tStackedWidget::switchingFrame, this, [this](int switchTo) {
-        auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(switchTo));
-        if (widget != d->currentSnapIn) widget->snapinShown();
-        d->currentSnapIn = widget;
-    });
-    connect(ui->stackedWidget, &tStackedWidget::currentChanged, this, [this](int switchTo) {
-        auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(switchTo));
-        if (widget != d->currentSnapIn) widget->snapinShown();
-        d->currentSnapIn = widget;
-    });
+    connect(ui->stackedWidget, &tStackedWidget::switchingFrame, this, &SnapInPopover::currentChanged);
+    connect(ui->stackedWidget, &tStackedWidget::currentChanged, this, &SnapInPopover::currentChanged);
 }
 
 SnapInPopover::~SnapInPopover() {
+    if (d->currentTouchBar) {
+        d->currentTouchBar->detach();
+    }
     delete d;
     delete ui;
 }
@@ -140,4 +139,18 @@ void SnapInPopover::showPullPopover(QWidget* parent, RepositoryPtr repo) {
     }
 
     showSnapInPopover(parent, new PullSnapIn(repo));
+}
+
+void SnapInPopover::currentChanged(int switchTo) {
+    auto widget = static_cast<SnapIn*>(ui->stackedWidget->widget(switchTo));
+    if (widget != d->currentSnapIn) widget->snapinShown();
+    d->currentSnapIn = widget;
+
+    if (d->currentTouchBar) {
+        d->currentTouchBar->detach();
+    }
+    d->currentTouchBar = widget->touchBar();
+    if (d->currentTouchBar) {
+        d->currentTouchBar->attach(this);
+    }
 }

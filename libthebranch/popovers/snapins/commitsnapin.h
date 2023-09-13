@@ -41,6 +41,7 @@ class LIBTHEBRANCH_EXPORT CommitSnapIn : public SnapIn {
         void performCommit();
         void updateState();
         void updateSelection();
+        tTouchBar* touchBar();
 };
 
 #endif // COMMITSNAPIN_H

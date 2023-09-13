@@ -3,6 +3,7 @@
 
 #include "libthebranch_global.h"
 #include <QWidget>
+#include <touchbar/ttouchbar.h>
 
 class SnapInPopover;
 struct SnapInPrivate;
@@ -16,6 +17,10 @@ class LIBTHEBRANCH_EXPORT SnapIn : public QWidget {
 
         void setParentPopover(SnapInPopover* popover);
         SnapInPopover* parentPopover();
+
+        virtual tTouchBar* touchBar() {
+            return nullptr;
+        }
 
     signals:
         void done();

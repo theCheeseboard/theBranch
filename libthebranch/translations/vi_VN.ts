@@ -1043,6 +1043,7 @@ Cherry picked from %2</source>
         <location filename="../popovers/snapins/commitsnapin.ui" line="+57"/>
         <location line="+302"/>
         <location/>
+        <location filename="../popovers/snapins/commitsnapin.cpp" line="+58"/>
         <source>Commit</source>
         <translation>Chuyển giao</translation>
     </message>
@@ -1106,9 +1107,16 @@ Cherry picked from %2</source>
         <source>Save in global Git configuration</source>
         <translation>Lưu trong cài đặt Git toàn cục</translation>
     </message>
+    <message>
+        <location filename="../popovers/snapins/commitsnapin.cpp" line="-10"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="+69"/>
+        <location line="+46"/>
+        <location line="+2"/>
         <location line="+5"/>
+        <location line="+2"/>
         <source>Commit %n Files</source>
         <translation>
             <numerusform>Chuyển giao %n tệp</numerusform>
@@ -2457,7 +2465,7 @@ This commit reverts %2</source>
 <context>
     <name>SnapInPopover</name>
     <message>
-        <location filename="../popovers/snapinpopover.cpp" line="+121"/>
+        <location filename="../popovers/snapinpopover.cpp" line="+120"/>
         <location line="+14"/>
         <source>HEAD is detached</source>
         <translation>HEAD bị tách rời</translation>

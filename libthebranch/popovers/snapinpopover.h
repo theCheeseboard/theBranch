@@ -32,6 +32,8 @@ class LIBTHEBRANCH_EXPORT SnapInPopover : public QWidget {
     private:
         Ui::SnapInPopover* ui;
         SnapInPopoverPrivate* d;
+
+        void currentChanged(int switchTo);
 };
 
 #endif // SNAPINPOPOVER_H
