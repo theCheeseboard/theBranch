@@ -16,7 +16,9 @@
 #include <QMenu>
 #include <tcontentsizer.h>
 #include <terrorflash.h>
+#include <touchbar/tcompositetouchbar.h>
 #include <touchbar/ttouchbarbuttonitem.h>
+#include <touchbar/ttouchbardialogalertitem.h>
 #include <touchbar/ttouchbarflexiblespaceitem.h>
 
 struct CommitSnapInPrivate {
@@ -24,8 +26,9 @@ struct CommitSnapInPrivate {
         StatusItemListModel* statusModel;
         StatusItemListFilterView* statusModelFilter;
 
-        tTouchBar* touchBar;
-        tTouchBarButtonItem* commitTouchBarButton;
+        tCompositeTouchBar* touchBar;
+        tTouchBar* commitTouchBar;
+        tTouchBar* finaliseCommitTouchBar;
 
         LGSignaturePtr signature;
 
@@ -41,27 +44,23 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
     d = new CommitSnapInPrivate();
     d->repository = repository;
 
-    d->touchBar = new tTouchBar(this);
+    d->touchBar = new tCompositeTouchBar(this);
 
-    d->touchBar->addDefaultItem(new tTouchBarFlexibleSpaceItem());
-
-    auto cancelButton = new tTouchBarButtonItem(QStringLiteral("com.vicr123.thebranch.commit.cancelCommit"), tr("Cancel"));
-    connect(cancelButton, &tTouchBarButtonItem::clicked, this, [this] {
-        if (ui->stackedWidget->currentWidget() == ui->commitPage) {
-            emit ui->titleLabel->backButtonClicked();
-        } else {
-            emit ui->titleLabel_2->backButtonClicked();
-        }
+    d->commitTouchBar = new tTouchBar(this);
+    auto commitDialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.commit.buttons"), "", tr("Cancel"), tr("Commit"), this);
+    connect(commitDialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel->backButtonClicked();
     });
-    d->touchBar->addDefaultItem(cancelButton);
+    connect(commitDialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->commitButton, &QPushButton::click);
+    d->commitTouchBar->addDefaultItem(commitDialogAlertItem);
 
-    d->commitTouchBarButton = new tTouchBarButtonItem(QStringLiteral("com.vicr123.thebranch.commit.performCommit"), tr("Commit"));
-    d->commitTouchBarButton->setIsPrincipal(true);
-    d->commitTouchBarButton->setIsPrimary(true);
-    connect(d->commitTouchBarButton, &tTouchBarButtonItem::clicked, ui->commitButton, &QPushButton::click);
-    d->touchBar->addDefaultItem(d->commitTouchBarButton);
-
-    d->touchBar->addDefaultItem(new tTouchBarFlexibleSpaceItem());
+    d->finaliseCommitTouchBar = new tTouchBar(this);
+    auto finaliseCommitDialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.commit.finalise.buttons"), "", tr("Cancel"), tr("Commit"), this);
+    connect(finaliseCommitDialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel_2->backButtonClicked();
+    });
+    connect(finaliseCommitDialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->commitButton_2, &QPushButton::click);
+    d->finaliseCommitTouchBar->addDefaultItem(finaliseCommitDialogAlertItem);
 
     ui->titleLabel->setBackButtonShown(true);
     ui->titleLabel_2->setBackButtonShown(true);
@@ -90,20 +89,20 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
         d->statusModelFilter->invalidate();
         this->updateState();
     });
-    connect(d->statusModel, &StatusItemListModel::checkedItemsChanged, this, [this] {
+    connect(d->statusModel, &StatusItemListModel::checkedItemsChanged, this, [this, commitDialogAlertItem] {
         this->updateState();
         int count = d->statusModel->checkedItems().count();
         ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
         ui->commitButton->setEnabled(count != 0);
-        d->commitTouchBarButton->setText(tr("Commit %n Files", nullptr, count));
-        d->commitTouchBarButton->setEnabled(count != 0);
+        commitDialogAlertItem->positiveButton()->setText(tr("Commit %n Files", nullptr, count));
+        commitDialogAlertItem->positiveButton()->setEnabled(count != 0);
     });
 
     int count = d->statusModel->checkedItems().count();
     ui->commitButton->setText(tr("Commit %n Files", nullptr, count));
     ui->commitButton->setEnabled(count != 0);
-    d->commitTouchBarButton->setText(tr("Commit %n Files", nullptr, count));
-    d->commitTouchBarButton->setEnabled(count != 0);
+    commitDialogAlertItem->positiveButton()->setText(tr("Commit %n Files", nullptr, count));
+    commitDialogAlertItem->positiveButton()->setEnabled(count != 0);
 
     connect(ui->modifiedFilesEdit->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CommitSnapIn::updateSelection);
 
@@ -126,6 +125,7 @@ CommitSnapIn::CommitSnapIn(RepositoryPtr repository, QWidget* parent) :
 
     this->updateState();
     this->updateSelection();
+    on_stackedWidget_switchingFrame(0);
 }
 
 CommitSnapIn::~CommitSnapIn() {
@@ -369,4 +369,15 @@ void CommitSnapIn::on_modifiedFilesEdit_customContextMenuRequested(const QPoint&
 
 tTouchBar* CommitSnapIn::touchBar() {
     return d->touchBar;
+}
+
+void CommitSnapIn::on_stackedWidget_switchingFrame(int index) {
+    auto widget = ui->stackedWidget->widget(index);
+    if (widget == ui->commitPage) {
+        d->touchBar->setCurrentTouchBar(d->commitTouchBar);
+    } else if (widget == ui->finaliseCommitPage) {
+        d->touchBar->setCurrentTouchBar(d->finaliseCommitTouchBar);
+    } else {
+        d->touchBar->setCurrentTouchBar(nullptr);
+    }
 }

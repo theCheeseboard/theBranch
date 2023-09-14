@@ -34,6 +34,8 @@ class LIBTHEBRANCH_EXPORT CommitSnapIn : public SnapIn {
 
         void on_modifiedFilesEdit_customContextMenuRequested(const QPoint& pos);
 
+        void on_stackedWidget_switchingFrame(int index);
+
     private:
         Ui::CommitSnapIn* ui;
         CommitSnapInPrivate* d;
