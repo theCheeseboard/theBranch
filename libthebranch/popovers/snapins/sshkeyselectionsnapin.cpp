@@ -22,8 +22,12 @@
 
 #include <QDir>
 #include <tcontentsizer.h>
+#include <touchbar/ttouchbar.h>
+#include <touchbar/ttouchbarbuttonitem.h>
+#include <touchbar/ttouchbardialogalertitem.h>
 
 struct SshKeySelectionSnapInPrivate {
+        tTouchBar* touchBar;
 };
 
 SshKeySelectionSnapIn::SshKeySelectionSnapIn(QVariantMap params, QWidget* parent) :
@@ -31,6 +35,15 @@ SshKeySelectionSnapIn::SshKeySelectionSnapIn(QVariantMap params, QWidget* parent
     ui(new Ui::SshKeySelectionSnapIn) {
     ui->setupUi(this);
     d = new SshKeySelectionSnapInPrivate();
+
+    d->touchBar = new tTouchBar(this);
+
+    auto dialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.remote.ssh.buttons"), "", tr("Cancel"), tr("Authenticate"), this);
+    connect(dialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel->backButtonClicked();
+    });
+    connect(dialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->authenticateButton, &QPushButton::click);
+    d->touchBar->addDefaultItem(dialogAlertItem);
 
     ui->titleLabel->setBackButtonShown(true);
     new tContentSizer(ui->sshKeyOptionsWidget);
@@ -46,7 +59,10 @@ SshKeySelectionSnapIn::SshKeySelectionSnapIn(QVariantMap params, QWidget* parent
         }
     }
 
-    if (ui->sshKeysBox->count() == 0) ui->authenticateButton->setEnabled(false);
+    if (ui->sshKeysBox->count() == 0) {
+        ui->authenticateButton->setEnabled(false);
+        dialogAlertItem->positiveButton()->setEnabled(false);
+    }
 }
 
 SshKeySelectionSnapIn::~SshKeySelectionSnapIn() {
@@ -68,4 +84,8 @@ void SshKeySelectionSnapIn::on_authenticateButton_clicked() {
 
     emit this->response(response);
     emit done();
+}
+
+tTouchBar* SshKeySelectionSnapIn::touchBar() {
+    return d->touchBar;
 }

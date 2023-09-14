@@ -11,11 +11,21 @@
 #include "objects/repository.h"
 #include "pullsnapin.h"
 #include <tcontentsizer.h>
+#include <touchbar/tcompositetouchbar.h>
+#include <touchbar/ttouchbarbuttonitem.h>
+#include <touchbar/ttouchbardialogalertitem.h>
 
 struct PushSnapInPrivate {
         RepositoryPtr repo;
         QModelIndex upstreamIndex;
         bool awaitingPull = false;
+
+        tCompositeTouchBar* touchBar;
+        tTouchBar* pushTouchBar;
+        tTouchBar* forcePushTouchBar;
+        tTouchBar* pushFailedTouchBar;
+        tTouchBarDialogAlertItem* pushDialogAlertItem;
+        tTouchBarDialogAlertItem* forcePushDialogAlertItem;
 };
 
 PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
@@ -24,6 +34,32 @@ PushSnapIn::PushSnapIn(RepositoryPtr repo, QWidget* parent) :
     ui->setupUi(this);
     d = new PushSnapInPrivate();
     d->repo = repo;
+
+    d->touchBar = new tCompositeTouchBar(this);
+
+    d->pushTouchBar = new tTouchBar(this);
+    d->pushDialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.push.buttons"), "", tr("Cancel"), tr("Push"), this);
+    connect(d->pushDialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel->backButtonClicked();
+    });
+    connect(d->pushDialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->pushButton, &QPushButton::click);
+    d->pushTouchBar->addDefaultItem(d->pushDialogAlertItem);
+
+    d->forcePushTouchBar = new tTouchBar(this);
+    d->forcePushDialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.push.force.buttons"), "", tr("Cancel"), tr("Force Push"), this);
+    connect(d->forcePushDialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel_3->backButtonClicked();
+    });
+    connect(d->forcePushDialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->doForcePushButton, &QPushButton::click);
+    d->forcePushTouchBar->addDefaultItem(d->forcePushDialogAlertItem);
+
+    d->pushFailedTouchBar = new tTouchBar(this);
+    auto pushFailedDialogItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.push.failed.buttons"), "", tr("Cancel"), tr("Pull"), this);
+    connect(pushFailedDialogItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel_2->backButtonClicked();
+    });
+    connect(pushFailedDialogItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->pullButton, &QPushButton::click);
+    d->pushFailedTouchBar->addDefaultItem(pushFailedDialogItem);
 
     ui->stackedWidget->setCurrentWidget(ui->pushOptionsPage);
     ui->titleLabel->setBackButtonShown(true);
@@ -114,22 +150,26 @@ void PushSnapIn::updateUpstreamBox() {
 
 void PushSnapIn::updatePushButton() {
     ui->pushButton->setEnabled(ui->branchBox->currentIndex() != -1);
+    d->pushDialogAlertItem->positiveButton()->setEnabled(ui->pushButton->isEnabled());
 
     auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
     ui->forcePushButton->setEnabled(!branch.isNull());
     if (!branch) {
         ui->pushButton->setText(tr("Publish Branch"));
+        d->pushDialogAlertItem->positiveButton()->setText(ui->pushButton->text());
         return;
     }
 
     auto lastCommitOnBranch = branch->lastCommit();
     auto headCommit = d->repo->head()->asCommit();
     ui->pushButton->setText(tr("Push %n commits", nullptr, headCommit->missingCommits(lastCommitOnBranch)));
+    d->pushDialogAlertItem->positiveButton()->setText(ui->pushButton->text());
 }
 
 void PushSnapIn::prepareForcePush() {
     auto branch = ui->branchBox->currentData(BranchModel::Branch).value<BranchPtr>();
     ui->doForcePushButton->setText(tr("Force Push %1 to %2").arg(QLocale().quoteString(d->repo->head()->asBranch()->name())).arg(QLocale().quoteString(branch->name())));
+    d->forcePushDialogAlertItem->positiveButton()->setText(ui->doForcePushButton->text());
     ui->stackedWidget->setCurrentWidget(ui->forcePushPage);
 }
 
@@ -198,4 +238,21 @@ void PushSnapIn::on_pushFailedForcePushButton_clicked() {
 
 void PushSnapIn::on_doForcePushButton_clicked() {
     doPush(true);
+}
+
+tTouchBar* PushSnapIn::touchBar() {
+    return d->touchBar;
+}
+
+void PushSnapIn::on_stackedWidget_switchingFrame(int index) {
+    auto widget = ui->stackedWidget->widget(index);
+    if (widget == ui->pushOptionsPage) {
+        d->touchBar->setCurrentTouchBar(d->pushTouchBar);
+    } else if (widget == ui->forcePushPage) {
+        d->touchBar->setCurrentTouchBar(d->forcePushTouchBar);
+    } else if (widget == ui->pushFailedPage) {
+        d->touchBar->setCurrentTouchBar(d->pushFailedTouchBar);
+    } else {
+        d->touchBar->setCurrentTouchBar(nullptr);
+    }
 }
