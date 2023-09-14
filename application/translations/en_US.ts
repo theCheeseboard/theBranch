@@ -47,7 +47,7 @@
     <message>
         <location filename="../mainwindow.ui" line="+14"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+341"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+345"/>
         <source>theBranch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -80,9 +80,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+12"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="+1"/>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <location/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="-73"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_mainwindow.h" line="-74"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -321,7 +327,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+120"/>
+        <location filename="../mainwindow.cpp" line="+124"/>
         <location line="+3"/>
         <location line="+3"/>
         <location line="+4"/>
@@ -329,12 +335,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+22"/>
+        <location line="+48"/>
         <source>Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+106"/>
+        <location line="-45"/>
+        <source>Checkout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Merge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rebase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cherry Pick</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Revert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New Branch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+145"/>
         <source>Git</source>
         <translation type="unfinished"></translation>
     </message>

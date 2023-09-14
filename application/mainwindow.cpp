@@ -12,6 +12,8 @@
 #include <thelpmenu.h>
 #include <tjobmanager.h>
 #include <tmessagebox.h>
+#include <touchbar/ttouchbar.h>
+#include <touchbar/ttouchbaractionitem.h>
 #include <tpopover.h>
 #include <tsettingswindow/tsettingswindow.h>
 #include <twindowtabberbutton.h>
@@ -43,6 +45,8 @@ struct MainWindowPrivate {
 
         tCommandPaletteDocumentSpecificScope* branchesScope;
         QMap<RepositoryBrowser*, tWindowTabberButton*> tabButtons;
+
+        tTouchBar* touchBar;
 };
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -146,6 +150,23 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->stackedWidget, &tStackedWidget::switchingFrame, this, &MainWindow::updateMenuItems);
 
     commandPaletteActionScope->addMenuBar(ui->menuBar);
+
+    d->touchBar = new tTouchBar(this);
+    d->touchBar->setCustomizationIdentifier(QStringLiteral("com.vicr123.thebranch"));
+    d->touchBar->addDefaultItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.commit"), ui->actionCommit, tr("Commit"), {}, this));
+    d->touchBar->addDefaultItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.push"), ui->actionPush, "", {}, this));
+    d->touchBar->addDefaultItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.pull"), ui->actionPull, "", {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.checkout"), ui->actionCheckout, tr("Checkout"), {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.merge"), ui->actionMerge, tr("Merge"), {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.rebase"), ui->actionRebase, tr("Rebase"), {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.cherrypick"), ui->actionCherry_Pick, tr("Cherry Pick"), {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.revert"), ui->actionRevert, tr("Revert"), {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.branch"), ui->actionNew_Branch, tr("New Branch"), {}, this));
+    d->touchBar->addItem(new tTouchBarActionItem(QStringLiteral("com.vicr123.thebranch.tag"), ui->actionNew_Tag, tr("New Tag"), {}, this));
+
+    d->touchBar->attach(this);
+
+    tTouchBar::addCustomizationMenuItem(ui->menuView);
 
     updateMenuItems();
 }
