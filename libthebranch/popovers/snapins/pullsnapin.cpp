@@ -30,10 +30,17 @@
 #include <objects/rebase.h>
 #include <tcontentsizer.h>
 #include <tmessagebox.h>
+#include <touchbar/tcompositetouchbar.h>
+#include <touchbar/ttouchbarbuttonitem.h>
+#include <touchbar/ttouchbardialogalertitem.h>
 
 struct PullSnapInPrivate {
         RepositoryPtr repo;
         GitOperationPtr mergeOperation;
+
+        tCompositeTouchBar* touchBar;
+        tTouchBar* pullTouchBar;
+        tTouchBarDialogAlertItem* pullDialogAlert;
 };
 
 PullSnapIn::PullSnapIn(RepositoryPtr repo, QWidget* parent) :
@@ -43,11 +50,20 @@ PullSnapIn::PullSnapIn(RepositoryPtr repo, QWidget* parent) :
     d = new PullSnapInPrivate();
     d->repo = repo;
 
+    d->touchBar = new tCompositeTouchBar(this);
+    d->pullTouchBar = new tTouchBar(this);
+    auto dialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.pull.buttons"), "", tr("Cancel"), tr("Pull"), this);
+    connect(dialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel->backButtonClicked();
+    });
+    connect(dialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->pullButton, &QPushButton::click);
+    d->pullTouchBar->addDefaultItem(dialogAlertItem);
+
     ui->stackedWidget->setCurrentWidget(ui->pullOptionsPage);
     ui->titleLabel->setBackButtonShown(true);
     new tContentSizer(ui->pullOptionsWidget);
     new tContentSizer(ui->pullButton);
-    ui->spinner->setFixedSize(SC_DPI_WT(QSize(32, 32), QSize, this));
+    ui->spinner->setFixedSize(QSize(32, 32));
 
     ui->stackedWidget->setCurrentAnimation(tStackedWidget::SlideHorizontal);
 
@@ -151,5 +167,18 @@ QCoro::Task<> PullSnapIn::on_pullButton_clicked() {
                 emit done();
             }
         }
+    }
+}
+
+tTouchBar* PullSnapIn::touchBar() {
+    return d->touchBar;
+}
+
+void PullSnapIn::on_stackedWidget_switchingFrame(int index) {
+    auto widget = ui->stackedWidget->widget(index);
+    if (widget == ui->pullOptionsPage) {
+        d->touchBar->setCurrentTouchBar(d->pullTouchBar);
+    } else {
+        d->touchBar->setCurrentTouchBar(nullptr);
     }
 }

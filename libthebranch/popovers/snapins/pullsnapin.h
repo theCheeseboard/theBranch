@@ -42,9 +42,15 @@ class LIBTHEBRANCH_EXPORT PullSnapIn : public SnapIn {
 
         QCoro::Task<> on_pullButton_clicked();
 
+        void on_stackedWidget_switchingFrame(int index);
+
     private:
         Ui::PullSnapIn* ui;
         PullSnapInPrivate* d;
+
+        // SnapIn interface
+    public:
+        tTouchBar* touchBar();
 };
 
 #endif // PULLSNAPIN_H

@@ -1031,7 +1031,8 @@ Cherry picked from %2</source>
         <location filename="../popovers/snapins/commitsnapin.ui" line="+57"/>
         <location line="+302"/>
         <location/>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="+58"/>
+        <location filename="../popovers/snapins/commitsnapin.cpp" line="+50"/>
+        <location line="+8"/>
         <source>Commit</source>
         <translation></translation>
     </message>
@@ -1096,12 +1097,13 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/commitsnapin.cpp" line="-10"/>
+        <location filename="../popovers/snapins/commitsnapin.cpp" line="-8"/>
+        <location line="+8"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+48"/>
+        <location line="+37"/>
         <location line="+2"/>
         <location line="+5"/>
         <location line="+2"/>
@@ -1122,7 +1124,7 @@ Cherry picked from %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+115"/>
+        <location line="+116"/>
         <source>Select %n modified files</source>
         <translation>
             <numerusform>Select %n modified file</numerusform>
@@ -1941,6 +1943,7 @@ Cherry picked from %2</source>
         <location filename="../popovers/snapins/pullsnapin.ui" line="+57"/>
         <location line="+47"/>
         <location/>
+        <location filename="../popovers/snapins/pullsnapin.cpp" line="+55"/>
         <source>Pull</source>
         <translation></translation>
     </message>
@@ -1963,7 +1966,12 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pullsnapin.cpp" line="+109"/>
+        <location filename="../popovers/snapins/pullsnapin.cpp" line="+0"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+70"/>
         <source>Pull not possible</source>
         <translation></translation>
     </message>
