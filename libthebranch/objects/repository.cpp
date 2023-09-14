@@ -377,6 +377,11 @@ QList<RemotePtr> Repository::remotes() {
 }
 
 tRange<TagPtr> Repository::tags() {
+    if (!d->gitRepo) {
+        QList<TagPtr> tags;
+        return tRange<TagPtr>(tags);
+    }
+
     return tRange(d->gitRepo->tags()).map<TagPtr>([this](LGTagPtr tag) {
         return Tag::tagForLgTag(d->gitRepo, tag);
     });

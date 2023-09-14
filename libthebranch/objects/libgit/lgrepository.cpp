@@ -219,6 +219,8 @@ QList<LGRemotePtr> LGRepository::remotes() {
 }
 
 QList<LGTagPtr> LGRepository::tags() {
+
+
     struct TagRequestPayload {
             QList<LGTagPtr> tags;
             git_repository* repo;
