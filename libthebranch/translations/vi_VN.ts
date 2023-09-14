@@ -2029,14 +2029,15 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/pushsnapin.ui" line="+57"/>
         <location line="+74"/>
-        <location line="+111"/>
-        <location line="+79"/>
+        <location line="+113"/>
+        <location line="+81"/>
         <location/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+41"/>
         <source>Push</source>
         <translation>Đẩy</translation>
     </message>
     <message>
-        <location line="-254"/>
+        <location line="-258"/>
         <location/>
         <source>Push Tags</source>
         <translation>Đẩy thẻ</translation>
@@ -2060,15 +2061,16 @@ Cherry picked from %2</source>
         <translation>Đặt nhánh thượng nguồn cho nhánh này</translation>
     </message>
     <message>
-        <location line="+43"/>
-        <location line="+138"/>
-        <location line="+59"/>
+        <location line="+44"/>
+        <location line="+140"/>
+        <location line="+60"/>
         <location/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+8"/>
         <source>Force Push</source>
         <translation>Bắt buộc đẩy</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-88"/>
         <location/>
         <source>Push Failed</source>
         <translation>Không thể đẩy</translation>
@@ -2082,11 +2084,12 @@ Cherry picked from %2</source>
     <message>
         <location line="+10"/>
         <location/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+8"/>
         <source>Pull</source>
         <translation>Kéo</translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="+64"/>
         <location/>
         <source>Force Pushing may cause you to lose commits on the remote.</source>
         <translation>Họat động đẩy bát buộc có thể khiến bạn mất lần chuyển giao trên máy chủ.</translation>
@@ -2098,7 +2101,14 @@ Cherry picked from %2</source>
         <translation>Bắt buộc đẩy và ghi đề lên nhánh trên máy chủ?</translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="+65"/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="-16"/>
+        <location line="+8"/>
+        <location line="+8"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+44"/>
         <source>No Remotes Configured</source>
         <translation>Không có máy chủ nào đã cấu hình</translation>
     </message>
@@ -2119,24 +2129,24 @@ Cherry picked from %2</source>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+85"/>
+        <location line="+89"/>
         <source>Unable to push the repository to the remote</source>
         <translation>Không thể đẩy kho lên máy chủ</translation>
     </message>
     <message>
-        <location line="-45"/>
+        <location line="-48"/>
         <source>Publish Branch</source>
         <translation>Xuất bản nhánh</translation>
     </message>
     <message numerus="yes">
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Push %n commits</source>
         <translation>
             <numerusform>Đẩy %n lần chuyển giao</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Force Push %1 to %2</source>
         <translation>Bắt buộc đẩy %1 đến %2</translation>
     </message>
@@ -2569,11 +2579,17 @@ Cũng có thể là một khóa máy chủ chỉ vừa bị thay đổi.</transl
     <message>
         <location line="+20"/>
         <location/>
+        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+41"/>
         <source>Authenticate</source>
         <translation>Xác thực</translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+39"/>
+        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+0"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Select an SSH key to authenticate to %1</source>
         <translation>Chọn một khóa SSH để xác thực với %1</translation>
     </message>

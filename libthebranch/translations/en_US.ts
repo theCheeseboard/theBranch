@@ -2021,14 +2021,15 @@ Cherry picked from %2</source>
     <message>
         <location filename="../popovers/snapins/pushsnapin.ui" line="+57"/>
         <location line="+74"/>
-        <location line="+111"/>
-        <location line="+79"/>
+        <location line="+113"/>
+        <location line="+81"/>
         <location/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+41"/>
         <source>Push</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-254"/>
+        <location line="-258"/>
         <location/>
         <source>Push Tags</source>
         <translation></translation>
@@ -2052,15 +2053,16 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+43"/>
-        <location line="+138"/>
-        <location line="+59"/>
+        <location line="+44"/>
+        <location line="+140"/>
+        <location line="+60"/>
         <location/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+8"/>
         <source>Force Push</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-88"/>
         <location/>
         <source>Push Failed</source>
         <translation></translation>
@@ -2074,11 +2076,12 @@ Cherry picked from %2</source>
     <message>
         <location line="+10"/>
         <location/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="+8"/>
         <source>Pull</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="+64"/>
         <location/>
         <source>Force Pushing may cause you to lose commits on the remote.</source>
         <translation></translation>
@@ -2090,7 +2093,14 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/pushsnapin.cpp" line="+65"/>
+        <location filename="../popovers/snapins/pushsnapin.cpp" line="-16"/>
+        <location line="+8"/>
+        <location line="+8"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+44"/>
         <source>No Remotes Configured</source>
         <translation></translation>
     </message>
@@ -2111,17 +2121,17 @@ Cherry picked from %2</source>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+85"/>
+        <location line="+89"/>
         <source>Unable to push the repository to the remote</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-45"/>
+        <location line="-48"/>
         <source>Publish Branch</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Push %n commits</source>
         <translation>
             <numerusform>Push %n commit</numerusform>
@@ -2129,7 +2139,7 @@ Cherry picked from %2</source>
         </translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Force Push %1 to %2</source>
         <translation></translation>
     </message>
@@ -2529,11 +2539,17 @@ It is also possible that a host key has just been changed.</source>
     <message>
         <location line="+20"/>
         <location/>
+        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+41"/>
         <source>Authenticate</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+39"/>
+        <location filename="../popovers/snapins/sshkeyselectionsnapin.cpp" line="+0"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Select an SSH key to authenticate to %1</source>
         <translation></translation>
     </message>

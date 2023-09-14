@@ -36,6 +36,8 @@ class LIBTHEBRANCH_EXPORT PushSnapIn : public SnapIn {
 
         void on_doForcePushButton_clicked();
 
+        void on_stackedWidget_switchingFrame(int index);
+
     private:
         Ui::PushSnapIn* ui;
         PushSnapInPrivate* d;
@@ -49,6 +51,10 @@ class LIBTHEBRANCH_EXPORT PushSnapIn : public SnapIn {
         // SnapIn interface
     public:
         void snapinShown();
+
+        // SnapIn interface
+    public:
+        tTouchBar* touchBar();
 };
 
 #endif // PUSHSNAPIN_H

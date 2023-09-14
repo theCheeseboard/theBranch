@@ -44,6 +44,10 @@ class SshKeySelectionSnapIn : public InformationRequestSnapIn {
     private:
         Ui::SshKeySelectionSnapIn* ui;
         SshKeySelectionSnapInPrivate* d;
+
+        // SnapIn interface
+    public:
+        tTouchBar *touchBar();
 };
 
 #endif // SSHKEYSELECTIONSNAPIN_H
