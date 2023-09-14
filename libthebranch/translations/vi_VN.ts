@@ -1236,7 +1236,12 @@ Cherry picked from %2</source>
         <translation>Phân giải xung đột</translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+42"/>
+        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+44"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost.</source>
         <translation>Hoạt động hủy phân giải xung đột ngay bay giờ sẽ trả lại tất cả các tệp trong kho về trạng thái chúng ở trạng thái trước khi bạn bắt đầu kéo và cũng sẽ hủy bỏ hoạt động kéo. Mọi giải quyết xung đột sẽ bị mất.</translation>
     </message>

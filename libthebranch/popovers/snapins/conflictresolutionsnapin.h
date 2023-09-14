@@ -1,9 +1,9 @@
 #ifndef CONFLICTRESOLUTIONSNAPIN_H
 #define CONFLICTRESOLUTIONSNAPIN_H
 
+#include "libthebranch_global.h"
 #include "objects/forward_declares.h"
 #include "snapin.h"
-#include "libthebranch_global.h"
 
 namespace Ui {
     class ConflictResolutionSnapIn;
@@ -28,11 +28,17 @@ class LIBTHEBRANCH_EXPORT ConflictResolutionSnapIn : public SnapIn {
 
         void on_completeButton_clicked();
 
+        void on_stackedWidget_switchingFrame(int index);
+
     private:
         Ui::ConflictResolutionSnapIn* ui;
         ConflictResolutionSnapInPrivate* d;
 
         void updateConflictResolutionState();
+
+        // SnapIn interface
+    public:
+        tTouchBar* touchBar();
 };
 
 #endif // CONFLICTRESOLUTIONSNAPIN_H
