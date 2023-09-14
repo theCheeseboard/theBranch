@@ -1240,7 +1240,12 @@ Cherry picked from %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+42"/>
+        <location filename="../popovers/snapins/conflictresolutionsnapin.cpp" line="+44"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Aborting the conflict resolution at this point will return all files in the repository to the state they were in before you started pulling, and will also abort the pull operation. Any conflict resolution will be lost.</source>
         <translation></translation>
     </message>

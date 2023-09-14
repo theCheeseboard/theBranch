@@ -11,6 +11,9 @@
 #include "objects/statusitemlistmodel.h"
 #include "widgets/conflictresolution/textconflictresolution.h"
 #include <tcontentsizer.h>
+#include <touchbar/tcompositetouchbar.h>
+#include <touchbar/ttouchbarbuttonitem.h>
+#include <touchbar/ttouchbardialogalertitem.h>
 #include <tpopover.h>
 #include <tscrim.h>
 
@@ -19,6 +22,12 @@ struct ConflictResolutionSnapInPrivate {
         StatusItemListFilterView* statusModel;
 
         QMap<QString, ConflictResolutionWidget*> conflictResolutionWidgets;
+
+        tCompositeTouchBar* touchBar;
+        tTouchBar* conflictResolutionTouchBar;
+        tTouchBar* abortTouchBar;
+
+        tTouchBarDialogAlertItem* conflictResolutionDialogAlertItem;
 };
 
 ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation, QWidget* parent) :
@@ -28,6 +37,22 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
 
     d = new ConflictResolutionSnapInPrivate();
     d->gitOperation = gitOperation;
+
+    d->touchBar = new tCompositeTouchBar(this);
+
+    d->conflictResolutionTouchBar = new tTouchBar(this);
+    d->conflictResolutionDialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.conflictresolution.buttons"), "", tr("Cancel"), "", this);
+    connect(d->conflictResolutionDialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, this, [this] {
+        emit ui->titleLabel->backButtonClicked();
+    });
+    connect(d->conflictResolutionDialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->completeButton, &QPushButton::click);
+    d->conflictResolutionTouchBar->addDefaultItem(d->conflictResolutionDialogAlertItem);
+
+    d->abortTouchBar = new tTouchBar(this);
+    auto abortDialogAlertItem = new tTouchBarDialogAlertItem(QStringLiteral("com.vicr123.thebranch.conflictresolution.cancel.buttons"), "", "", "", this);
+    connect(abortDialogAlertItem->negativeButton(), &tTouchBarButtonItem::clicked, ui->continueConflictResolutionButton, &QPushButton::click);
+    connect(abortDialogAlertItem->positiveButton(), &tTouchBarButtonItem::clicked, ui->doAbortButton, &QPushButton::click);
+    d->abortTouchBar->addDefaultItem(abortDialogAlertItem);
 
     ui->titleLabel->setBackButtonShown(true);
     ui->abortTitleLabel->setBackButtonShown(true);
@@ -74,6 +99,10 @@ ConflictResolutionSnapIn::ConflictResolutionSnapIn(GitOperationPtr gitOperation,
         ui->completeButton->setText(tr("Revert"));
         ui->completeButton->setIcon(QIcon::fromTheme("vcs-revert"));
     }
+
+    d->conflictResolutionDialogAlertItem->positiveButton()->setText(ui->completeButton->text());
+    abortDialogAlertItem->negativeButton()->setText(ui->continueConflictResolutionButton->text());
+    abortDialogAlertItem->positiveButton()->setText(ui->doAbortButton->text());
 
     StatusItemListModel* statusModel = new StatusItemListModel(this);
     statusModel->setUserCheckable(false);
@@ -146,6 +175,7 @@ void ConflictResolutionSnapIn::updateConflictResolutionState() {
     }
 
     ui->completeButton->setEnabled(resolutionCompleted);
+    d->conflictResolutionDialogAlertItem->positiveButton()->setEnabled(resolutionCompleted);
 }
 
 void ConflictResolutionSnapIn::on_completeButton_clicked() {
@@ -170,4 +200,18 @@ void ConflictResolutionSnapIn::on_completeButton_clicked() {
     // Finalise the operation
     d->gitOperation->finaliseOperation();
     emit done();
+}
+
+tTouchBar* ConflictResolutionSnapIn::touchBar() {
+    return d->touchBar;
+}
+void ConflictResolutionSnapIn::on_stackedWidget_switchingFrame(int index) {
+    auto widget = ui->stackedWidget->widget(index);
+    if (widget == ui->conflictResolutionPage) {
+        d->touchBar->setCurrentTouchBar(d->conflictResolutionTouchBar);
+    } else if (widget == ui->abortConflictResolutionPage) {
+        d->touchBar->setCurrentTouchBar(d->abortTouchBar);
+    } else {
+        d->touchBar->setCurrentTouchBar(nullptr);
+    }
 }
