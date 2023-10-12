@@ -4,6 +4,7 @@
 
 #include <QBoxLayout>
 #include <QFile>
+#include <QFileInfo>
 
 struct TextConflictResolutionPrivate {
         TextMergeTool* mergeTool;
@@ -45,6 +46,7 @@ TextConflictResolution::TextConflictResolution(QString file, QWidget* parent) :
     //    d->mergeTool->setRightSide(rightContent);
 
     d->mergeTool->loadDiff(leftContent, rightContent);
+    d->mergeTool->setFileName(QFileInfo(d->file).fileName());
 
     initialFile.close();
 
