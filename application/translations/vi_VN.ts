@@ -333,7 +333,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+126"/>
+        <location filename="../mainwindow.cpp" line="+128"/>
         <location line="+3"/>
         <location line="+3"/>
         <location line="+4"/>
@@ -341,7 +341,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+0"/>
+        <source>File Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <location line="+52"/>
         <source>Commit</source>
         <translation>Chuyển giao</translation>

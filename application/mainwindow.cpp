@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->jobButtonLayout->addWidget(tJobManager::makeJobButton());
 
-    this->resize(SC_DPI_WT(this->size(), QSize, this));
+    this->resize(this->size());
 
     tCommandPaletteActionScope* commandPaletteActionScope;
     auto commandPalette = tCommandPaletteController::defaultController(this, &commandPaletteActionScope);
@@ -81,12 +81,14 @@ MainWindow::MainWindow(QWidget* parent) :
 
 #ifdef Q_OS_MAC
     ui->menuButton->setVisible(false);
+    ui->menuFile->insertMenu(ui->actionClose_Tab, d->recentsList.recentsMenu());
 #else
     ui->menuBar->setVisible(false);
     QMenu* menu = new QMenu(this);
 
     menu->addAction(ui->actionOpen_Repository);
     menu->addAction(ui->actionClone_Repository);
+    menu->addMenu(d->recentsList.recentsMenu());
     menu->addAction(ui->actionClose_Tab);
     menu->addSeparator();
     menu->addAction(ui->actionCommit);
@@ -133,7 +135,7 @@ MainWindow::MainWindow(QWidget* parent) :
             break;
         case tApplication::Flatpak:
         case tApplication::OtherPlatform:
-            ui->actionOpen_in->setText(tr("Open in %1").arg("File Manager"));
+            ui->actionOpen_in->setText(tr("Open in %1").arg(tr("File Manager")));
             break;
     }
 
@@ -146,6 +148,10 @@ MainWindow::MainWindow(QWidget* parent) :
     });
     connect(landingPage, &LandingPage::cloneRepository, this, [this] {
         ui->actionClone_Repository->trigger();
+    });
+
+    connect(&d->recentsList, &tRecentsList::openRecent, this, [this](QUrl path) {
+        this->openRepo(path.toLocalFile());
     });
 
     ui->stackedWidget->setDefaultWidget(landingPage);
