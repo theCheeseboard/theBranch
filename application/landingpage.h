@@ -36,11 +36,14 @@ class LandingPage : public QWidget {
     signals:
         void openRepository();
         void cloneRepository();
+        void openRepositoryPath(QString path);
 
     private slots:
         void on_cloneRepositoryButton_clicked();
 
         void on_openRepositoryButton_clicked();
+
+        void on_recentsList_clicked(const QModelIndex& index);
 
     private:
         Ui::LandingPage* ui;

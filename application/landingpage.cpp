@@ -22,6 +22,7 @@
 
 #include <tapplication.h>
 #include <tcontentsizer.h>
+#include <trecentslistmodel.h>
 
 LandingPage::LandingPage(QWidget* parent) :
     QWidget(parent),
@@ -34,6 +35,8 @@ LandingPage::LandingPage(QWidget* parent) :
 
     ui->openRepositoryButton->setIcon(QIcon::fromTheme("document-open"));
     ui->cloneRepositoryButton->setIcon(QIcon::fromTheme("edit-copy"));
+
+    ui->recentsList->setModel(new tRecentsListModel("default", this));
 }
 
 LandingPage::~LandingPage() {
@@ -46,4 +49,8 @@ void LandingPage::on_cloneRepositoryButton_clicked() {
 
 void LandingPage::on_openRepositoryButton_clicked() {
     emit openRepository();
+}
+
+void LandingPage::on_recentsList_clicked(const QModelIndex& index) {
+    emit openRepositoryPath(index.data(tRecentsListModel::PathRole).toUrl().toLocalFile());
 }

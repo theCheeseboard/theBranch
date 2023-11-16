@@ -43,7 +43,7 @@
         <x>0</x>
         <y>0</y>
         <width>868</width>
-        <height>536</height>
+        <height>570</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -164,6 +164,20 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="tSubtitleLabel" name="subtitleLabel">
+            <property name="text">
+             <string>Recent Repositories</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListView" name="recentsList">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

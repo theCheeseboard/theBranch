@@ -15,6 +15,7 @@
 #include <touchbar/ttouchbar.h>
 #include <touchbar/ttouchbaractionitem.h>
 #include <tpopover.h>
+#include <trecentslist.h>
 #include <tsettingswindow/tsettingswindow.h>
 #include <twindowtabberbutton.h>
 
@@ -47,6 +48,7 @@ struct MainWindowPrivate {
         QMap<RepositoryBrowser*, tWindowTabberButton*> tabButtons;
 
         tTouchBar* touchBar;
+        tRecentsList recentsList;
 };
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -139,6 +141,9 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(landingPage, &LandingPage::openRepository, this, [this] {
         ui->actionOpen_Repository->trigger();
     });
+    connect(landingPage, &LandingPage::openRepositoryPath, this, [this](QString path) {
+        this->openRepo(path);
+    });
     connect(landingPage, &LandingPage::cloneRepository, this, [this] {
         ui->actionClone_Repository->trigger();
     });
@@ -177,12 +182,16 @@ MainWindow::~MainWindow() {
 
 void MainWindow::openRepo(QString path) {
     RepositoryPtr repo = Repository::repositoryForDirectory(path);
+    if (!repo) return;
+
     connect(repo.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
 
     RepositoryBrowser* browser = openNextTab();
     browser->setRepository(repo);
 
     d->branchesScope->registerScope(browser, repo->commandPaletteBranches());
+
+    d->recentsList.push(QUrl::fromLocalFile(repo->repositoryPath()));
 
     updateMenuItems();
 }
@@ -227,6 +236,8 @@ void MainWindow::on_actionClone_Repository_triggered() {
 
         d->branchesScope->registerScope(browser, repository->commandPaletteBranches());
 
+        d->recentsList.push(QUrl::fromLocalFile(repository->repositoryPath()));
+
         updateMenuItems();
     });
     SnapInPopover::showSnapInPopover(this, jp);
@@ -241,6 +252,8 @@ QCoro::Task<> MainWindow::on_actionOpen_Repository_triggered() {
         connect(repo.data(), &Repository::stateChanged, this, &MainWindow::updateMenuItems);
 
         d->branchesScope->registerScope(browser, repo->commandPaletteBranches());
+
+        d->recentsList.push(QUrl::fromLocalFile(repo->repositoryPath()));
 
         updateMenuItems();
     } catch (QException ex) {

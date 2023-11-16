@@ -5,7 +5,7 @@
     <name>LandingPage</name>
     <message>
         <location filename="../landingpage.ui" line="+14"/>
-        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_landingpage.h" line="+140"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_landingpage.h" line="+154"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -39,6 +39,12 @@
         <location line="+3"/>
         <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_landingpage.h" line="+1"/>
         <source>Retrieve a repository from source control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location filename="../../../build-theBranch-Desktop_ARM-Debug/application/thebranch_autogen/include/ui_landingpage.h" line="+1"/>
+        <source>Recent Repositories</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -327,7 +333,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+124"/>
+        <location filename="../mainwindow.cpp" line="+126"/>
         <location line="+3"/>
         <location line="+3"/>
         <location line="+4"/>
@@ -335,13 +341,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
-        <location line="+48"/>
+        <location line="+25"/>
+        <location line="+52"/>
         <source>Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-45"/>
+        <location line="-49"/>
         <source>Checkout</source>
         <translation type="unfinished"></translation>
     </message>
@@ -376,7 +382,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+153"/>
         <source>Git</source>
         <translation type="unfinished"></translation>
     </message>
